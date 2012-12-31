@@ -3,7 +3,7 @@ namespace ntentan\plugins\wyf\helpers\inputs\forms;
 
 use ntentan\views\template_engines\TemplateEngine;
 
-class Text extends Element
+class Date extends Element
 {
     public function __construct($label = '', $name = '')
     {

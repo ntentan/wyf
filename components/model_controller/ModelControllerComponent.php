@@ -34,7 +34,23 @@ class ModelControllerComponent extends Component
     public function add()
     {
         $this->view->template = $this->getTemplateName('add.tpl.php');
-        $this->set('description', $this->controller->model->describe());
+        $this->set('description', $this->model->describe());
+        $this->set('form_data', $_POST);
+        
+        if(isset($_POST['form-sent']))
+        {
+            unset($_POST['form-sent']);
+            $this->model->setData($_POST);
+            if($this->model->validate())
+            {
+                $this->model->save();
+            }
+            else
+            {
+                var_dump($this->model->invalidFields);
+                $this->set('form_errors', $this->model->invalidFields);
+            }
+        }
     }
 }
 

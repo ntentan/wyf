@@ -1,0 +1,1 @@
+<input type="checkbox" value="1" <?= $attributes ?>/>

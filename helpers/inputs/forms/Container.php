@@ -7,7 +7,7 @@ abstract class Container extends Element
     
     public function add($element)
     {
-        $this->elements[]=$element;
+        $this->elements []= $element;
     }
     
     public function getTemplateVariables()
@@ -18,5 +18,13 @@ abstract class Container extends Element
         );
         
         return array_merge($variables, parent::getTemplateVariables());
+    }
+    
+    public function value($data = false)
+    {
+        foreach($this->elements as $element)
+        {
+            $element->value($data[$element->name()]);
+        }
     }
 }
