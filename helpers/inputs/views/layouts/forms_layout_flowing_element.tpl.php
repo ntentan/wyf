@@ -1,6 +1,4 @@
-<?php 
-    $errors = $element->errors();
-?><div>
+<?php $errors = $element->errors();?><div>
     <label><?= $element->label() ?></label>
     <?= $element ?>
     <?php if(count($errors)): ?>
