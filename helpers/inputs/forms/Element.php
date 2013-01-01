@@ -6,6 +6,8 @@ abstract class Element
     protected $label;
     protected $name;
     protected $attributes = array();
+    protected $data;
+    protected $errors;
     
     abstract public function __toString();
     
@@ -21,17 +23,25 @@ abstract class Element
         }
     }
     
-    public function value($value = false)
+    public function data($data = false)
     {
-        if($value === false)
+        if($data === false)
         {
-            return $this->value;
+            return $this->data;
         }
         else
         {
-            $this->value = $value;
-            $this->attribute('value', $value);
+            $this->data = $data;
+            $this->attribute('value', $data);
         }
+    }
+    
+    public function errors($errors = false)
+    {
+        if($errors === false)
+            return $this->errors;
+        else
+            $this->errors = $errors;        
     }
     
     public function label($label = false)

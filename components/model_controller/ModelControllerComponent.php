@@ -16,7 +16,7 @@ class ModelControllerComponent extends Component
     private function getTemplateName($base)
     {
         // @todo optimize this so it doesn't have to use the str_replace
-        return str_replace('.', '_', $this->controller->model->getRoute()) . '_wyf_' . $base;
+        return str_replace('.', '_', $this->controller->model->getRoute()) . "_$base";
     }
     
     public function run()
@@ -34,7 +34,8 @@ class ModelControllerComponent extends Component
     public function add()
     {
         $this->view->template = $this->getTemplateName('add.tpl.php');
-        $this->set('description', $this->model->describe());
+        $this->set('form_template', $this->getTemplateName('form.tpl.php'));
+        $this->set('model_description', $this->model->describe());
         $this->set('form_data', $_POST);
         
         if(isset($_POST['form-sent']))
@@ -44,10 +45,10 @@ class ModelControllerComponent extends Component
             if($this->model->validate())
             {
                 $this->model->save();
+                Ntentan::redirect(Ntentan::getUrl($this->route));
             }
             else
             {
-                var_dump($this->model->invalidFields);
                 $this->set('form_errors', $this->model->invalidFields);
             }
         }
