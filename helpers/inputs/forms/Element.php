@@ -78,7 +78,8 @@ abstract class Element
     {
         return array(
             'label' => $this->label,
-            'attributes' => $this->renderAttributes()
+            'attributes' => $this->renderAttributes(),
+            'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : ''
         );
     }
 }

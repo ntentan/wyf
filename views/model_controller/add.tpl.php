@@ -2,4 +2,7 @@
 $form = $helpers->wyf->input($description['fields']); 
 $form->data($form_data);
 $form->errors($form_errors);
-echo t($form_template, array('form' => $form, 'model' => $model_description));
+?>
+<div id="form_wrapper">
+<?= t($form_template, array('form' => $form, 'model' => $model_description)) ?>
+</div>

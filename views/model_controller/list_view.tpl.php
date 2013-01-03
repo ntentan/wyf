@@ -10,11 +10,24 @@
     })
 </script>
 <script type="text/html" id="wyf_list_view_template">
-    <table>
-    {{#list}}
-    <tr><?php foreach($list_fields as $field){
-        echo "<td>{{{$field['name']}}}</td>";
-    }?></tr>
-    {{/list}}
+    <table id="wyf_list_table">
+    <thead>
+        <tr><?php foreach($list_fields as $field){
+            echo "<th>{$field['label']}</th>";
+        }?><th></th></tr>
+    </thead>
+    <tbody>
+        {{#list}}
+        <tr><?php 
+        // Columns
+        foreach($list_fields as $field){
+            echo "<td>{{{$field['name']}}}</td>";
+        }?><td><?php //Operations
+        foreach($operations as $operation){
+            echo "<a href='{$operation['link']}/{{{$key_field}}}'>{$operation['label']}</a> ";
+        }
+        ?></td></tr>
+        {{/list}}
+    </tbody>
     </table>
 </script>

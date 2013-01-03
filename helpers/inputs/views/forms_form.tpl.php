@@ -6,5 +6,7 @@
         ) ?>
     <?php endforeach; ?>
     <input type="hidden" name="form-sent" value="yes" />
+    <div class="form_submit_area">
     <input type="submit" value="Save" />
+    </div>
 </form>

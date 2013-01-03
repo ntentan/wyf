@@ -8,11 +8,24 @@ use ntentan\Ntentan;
 class ModelControllerComponent extends Component
 {
     public $listFields = array();
+    public $keyField;
+    private $operations = array();
+    private $urlBase;
 
     public function init()
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
+        $this->urlBase = Ntentan::getUrl($this->route);
+        $this->keyField = 'id';
+    }
+    
+    public function addOperation($label, $action = '')
+    {
+        $this->operations[] = array(
+            'link' => $this->urlBase . '/' . ($action == '' ? strtolower($label) : $action),
+            'label' => $label
+        );
     }
     
     private function getTemplateName($base)
@@ -23,22 +36,31 @@ class ModelControllerComponent extends Component
     
     public function run()
     {
-        $url = Ntentan::getUrl($this->route);
         $this->view->template = $this->getTemplateName('list_view.tpl.php');
+        
+        $this->addOperation('Edit');
+        $this->addOperation('Delete');
         
         if(count($this->listFields) == 0)
         {
             $modelDescription = $this->model->describe();
             foreach($modelDescription['fields'] as $field)
             {
-                if($field['primary_key']) continue;
+                if($field['primary_key'])
+                {
+                    $this->keyField = $field['name'];
+                    continue;
+                }
+                $field['label'] = Ntentan::toSentence($field['name']);
                 $this->listFields[] = $field;
             }
         }
         
+        $this->set('key_field', $this->keyField);
         $this->set('list_fields', $this->listFields);
-        $this->set('wyf_add_url', "$url/add");
-        $this->set('wyf_api_url', "$url/api");
+        $this->set('wyf_add_url', "{$this->urlBase}/add");
+        $this->set('wyf_api_url', "{$this->urlBase}/api");
+        $this->set('operations', $this->operations);
     }
     
     public function api()

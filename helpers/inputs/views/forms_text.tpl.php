@@ -1,1 +1,1 @@
-<input type="text" <?= $attributes ?>/>
+<input class="<?= $extra_css_classes ?>" type="text" <?= $attributes ?>/>

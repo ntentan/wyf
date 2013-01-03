@@ -33,6 +33,7 @@ abstract class Container extends Element
     
     public function errors($errors = false)
     {
+        if($errors === false) return;
         $this->errors = $errors;
         foreach($this->elements as $element)
         {

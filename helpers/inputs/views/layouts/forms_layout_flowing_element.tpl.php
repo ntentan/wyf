@@ -1,4 +1,4 @@
-<?php $errors = $element->errors();?><div>
+<?php $errors = $element->errors();?><div class="form_element_wrapper">
     <label><?= $element->label() ?></label>
     <?= $element ?>
     <?php if(count($errors)): ?>
