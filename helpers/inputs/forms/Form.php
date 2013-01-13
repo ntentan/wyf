@@ -6,9 +6,17 @@ use ntentan\Ntentan;
 
 class Form extends Container
 {
+    private $submitValue;
+    
     public function __construct()
     {
         $this->attribute('method', 'post');
+    }
+    
+    public function setSubmitValue($submitValue)
+    {
+        $this->submitValue = $submitValue;
+        $this->set('submit_value', $submitValue);
     }
     
     public function setup($fields)

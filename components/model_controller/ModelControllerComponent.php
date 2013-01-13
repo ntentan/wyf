@@ -16,6 +16,8 @@ class ModelControllerComponent extends Component
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
+        $this->set('entity', Ntentan::singular($this->model->getName()));
+        $this->set('entities', $this->model->getName());
         $this->urlBase = Ntentan::getUrl($this->route);
         $this->keyField = 'id';
     }
@@ -60,6 +62,7 @@ class ModelControllerComponent extends Component
         $this->set('list_fields', $this->listFields);
         $this->set('wyf_add_url', "{$this->urlBase}/add");
         $this->set('wyf_api_url', "{$this->urlBase}/api");
+        $this->set('wyf_import_url', "{$this->urlBase}/import");
         $this->set('operations', $this->operations);
     }
     
@@ -91,6 +94,49 @@ class ModelControllerComponent extends Component
             {
                 $this->set('form_errors', $this->model->invalidFields);
             }
+        }
+    }
+    
+    public function import($param = null)
+    {
+        if($param == 'template.csv')
+        {
+            
+        }
+        
+        $this->set('import_template', Ntentan::getUrl("{$this->route}/import/template.csv"));
+    }
+    
+    public function delete($id)
+    {
+        $this->view->template = $this->getTemplateName('delete.tpl.php');
+    }
+    
+    public function edit($id)
+    {
+        $this->view->template = $this->getTemplateName('edit.tpl.php');
+        $this->set('form_template', $this->getTemplateName('form.tpl.php'));
+        $this->set('model_description', $this->model->describe());
+        $item = $this->model->getFirstWithId($id);        
+        $this->set('item', (string)$item);
+        
+        if(isset($_POST['form-sent']))
+        {
+            $this->set('form_data', $_POST);
+            $item->setData($_POST);
+            if($item->validate())
+            {
+                $item->update();
+                Ntentan::redirect(Ntentan::getUrl($this->route));
+            }
+            else
+            {
+                $this->set('form_errors', $item->invalidFields);
+            }
+        }
+        else
+        {
+            $this->set('form_data', $item->toArray());
         }
     }
 }

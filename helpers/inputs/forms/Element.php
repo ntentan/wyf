@@ -1,7 +1,9 @@
 <?php
 namespace ntentan\plugins\wyf\helpers\inputs\forms;
 
-abstract class Element
+use ntentan\views\template_engines\TemplateEngine;
+
+class Element
 {
     protected $label;
     protected $name;
@@ -9,7 +11,28 @@ abstract class Element
     protected $data;
     protected $errors;
     
-    abstract public function __toString();
+    public function __construct($label = '', $name = '')
+    {
+        $this->label($label);
+        $this->name($name);
+    }
+    
+    public function __toString() 
+    {
+        $type = strtolower($this->getType());
+        
+        return TemplateEngine::render(
+            "wyf_inputs_forms_{$type}.tpl.php", 
+            $this->getTemplateVariables()
+        );
+    }
+    
+    public function getType()
+    {
+        $class = new \ReflectionClass($this);
+        $array = explode('\\', $class->getName());
+        return end($array);
+    }
     
     public function attribute($attribute, $value = false)
     {
@@ -81,5 +104,16 @@ abstract class Element
             'attributes' => $this->renderAttributes(),
             'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : ''
         );
+    }
+    
+    public function create()
+    {
+        $args = func_get_args();
+        $type = array_shift($args);
+        $typeClass = new \ReflectionClass(
+            'ntentan\\plugins\\wyf\\helpers\\inputs\forms\\' . 
+            \ntentan\Ntentan::camelize($type)
+        );
+        return $typeClass->newInstanceArgs($args);
     }
 }

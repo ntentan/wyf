@@ -1,5 +1,6 @@
 <div id="wyf_toolbar">
     <a href="<?= $wyf_add_url ?>">Add</a>
+    <a href="<?= $wyf_import_url ?>">Import</a>
 </div>
 <div id="wyf_list_view">
     

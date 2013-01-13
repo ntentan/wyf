@@ -8,11 +8,11 @@ class InputsHelper extends \ntentan\views\helpers\Helper
 {
     public function __construct() 
     {
-        TemplateEngine::appendPath(p('wyf/helpers/inputs/views'));
-        TemplateEngine::appendPath(p('wyf/helpers/inputs/views/layouts'));
+        TemplateEngine::appendPath(p('wyf/helpers/inputs/templates'));
+        TemplateEngine::appendPath(p('wyf/helpers/inputs/templates/layouts'));
     }
     
-    public function help($fields)
+    public function help($fields = null)
     {        
         $form = new Form();
         return $form;

@@ -1,4 +1,4 @@
-<h2>Add a new <?= $entity ?></h2>
+<h2>Edit <?= $entity ?> <?= $item ?></h2>
 <?php 
 $form = $helpers->wyf->input($description['fields']); 
 $form->data($form_data);
