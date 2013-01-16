@@ -43,10 +43,10 @@ class ModelControllerComponent extends Component
         
         $this->addOperation('Edit');
         $this->addOperation('Delete');
+        $modelDescription = $this->model->describe();
         
         if(count($this->listFields) == 0)
         {
-            $modelDescription = $this->model->describe();
             foreach($modelDescription['fields'] as $field)
             {
                 if($field['primary_key'])
@@ -56,6 +56,16 @@ class ModelControllerComponent extends Component
                 }
                 $field['label'] = Ntentan::toSentence($field['name']);
                 $this->listFields[] = $field;
+            }
+        }
+        else 
+        {
+            $fields = $this->listFields;
+            $this->listFields = array();
+            foreach($fields as $field)
+            {
+                $modelDescription['fields'][$field]['label'] = Ntentan::toSentence($modelDescription['fields'][$field]['name']);
+                $this->listFields[] = $modelDescription['fields'][$field];
             }
         }
         
@@ -129,12 +139,12 @@ class ModelControllerComponent extends Component
 
                     if($newEntry->save() === false)
                     {
-                        var_dump($newEntry->invalidFields);
-                        var_dump($newEntry->getData());
+                        /*var_dump($newEntry->invalidFields);
+                        var_dump($newEntry->getData());*/
                     }
                 }
                 
-                //Ntentan::redirect(Ntentan::getUrl($this->route));
+                Ntentan::redirect(Ntentan::getUrl($this->route));
             }
             else
             {
