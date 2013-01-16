@@ -6,7 +6,7 @@ use ntentan\Ntentan;
 
 class Form extends Container
 {
-    private $submitValue;
+    private $submitValue = 'Save';
     
     public function __construct()
     {
@@ -16,7 +16,6 @@ class Form extends Container
     public function setSubmitValue($submitValue)
     {
         $this->submitValue = $submitValue;
-        $this->set('submit_value', $submitValue);
     }
     
     public function setup($fields)
@@ -57,6 +56,13 @@ class Form extends Container
         
         return $this;
     }    
+    
+    public function getTemplateVariables() {
+        return array_merge(
+            parent::getTemplateVariables(),
+            array('submit_value' => $this->submitValue)
+        );
+    }
     
     public function __toString() 
     {

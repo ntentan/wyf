@@ -39,6 +39,7 @@ class Element
         if($value !== false)
         {
             $this->attributes[$attribute] = $value;
+            return $this;
         }
         else
         {

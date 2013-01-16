@@ -17,6 +17,7 @@ class ModelControllerComponent extends Component
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
         $this->set('entity', Ntentan::singular($this->model->getName()));
+        $this->set('model_description', $this->model->describe());        
         $this->set('entities', $this->model->getName());
         $this->urlBase = Ntentan::getUrl($this->route);
         $this->keyField = 'id';
@@ -70,7 +71,9 @@ class ModelControllerComponent extends Component
     {
         $this->view->setContentType('application/json');
         $this->view->layout = false;
-        $data = $this->model->getAll();
+        $data = $this->model->get(
+            $_GET['limit']
+        );
         $this->set('data', $data);
     }
     
@@ -78,7 +81,6 @@ class ModelControllerComponent extends Component
     {
         $this->view->template = $this->getTemplateName('add.tpl.php');
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
-        $this->set('model_description', $this->model->describe());
         $this->set('form_data', $_POST);
         
         if(isset($_POST['form-sent']))
@@ -101,7 +103,43 @@ class ModelControllerComponent extends Component
     {
         if($param == 'template.csv')
         {
-            
+            $this->view->setContentType('text/csv');
+            $this->view->layout = false;
+            $this->view->template = $this->getTemplateName('import_csv.tpl.php');
+            return;
+        }
+        
+        if(isset($_FILES['data_file']))
+        {
+            $file = "tmp/" . uniqid();
+            if(move_uploaded_file($_FILES['data_file']['tmp_name'], $file))
+            {
+                $file = fopen($file, 'r');
+                $headers = fgetcsv($file);
+                
+                while(!feof($file))
+                {
+                    $data = fgetcsv($file);
+                    $newEntry = $this->model->getNew();
+                    foreach($headers as $i => $header)
+                    {
+                        $newEntry[$header] = $data[$i];
+                    }
+                    
+
+                    if($newEntry->save() === false)
+                    {
+                        var_dump($newEntry->invalidFields);
+                        var_dump($newEntry->getData());
+                    }
+                }
+                
+                //Ntentan::redirect(Ntentan::getUrl($this->route));
+            }
+            else
+            {
+                $this->set('upload_error', "Failed to upload file");
+            }
         }
         
         $this->set('import_template', Ntentan::getUrl("{$this->route}/import/template.csv"));
@@ -116,7 +154,6 @@ class ModelControllerComponent extends Component
     {
         $this->view->template = $this->getTemplateName('edit.tpl.php');
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
-        $this->set('model_description', $this->model->describe());
         $item = $this->model->getFirstWithId($id);        
         $this->set('item', (string)$item);
         
