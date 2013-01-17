@@ -81,10 +81,21 @@ class ModelControllerComponent extends Component
     {
         $this->view->setContentType('application/json');
         $this->view->layout = false;
+        $response = array();
+        if($_GET['info'] == 'yes')
+        {
+            $count = $this->model->countAllItems();
+            $response['count'] = $count;
+        }
+        
         $data = $this->model->get(
-            $_GET['limit']
+            $_GET['ipp'],
+            array(
+                'offset' => $_GET['ipp'] * ($_GET['pg'] - 1)
+            )
         );
-        $this->set('data', $data);
+        $response['data'] = $data->toArray();
+        $this->set('response', $response);
     }
     
     public function add()

@@ -6,11 +6,13 @@
     
 </div>
 <div id="wyf_list_view_control">
-    <a href=""></a>
+    <span onclick="wyf.listView.prevPage()">&lt; Prev</span> 
+    <span onclick="wyf.listView.nextPage()">Next &gt;</span>
 </div>
 <script type="text/javascript">
     $(function(){
-        wyf.listView.update("<?= $wyf_api_url ?>?limit=10");
+        wyf.listView.api = "<?= $wyf_api_url ?>";
+        wyf.listView.init();
     })
 </script>
 <script type="text/html" id="wyf_list_view_template">
