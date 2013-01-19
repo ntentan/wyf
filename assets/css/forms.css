@@ -26,6 +26,13 @@
     border:1px solid #feaca5;
 }
 
+.form_element_wrapper textarea{
+    border:1px solid #f0f0f0;
+    width:98%;
+    padding:1%;
+    height:80px;
+}
+
 .form_element_wrapper ul{
     background-color:#feefee;
     margin:0px;

@@ -64,7 +64,13 @@ class ModelControllerComponent extends Component
             $this->listFields = array();
             foreach($fields as $field)
             {
-                $modelDescription['fields'][$field]['label'] = Ntentan::toSentence($modelDescription['fields'][$field]['name']);
+                if(!isset($modelDescription['fields'][$field]))
+                {
+                    throw  new \ntentan\models\exceptions\FieldNotFoundException("Model has no field $field");
+                }                
+                $modelDescription['fields'][$field]['label'] = Ntentan::toSentence(
+                    $modelDescription['fields'][$field]['name']
+                );
                 $this->listFields[] = $modelDescription['fields'][$field];
             }
         }
@@ -168,7 +174,20 @@ class ModelControllerComponent extends Component
     
     public function delete($id)
     {
-        $this->view->template = $this->getTemplateName('delete.tpl.php');
+        $item = $this->model->getJustFirstWithId($id);
+        
+        if($_GET['confirm'] == 'yes')
+        {
+            $item->delete();
+            Ntentan::redirect(Ntentan::getUrl($this->route));
+        }
+        else
+        {
+            $this->set('item', (string)$item);
+            $this->set('delete_yes_link', Ntentan::getUrl("{$this->route}/delete/$id?confirm=yes"));
+            $this->set('delete_no_link', Ntentan::getUrl("{$this->route}"));
+            $this->view->template = $this->getTemplateName('delete.tpl.php');
+        }
     }
     
     public function edit($id)

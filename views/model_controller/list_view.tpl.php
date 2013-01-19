@@ -8,6 +8,7 @@
 <div id="wyf_list_view_control">
     <span onclick="wyf.listView.prevPage()">&lt; Prev</span> 
     <span onclick="wyf.listView.nextPage()">Next &gt;</span>
+    Page <span id="wyf_list_view_page">1</span> of <span id="wyf_list_view_size">100</span>
 </div>
 <script type="text/javascript">
     $(function(){

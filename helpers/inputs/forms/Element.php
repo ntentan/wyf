@@ -10,6 +10,7 @@ class Element
     protected $attributes = array();
     protected $data;
     protected $errors;
+    protected $variables = array();
     
     public function __construct($label = '', $name = '')
     {
@@ -100,11 +101,19 @@ class Element
     
     public function getTemplateVariables()
     {
-        return array(
-            'label' => $this->label,
-            'attributes' => $this->renderAttributes(),
-            'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : ''
+        return array_merge(
+            $this->variables,
+            array(
+                'label' => $this->label,
+                'attributes' => $this->renderAttributes(),
+                'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : ''
+            )
         );
+    }
+    
+    protected function set($key, $value)
+    {
+        $this->variables[$key] = $value;
     }
     
     public function create()

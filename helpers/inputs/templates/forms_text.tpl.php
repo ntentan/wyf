@@ -1,1 +1,5 @@
-<input class="<?= $extra_css_classes ?>" type="text" <?= $attributes ?>/>
+<?php if($multiline): ?>
+    <textarea class="<?= $extra_css_classes ?>" <?= $attributes ?>></textarea>
+<?php else: ?>
+    <input class="<?= $extra_css_classes ?>" type="text" <?= $attributes ?>/>
+<?php endif; ?>

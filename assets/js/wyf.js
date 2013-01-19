@@ -3,6 +3,7 @@ wyf = {
     listView : {
         api : undefined,
         itemsPerPage : 10,
+        pages : 1,
         page: 1,
         count : 0,
         update : function(info)
@@ -17,6 +18,12 @@ wyf = {
                             {list:response.data}
                         )
                     );
+                    if(response.count !== undefined)
+                    {
+                        wyf.listView.pages = Math.ceil(response.count / wyf.listView.itemsPerPage);
+                        $('#wyf_list_view_size').html(wyf.listView.pages);
+                    }
+                    
                 }
             );
         },
@@ -28,11 +35,13 @@ wyf = {
         {
             this.page++;
             this.update(false);
+            $('#wyf_list_view_page').html(this.page);
         },
         prevPage : function()
         {
             this.page--;
             this.update(false);
+            $('#wyf_list_view_page').html(this.page);
         }
     }
 };
