@@ -51,6 +51,11 @@ class WyfController extends Controller
                 'label' => $menuItem['label'],
                 'path' => $path
             );
+            
+            if($menuItem['type'] == 'group')
+            {
+                $_SESSION['menu']['sub'][$path] = $menuItem['children'];
+            }
         }
         
         $_SESSION['menu']['main'] = $sideMenu;

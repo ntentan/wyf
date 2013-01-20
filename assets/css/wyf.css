@@ -4,22 +4,39 @@ body{
     font-size:0.9em;
 }
 
-h1{
+h1, h2{
     margin:0px;
     padding:0px;
 }
 
 #header{
-    border-bottom: 1px solid #f0f0f0;
     padding:7px;
     position:fixed;
     height:35px;
+    background-color:#028ff1;
+    color:#fff;
 }
 
 #side_menu{
     position:fixed;
     top:49px;
     background-color:#a0a0a0;    
+}
+
+#sub_side_menu{
+    position:fixed;
+    left:54px;
+    top:49px;
+}
+
+#contents{
+    padding-left:70px;
+    padding-top:70px;
+    padding-right:15px;
+}
+
+#contents.sub_menu_active{
+    padding-left:300px;
 }
 
 #wyf_toolbar

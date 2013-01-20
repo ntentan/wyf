@@ -26,6 +26,7 @@
             <div id="header"><h1>ntentan.wyf</h1></div>
             <div id="top_menu"></div>
             <div id="bread_crumb_trail"></div>
+            <?php if(is_array($_SESSION['menu']['main'])): ?>
             <div id="side_menu">
                 <?= t(
                         'main_side_menu.tpl.php', 
@@ -36,7 +37,21 @@
                     ) 
                 ?>
             </div>
-            <div id="contents"><?php echo $contents ?></div>
+                <?php if(is_array($_SESSION['menu']['sub'][$route_breakdown[0]])): ?>
+                <div id="sub_side_menu">
+                <?= t(
+                        'sub_side_menu.tpl.php', 
+                        array(
+                            'side_menus' => $_SESSION['menu']['sub'][$route_breakdown[0]],
+                            'route_breakdown' => $route_breakdown,
+                            'header' => $route_breakdown[0]
+                        )
+                    ) 
+                ?>                    
+                </div>
+                <?php $sub_menu_active = true; endif; ?>
+            <?php endif; ?>
+            <div <?= $sub_menu_active ? "class='sub_menu_active'" :'' ?>id="contents"><?php echo $contents ?></div>
         </div>
     </body>
 </html>
