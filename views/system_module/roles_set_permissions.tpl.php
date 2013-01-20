@@ -1,4 +1,8 @@
 <h2> Set permissions for the <?= $role ?> role</h2>
+
+<?php foreach($bread_crumb as $trail): ?>
+<?php endforeach; ?>
+
 <form method="post">
 
 <?php foreach($permission_items as $permission_item): ?>
@@ -12,14 +16,16 @@
         case 'permission':
             echo "Permissions for {$permission_item['label']}";?>
             <table>
-                <tr><td></td><td>Yes</td><td>No</td></tr>
-            <?php foreach($permission_item['permissions'] as $permission => $permission_description): ?>
+            <tr><td></td><td>Yes</td><td>No</td></tr>
+            
+            <?php foreach($permission_item['permissions'] as $permission): ?>
                 <tr>
-                    <td><?= $permission_description ?></td>
-                    <td><input name="<?= $permission ?>" type="radio"></td>
-                    <td><input name="<?= $permission ?>" type="radio"></td>
+                    <td><?= $permission['description'] ?></td>
+                    <td><input name="<?= $permission['name'] ?>" type="radio" <?=  $permission['active'] ? 'checked="checked"' : '' ?> value="<?= $permission_item['path'] ?>"></td>
+                    <td><input name="<?= $permission['name'] ?>" type="radio" <?= !$permission['active'] ? 'checked="checked"' : '' ?> value="no"></td>
                 </tr>
             <?php  endforeach; ?>
+            
             </table>
             
             <?php 

@@ -5,6 +5,7 @@ use ntentan\plugins\wyf\lib\WyfController;
 use ntentan\Ntentan;
 use ntentan\controllers\Controller;
 use ntentan\views\template_engines\TemplateEngine;
+use ntentan\models\Model;
 
 class RolesControllerBase extends WyfController
 {
@@ -20,6 +21,50 @@ class RolesControllerBase extends WyfController
     {
         $arguments = func_get_args();
         $id = array_shift($arguments);
+        
+        $this->set('bread_crumb', $arguments);
+        
+        if(count($_POST) > 0)
+        {
+            foreach($_POST as $permissionName => $path)
+            {
+                $permission = Model::load('system.permissions')->getFirst(
+                    array(
+                        'conditions' => array(
+                            'role_id' => $id,
+                            'permission' => $permissionName
+                        )
+                    )
+                );
+                                
+                if($permission->count() == 0 && $path != 'no')
+                {
+                    $permission->setData(
+                        array(
+                            'role_id' => $id,
+                            'permission' => $permissionName,
+                            'path' => $path,
+                            'access' => true
+                        )
+                    );
+                    
+                    $permission->save();
+                }
+                else
+                {
+                    if($path == 'no')
+                    {
+                        $permission->access = false;
+                        $permission->update();
+                    }
+                    else {
+                        $permission->access = true;
+                        $permission->update();
+                    }
+                }
+            }
+        }
+        
         $role = $this->model->getFirstWithId($id);
         $permissionItems = array();
         
@@ -39,11 +84,24 @@ class RolesControllerBase extends WyfController
                 
                 if(is_a($controller, "\\ntentan\\plugins\\wyf\\lib\\WyfController"))
                 {
-                    $permissionItems[] = array(
+                    $permissionItem = array(
                         'type' => 'permission',
                         'label' => Ntentan::toSentence($entry),
-                        'permissions' => $controller->getPermissions()
+                        'permissions' => array(),
+                        'path' => "{$baseRoute}{$entry}"
                     );
+                    foreach($controller->getPermissions() as $permission => $description)
+                    {
+                        $active = $role->getPermission($permission);
+                        
+                        $permissionItem['permissions'][] = array(
+                            'name' => $permission,
+                            'description' => $description,
+                            'active' => $active
+                        );
+                    }
+                    
+                    $permissionItems[] = $permissionItem;
                 }
                 
                 continue;

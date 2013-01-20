@@ -9,4 +9,24 @@ class RolesBase extends Model
     {
         return $this->name;
     }
+    
+    public function getPermission($permission)
+    {
+        $permission = Model::load('system.permissions')->getFirst(
+            array(
+                'conditions' => array(
+                    'role_id' => $this->id,
+                    'permission' => $permission
+                )
+            )
+        );
+        if($permission->count() == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return $permission->access;
+        }
+    }
 }
