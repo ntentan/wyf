@@ -17,12 +17,68 @@ class RolesControllerBase extends WyfController
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/system_module'));       
     }
     
+    private function getMenuTree($role, $scanPath = '')
+    {
+        $tree = array();
+        $baseDirectory = Ntentan::$namespace . "/modules/$scanPath";
+        $dir = dir($baseDirectory);
+        
+        while (false !== ($entry = $dir->read())) 
+        {
+            if($entry == '.' || $entry == '..') continue;            
+            $path = getcwd() . "/{$baseDirectory}{$entry}";
+            
+            $class = Ntentan::camelize($entry) . 'Controller';
+            
+            if(file_exists("$path/$class.php"))
+            {
+                $controller = Controller::load("{$scanPath}{$entry}", true);
+                if(is_a($controller, "\\ntentan\\plugins\\wyf\\lib\\WyfController"))
+                {
+                    $permissions = Model::load('system.permissions')->getFirst(
+                        array(
+                            'conditions' => array(
+                                'path' => "{$scanPath}{$entry}",
+                                'role_id' => $role->id,
+                                'access' => true
+                            )
+                        )
+                    );
+                    if($permissions->count() > 0)
+                    {
+                        $tree[$entry] = array(
+                            'label' => Ntentan::toSentence($entry),
+                            'type' => 'module',
+                            'path' => "{$baseRoute}{$entry}"
+                        );
+                    }
+                }
+            }
+            else
+            {
+                if(is_dir("$baseDirectory$entry"))
+                {
+                    $children = $this->getMenuTree($role, "$scanPath$entry/");
+                    if(count($children) > 0)
+                    {
+                        $tree[$entry] = array(
+                            'label' => Ntentan::toSentence($entry),
+                            'type' => 'group',
+                            'children' => $children
+                        );
+                    }
+                }
+            }
+        }
+        
+        return $tree;
+    }
+    
     public function setPermissions()
     {
         $arguments = func_get_args();
         $id = array_shift($arguments);
-        
-        $this->set('bread_crumb', $arguments);
+        $role = $this->model->getFirstWithId($id);        
         
         if(count($_POST) > 0)
         {
@@ -63,9 +119,11 @@ class RolesControllerBase extends WyfController
                     }
                 }
             }
+            
+            $role->menu_tree = json_encode($this->getMenuTree($role));
+            $role->update();
         }
         
-        $role = $this->model->getFirstWithId($id);
         $permissionItems = array();
         
         $baseRoute = implode('/', $arguments) . (count($arguments) > 0 ? '/' : '');

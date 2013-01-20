@@ -1,8 +1,5 @@
 <h2> Set permissions for the <?= $role ?> role</h2>
 
-<?php foreach($bread_crumb as $trail): ?>
-<?php endforeach; ?>
-
 <form method="post">
 
 <?php foreach($permission_items as $permission_item): ?>

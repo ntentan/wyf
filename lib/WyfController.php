@@ -5,7 +5,7 @@ use ntentan\controllers\Controller;
 
 class WyfController extends Controller
 {
-    private $permissions = array();
+    private $permissions;
     
     public function getDescription() 
     {
