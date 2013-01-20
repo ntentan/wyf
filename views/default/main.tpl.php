@@ -15,13 +15,27 @@
             ->add(p('wyf/assets/css/wyf.css'))
             ->add(p('wyf/assets/css/forms.css'))
         ?>
+        
+        <?php
+        load_asset('images/dashboard.png', p('wyf/assets/images/dashboard.png'));
+        load_asset('images/system.png', p('wyf/assets/images/system.png'));
+        ?>
     </head>
     <body>
         <div id="wrapper">
             <div id="header"><h1>ntentan.wyf</h1></div>
             <div id="top_menu"></div>
             <div id="bread_crumb_trail"></div>
-            <div id="side_menu"></div>
+            <div id="side_menu">
+                <?= t(
+                        'main_side_menu.tpl.php', 
+                        array(
+                            'side_menus' => $_SESSION['menu']['main'],
+                            'route_breakdown' => $route_breakdown
+                        )
+                    ) 
+                ?>
+            </div>
             <div id="contents"><?php echo $contents ?></div>
         </div>
     </body>

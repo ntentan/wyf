@@ -12,6 +12,14 @@ h1{
 #header{
     border-bottom: 1px solid #f0f0f0;
     padding:7px;
+    position:fixed;
+    height:35px;
+}
+
+#side_menu{
+    position:fixed;
+    top:49px;
+    background-color:#a0a0a0;    
 }
 
 #wyf_toolbar
@@ -51,4 +59,23 @@ h1{
 #wyf_list_table > tbody > tr:hover
 {
     background-color:#ffffcf;
+}
+
+/*************** SIDE MENU ******************/
+
+a.main-menu-side-button{
+    width:54px;
+    height:54px;
+    background-image:url('../images/system.png');
+    background-repeat:no-repeat;
+    background-position: 50% 50%;
+    display:block;
+}
+
+a.selected{
+    background-color:#fff;
+}
+
+a#dashboard-icon{
+    background-image:url('../images/home.png');
 }

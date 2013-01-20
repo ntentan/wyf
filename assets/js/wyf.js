@@ -46,3 +46,16 @@ wyf = {
     }
 };
 })();
+
+/********* MENUS AND SCREEN RESIZE HANDLERS *******************/
+
+function adjustUI()
+{
+    $('#header').css({width:'100%'});
+    $('#side_menu').css({height:($(window).height() - 50) + 'px'});
+}
+
+$(function(){
+    $(window).resize(adjustUI);
+    adjustUI();
+});
