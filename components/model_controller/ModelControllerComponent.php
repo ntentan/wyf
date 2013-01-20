@@ -16,11 +16,19 @@ class ModelControllerComponent extends Component
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
-        $this->set('entity', Ntentan::singular($this->model->getName()));
+        
+        $entities = $this->model->getName();
+        $entity = Ntentan::singular($this->model->getName());
+        $this->set('entity', $entity);
+        $this->set('entities', $entities);
+        
         $this->set('model_description', $this->model->describe());        
-        $this->set('entities', $this->model->getName());
         $this->urlBase = Ntentan::getUrl($this->route);
         $this->keyField = 'id';
+
+        $this->controller->addPermission("can_add_{$entities}", "Can add new $entities");
+        $this->controller->addPermission("can_edit_{$entities}", "Can edit existing $entities");
+        $this->controller->addPermission("can_delete_{$entities}", "Can delete existing $entities");
     }
     
     public function addOperation($label, $action = '')
