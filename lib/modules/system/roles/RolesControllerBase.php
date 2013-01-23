@@ -11,6 +11,7 @@ class RolesControllerBase extends WyfController
 {
     public function init()
     {
+        parent::init();
         $this->addComponent('wyf.model_controller');
         $wyf = $this->wyfModelControllerComponent;
         $wyf->addOperation('Set Permissions', 'set_permissions');

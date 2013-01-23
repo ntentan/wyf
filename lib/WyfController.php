@@ -79,4 +79,33 @@ class WyfController extends Controller
     {
         return $this->permissions;
     }
+    
+    public static function getRoutes()
+    {
+        Ntentan::$config[Ntentan::$context]['error_handler'] = 'dashboard/error';
+                
+        $routes = array(
+            array(
+                'pattern' => '/login/',
+                'route' => 'dashboard/login'
+            ),
+            array(
+                'pattern' => '/logout/',
+                'route' => 'dashboard/logout'
+            )
+        );
+        
+        if(is_array($_SESSION['menu']['sub']))
+        {
+            foreach($_SESSION['menu']['sub'] as $subMenu => $item)
+            {
+                $routes[] = array(
+                    'pattern' => "/(?<path>^($subMenu|$subMenu\/)$)/",
+                    'route' => 'dashboard/package/::path'
+                );
+            }
+        }
+        
+        return $routes;
+    }
 }
