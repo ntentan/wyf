@@ -23,7 +23,7 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="header"><h1>ntentan.wyf</h1></div>
+            <div id="header"><h1><?= $wyf_app_name ?></h1></div>
             <div id="top_menu"></div>
             <div id="bread_crumb_trail"></div>
             <?php if(is_array($_SESSION['menu']['main'])): ?>

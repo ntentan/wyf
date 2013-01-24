@@ -4,7 +4,8 @@
 
 .form_element_wrapper
 {
-    padding:10px;
+    padding-bottom:10px;
+    padding-top:10px;
     border-bottom:1px dotted #f8f8f8;
 }
 

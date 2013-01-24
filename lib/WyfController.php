@@ -22,6 +22,13 @@ class WyfController extends Controller
             )
         );
         $this->set('route_breakdown', explode('/', Ntentan::$route));
+        $this->set('wyf_title', Ntentan::$config['application']['name']);
+        $this->set('wyf_app_name', Ntentan::$config['application']['name']);
+    }
+    
+    public function setTitle($title)
+    {
+        $this->set('wyf_title', Ntentan::$config['application']['name'] . " : {$title}");
     }
     
     public static function postLogin()

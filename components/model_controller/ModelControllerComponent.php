@@ -11,24 +11,26 @@ class ModelControllerComponent extends Component
     public $keyField;
     private $operations = array();
     private $urlBase;
+    private $entities;
+    private $entity;
 
     public function init()
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
         
-        $entities = $this->model->getName();
-        $entity = Ntentan::singular($this->model->getName());
-        $this->set('entity', $entity);
-        $this->set('entities', $entities);
+        $this->entities = $this->model->getName();
+        $this->entity = Ntentan::singular($this->model->getName());
+        $this->set('entity', $this->entity);
+        $this->set('entities', $this->entities);
         
         $this->set('model_description', $this->model->describe());        
         $this->urlBase = Ntentan::getUrl($this->route);
         $this->keyField = 'id';
 
-        $this->controller->addPermission("can_add_{$entities}", "Can add new $entities");
-        $this->controller->addPermission("can_edit_{$entities}", "Can edit existing $entities");
-        $this->controller->addPermission("can_delete_{$entities}", "Can delete existing $entities");
+        $this->controller->addPermission("can_add_{$this->entities}", "Can add new $this->entities");
+        $this->controller->addPermission("can_edit_{$this->entities}", "Can edit existing $this->entities");
+        $this->controller->addPermission("can_delete_{$this->entities}", "Can delete existing $this->entities");
     }
     
     public function addOperation($label, $action = '')
@@ -48,6 +50,7 @@ class ModelControllerComponent extends Component
     public function run()
     {
         $this->view->template = $this->getTemplateName('list_view.tpl.php');
+        $this->controller->setTitle(ucfirst($this->entities));
         
         $this->addOperation('Edit');
         $this->addOperation('Delete');
@@ -114,6 +117,8 @@ class ModelControllerComponent extends Component
     
     public function add()
     {
+        $this->controller->setTitle("Add new {$this->entity}");
+        
         $this->view->template = $this->getTemplateName('add.tpl.php');
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
         $this->set('form_data', $_POST);
@@ -204,6 +209,7 @@ class ModelControllerComponent extends Component
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
         $item = $this->model->getFirstWithId($id);        
         $this->set('item', (string)$item);
+        $this->controller->setTitle("Edit {$this->entity} {$item}");        
         
         if(isset($_POST['form-sent']))
         {
