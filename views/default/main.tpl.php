@@ -44,7 +44,7 @@
                         array(
                             'side_menus' => $_SESSION['menu']['sub'][$route_breakdown[0]],
                             'route_breakdown' => $route_breakdown,
-                            'header' => $route_breakdown[0]
+                            'header' => ucwords($route_breakdown[0])
                         )
                     ) 
                 ?>                    
