@@ -1,0 +1,3 @@
+[submodule "assets/js/Kalendae"]
+	path = assets/js/Kalendae
+	url = git://github.com/ChiperSoft/Kalendae.git
