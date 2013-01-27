@@ -8,6 +8,7 @@ class Text extends Element
     public function multiline($multiline)
     {
         $this->multiline = $multiline;
-        $this->set('multiline', true);
+        $this->set('multiline', $multiline);
+        return $this;
     }
 }

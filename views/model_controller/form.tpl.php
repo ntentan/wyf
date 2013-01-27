@@ -1,1 +1,1 @@
-<?= $form->setup($model['fields']) ?>
+<div id="form_wrapper"><?= $form->setup($model['fields']) ?></div>
