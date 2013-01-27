@@ -22,6 +22,11 @@
     border:1px solid #f0f0f0;
 }
 
+.form_element_wrapper select
+{
+    padding:3px;
+}
+
 .form_element_wrapper input[type=text].form_error{
     border:1px solid #feaca5;
 }

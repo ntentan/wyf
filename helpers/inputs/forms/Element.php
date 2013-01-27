@@ -59,6 +59,7 @@ class Element
         {
             $this->data = $data;
             $this->attribute('value', $data);
+            $this->set('field_value', $data);            
         }
     }
     
