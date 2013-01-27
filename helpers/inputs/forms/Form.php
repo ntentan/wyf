@@ -55,6 +55,21 @@ class Form extends Container
                     $element->multiline(true);
                     break;
                 
+                case 'integer':
+                case 'double':
+                    $element = new Text(
+                        Ntentan::toSentence($field['name']), 
+                        $field['name']
+                    );
+                    break;
+                                
+                case 'date':
+                    $element = new Date(
+                        Ntentan::toSentence($field['name']),
+                        $field['name']
+                    );
+                    break;
+                                
                 default:
                     throw new \Exception("Unknown datatype {$field['type']}");
             }

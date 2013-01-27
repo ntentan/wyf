@@ -13,6 +13,6 @@ class Date extends Element
     
     public function __toString() 
     {
-        return TemplateEngine::render('wyf_inputs_forms_text.tpl.php', $this->getTemplateVariables());
+        return TemplateEngine::render('wyf_inputs_forms_date.tpl.php', $this->getTemplateVariables());
     }
 }

@@ -10,6 +10,7 @@ abstract class Container extends Element
         $element->data($this->data[$element->name()]);
         $element->errors($this->errors[$element->name()]);
         $this->elements []= $element;
+        return $this;
     }
     
     public function getTemplateVariables()

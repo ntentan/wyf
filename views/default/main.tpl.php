@@ -5,7 +5,7 @@
         <?= $helpers->javascript
             ->add(n('assets/js/jquery.js'))
             ->add(p('wyf/assets/js/wyf.js'))
-            ->add(p('wyf/assets/js/jquery.pjax.js'))
+            ->add(p('wyf/vendor/Kalendae/build/kalendae.js'))
             ->add(p('wyf/assets/js/mustache.js'))
         ?>
         
@@ -13,6 +13,8 @@
         
         <?= $helpers->stylesheet
             ->add(p('wyf/assets/css/wyf.css'))
+            ->add(p('wyf/assets/css/forms.css'))
+            ->add(p('wyf/vendor/Kalendae/build/kalendae.css'))
             ->add(p('wyf/assets/css/forms.css'))
         ?>
         
