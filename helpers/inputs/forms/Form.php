@@ -87,8 +87,29 @@ class Form extends Container
         );
     }
     
+    public function errors($errors = false)
+    {
+        if($errors === false) return;
+        $this->errors = $errors;
+    }    
+    
     public function __toString() 
     {
+        foreach($this->elements as $element)
+        {
+            if(is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container"))
+            {
+                $element->data($this->data);
+                $element->errors($this->errors);
+            }
+            else
+            {
+                $name = $element->name();
+                $element->data($this->data[$name]);
+                $element->errors($this->errors[$name]);
+            }
+        }        
+        
         return TemplateEngine::render(
             'wyf_input_forms_form.tpl.php', 
             $this->getTemplateVariables()

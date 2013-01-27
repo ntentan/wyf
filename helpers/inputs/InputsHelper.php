@@ -12,7 +12,7 @@ class InputsHelper extends \ntentan\views\helpers\Helper
         TemplateEngine::appendPath(p('wyf/helpers/inputs/templates/layouts'));
     }
     
-    public function help($fields = null)
+    public function help($params = null)
     {        
         $form = new Form();
         return $form;

@@ -1,7 +1,7 @@
 <?php
 namespace ntentan\plugins\wyf\helpers\inputs\forms;
 
-abstract class Container extends Element
+class Container extends Element
 {
     protected $elements = array();
     
@@ -28,17 +28,35 @@ abstract class Container extends Element
         $this->data = $data;
         foreach($this->elements as $element)
         {
-            $element->data($data[$element->name()]);
+            if(is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container"))
+            {
+                $element->data($data);
+            }
+            else
+            {
+                if(isset($data[$element->name()]))
+                {
+                    $element->data($data[$element->name()]);
+                }
+            }
         }
     }
     
     public function errors($errors = false)
     {
-        if($errors === false) return;
-        $this->errors = $errors;
         foreach($this->elements as $element)
         {
-            $element->errors($errors[$element->name()]);
-        }
-    }    
+            if(is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container"))
+            {
+                $element->errors($errors);
+            }
+            else
+            {
+                if(isset($errors[$element->name()]))
+                {
+                    $element->errors($errors[$element->name()]);
+                }
+            }
+        }        
+    }
 }

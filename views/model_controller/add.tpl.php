@@ -1,7 +1,7 @@
 <h2>Add a new <?= $entity ?></h2>
 <?php 
-$form = $helpers->wyf->input($description['fields']); 
-$form->data($form_data);
-$form->errors($form_errors);
-echo t($form_template, array('form' => $form, 'model' => $model_description)) 
+$f = $helpers->wyf->input(); 
+$f->data($form_data);
+$f->errors($form_errors);
+echo t($form_template, array('form' => $f, 'model' => $model_description)) 
 ?>

@@ -11,6 +11,7 @@ class Element
     protected $data;
     protected $errors;
     protected $variables = array();
+    protected $renderWithType;
     
     public function __construct($label = '', $name = '')
     {
@@ -20,7 +21,7 @@ class Element
     
     public function __toString() 
     {
-        $type = strtolower($this->getType());
+        $type = $this->renderWithType == '' ? strtolower($this->getType()) : $this->renderWithType;
         
         return TemplateEngine::render(
             "wyf_inputs_forms_{$type}.tpl.php", 
@@ -66,7 +67,9 @@ class Element
         if($errors === false)
             return $this->errors;
         else
+        {
             $this->errors = $errors;        
+        }
     }
     
     public function label($label = false)
