@@ -75,37 +75,53 @@ ul#sub_menu_list > li.selected > a{
     padding-left:300px;
 }
 
-#wyf_toolbar
+.wyf_button
 {
-    padding-top:5px;
-    padding-bottom:5px;
-}
-
-#wyf_toolbar > a{
-    text-decoration: none;
     display:inline-block;
     padding:7px;
     font-size:smaller;
     font-weight: bold;
     color:#404040;
-    border:1px solid #fcfcfc;
-    border-radius: 2px;
-    padding-left: 30px;
-    margin-right:5px;
     background-repeat: no-repeat;
     background-position-y: 50%;
-    background-position-x: 8px;
+    background-position-x: 8px;    
+    border:1px solid #fbfbfb;
+    border-radius: 2px;
 }
 
-#wyf_toolbar > a:hover{
+#wyf_toolbar
+{
+    padding-top:5px;
+    padding-bottom:10px;
+}
+
+#wyf_toolbar > a{
+    text-decoration: none;
+    padding-left: 30px;
+    margin-right:5px;
+}
+
+.wyf_button:hover{
     box-shadow: 1px 1px 3px rgba(0,0,0,0.05);    
     border:1px solid #f0f0f0;
 }
 
-#wyf_toolbar > a#toolbar_add{
-    background-image:url("../images/add.png");
+#wyf_toolbar > a#toolbar_add{ background-image:url("../images/add.png");}
+#wyf_toolbar > a#toolbar_import{ background-image:url("../images/import.png");}
+
+#wyf_list_view_control{
+    margin-top:5px;
 }
 
+#wyf_list_view_control span.nav_button{
+    cursor:pointer;
+}
+
+#wyf_list_view_pagecount{
+    padding:7px;
+    font-size:small;
+    text-align: right;
+}
 /************************ LIST TABLE ***************************/
 
 #wyf_list_table{
@@ -132,6 +148,26 @@ ul#sub_menu_list > li.selected > a{
 {
     background-color:#ffffcf;
 }
+
+.wyf_list_table_operations
+{
+    text-align: right;
+}
+
+.wyf_list_table_operations a
+{
+    text-decoration: none;
+    display:inline-block;
+    padding:3px;
+    padding-left:5px;
+    padding-right: 5px;
+    margin-left:5px;
+    font-weight: bold;
+    color:#1072A5;
+    background: #f6fafe;
+    border-radius: 3px;
+}
+
 
 /*************** SIDE MENU ******************/
 
