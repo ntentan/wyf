@@ -77,17 +77,36 @@ ul#sub_menu_list > li.selected > a{
 
 #wyf_toolbar
 {
-    padding:10px;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 
 #wyf_toolbar > a{
     text-decoration: none;
     display:inline-block;
-    padding:5px;
+    padding:7px;
     font-size:smaller;
     font-weight: bold;
     color:#404040;
+    border:1px solid #fcfcfc;
+    border-radius: 2px;
+    padding-left: 30px;
+    margin-right:5px;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    background-position-x: 8px;
 }
+
+#wyf_toolbar > a:hover{
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.05);    
+    border:1px solid #f0f0f0;
+}
+
+#wyf_toolbar > a#toolbar_add{
+    background-image:url("../images/add.png");
+}
+
+/************************ LIST TABLE ***************************/
 
 #wyf_list_table{
     width:100%;
@@ -96,7 +115,7 @@ ul#sub_menu_list > li.selected > a{
 }
 
 #wyf_list_table thead{
-    background-color: #fcfcfc;
+    background-color: #f0f0f0;
 }
 
 #wyf_list_table th{
@@ -131,4 +150,35 @@ a.selected{
 
 a#dashboard-icon{
     background-image:url('../images/home.png');
+}
+
+/**************** LOGIN PAGE ****************/
+
+#login-box{
+    margin: 100px;
+    margin-left:auto;
+    margin-right:auto;
+    width:300px;
+    padding-right:55px;
+}
+
+#login-box h2{
+    margin-bottom: 15px;
+}
+
+#login-box input[type=text],#login-box input[type=password]{
+    width:94%;
+    padding:3%;
+    border:1px solid #f0f0f0;
+    margin-bottom:15px;
+}
+
+#login-box label{
+    font-weight: bold;
+    color:#808080;
+}
+
+#login-box input[type=submit]{
+    padding:10px;
+    font-weight: bold;
 }

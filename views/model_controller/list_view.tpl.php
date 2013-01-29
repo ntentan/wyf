@@ -1,7 +1,7 @@
 <h2><?= ucfirst($entities) ?></h2>
 <div id="wyf_toolbar">
-    <a href="<?= $wyf_add_url ?>">Add</a>
-    <a href="<?= $wyf_import_url ?>">Import</a>
+    <a id="toolbar_add" href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a>
+    <a id="toolbar_import" href="<?= $wyf_import_url ?>">Import <?= $entities ?></a>
 </div>
 <div id="wyf_list_view">
     
@@ -42,3 +42,6 @@
         </tbody>
     </table>
 </script>
+<?php
+load_asset('images/add.png', p('wyf/assets/images/add.png'));
+?>
