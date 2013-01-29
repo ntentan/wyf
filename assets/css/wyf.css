@@ -163,6 +163,7 @@ ul#sub_menu_list > li.selected > a{
     padding-right: 5px;
     margin-left:5px;
     font-weight: bold;
+    font-size: smaller;
     color:#1072A5;
     background: #f6fafe;
     border-radius: 3px;
@@ -217,4 +218,12 @@ a#dashboard-icon{
 #login-box input[type=submit]{
     padding:10px;
     font-weight: bold;
+}
+
+#notification p{
+    padding:15px;
+    font-size:small;
+    margin:0px;
+    background-color:#ffffcf;
+    color:#d58001;
 }

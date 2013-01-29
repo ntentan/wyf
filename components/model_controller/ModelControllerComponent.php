@@ -4,6 +4,7 @@ namespace ntentan\plugins\wyf\components\model_controller;
 use ntentan\controllers\components\Component;
 use ntentan\views\template_engines\TemplateEngine;
 use ntentan\Ntentan;
+use ntentan\plugins\wyf\lib\WyfController;
 
 class ModelControllerComponent extends Component
 {
@@ -112,6 +113,13 @@ class ModelControllerComponent extends Component
             )
         );
         $response['data'] = $data->toArray();
+        
+        if(isset($_SESSION['notifications']))
+        {
+            $response['notifications'] = $_SESSION['notifications'];
+            unset($_SESSION['notifications']);
+        }
+        
         $this->set('response', $response);
     }
     
@@ -130,6 +138,7 @@ class ModelControllerComponent extends Component
             if($this->model->validate())
             {
                 $this->model->save();
+                WyfController::notify("Added a new {$this->entity} {$this->model}");
                 Ntentan::redirect(Ntentan::getUrl($this->route));
             }
             else
@@ -191,6 +200,7 @@ class ModelControllerComponent extends Component
         
         if($_GET['confirm'] == 'yes')
         {
+            WyfController::notify("Deleted {$this->entity} {$item}");
             $item->delete();
             Ntentan::redirect(Ntentan::getUrl($this->route));
         }
@@ -218,6 +228,7 @@ class ModelControllerComponent extends Component
             if($item->validate())
             {
                 $item->update();
+                WyfController::notify("Edited {$this->entity} {$item}");                
                 Ntentan::redirect(Ntentan::getUrl($this->route));
             }
             else

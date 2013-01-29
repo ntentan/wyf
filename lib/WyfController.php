@@ -115,4 +115,9 @@ class WyfController extends Controller
         
         return $routes;
     }
+    
+    public static function notify($notification)
+    {
+        $_SESSION['notifications'] = $notification;
+    }
 }

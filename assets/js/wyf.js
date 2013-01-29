@@ -18,10 +18,16 @@ wyf = {
                             {list:response.data}
                         )
                     );
+                    
                     if(response.count !== undefined)
                     {
                         wyf.listView.pages = Math.ceil(response.count / wyf.listView.itemsPerPage);
                         $('#wyf_list_view_size').html(wyf.listView.pages);
+                    }
+                    
+                    if(response.notifications !== undefined)
+                    {
+                        wyf.notify(response.notifications);
                     }
                     
                 }
@@ -43,6 +49,22 @@ wyf = {
             this.update(false);
             $('#wyf_list_view_page').html(this.page);
         }
+    },
+    
+    notify : function(notification)
+    {
+        $('#notification').css({display:'none'});
+        setTimeout(
+            function(){
+                $('#notification').html('<p>' + notification + '</p>').slideToggle(
+                    'slow',
+                    function (){
+                        setTimeout(function(){$('#notification').slideToggle()}, 5000);
+                    }
+                );
+            },
+            1000
+        );
     }
 };
 })();

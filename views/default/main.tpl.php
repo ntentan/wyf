@@ -54,7 +54,9 @@
                 </div>
                 <?php $sub_menu_active = true; endif; ?>
             <?php endif; ?>
-            <div <?= $sub_menu_active ? "class='sub_menu_active'" :'' ?>id="contents"><?php echo $contents ?></div>
+            <div <?= $sub_menu_active ? "class='sub_menu_active'" :'' ?>id="contents">
+                <?php echo $contents ?>
+            </div>
         </div>
     </body>
 </html>
