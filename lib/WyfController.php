@@ -9,6 +9,7 @@ use ntentan\views\template_engines\TemplateEngine;
 class WyfController extends Controller
 {
     private $permissions;
+    public $weight;
     
     public function init()
     {

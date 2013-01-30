@@ -3,9 +3,8 @@ namespace ntentan\plugins\wyf\lib\modules\system\users;
 
 use ntentan\plugins\wyf\lib\WyfController;
 use ntentan\Ntentan;
+use ntentan\models\Model;
 use ntentan\views\template_engines\TemplateEngine;
-
-use pos\modules\system\user_roles\UserRoles;
 
 class UsersControllerBase extends WyfController
 {
@@ -27,7 +26,7 @@ class UsersControllerBase extends WyfController
     {
         if(count($_POST) > 0)
         {
-            $roles = UserRoles::getJustWithUserId($id);
+            $roles = Model::load('system.user_roles')->getJustWithUserId($id);
             foreach($roles as $role)
             {
                 $role->delete();
@@ -35,7 +34,7 @@ class UsersControllerBase extends WyfController
             
             foreach ($_POST as $roleId)
             {
-                $role = UserRoles::getNew();
+                $role = Model::load('system.user_roles')->getNew();
                 $role->user_id = $id;
                 $role->role_id = $roleId;
                 $role->save();
@@ -44,8 +43,8 @@ class UsersControllerBase extends WyfController
             Ntentan::redirect(Ntentan::getUrl($this->route));
         }
         $item = $this->model->getJustFirstWithId($id);
-        $roles = \pos\modules\system\roles\Roles::getAll();
-        $assignedRoles = UserRoles::getJustWithUserId($id, array('fields'=>array('role_id')))->toArray();
+        $roles = Model::load('system.roles')->getAll();
+        $assignedRoles = Model::load('system.user_roles')->getJustWithUserId($id, array('fields'=>array('role_id')))->toArray();
         $structuredAssignedRoles = array();
         
         foreach($assignedRoles as $assignedRole)

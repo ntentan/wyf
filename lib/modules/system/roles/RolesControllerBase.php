@@ -28,11 +28,12 @@ class RolesControllerBase extends WyfController
         $baseDirectory = Ntentan::$namespace . "/modules/$scanPath";
         $dir = dir($baseDirectory);
         
+        $controllerWeights = array();
+        
         while (false !== ($entry = $dir->read())) 
         {
             if($entry == '.' || $entry == '..') continue;            
             $path = getcwd() . "/{$baseDirectory}{$entry}";
-            
             $class = Ntentan::camelize($entry) . 'Controller';
             
             if(file_exists("$path/$class.php"))
@@ -51,6 +52,8 @@ class RolesControllerBase extends WyfController
                     );
                     if($permissions->count() > 0)
                     {
+                        $controllerWeights[$entry] = $controller->weight;
+                        
                         $tree[$entry] = array(
                             'label' => Ntentan::toSentence($entry),
                             'type' => 'module',
@@ -76,7 +79,16 @@ class RolesControllerBase extends WyfController
             }
         }
         
-        return $tree;
+        asort($controllerWeights);
+        $sortedTree = array();
+        
+        foreach($controllerWeights as $entry => $menuItem)
+        {
+            $sortedTree[$entry] = $tree[$entry];
+            unset($tree[$entry]);
+        }
+        
+        return array_merge($sortedTree, $tree);
     }
     
     public function setPermissions()
