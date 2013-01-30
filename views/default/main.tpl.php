@@ -26,7 +26,18 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="header"><h1><?= $wyf_app_name ?></h1></div>
+            <div id="header">
+                <div class="row">
+                    <div class="column grid_10_7"><h1><?= $wyf_app_name ?></h1></div>
+                    <div class="column grid_10_3">
+                        <div id="profile_box">
+                        <?php if($_SESSION['user']['username'] != ''): ?>
+                            Logged in as <b><?= $_SESSION['user']['username'] ?></b> | <a href="<?= u('logout') ?>">Logout</a>&nbsp;&nbsp;&nbsp;
+                        <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="top_menu"></div>
             <div id="bread_crumb_trail"></div>
             <?php if(is_array($_SESSION['menu']['main'])): ?>

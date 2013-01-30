@@ -14,7 +14,18 @@ h1, h2{
     position:fixed;
     height:35px;
     background-color:#028ff1;
-    color:#fff;
+    color:#fff;  
+}
+
+#profile_box{
+    padding:10px;
+    text-align: right;
+}
+
+#profile_box a{
+    font-weight: bold;
+    color:#fff98f;
+    text-decoration: none;
 }
 
 #side_menu{
@@ -75,6 +86,7 @@ ul#sub_menu_list > li.selected > a{
     padding-left:300px;
 }
 
+
 .wyf_button
 {
     display:inline-block;
@@ -83,8 +95,9 @@ ul#sub_menu_list > li.selected > a{
     font-weight: bold;
     color:#404040;
     background-repeat: no-repeat;
-    background-position-y: 50%;
-    background-position-x: 8px;    
+    /*background-position-y: 50%;
+    background-position-x: 8px;    */
+    background-position: 8px 50%;
     border:1px solid #fbfbfb;
     border-radius: 2px;
 }
