@@ -49,6 +49,7 @@
 }
 
 .form_submit_area{
+    border-top:2px solid #dcdcdc;
     padding:10px;
     text-align: right;
 }
@@ -56,4 +57,37 @@
 .form_submit_area input[type=submit]{
     padding:10px;
     font-weight: bold;
+}
+
+.form_element_wrapper fieldset{
+    border:1px solid #dcdcdc;
+    margin:0px;
+}
+
+.form_element_wrapper fieldset legend{
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-left: 10px;
+    padding-right: 10px;
+    color:#404040;
+}
+
+.form_element_wrapper table{
+    border-collapse:collapse
+}
+
+.form_element_wrapper table tr td{
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+.form_element_wrapper table tr:first-child{
+    padding-right: 5px;
+    padding-left: 0px;
+}
+
+.form_element_wrapper table tr:last-child{
+    padding-left: 5px;
+    padding-right: 0px;
 }

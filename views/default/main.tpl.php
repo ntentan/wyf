@@ -2,7 +2,8 @@
 <html lang="en">
     <head>
         <title><?= $wyf_title ?></title>
-        <?= $helpers->javascript
+        <?= 
+            $helpers->javascript
             ->add(n('assets/js/jquery.js'))
             ->add(p('wyf/assets/js/wyf.js'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.js'))
@@ -11,7 +12,8 @@
         
         <?= $helpers->javascript->ntentan() ?>
         
-        <?= $helpers->stylesheet
+        <?= 
+            $helpers->stylesheet
             ->add(p('wyf/assets/css/wyf.css'))
             ->add(p('wyf/assets/css/forms.css'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.css'))
