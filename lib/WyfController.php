@@ -10,6 +10,7 @@ class WyfController extends Controller
 {
     private $permissions;
     public $weight;
+    private $extraJavascripts;
     
     public function init()
     {
@@ -26,6 +27,12 @@ class WyfController extends Controller
         $this->set('wyf_title', Ntentan::$config['application']['name']);
         $this->set('wyf_app_name', Ntentan::$config['application']['name']);
     }
+    
+    public function addExtraJavascript($extraJavascript)
+    {
+        $this->extraJavascripts[] = $extraJavascript;
+        $this->set('extra_javascripts', $this->extraJavascripts);
+    }    
     
     public function setTitle($title)
     {

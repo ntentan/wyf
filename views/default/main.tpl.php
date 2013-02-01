@@ -8,6 +8,7 @@
             ->add(p('wyf/assets/js/wyf.js'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.js'))
             ->add(p('wyf/assets/js/mustache.js'))
+            ->add($extra_javascripts)
         ?>
         
         <?= $helpers->javascript->ntentan() ?>
@@ -19,6 +20,7 @@
             ->add(p('wyf/vendor/Kalendae/build/kalendae.css'))
             ->add(p('wyf/assets/css/forms.css'))
             ->add(n('assets/css/grid.css'))
+            ->add($extra_stylesheets)
         ?>
         
         <?php
