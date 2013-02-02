@@ -20,16 +20,4 @@ class RadioGroup extends Element
         $this->set('options', $this->options);
         return parent::__toString();
     }
-    
-    public function label($label = false)
-    {
-        if($label == false)
-        {
-            return null;
-        }
-        else
-        {
-            $this->label = $label;
-        }
-    }
 }

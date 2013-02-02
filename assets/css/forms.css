@@ -97,6 +97,14 @@ div.form_error ul{
     padding-right: 0px;
 }
 
+.form_radio_group{
+    padding-top:10px;
+}
+
 .form_radio_group_option{
-    margin-bottom: 20px;
+    
+}
+
+.form_radio_group_option label{
+    font-weight: normal;
 }
