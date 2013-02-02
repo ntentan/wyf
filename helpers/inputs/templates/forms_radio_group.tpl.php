@@ -1,4 +1,4 @@
-<fieldset>
+<fieldset class="form_radio_group">
     <legend><?= $label ?></legend>
     <?php foreach($options as $option): ?>
     <div class="form_radio_group_option">

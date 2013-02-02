@@ -1,1 +1,1 @@
-<label><input type="checkbox" value="1" <?= $attributes ?>/> <?= $label ?></label>
+<label><input type="checkbox" value="1" <?= $value == '1' ? 'checked="checked"' : '' ?> <?= $attributes ?>/> <?= $label ?></label>

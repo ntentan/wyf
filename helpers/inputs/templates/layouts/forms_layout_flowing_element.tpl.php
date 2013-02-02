@@ -2,11 +2,13 @@
     <label><?= $element->label() ?></label>
     <?= $element ?>
     <?php if(count($errors)): ?>
+    <div class="form_error">
     <ul>
         <?php foreach($errors as $error): ?>
         <li><?= $error ?></li>
         <?php endforeach; ?>
     <?php ?>
     </ul>
+    </div>
     <?php endif; ?>
 </div>

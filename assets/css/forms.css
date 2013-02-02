@@ -39,14 +39,18 @@
     height:80px;
 }
 
-.form_element_wrapper ul{
-    background-color:#feefee;
-    margin:0px;
+div.form_error{
+    background-color:#feefee;    
     margin-top:5px;
     padding:7px;
-    list-style:none;
     font-size:small;
     color:#e33a2b;
+}
+
+div.form_error ul{
+    margin:0px;
+    list-style:none;
+    padding:0px;
 }
 
 .form_submit_area{

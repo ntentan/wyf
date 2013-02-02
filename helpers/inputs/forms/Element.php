@@ -112,7 +112,8 @@ class Element
                 'label' => $this->label,
                 'name' => $this->name,
                 'attributes' => $this->renderAttributes(),
-                'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : ''
+                'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : '',
+                'value' => $this->data
             )
         );
     }
