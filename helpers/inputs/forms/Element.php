@@ -2,6 +2,7 @@
 namespace ntentan\plugins\wyf\helpers\inputs\forms;
 
 use ntentan\views\template_engines\TemplateEngine;
+use ntentan\Ntentan;
 
 class Element
 {
@@ -21,7 +22,7 @@ class Element
     
     public function __toString() 
     {
-        $type = $this->renderWithType == '' ? strtolower($this->getType()) : $this->renderWithType;
+        $type = $this->renderWithType == '' ? Ntentan::deCamelize($this->getType()) : $this->renderWithType;
         
         return TemplateEngine::render(
             "wyf_inputs_forms_{$type}.tpl.php", 
@@ -109,6 +110,7 @@ class Element
             $this->variables,
             array(
                 'label' => $this->label,
+                'name' => $this->name,
                 'attributes' => $this->renderAttributes(),
                 'extra_css_classes' => count($this->errors()) > 0 ? 'form_error' : ''
             )

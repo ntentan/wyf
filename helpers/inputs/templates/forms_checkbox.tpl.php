@@ -1,1 +1,1 @@
-<input type="checkbox" value="1" <?= $attributes ?>/>
+<label><input type="checkbox" value="1" <?= $attributes ?>/> <?= $label ?></label>
