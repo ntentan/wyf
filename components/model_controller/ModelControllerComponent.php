@@ -18,7 +18,6 @@ class ModelControllerComponent extends Component
     public function init()
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
-        TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
         
         $this->entities = Ntentan::toSentence($this->model->getName());
         $this->entity = Ntentan::singular($this->entities);

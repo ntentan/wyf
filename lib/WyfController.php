@@ -11,6 +11,7 @@ class WyfController extends Controller
     private $permissions;
     public $weight;
     private $extraJavascripts;
+    private $extraStylesheets;
     
     public function init()
     {
@@ -32,7 +33,13 @@ class WyfController extends Controller
     {
         $this->extraJavascripts[] = $extraJavascript;
         $this->set('extra_javascripts', $this->extraJavascripts);
-    }    
+    }  
+    
+    public function addExtraStylesheet($extraStylesheet)
+    {
+        $this->extraStylesheets[] = $extraStylesheet;
+        $this->set('extra_stylesheets', $this->extraStylesheets);
+    }
     
     public function setTitle($title)
     {
