@@ -5,11 +5,15 @@ class Container extends Element
 {
     protected $elements = array();
     
-    public function add($element)
+    public function add()
     {
-        $element->data($this->data[$element->name()]);
-        $element->errors($this->errors[$element->name()]);
-        $this->elements []= $element;
+        $elements = func_get_args();
+        foreach($elements as $element)
+        {
+            $element->data($this->data[$element->name()]);
+            $element->errors($this->errors[$element->name()]);
+            $this->elements []= $element;
+        }
         return $this;
     }
     
