@@ -50,6 +50,11 @@ class Element
         }
     }
     
+    public function value($value = false)
+    {
+        return $this->data($value);
+    }
+    
     public function data($data = false)
     {
         if($data === false)
@@ -58,9 +63,13 @@ class Element
         }
         else
         {
-            $this->data = $data;
-            $this->attribute('value', $data);
-            $this->set('field_value', $data);            
+            if($this->data == '' && $data != '')
+            {
+                $this->data = $data;
+                $this->attribute('value', $data);
+                $this->set('field_value', $data); 
+            }
+            return $this;
         }
     }
     
