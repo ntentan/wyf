@@ -9,7 +9,7 @@ wyf = {
         update : function(info)
         {
             $.getJSON(
-                this.api + '?ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : ''),
+                this.api + 'ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : ''),
                 function (response)
                 {
                     $('#wyf_list_view').html(

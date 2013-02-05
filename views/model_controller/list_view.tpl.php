@@ -1,7 +1,8 @@
-<h2><?= ucfirst($entities) ?></h2>
+<h2><?= ucfirst($entities) ?> <?= $appended_to_header ?></h2>
 <div id="notification"></div>
 <div id="wyf_toolbar">
-    <a class="wyf_button" id="toolbar_add" href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a><a class="wyf_button" id="toolbar_import" href="<?= $wyf_import_url ?>">Import <?= $entities ?></a>
+    <a class="wyf_button" id="toolbar_add" href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a><?php
+    if($wyf_import_url != ''):?><a class="wyf_button" id="toolbar_import" href="<?= $wyf_import_url ?>">Import <?= $entities ?></a><?php endif; ?>
 </div>
 <div id="wyf_list_view">
     

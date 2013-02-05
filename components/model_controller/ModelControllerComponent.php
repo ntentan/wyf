@@ -5,6 +5,7 @@ use ntentan\controllers\components\Component;
 use ntentan\views\template_engines\TemplateEngine;
 use ntentan\Ntentan;
 use ntentan\plugins\wyf\lib\WyfController;
+use ntentan\models\Model;
 
 class ModelControllerComponent extends Component
 {
@@ -14,7 +15,9 @@ class ModelControllerComponent extends Component
     private $urlBase;
     private $entities;
     private $entity;
-
+    private $linkedModels = array();
+    private $linkedModelInstances = array();
+    
     public function init()
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
@@ -45,6 +48,18 @@ class ModelControllerComponent extends Component
     {
         // @todo optimize this so it doesn't have to use the str_replace
         return str_replace('.', '_', $this->controller->model->getRoute()) . "_$base";
+    }
+    
+    public function linkWith($model)
+    {
+        $modelInstance = Model::load($model);
+        $name = $modelInstance->getName();
+        $this->linkedModels[] = $name;
+        $this->linkedModelInstances[$name] = array(
+            'instance' => $modelInstance,
+            'name' => $model
+        );
+        $this->addOperation(Ntentan::toSentence($name), $name);
     }
     
     public function run()
@@ -89,7 +104,7 @@ class ModelControllerComponent extends Component
         $this->set('key_field', $this->keyField);
         $this->set('list_fields', $this->listFields);
         $this->set('wyf_add_url', "{$this->urlBase}/add");
-        $this->set('wyf_api_url', "{$this->urlBase}/api");
+        $this->set('wyf_api_url', "{$this->urlBase}/api?");
         $this->set('wyf_import_url', "{$this->urlBase}/import");
         $this->set('operations', $this->operations);
     }
@@ -99,13 +114,23 @@ class ModelControllerComponent extends Component
         $this->view->setContentType('application/json');
         $this->view->layout = false;
         $response = array();
+        
+        if(isset($_GET['mo']))
+        {
+            $model = Model::load($_GET['mo']);
+        }
+        else
+        {
+            $model = $this->model;
+        }
+        
         if($_GET['info'] == 'yes')
         {
-            $count = $this->model->countAllItems();
+            $count = $model->countAllItems();
             $response['count'] = $count;
         }
         
-        $data = $this->model->get(
+        $data = $model->get(
             $_GET['ipp'],
             array(
                 'offset' => $_GET['ipp'] * ($_GET['pg'] - 1)
@@ -240,5 +265,67 @@ class ModelControllerComponent extends Component
             $this->set('form_data', $item->toArray());
         }
     }
+    
+    public function hasMethod($method = null) 
+    {
+        if(array_search($method, $this->linkedModels) === false)
+        {
+            return parent::hasMethod($method);
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    public function runMethod($params, $method = null) 
+    {
+        if(array_search($method, $this->linkedModels) !== false)
+        {
+            array_unshift($params, $method);
+            $method = 'showSubLinkedModel';
+        }
+                
+        return parent::runMethod($params, $method);
+    }
+    
+    public function showSubLinkedModel($linkedModel)
+    {
+        $model = $this->linkedModelInstances[$linkedModel]['instance'];
+        $name = $model->getName();
+        $this->view->template = $this->getTemplateName('list_view.tpl.php');
+        
+        $modelDescription = $model->describe();
+        $foreingKey = Ntentan::singular($this->model->getName()) . "_id";
+        
+        foreach($modelDescription['fields'] as $field)
+        {
+            if($field['primary_key'])
+            {
+                $keyField = $field['name'];
+                continue;
+            }
+            
+            if($field['name'] == $foreingKey)
+            {
+                continue;
+            }
+            
+            $field['label'] = Ntentan::toSentence($field['name']);
+            $listFields[] = $field;
+        }        
+        
+        $this->set('key_field', $keyField);
+        $this->set('entities', $name);
+        $this->set('entity', Ntentan::singular($name));
+        $this->set('wyf_api_url', "{$this->urlBase}/api?mo={$this->linkedModelInstances[$linkedModel]['name']}&");
+        $this->set('list_fields', $listFields);
+        $this->set('operations', array(
+                array('link' => '', 'label' => 'Edit'),
+                array('link' => '', 'label' => 'Delete')
+            )
+        );
+        
+    }    
 }
 
