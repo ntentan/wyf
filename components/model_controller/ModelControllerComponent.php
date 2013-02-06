@@ -17,7 +17,8 @@ class ModelControllerComponent extends Component
     private $entity;
     private $linkedModels = array();
     private $linkedModelInstances = array();
-    
+    private $parent = false;
+
     public function init()
     {
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/model_controller'));
@@ -41,7 +42,7 @@ class ModelControllerComponent extends Component
         $this->operations[] = array(
             'link' => $this->urlBase . '/' . ($action == '' ? strtolower($label) : $action),
             'label' => $label
-        );
+        );                    
     }
     
     private function getTemplateName($base)
@@ -75,6 +76,10 @@ class ModelControllerComponent extends Component
         {
             foreach($modelDescription['fields'] as $field)
             {
+                if($field['name'] == $this->parent['foreign_key'])
+                {
+                    continue;
+                }
                 if($field['primary_key'])
                 {
                     $this->keyField = $field['name'];
@@ -104,36 +109,32 @@ class ModelControllerComponent extends Component
         $this->set('key_field', $this->keyField);
         $this->set('list_fields', $this->listFields);
         $this->set('wyf_add_url', "{$this->urlBase}/add");
+        $this->set('wyf_import_url', "{$this->urlBase}/import");        
         $this->set('wyf_api_url', "{$this->urlBase}/api?");
-        $this->set('wyf_import_url', "{$this->urlBase}/import");
         $this->set('operations', $this->operations);
+        $this->set('foreign_key', $this->parent['foreign_key']);
+        $this->set('foreign_key_value', $this->parent['id']);
     }
     
     public function api()
     {
         $this->view->setContentType('application/json');
         $this->view->layout = false;
-        $response = array();
+        $this->view->template = $this->getTemplateName('api.tpl.php');        
         
-        if(isset($_GET['mo']))
-        {
-            $model = Model::load($_GET['mo']);
-        }
-        else
-        {
-            $model = $this->model;
-        }
+        $response = array();
         
         if($_GET['info'] == 'yes')
         {
-            $count = $model->countAllItems();
+            $count = $this->model->countAllItems();
             $response['count'] = $count;
         }
         
-        $data = $model->get(
+        $data = $this->model->get(
             $_GET['ipp'],
             array(
-                'offset' => $_GET['ipp'] * ($_GET['pg'] - 1)
+                'offset' => $_GET['ipp'] * ($_GET['pg'] - 1),
+                'conditions' => json_decode($_GET['c'], true)
             )
         );
         $response['data'] = $data->toArray();
@@ -153,6 +154,16 @@ class ModelControllerComponent extends Component
         
         $this->view->template = $this->getTemplateName('add.tpl.php');
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
+        
+        if(is_array($this->parent)) 
+        {
+            $this->set('params', array(
+                    'hide' => array($this->parent['foreign_key'])
+                )
+            );
+            $_POST[$this->parent['foreign_key']] = $this->parent['id'] ;
+        }
+        
         $this->set('form_data', $_POST);
         
         if(isset($_POST['form-sent']))
@@ -163,7 +174,7 @@ class ModelControllerComponent extends Component
             {
                 $this->model->save();
                 WyfController::notify("Added a new {$this->entity} {$this->model}");
-                Ntentan::redirect(Ntentan::getUrl($this->route));
+                Ntentan::redirect($this->urlBase);
             }
             else
             {
@@ -174,6 +185,8 @@ class ModelControllerComponent extends Component
     
     public function import($param = null)
     {
+        $this->view->template = $this->getTemplateName('import.tpl.php');
+        
         if($param == 'template.csv')
         {
             $this->view->setContentType('text/csv');
@@ -202,12 +215,11 @@ class ModelControllerComponent extends Component
 
                     if($newEntry->save() === false)
                     {
-                        /*var_dump($newEntry->invalidFields);
-                        var_dump($newEntry->getData());*/
+                        // Do something useful here
                     }
                 }
                 
-                Ntentan::redirect(Ntentan::getUrl($this->route));
+                Ntentan::redirect($this->urlBase);
             }
             else
             {
@@ -215,7 +227,7 @@ class ModelControllerComponent extends Component
             }
         }
         
-        $this->set('import_template', Ntentan::getUrl("{$this->route}/import/template.csv"));
+        $this->set('import_template', "{$this->urlBase}/import/template.csv");
     }
     
     public function delete($id)
@@ -226,13 +238,13 @@ class ModelControllerComponent extends Component
         {
             WyfController::notify("Deleted {$this->entity} {$item}");
             $item->delete();
-            Ntentan::redirect(Ntentan::getUrl($this->route));
+            Ntentan::redirect($this->urlBase);
         }
         else
         {
             $this->set('item', (string)$item);
-            $this->set('delete_yes_link', Ntentan::getUrl("{$this->route}/delete/$id?confirm=yes"));
-            $this->set('delete_no_link', Ntentan::getUrl("{$this->route}"));
+            $this->set('delete_yes_link', "{$this->urlBase}/delete/$id?confirm=yes");
+            $this->set('delete_no_link', $this->urlBase);
             $this->view->template = $this->getTemplateName('delete.tpl.php');
         }
     }
@@ -243,7 +255,16 @@ class ModelControllerComponent extends Component
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
         $item = $this->model->getFirstWithId($id);        
         $this->set('item', (string)$item);
-        $this->controller->setTitle("Edit {$this->entity} {$item}");        
+        $this->controller->setTitle("Edit {$this->entity} {$item}");    
+        
+        if(is_array($this->parent)) 
+        {
+            $this->set('params', array(
+                    'hide' => array($this->parent['foreign_key'])
+                )
+            );
+            $_POST[$this->parent['foreign_key']] = $this->parent['id'] ;
+        }        
         
         if(isset($_POST['form-sent']))
         {
@@ -253,7 +274,7 @@ class ModelControllerComponent extends Component
             {
                 $item->update();
                 WyfController::notify("Edited {$this->entity} {$item}");                
-                Ntentan::redirect(Ntentan::getUrl($this->route));
+                Ntentan::redirect($this->urlBase);
             }
             else
             {
@@ -282,50 +303,33 @@ class ModelControllerComponent extends Component
     {
         if(array_search($method, $this->linkedModels) !== false)
         {
-            array_unshift($params, $method);
-            $method = 'showSubLinkedModel';
+            $controllerPath = str_replace('.', '/',$this->linkedModelInstances[$method]['instance']->getRoute());
+            
+            $parentInfo = array(
+                'model' => $this->model, 
+                'url_base' => $this->urlBase
+            );
+            
+            $controller = \ntentan\controllers\Controller::load($controllerPath, true);
+            $parentInfo['id'] = array_shift($params);
+            $controller->mc()->setParent($parentInfo);
+            $controller->method = array_shift($params);
+            
+            if($controller->method == '') $controller->method = 'run';
+            $controller->runMethod($params);
+            
+            die();
         }
-                
-        return parent::runMethod($params, $method);
-    }
-    
-    public function showSubLinkedModel($linkedModel)
-    {
-        $model = $this->linkedModelInstances[$linkedModel]['instance'];
-        $name = $model->getName();
-        $this->view->template = $this->getTemplateName('list_view.tpl.php');
-        
-        $modelDescription = $model->describe();
-        $foreingKey = Ntentan::singular($this->model->getName()) . "_id";
-        
-        foreach($modelDescription['fields'] as $field)
+        else
         {
-            if($field['primary_key'])
-            {
-                $keyField = $field['name'];
-                continue;
-            }
-            
-            if($field['name'] == $foreingKey)
-            {
-                continue;
-            }
-            
-            $field['label'] = Ntentan::toSentence($field['name']);
-            $listFields[] = $field;
-        }        
-        
-        $this->set('key_field', $keyField);
-        $this->set('entities', $name);
-        $this->set('entity', Ntentan::singular($name));
-        $this->set('wyf_api_url', "{$this->urlBase}/api?mo={$this->linkedModelInstances[$linkedModel]['name']}&");
-        $this->set('list_fields', $listFields);
-        $this->set('operations', array(
-                array('link' => '', 'label' => 'Edit'),
-                array('link' => '', 'label' => 'Delete')
-            )
-        );
-        
-    }    
+            return parent::runMethod($params, $method);
+        }
+    } 
+    
+    public function setParent($parent)
+    {
+        $parent['foreign_key'] = Ntentan::singular($parent['model']->getName()) . '_id';
+        $this->parent = $parent;
+        $this->urlBase = "{$this->parent['url_base']}/{$this->model->getName()}/{$this->parent['id']}";
+    }
 }
-

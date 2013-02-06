@@ -6,10 +6,11 @@ wyf = {
         pages : 1,
         page: 1,
         count : 0,
+        conditions : undefined,
         update : function(info)
         {
             $.getJSON(
-                this.api + 'ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : ''),
+                this.api + 'ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : '') + this.getConditions(),
                 function (response)
                 {
                     $('#wyf_list_view').html(
@@ -48,6 +49,15 @@ wyf = {
             this.page--;
             this.update(false);
             $('#wyf_list_view_page').html(this.page);
+        },
+        setConditions : function(conditions)
+        {
+            this.conditions = conditions;
+        },
+        getConditions : function()
+        {
+            console.log(this.conditions);
+            return "&c=" + escape(JSON.stringify(this.conditions));
         }
     },
     

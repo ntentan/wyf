@@ -18,14 +18,28 @@ class Form extends Container
         $this->submitValue = $submitValue;
     }
     
-    public function setup($fields)
+    public function setup($fields, $params = array())
     {
         foreach($fields as $field)
         {
             if($field['primary_key'] === true) continue;
             
+            if(is_array($params['hide']))
+            {
+                if(array_search($field['name'], $params['hide']) !== false)
+                {
+                    $field['type'] = 'hidden';
+                }
+            }
+            
             switch($field['type'])
             {
+                case 'hidden':
+                    $element = new Hidden(
+                        $field['name']
+                    );
+                    break;
+                    
                 case 'string':
                     $element = new Text(
                         Ntentan::toSentence($field['name']), 

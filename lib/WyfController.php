@@ -29,6 +29,11 @@ class WyfController extends Controller
         $this->set('wyf_app_name', Ntentan::$config['application']['name']);
     }
     
+    public function mc()
+    {
+        return $this->wyfModelControllerComponent;
+    }
+    
     public function addExtraJavascript($extraJavascript)
     {
         $this->extraJavascripts[] = $extraJavascript;
@@ -130,6 +135,7 @@ class WyfController extends Controller
         
         return $routes;
     }
+    
     
     public static function notify($notification)
     {

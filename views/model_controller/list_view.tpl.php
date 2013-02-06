@@ -22,6 +22,11 @@
 <script type="text/javascript">
     $(function(){
         wyf.listView.api = "<?= $wyf_api_url ?>";
+        <?php if($foreign_key != ''): ?>
+        wyf.listView.setConditions({
+            <?=$foreign_key?> : "<?= $foreign_key_value ?>"
+        })
+        <?php endif; ?>
         wyf.listView.init();
     })
 </script>
