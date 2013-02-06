@@ -1,4 +1,4 @@
-<h2>Import <?= $entities ?></h2>
+<h2>Import <?= $entities ?> <?= $postfix ?></h2>
 <?php if($upload_error != ''): ?>
 <div><?= $upload_error ?></div>
 <?php endif; ?>

@@ -328,8 +328,11 @@ class ModelControllerComponent extends Component
     
     public function setParent($parent)
     {
-        $parent['foreign_key'] = Ntentan::singular($parent['model']->getName()) . '_id';
+        $singularModel = Ntentan::singular($parent['model']->getName());
+        $parent['foreign_key'] = "{$singularModel}_id";
         $this->parent = $parent;
         $this->urlBase = "{$this->parent['url_base']}/{$this->model->getName()}/{$this->parent['id']}";
+        $item = $parent['model']->getJustFirstWithId($parent['id']);
+        $this->set('postfix', "of " . Ntentan::toSentence($singularModel) . " {$item}");
     }
 }

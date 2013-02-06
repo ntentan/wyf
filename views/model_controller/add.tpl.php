@@ -1,4 +1,4 @@
-<h2>Add a new <?= $entity ?></h2>
+<h2>Add a new <?= $entity ?> <?= $postfix ?></h2>
 <?php 
 $f = $helpers->wyf->input(); 
 $f->data($form_data);

@@ -1,4 +1,4 @@
-<h2><?= ucfirst($entities) ?> <?= $appended_to_header ?></h2>
+<h2><?= ucfirst($entities) ?> <?= $postfix ?></h2>
 <div id="notification"></div>
 <div id="wyf_toolbar">
     <a class="wyf_button" id="toolbar_add" href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a><?php

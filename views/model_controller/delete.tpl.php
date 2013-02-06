@@ -1,4 +1,4 @@
-<h2>Delete <?= $entity ?> <?= $item ?></h2>
+<h2>Delete <?= $entity ?> <?= $item ?> <?= $postfix ?></h2>
 <p>Are you sure you want to delete the <?= $entity ?> <?= $item ?>? Please 
     note that this action cannot be reveresed
 </p>
