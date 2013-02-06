@@ -54,7 +54,7 @@ class ModelControllerComponent extends Component
     public function linkWith($model)
     {
         $modelInstance = Model::load($model);
-        $name = $modelInstance->getName();
+        $name = lcfirst(Ntentan::camelize($modelInstance->getName()));
         $this->linkedModels[] = $name;
         $this->linkedModelInstances[$name] = array(
             'instance' => $modelInstance,
