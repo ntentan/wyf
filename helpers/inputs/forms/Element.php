@@ -86,9 +86,14 @@ class Element
     public function label($label = false)
     {
         if($label === false)
+        {
             return $this->label;
+        }
         else
+        {
             $this->label = $label;
+            return $this;
+        }
     }
     
     public function name($name = false)
@@ -101,6 +106,7 @@ class Element
         {
             $this->name = $name;
             $this->attribute('name', $name);
+            return $this;
         }
     }
     
