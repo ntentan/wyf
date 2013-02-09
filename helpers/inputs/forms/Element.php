@@ -13,6 +13,7 @@ class Element
     protected $errors;
     protected $variables = array();
     protected $renderWithType;
+    protected $description;
     
     public function __construct($label = '', $name = '')
     {
@@ -92,6 +93,19 @@ class Element
         else
         {
             $this->label = $label;
+            return $this;
+        }
+    }
+    
+    public function description($description = false)
+    {
+        if($description === false)
+        {
+            return $this->description;
+        }
+        else
+        {
+            $this->description = $description;
             return $this;
         }
     }

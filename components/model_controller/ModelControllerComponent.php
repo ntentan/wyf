@@ -134,7 +134,8 @@ class ModelControllerComponent extends Component
             $_GET['ipp'],
             array(
                 'offset' => $_GET['ipp'] * ($_GET['pg'] - 1),
-                'conditions' => json_decode($_GET['c'], true)
+                'conditions' => json_decode($_GET['c'], true),
+                'sort' => array('id DESC')
             )
         );
         $response['data'] = $data->toArray();
@@ -161,7 +162,8 @@ class ModelControllerComponent extends Component
                     'hide' => array($this->parent['foreign_key'])
                 )
             );
-            $_POST[$this->parent['foreign_key']] = $this->parent['id'] ;
+            $_POST[$this->parent['foreign_key']] = $this->parent['id'];
+            $this->set('postfix', "to " . Ntentan::toSentence($this->parent['entinty']) . " {$this->parent['item']}");            
         }
         
         $this->set('form_data', $_POST);
@@ -330,9 +332,11 @@ class ModelControllerComponent extends Component
     {
         $singularModel = Ntentan::singular($parent['model']->getName());
         $parent['foreign_key'] = "{$singularModel}_id";
+        $item = $parent['model']->getJustFirstWithId($parent['id']);
+        $parent['item'] = (string)$item;
+        $parent['entinty'] = $singularModel;
         $this->parent = $parent;
         $this->urlBase = "{$this->parent['url_base']}/{$this->model->getName()}/{$this->parent['id']}";
-        $item = $parent['model']->getJustFirstWithId($parent['id']);
         $this->set('postfix', "of " . Ntentan::toSentence($singularModel) . " {$item}");
     }
 }
