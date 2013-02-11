@@ -26,6 +26,10 @@
         <?php
         load_asset('images/dashboard.png', p('wyf/assets/images/dashboard.png'));
         load_asset('images/system.png', p('wyf/assets/images/system.png'));
+        load_asset('images/headerbg.gif', p('wyf/assets/images/headerbg.gif'));
+        load_asset('images/sidemenubg.gif', p('wyf/assets/images/sidemenubg.gif'));
+        load_asset('images/mainbg.gif', p('wyf/assets/images/mainbg.gif'));
+        load_asset('images/selectedbg.gif', p('wyf/assets/images/selectedbg.gif'));
         ?>
     </head>
     <body>

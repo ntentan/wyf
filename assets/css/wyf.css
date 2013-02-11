@@ -2,6 +2,7 @@ body{
     font-family: sans-serif;
     margin:0px;
     font-size:0.9em;
+    background-image: url("../images/maingb.gif");
 }
 
 h1, h2{
@@ -13,8 +14,11 @@ h1, h2{
     padding:7px;
     position:fixed;
     height:35px;
-    background-color:#028ff1;
+    background-color:#0a7ca5;
+    background-image:url("../images/headerbg.gif");
     color:#fff;  
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
+    z-index: 200;
 }
 
 #profile_box{
@@ -31,7 +35,9 @@ h1, h2{
 #side_menu{
     position:fixed;
     top:49px;
-    background-color:#a0a0a0;    
+    background-color:#a0a0a0;  
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+    background-image:url("../images/sidemenubg.gif");
 }
 
 #sub_side_menu{
@@ -58,8 +64,11 @@ ul#sub_menu_list > li{
 
 ul#sub_menu_list > li.selected{
     background-color:#029f2d;
-    color:#fff;
+    color:#167030;
     border-radius: 4px;
+    background-image:url("../images/selectedbg.gif");
+    background-repeat: repeat-x;
+    box-shadow:1px 1px 3px rgba(0,0,0,0.3);
 }
 
 ul#sub_menu_list > li > a{
@@ -196,6 +205,7 @@ a.main-menu-side-button{
 
 a.selected{
     background-color:#fff;
+    box-shadow: 0 4px 2px -2px grey;
 }
 
 a#dashboard-icon{
