@@ -102,13 +102,17 @@ ul#sub_menu_list > li.selected > a{
     padding:7px;
     font-size:smaller;
     font-weight: bold;
-    color:#404040;
+    color:#606060;
+    background-color:#f8f8f8;
     background-repeat: no-repeat;
-    /*background-position-y: 50%;
-    background-position-x: 8px;    */
     background-position: 8px 50%;
-    border:1px solid #fbfbfb;
+    border:1px solid #c0c0c0;
     border-radius: 2px;
+}
+
+.wyf_button:hover{
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.1);    
+    border:1px solid #b0b0b0;
 }
 
 #wyf_toolbar
@@ -121,11 +125,6 @@ ul#sub_menu_list > li.selected > a{
     text-decoration: none;
     padding-left: 30px;
     margin-right:5px;
-}
-
-.wyf_button:hover{
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.05);    
-    border:1px solid #f0f0f0;
 }
 
 #wyf_toolbar > a#toolbar_add    { background-image: url("../images/add.png");   }
