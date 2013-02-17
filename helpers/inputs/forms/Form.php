@@ -16,6 +16,7 @@ class Form extends Container
     public function setSubmitValue($submitValue)
     {
         $this->submitValue = $submitValue;
+        return $this;
     }
     
     public function setup($fields, $params = array())
@@ -97,7 +98,9 @@ class Form extends Container
     public function getTemplateVariables() {
         return array_merge(
             parent::getTemplateVariables(),
-            array('submit_value' => $this->submitValue)
+            array(
+                'submit_value' => $this->submitValue
+            )
         );
     }
     
