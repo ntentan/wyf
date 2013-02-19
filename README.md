@@ -1,8 +1,7 @@
 ntentan.wyf
 ===========
 
-A better version of the WYF framework built on top of the ntentan core. This version offers the same goodies as 
-the original wyf except its friendlier to code in and much more easy to theme and extend.
+A better version of the WYF framework built on top of the ntentan core. This version offers the same goodies as the original wyf except its friendlier to code in and much more easy to theme and extend.
 
 License
 -------

@@ -26,7 +26,6 @@ class ReportControllerComponent extends Component
     public function run()
     {
         $this->set('report_title', $this->report->getTitle());
-        $this->set('report_filters', $this->report->getFilters());
         $this->set('action_route', Ntentan::getUrl("{$this->route}/generate"));
         $this->view->template = 'report_setup.tpl.php';
     }
