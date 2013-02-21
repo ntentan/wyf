@@ -14,7 +14,26 @@ class ReportControllerComponent extends Component
     
     public function __construct($params) 
     {
-        $this->report = \Dashy::loadReport($params['report']);
+        // Use the default reporting settings and load the report file
+        if(is_string($params['report']))
+        {
+            $this->report = \Dashy::loadReport($params['report']);
+        }
+        // Present a customized report based on ntentan
+        else
+        {
+            $this->report = \Dashy::loadReport(
+                array(
+                    'title' => $params['report']['title'],
+                    'data_sources' => array(
+                        'ntentan_data' => array(
+                            'type' => 'ntentan',
+                            'parameters' => $params['report']['data']
+                        )
+                    )
+                )
+            );
+        }
         $this->reportParams = $params['parameters'];
     }
     
