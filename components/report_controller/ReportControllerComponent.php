@@ -46,6 +46,7 @@ class ReportControllerComponent extends Component
     {
         $this->set('report_title', $this->report->getTitle());
         $this->set('action_route', Ntentan::getUrl("{$this->route}/generate"));
+        $this->set('report_filters', $this->report->getDataSource('ntentan_data')->getMetaData());
         $this->view->template = 'report_setup.tpl.php';
     }
     
@@ -53,6 +54,6 @@ class ReportControllerComponent extends Component
     {
         $this->view->layout = false;
         $this->view->template = false;
-        echo $this->report->render($_POST['format'], $this->reportParams);
+        echo $this->report->render($_POST['format'] == '' ? 'pdf' : $_POST['format'], $this->reportParams);
     }
 }

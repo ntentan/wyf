@@ -1,29 +1,18 @@
 <h2><?= $report_title ?></h2>
-<?php
-$f = $helpers->wyf->input();
-$columns = $f->create('columns', 2);
-$fieldset = $f->create('fieldset', 'Filters');
-
-$columns->add($fieldset);
-
-$columns->add(
-    $f->create('fieldset', 'Grouping')
-);
-
-$columns->add(
-        $f->create('fieldset', 'Sorting')
-);
-
-$columns->add(
-    $f->create('fieldset', 'Output Options')->add(
-        $f->create('select', 'Format', 'format')
-        ->option('Portable Document Format (PDF)', 'pdf')
-    )
-);
-
-$f->add($columns)
-    ->setSubmitValue('Generate')
-    ->attribute('target', '_blank')
-    ->attribute('action', $action_route);
-
-echo $f;
+<?= $helpers->form->open()->action($action_route)->attribute("target", "_blank") ?>
+<div id="wyf-report-wrapper">
+    <div id="wyr-report-options">
+        <h3>Filters</h3>
+        <?php foreach($report_filters as $title => $filter): ?>
+        <div>
+        <span><?= $title ?></span>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <div id="wyf-report-output">
+    <?=
+    $helpers->form->get_selection_list('Output')->option('Portable Document Format', 'pdf')
+    ?>
+    </div>
+</div>
+<?= $helpers->form->close("Generate") ?>
