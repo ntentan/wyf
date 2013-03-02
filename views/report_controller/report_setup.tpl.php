@@ -6,38 +6,34 @@ $helpers->form->getRendererInstance()->noWrap = true;
 <div id="wyf-report-wrapper">
     <div id="wyr-report-options">
         <h3>Filters</h3>
-        <?php foreach($report_filters as $title => $filter): ?>
-        <div>
-            <span><?= $title ?></span>
-            <?php 
-            switch($filter['type'])
-            {
-                case DataSource::TYPE_FLOAT:
-                case DataSource::TYPE_INTEGER:
-                    echo $helpers->form->get_selection_list('')
-                        ->option("is equal to")
-                        ->option("is greater than")
-                        ->option("is less than")
-                        ->option("is between")
-                        ->option("is not equal to")
-                        ->option("is not between");
-                    break;
-                case DataSource::TYPE_TEXT:
-                    echo $helpers->form->get_selection_list('')
-                        ->option("matches")
-                        ->option("contains")
-                        ->option("is less than")
-                        ->option("is between");                    
-                    break;
-            }
-            ?>
+        <div id="wyf-report-filters">
+        
         </div>
-        <?php endforeach; ?>
+        <a href="#" onclick="wyf.reports.addFilter()">Add</a>
     </div>
     <div id="wyf-report-output">
-    <?=
-    $helpers->form->get_selection_list('Output', 'output')->option('Portable Document Format', 'pdf')
-    ?>
+        <?= $helpers->form->get_selection_list('Output', 'output')->option('Portable Document Format', 'pdf') ?>
     </div>
 </div>
 <?= $helpers->form->close("Generate") ?>
+<script type="text/javascript">
+var reportColumnDataTypes = {};
+<?php foreach($report_filters as $title => $filter):?>
+reportColumnDataTypes["<?= $title ?>"] = "<?= $filter['type'] ?>";
+<?php endforeach;?>
+</script>
+<script type="text/html" id="wyf-report-filter-template">
+    <div>
+    <?php 
+    $options = $helpers->form->get_selection_list('', 'filter_{{id}}_column')->id('filter_{{id}}');
+    $options->attribute('onchange', "wyf.reports.filterUpdated(this)");
+    foreach($report_filters as $title => $filter)
+    {
+        $options->option($title, '');
+    }
+    echo $options;
+    ?>   
+    <span id="filter_{{id}}_operators"></span>
+    <span id="filter_{{id}}_operands"></span>
+    </div> 
+</script>

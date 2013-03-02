@@ -30,7 +30,7 @@ class ReportControllerComponent extends Component
                             'type' => 'ntentan',
                             'parameters' => $params['report']['data']
                         )
-                    )
+                    ),
                 )
             );
         }
@@ -54,6 +54,37 @@ class ReportControllerComponent extends Component
     {
         $this->view->layout = false;
         $this->view->template = false;
-        echo $this->report->render($_POST['format'] == '' ? 'pdf' : $_POST['format'], $this->reportParams);
+        
+        $reportLayout = array(
+            array(
+                'type' => 'standard_header'
+            ),
+            array(
+                'type' => 'table'
+            )
+        );
+        
+        $this->report->setLayout($reportLayout);
+        $filters = array();
+        
+        // Evaluate filters
+        foreach($_POST as $key => $value)
+        {
+            $matched = preg_match("/(filter_)(?<index>\d)(_)(?<type>column|operator|operand)/", $key, $matches);
+            if($matched)
+            {
+                $filters[$matches['index']][$matches['type']] = $value;
+            }
+        }
+        
+        if(count($filters) > 0)
+        {
+            $this->report->setFilters($filters);
+        }
+        
+        echo $this->report->render(
+            $_POST['format'] == '' ? 'pdf' : $_POST['format'], 
+            $this->reportParams
+        );
     }
 }

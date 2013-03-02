@@ -1,5 +1,63 @@
 (function(){
 wyf = {
+	reports : {
+		filterSerial : 0,
+		addFilter : function()
+		{
+			this.filterSerial++;
+			$('#wyf-report-filters').append(
+				Mustache.render($('#wyf-report-filter-template').html(), 
+				{id : this.filterSerial})
+			);
+		},
+		
+		filterUpdated : function(filter)
+		{			
+			var operatorSelector = document.createElement("select");
+			var options = [];
+			switch(reportColumnDataTypes[filter.value])
+			{
+			case "text":
+				options = [
+	                {text:"Contains", value:"CONTAINS"},
+	                {text:"Does not Contain", value:"CONTAINS_NOT"},
+	                {text:"Matches", value:"MATCHES"},
+	                {text:"Does not match", value:"MATCHES_NOT"},
+                    {text:"Empty", value : "EMPTY"}
+	            ];
+                var textOperand = document.createElement("input");
+                $(textOperand).attr('name', filter.id + "_operand");
+                $('#' + filter.id + '_operands').html(textOperand);
+                
+				break;
+                
+            case "float":
+				options = [
+	                {text:"Equals", value:"EQUAL"},
+	                {text:"Not Equals", value:"NOT_EQUAL"},
+	                {text:"Greater Than", value:"GREATER"},
+	                {text:"Equal and Greater Than", value:"EQUAL_AND_GREATER"},
+	                {text:"Less Than", value:"LESS"},
+	                {text:"Equal and Less Than", value:"EQUAL_AND_LESS"},
+                    {text:"Empty", value : "EMPTY"}
+	            ];                
+                var numberOperand = document.createElement("input");
+                $(numberOperand).attr('name', filter.id + "_operand");
+                $('#' + filter.id + '_operands').html(numberOperand);
+                break;
+			}
+            
+			for(var i = 0; i < options.length; i++)
+			{
+				var option = document.createElement('option');
+				option.text = options[i].text;
+				option.value = options[i].value;
+				operatorSelector.add(option);
+			}
+            $(operatorSelector).attr('name', filter.id + "_operator");
+			$('#' + filter.id + '_operators').html(operatorSelector);
+		}
+	},
     listView : {
         api : undefined,
         itemsPerPage : 10,
