@@ -65,6 +65,7 @@ class ReportControllerComponent extends Component
         );
         
         $this->report->setLayout($reportLayout);
+        $rawFilters = array();
         $filters = array();
         
         // Evaluate filters
@@ -73,12 +74,20 @@ class ReportControllerComponent extends Component
             $matched = preg_match("/(filter_)(?<index>\d)(_)(?<type>column|operator|operand)/", $key, $matches);
             if($matched)
             {
-                $filters[$matches['index']][$matches['type']] = $value;
+                $rawFilters[$matches['index']][$matches['type']] = $value;
             }
         }
         
-        if(count($filters) > 0)
+        
+        if(count($rawFilters) > 0)
         {
+            foreach($rawFilters as $index => $filter)
+            {
+                $filters[$filter['column']][] = array(
+                    'operator' => $rawFilters[$index]['operator'],
+                    'operand' => $rawFilters[$index]['operand']
+                );
+            }
             $this->report->setFilters($filters);
         }
         

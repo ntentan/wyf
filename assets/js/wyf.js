@@ -21,9 +21,9 @@ wyf = {
 				options = [
 	                {text:"Contains", value:"CONTAINS"},
 	                {text:"Does not Contain", value:"CONTAINS_NOT"},
-	                {text:"Matches", value:"MATCHES"},
-	                {text:"Does not match", value:"MATCHES_NOT"},
-                    {text:"Empty", value : "EMPTY"}
+	                {text:"Is", value:"IS"},
+	                {text:"Is not", value:"IS_NOT"},
+                    {text:"Is Empty", value : "IS_EMPTY"}
 	            ];
                 var textOperand = document.createElement("input");
                 $(textOperand).attr('name', filter.id + "_operand");
@@ -32,14 +32,15 @@ wyf = {
 				break;
                 
             case "float":
+            case "integer":
 				options = [
-	                {text:"Equals", value:"EQUAL"},
-	                {text:"Not Equals", value:"NOT_EQUAL"},
-	                {text:"Greater Than", value:"GREATER"},
-	                {text:"Equal and Greater Than", value:"EQUAL_AND_GREATER"},
-	                {text:"Less Than", value:"LESS"},
-	                {text:"Equal and Less Than", value:"EQUAL_AND_LESS"},
-                    {text:"Empty", value : "EMPTY"}
+	                {text:"Equals", value:"IS_EQUAL"},
+	                {text:"Not Equals", value:"IS_NOT_EQUAL"},
+	                {text:"Greater Than", value:"IS_GREATER"},
+	                {text:"Equal and Greater Than", value:"IS_EQUAL_AND_GREATER"},
+	                {text:"Less Than", value:"IS_LESS"},
+	                {text:"Equal and Less Than", value:"IS_EQUAL_AND_LESS"},
+                    {text:"Empty", value : "IS_EMPTY"}
 	            ];                
                 var numberOperand = document.createElement("input");
                 $(numberOperand).attr('name', filter.id + "_operand");
