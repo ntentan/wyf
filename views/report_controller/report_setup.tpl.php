@@ -23,7 +23,7 @@ reportColumnDataTypes["<?= $title ?>"] = "<?= $filter['type'] ?>";
 <?php endforeach;?>
 </script>
 <script type="text/html" id="wyf-report-filter-template">
-    <div>
+    <div id="filter_{{id}}_wrapper">
     <?php 
     $options = $helpers->form->get_selection_list('', 'filter_{{id}}_column')->id('filter_{{id}}');
     $options->attribute('onchange', "wyf.reports.filterUpdated(this)");
@@ -35,5 +35,6 @@ reportColumnDataTypes["<?= $title ?>"] = "<?= $filter['type'] ?>";
     ?>   
     <span id="filter_{{id}}_operators"></span>
     <span id="filter_{{id}}_operands"></span>
+    <span onclick="wyf.reports.removeFilter({{id}})">Close</span>
     </div> 
 </script>

@@ -2,6 +2,7 @@
 wyf = {
 	reports : {
 		filterSerial : 0,
+        
 		addFilter : function()
 		{
 			this.filterSerial++;
@@ -10,6 +11,11 @@ wyf = {
 				{id : this.filterSerial})
 			);
 		},
+        
+        removeFilter : function(id)
+        {
+            $("#filter_" + id + "_wrapper").remove();
+        },
 		
 		filterUpdated : function(filter)
 		{			
