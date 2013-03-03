@@ -36,6 +36,24 @@ wyf = {
                 $('#' + filter.id + '_operands').html(textOperand);
                 
 				break;
+			
+			case "date":
+				options = [
+	                {text:"On", value:"IS_ON"},
+	                {text:"Not On", value:"IS_NOT_ON"},
+	                {text:"After", value:"IS_AFTER"},
+	                {text:"On and After", value:"IS_ON_AND_AFTER"},
+	                {text:"Before", value:"IS_BEFORE"},
+	                {text:"Before and On", value:"IS_BEFORE_AND_ON"},
+                    {text:"Empty", value : "IS_EMPTY"}
+	            ];                
+                var dateOperand = document.createElement("input");
+                $(dateOperand).attr('name', filter.id + "_operand");
+                $(dateOperand).kalendae({
+                	format : "YYYY-MM-DD"
+                });
+                $('#' + filter.id + '_operands').html(dateOperand);
+                break;				
                 
             case "float":
             case "integer":
