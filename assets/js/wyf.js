@@ -14,7 +14,7 @@ wyf = {
         
         removeFilter : function(id)
         {
-            $("#filter_" + id + "_wrapper").remove();
+            $(id).remove();
         },
 		
 		filterUpdated : function(filter)
@@ -148,8 +148,12 @@ wyf = {
 
 function adjustUI()
 {
+    // Adjust menus
     $('#header').css({width:'100%'});
     $('#side_menu').css({height:($(window).height() - 50) + 'px'});
+    
+    // Adjust reporting options
+    
 }
 
 $(function(){

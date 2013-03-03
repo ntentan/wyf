@@ -11,8 +11,10 @@ $helpers->form->getRendererInstance()->noWrap = true;
         </div>
         <a href="#" onclick="wyf.reports.addFilter()">Add</a>
     </div>
+    
     <div id="wyf-report-output">
-        <?= $helpers->form->get_selection_list('Output', 'output')->option('Portable Document Format', 'pdf') ?>
+        <h3>Output</h3>
+        <?= $helpers->form->get_selection_list('Format', 'output')->option('Portable Document Format', 'pdf') ?>
     </div>
 </div>
 <?= $helpers->form->close("Generate") ?>
@@ -35,6 +37,6 @@ reportColumnDataTypes["<?= $title ?>"] = "<?= $filter['type'] ?>";
     ?>   
     <span id="filter_{{id}}_operators"></span>
     <span id="filter_{{id}}_operands"></span>
-    <span onclick="wyf.reports.removeFilter({{id}})">Close</span>
+    <span onclick="wyf.reports.removeFilter('#filter_{{id}}_wrapper')">Close</span>
     </div> 
 </script>
