@@ -34,7 +34,10 @@ wyf = {
                     {text:"Is Empty", value : "IS_EMPTY"}
 	            ];
 				
-                operand = document.createElement("input");                
+                operand = document.createElement("input");     
+                $(operand).attr('type', 'text');
+                $(operand).css('width', 'auto');
+                $(operand).css('padding', '4px');
 				break;
 			
 			case "date":
@@ -51,6 +54,9 @@ wyf = {
 				if(filterMetaData[filter.value].values === undefined)
 				{
 	                operand = document.createElement("input");
+	                $(operand).css('width', 'auto');
+	                $(operand).css('padding', '4px');
+	                $(operand).attr('type', 'text');
 	                $(operand).kalendae({
 	                	format : "YYYY-MM-DD"
 	                });
@@ -69,6 +75,9 @@ wyf = {
                     {text:"Empty", value : "IS_EMPTY"}
 	            ];                
                 operand = document.createElement("input");
+                $(operand).css('width', 'auto');
+                $(operand).css('padding', '4px');
+                $(operand).attr('type', 'text');
                 break;
 			}
 			

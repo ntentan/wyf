@@ -1,8 +1,8 @@
-<?php $errors = $element->errors();?><div class="form_element_wrapper">
+<?php $errors = $element->errors();?><div class="form-element-wrapper">
     <label><?= $element->label() ?></label>
     <?= $element ?>
     <?php if(count($errors)): ?>
-    <div class="form_error">
+    <div class="form-error">
     <ul>
         <?php foreach($errors as $error): ?>
         <li><?= $error ?></li>

@@ -257,4 +257,8 @@ a#dashboard-icon{
 
 /************************ REPORTING PAGE *****************************/
 
-
+.filter-wrapper{
+	border-bottom:1px solid #f0f0f0;
+	padding-bottom:5px;
+	padding-top:5px;
+}

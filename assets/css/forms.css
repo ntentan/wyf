@@ -1,21 +1,21 @@
-#form_wrapper{
+#form-wrapper{
     width:50%;
 }
 
-.form_element_wrapper
+.form-element-wrapper
 {
     padding-bottom:10px;
     padding-top:10px;
 }
 
-.form_element_wrapper label
+.form-element-wrapper label
 {
     font-weight: bold;
     color:#808080;
     display: block;
 }
 
-.form_element_wrapper input[type=text]
+.form-element-wrapper input[type=text]
 {
     width:98%;
     padding:1%;
@@ -23,23 +23,23 @@
     box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.07);
 }
 
-.form_element_wrapper select
+.form-element-wrapper select
 {
     padding:3px;
 }
 
-.form_element_wrapper input[type=text].form_error{
+.form-element-wrapper input[type=text].form-error{
     border:1px solid #feaca5;
 }
 
-.form_element_wrapper textarea{
+.form-element-wrapper textarea{
     border:1px solid #f0f0f0;
     width:98%;
     padding:1%;
     height:80px;
 }
 
-div.form_error{
+div.form-error{
     background-color:#feefee;    
     margin-top:5px;
     padding:7px;
@@ -47,29 +47,29 @@ div.form_error{
     color:#e33a2b;
 }
 
-div.form_error ul{
+div.form-error ul{
     margin:0px;
     list-style:none;
     padding:0px;
 }
 
-.form_submit_area{
+.form-submit-area{
     border-top:2px solid #dcdcdc;
     padding:10px;
     text-align: right;
 }
 
-.form_submit_area input[type=submit]{
+.form-submit-area input[type=submit]{
     padding:10px;
     font-weight: bold;
 }
 
-.form_element_wrapper fieldset{
+.form-element-wrapper fieldset{
     border:1px solid #dcdcdc;
     margin:0px;
 }
 
-.form_element_wrapper fieldset legend{
+.form-element-wrapper fieldset legend{
     font-weight: bold;
     font-size: 1.2em;
     padding-left: 10px;
@@ -77,34 +77,34 @@ div.form_error ul{
     color:#404040;
 }
 
-.form_element_wrapper table{
+.form-element-wrapper table{
     border-collapse:collapse
 }
 
-.form_element_wrapper table tr td{
+.form-element-wrapper table tr td{
     padding-left: 5px;
     padding-right: 5px;
     vertical-align: top;
 }
 
-.form_element_wrapper table tr:first-child{
+.form-element-wrapper table tr:first-child{
     padding-right: 5px;
     padding-left: 0px;
 }
 
-.form_element_wrapper table tr:last-child{
+.form-element-wrapper table tr:last-child{
     padding-left: 5px;
     padding-right: 0px;
 }
 
-.form_radio_group{
+.form-radio-group{
     padding-top:10px;
 }
 
-.form_radio_group_option{
+.form-radio-group-option{
     
 }
 
-.form_radio_group_option label{
+.form-radio-group-option label{
     font-weight: normal;
 }

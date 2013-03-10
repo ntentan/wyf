@@ -6,7 +6,7 @@ $helpers->form->getRendererInstance()->noWrap = true;
 <div id="wyf-report-wrapper">
     <div id="wyr-report-options">
         <h3>Filters</h3>
-        <div id="wyf-report-filters">
+        <div id="wyf-report-filters" class="form-element-wrapper">
         
         </div>
         <a href="#" onclick="wyf.reports.addFilter()">Add</a>
@@ -33,7 +33,7 @@ var filterMetaData = {};
 
 </script>
 <script type="text/html" id="wyf-report-filter-template">
-    <div id="filter_{{id}}_wrapper">
+    <div id="filter_{{id}}_wrapper" class="filter-wrapper">
     <?php 
     $options = $helpers->form->get_selection_list('', 'filter_{{id}}_column')->id('filter_{{id}}');
     $options->attribute('onchange', "wyf.reports.filterUpdated(this)");
