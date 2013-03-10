@@ -21,7 +21,9 @@ wyf = {
 		{			
 			var operatorSelector = document.createElement("select");
 			var options = [];
-			switch(reportColumnDataTypes[filter.value])
+            var operand;
+            
+			switch(filterMetaData[filter.value].type)
 			{
 			case "text":
 				options = [
@@ -31,10 +33,8 @@ wyf = {
 	                {text:"Is not", value:"IS_NOT"},
                     {text:"Is Empty", value : "IS_EMPTY"}
 	            ];
-                var textOperand = document.createElement("input");
-                $(textOperand).attr('name', filter.id + "_operand");
-                $('#' + filter.id + '_operands').html(textOperand);
-                
+				
+                operand = document.createElement("input");                
 				break;
 			
 			case "date":
@@ -46,13 +46,15 @@ wyf = {
 	                {text:"Before", value:"IS_BEFORE"},
 	                {text:"Before and On", value:"IS_BEFORE_AND_ON"},
                     {text:"Empty", value : "IS_EMPTY"}
-	            ];                
-                var dateOperand = document.createElement("input");
-                $(dateOperand).attr('name', filter.id + "_operand");
-                $(dateOperand).kalendae({
-                	format : "YYYY-MM-DD"
-                });
-                $('#' + filter.id + '_operands').html(dateOperand);
+	            ];
+				
+				if(filterMetaData[filter.value].values === undefined)
+				{
+	                operand = document.createElement("input");
+	                $(operand).kalendae({
+	                	format : "YYYY-MM-DD"
+	                });
+				}
                 break;				
                 
             case "float":
@@ -66,11 +68,23 @@ wyf = {
 	                {text:"Equal and Less Than", value:"IS_EQUAL_AND_LESS"},
                     {text:"Empty", value : "IS_EMPTY"}
 	            ];                
-                var numberOperand = document.createElement("input");
-                $(numberOperand).attr('name', filter.id + "_operand");
-                $('#' + filter.id + '_operands').html(numberOperand);
+                operand = document.createElement("input");
                 break;
 			}
+			
+			if(filterMetaData[filter.value].values !== undefined)
+			{
+				var operand = document.createElement('select');
+				for(var key in filterMetaData[filter.value].values)
+				{
+					var valueOption = document.createElement('option'); 
+					valueOption.text = filterMetaData[filter.value].values[key];
+					valueOption.value = key;
+					operand.add(valueOption);				
+				}				
+			}
+            $(operand).attr('name', filter.id + "_operand");
+            $('#' + filter.id + '_operands').html(operand);
             
 			for(var i = 0; i < options.length; i++)
 			{

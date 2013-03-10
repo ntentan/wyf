@@ -97,3 +97,4 @@ class ReportControllerComponent extends Component
         );
     }
 }
+

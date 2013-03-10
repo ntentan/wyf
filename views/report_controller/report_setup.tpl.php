@@ -19,10 +19,18 @@ $helpers->form->getRendererInstance()->noWrap = true;
 </div>
 <?= $helpers->form->close("Generate") ?>
 <script type="text/javascript">
-var reportColumnDataTypes = {};
+var filterMetaData = {};
+
 <?php foreach($report_filters as $title => $filter):?>
-reportColumnDataTypes["<?= $title ?>"] = "<?= $filter['type'] ?>";
+    <?php if($filter['backend']) continue; ?>
+    filterMetaData["<?= $title ?>"] = {
+    	    type : "<?= isset($filter['value']) ? $filter['value']['type'] : $filter['type'] ?>"
+    	<?php if(isset($filter['filter_values'])): ?>,
+        values : <?= json_encode($filter['filter_values']) ?>
+        <?php endif; ?>
+        };
 <?php endforeach;?>
+
 </script>
 <script type="text/html" id="wyf-report-filter-template">
     <div id="filter_{{id}}_wrapper">
@@ -31,6 +39,7 @@ reportColumnDataTypes["<?= $title ?>"] = "<?= $filter['type'] ?>";
     $options->attribute('onchange', "wyf.reports.filterUpdated(this)");
     foreach($report_filters as $title => $filter)
     {
+        if($filter['backend']) continue;
         $options->option($title, '');
     }
     echo $options;
