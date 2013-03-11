@@ -10,8 +10,8 @@ h1, h2, h3{
     padding:0px;
 }
 
-h3{
-    margin-top:15px;
+h2{
+    margin-bottom:15px;
 }
 
 #header{
@@ -261,4 +261,11 @@ a#dashboard-icon{
 	border-bottom:1px solid #f0f0f0;
 	padding-bottom:5px;
 	padding-top:5px;
+}
+
+#wyf-report-output{
+	padding:10px;
+	background-color:#f0f0f0;
+	margin-left:10px;
+	margin-bottom:10px;
 }

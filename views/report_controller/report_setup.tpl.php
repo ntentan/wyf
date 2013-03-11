@@ -4,18 +4,24 @@ $helpers->form->getRendererInstance()->noWrap = true;
 ?>
 <?= $helpers->form->open()->action($action_route)->attribute("target", "_blank") ?>
 <div id="wyf-report-wrapper">
-    <div id="wyr-report-options">
-        <h3>Filters</h3>
-        <div id="wyf-report-filters" class="form-element-wrapper">
-        
+<div class="row">
+    <div class="column grid_20_15">
+        <div id="wyr-report-options">
+            <h3>Filters</h3>
+            <div id="wyf-report-filters" class="form-element-wrapper">
+            
+            </div>
+            <a href="#" onclick="wyf.reports.addFilter()">Add a filter</a>
         </div>
-        <a href="#" onclick="wyf.reports.addFilter()">Add</a>
     </div>
     
-    <div id="wyf-report-output">
-        <h3>Output</h3>
-        <?= $helpers->form->get_selection_list('Format', 'output')->option('Portable Document Format', 'pdf') ?>
+    <div class="column grid_20_5">
+        <div id="wyf-report-output" class="form-element-wrapper">
+            <h3>Output</h3>
+            <?= $helpers->form->get_selection_list('Format', 'output')->option('Portable Document Format', 'pdf') ?>
+        </div>
     </div>
+</div>    
 </div>
 <?= $helpers->form->close("Generate") ?>
 <script type="text/javascript">
@@ -46,6 +52,6 @@ var filterMetaData = {};
     ?>   
     <span id="filter_{{id}}_operators"></span>
     <span id="filter_{{id}}_operands"></span>
-    <span onclick="wyf.reports.removeFilter('#filter_{{id}}_wrapper')">Close</span>
+    <span onclick="wyf.reports.removeFilter('#filter_{{id}}_wrapper')" title="Remove Filter"><img src="<?= u(p('wyf/assets/images/minus.png')) ?>" /></span>
     </div> 
 </script>

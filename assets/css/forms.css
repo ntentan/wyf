@@ -57,6 +57,7 @@ div.form-error ul{
     border-top:2px solid #dcdcdc;
     padding:10px;
     text-align: right;
+    padding-right:0px;
 }
 
 .form-submit-area input[type=submit]{
