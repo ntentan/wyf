@@ -11,7 +11,7 @@ $helpers->form->getRendererInstance()->noWrap = true;
             <div id="wyf-report-filters" class="form-element-wrapper">
             
             </div>
-            <a href="#" onclick="wyf.reports.addFilter()">Add a filter</a>
+            <img class="icon-image" src="<?= u(p('wyf/assets/images/plus.png')) ?>" /> <a href="#" onclick="wyf.reports.addFilter()">Add a filter</a>
         </div>
     </div>
     
@@ -52,6 +52,6 @@ var filterMetaData = {};
     ?>   
     <span id="filter_{{id}}_operators"></span>
     <span id="filter_{{id}}_operands"></span>
-    <span onclick="wyf.reports.removeFilter('#filter_{{id}}_wrapper')" title="Remove Filter"><img src="<?= u(p('wyf/assets/images/minus.png')) ?>" /></span>
+    <span onclick="wyf.reports.removeFilter('#filter_{{id}}_wrapper')" title="Remove Filter"><img class="icon-image"  src="<?= u(p('wyf/assets/images/minus.png')) ?>" /></span>
     </div> 
 </script>

@@ -5,6 +5,11 @@ body{
     background-image: url("../images/maingb.gif");
 }
 
+.icon-image{
+	cursor:pointer;
+	vertical-align:middle;
+}
+
 h1, h2, h3{
     margin:0px;
     padding:0px;
