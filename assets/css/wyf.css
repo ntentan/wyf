@@ -274,3 +274,7 @@ a#dashboard-icon{
 	margin-left:10px;
 	margin-bottom:10px;
 }
+
+.wyf-report-output-options{
+	display: none;
+}

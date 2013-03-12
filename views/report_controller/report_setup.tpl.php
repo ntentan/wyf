@@ -18,7 +18,11 @@ $helpers->form->getRendererInstance()->noWrap = true;
     <div class="column grid_20_5">
         <div id="wyf-report-output" class="form-element-wrapper">
             <h3>Output</h3>
-            <?= $helpers->form->get_selection_list('Format', 'output')->option('Portable Document Format', 'pdf') ?>
+            <?= $helpers->form->get_selection_list('Format', 'output')->option('Portable Document Format', 'pdf')->attribute('onchange', 'wyf.reports.updateOutputOptions(this)') ?>
+            <div id="pdf-report-options" class="wyf-report-output-options">
+                <?= $helpers->form->get_selection_list('Paper Size', 'size')->option('A4', 'A4')->option('A3', 'A3')->option('A2', 'A2') ?>
+                <?= $helpers->form->get_selection_list('Orientation', 'orientation')->option('Landscape', 'landscape')->option('Portrait') ?>
+            </div>
         </div>
     </div>
 </div>    

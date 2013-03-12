@@ -11,6 +11,13 @@ wyf = {
 				{id : this.filterSerial})
 			);
 		},
+		
+		updateOutputOptions : function(field)
+		{
+			$(".wyf-report-output-options").hide();
+			$("#" + field.value + "-report-options").show();
+			
+		},
         
         removeFilter : function(id)
         {

@@ -75,6 +75,7 @@ class ReportControllerComponent extends Component
             if($matched)
             {
                 $rawFilters[$matches['index']][$matches['type']] = $value;
+                unset($_POST[$key]);
             }
         }
         
@@ -91,9 +92,12 @@ class ReportControllerComponent extends Component
             $this->report->setFilters($filters);
         }
         
+        $format = $_POST['output'];
+        unset($_POST['output']);
+        
         echo $this->report->render(
-            $_POST['format'] == '' ? 'pdf' : $_POST['format'], 
-            $this->reportParams
+            $format == '' ? 'pdf' : $format, 
+            array_merge($_POST, $this->reportParams)
         );
     }
 }

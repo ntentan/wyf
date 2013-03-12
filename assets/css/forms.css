@@ -15,6 +15,11 @@
     display: block;
 }
 
+label.form-label
+{
+	margin-top:10px;
+}
+
 .form-element-wrapper input[type=text]
 {
     width:98%;
@@ -109,3 +114,4 @@ div.form-error ul{
 .form-radio-group-option label{
     font-weight: normal;
 }
+
