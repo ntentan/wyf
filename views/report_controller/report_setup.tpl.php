@@ -36,7 +36,7 @@ var filterMetaData = {};
 
 <?php foreach($report_filters as $title => $filter):?>
     <?php if($filter['backend']) continue; ?>
-    filterMetaData["<?= $title ?>"] = {
+    filterMetaData["<?= str_replace("\n", '\n', $title) ?>"] = {
     	    type : "<?= isset($filter['value']) ? $filter['value']['type'] : $filter['type'] ?>"
     	<?php if(isset($filter['filter_values'])): ?>,
         values : <?= json_encode($filter['filter_values']) ?>
@@ -44,7 +44,14 @@ var filterMetaData = {};
         };
 <?php endforeach;?>
 
+$(function(){
+<?php foreach($default_filters as $column => $options):?>
+    wyf.reports.addFilter(<?= json_encode(array("column"=>$column, "operator" => $options['operator'], "operand" => $options['operand'])) ?>);
+<?php endforeach;?>
+});
+
 </script>
+
 <script type="text/html" id="wyf-report-filter-template">
     <div id="filter_{{id}}_wrapper" class="filter-wrapper">
     <?php 

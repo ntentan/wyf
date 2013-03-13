@@ -17,6 +17,7 @@ class ReportControllerComponent extends Component
 {
     private $report;
     private $reportParams;
+    private $defaultFilters;
     
     public function __construct($params) 
     {
@@ -41,6 +42,7 @@ class ReportControllerComponent extends Component
             );
         }
         $this->reportParams = $params['parameters'];
+        $this->defaultFilters = $params['report']['default_filters'];
     }
     
     public function init()
@@ -53,6 +55,7 @@ class ReportControllerComponent extends Component
         $this->set('report_title', $this->report->getTitle());
         $this->set('action_route', Ntentan::getUrl("{$this->route}/generate"));
         $this->set('report_filters', $this->report->getDataSource('ntentan_data')->getMetaData());
+        $this->set('default_filters', $this->defaultFilters);
         $this->view->template = 'report_setup.tpl.php';
     }
     

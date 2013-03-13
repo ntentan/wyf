@@ -3,13 +3,30 @@ wyf = {
 	reports : {
 		filterSerial : 0,
         
-		addFilter : function()
+		addFilter : function(filterParameters)
 		{
 			this.filterSerial++;
-			$('#wyf-report-filters').append(
-				Mustache.render($('#wyf-report-filter-template').html(), 
-				{id : this.filterSerial})
-			);
+			if(filterParameters === undefined)
+			{
+				$('#wyf-report-filters').append(
+					Mustache.render($('#wyf-report-filter-template').html(), 
+					{id : this.filterSerial})
+				);	
+			}
+			else
+			{
+				$('#wyf-report-filters').append(
+					Mustache.render(
+						$('#wyf-report-filter-template').html(), 
+						{id : this.filterSerial}
+					)
+				);	
+				$('#filter_' + this.filterSerial).val(filterParameters.column);
+				this.filterUpdated(
+					document.getElementById('filter_' + this.filterSerial), 
+					filterParameters
+				);
+			}
 		},
 		
 		updateOutputOptions : function(field)
@@ -24,7 +41,7 @@ wyf = {
             $(id).remove();
         },
 		
-		filterUpdated : function(filter)
+		filterUpdated : function(filter, parameters)
 		{			
 			var operatorSelector = document.createElement("select");
 			var options = [];
@@ -110,6 +127,13 @@ wyf = {
 				operatorSelector.add(option);
 			}
             $(operatorSelector).attr('name', filter.id + "_operator");
+            
+            if(parameters !== undefined)
+        	{
+            	operatorSelector.value = parameters.operator;
+            	operand.value = parameters.operand;
+        	}
+            
 			$('#' + filter.id + '_operators').html(operatorSelector);
 		}
 	},
