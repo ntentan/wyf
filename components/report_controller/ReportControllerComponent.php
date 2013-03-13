@@ -7,6 +7,12 @@ use ntentan\controllers\components\Component;
 use ntentan\views\template_engines\TemplateEngine;
 use ntentan\Ntentan;
 
+/**
+ * 
+ * 
+ * @author ekow
+ * 
+ */
 class ReportControllerComponent extends Component
 {
     private $report;

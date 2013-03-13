@@ -118,6 +118,9 @@ ul#sub_menu_list > li.selected > a{
     background-position: 8px 50%;
     border:1px solid #c0c0c0;
     border-radius: 2px;
+    margin-left:3px;
+    margin-bottom:3px;
+    cursor:pointer;
 }
 
 .wyf_button:hover{
@@ -270,7 +273,7 @@ a#dashboard-icon{
 
 #wyf-report-output{
 	padding:10px;
-	background-color:#f0f0f0;
+	background-color:#fcfcfc;
 	margin-left:10px;
 	margin-bottom:10px;
 }

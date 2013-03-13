@@ -11,7 +11,10 @@ $helpers->form->getRendererInstance()->noWrap = true;
             <div id="wyf-report-filters" class="form-element-wrapper">
             
             </div>
-            <img class="icon-image" src="<?= u(p('wyf/assets/images/plus.png')) ?>" /> <a href="#" onclick="wyf.reports.addFilter()">Add a filter</a>
+            <div class='wyf_button' onclick="wyf.reports.addFilter()">
+                <img class="icon-image" src="<?= u(p('wyf/assets/images/plus.png')) ?>" /> <span>Add a filter</span>
+            </div>
+            <br/>&nbsp;
         </div>
     </div>
     
