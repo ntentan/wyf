@@ -27,6 +27,13 @@
             <?=$foreign_key?> : "<?= $foreign_key_value ?>"
         })
         <?php endif; ?>
+        <?php 
+        $fields = array();
+        foreach($list_fields as $list_field){
+            $fields[] = $list_field['name'];
+        }
+        ?>
+        wyf.listView.setFields(<?= json_encode($fields) ?>);
         wyf.listView.init();
     })
 </script>
@@ -43,7 +50,7 @@
             
             // Columns
             foreach($list_fields as $field){
-                echo "<td>{{{$field['name']}}}</td>";
+                echo sprintf("<td>{{%s}}</td>", str_replace(".", "_", $field['name']));
             }?><td class="wyf_list_table_operations"><?php 
             
             //Operations

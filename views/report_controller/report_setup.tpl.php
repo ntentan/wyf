@@ -23,7 +23,7 @@ $helpers->form->getRendererInstance()->noWrap = true;
             <h3>Output</h3>
             <?= $helpers->form->get_selection_list('Format', 'output')->option('Portable Document Format', 'pdf')->attribute('onchange', 'wyf.reports.updateOutputOptions(this)') ?>
             <div id="pdf-report-options" class="wyf-report-output-options">
-                <?= $helpers->form->get_selection_list('Paper Size', 'size')->option('A4', 'A4')->option('A3', 'A3')->option('A2', 'A2') ?>
+                <?= $helpers->form->get_selection_list('Paper Size', 'paper_size')->option('A4', 'A4')->option('A3', 'A3')->option('A2', 'A2') ?>
                 <?= $helpers->form->get_selection_list('Orientation', 'orientation')->option('Landscape', 'landscape')->option('Portrait') ?>
             </div>
         </div>
@@ -44,11 +44,13 @@ var filterMetaData = {};
         };
 <?php endforeach;?>
 
+<?php if(is_array($default_filters)): ?>
 $(function(){
 <?php foreach($default_filters as $column => $options):?>
     wyf.reports.addFilter(<?= json_encode(array("column"=>$column, "operator" => $options['operator'], "operand" => $options['operand'])) ?>);
 <?php endforeach;?>
 });
+<?php endif; ?>
 
 </script>
 

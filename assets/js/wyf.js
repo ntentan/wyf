@@ -144,10 +144,11 @@ wyf = {
         page: 1,
         count : 0,
         conditions : undefined,
+        fields : undefined,
         update : function(info)
         {
             $.getJSON(
-                this.api + 'ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : '') + this.getConditions(),
+                this.api + 'ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : '') + this.getConditions() + this.getFields(),
                 function (response)
                 {
                     $('#wyf_list_view').html(
@@ -187,14 +188,35 @@ wyf = {
             this.update(false);
             $('#wyf_list_view_page').html(this.page);
         },
+        setFields : function(fields)
+        {
+            this.fields = fields;
+        },   
+        getFields : function()
+        {
+            if(this.fields !== undefined)
+            {
+                return "&f=" + escape(JSON.stringify(this.fields));
+            }
+            else
+            {
+                return '';
+            }
+        },
         setConditions : function(conditions)
         {
             this.conditions = conditions;
         },
         getConditions : function()
         {
-            console.log(this.conditions);
-            return "&c=" + escape(JSON.stringify(this.conditions));
+            if(this.conditions !== undefined)
+            {
+                return "&c=" + escape(JSON.stringify(this.conditions));
+            }
+            else
+            {
+                return '';
+            }
         }
     },
     

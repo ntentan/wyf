@@ -71,6 +71,8 @@ class ModelControllerComponent extends Component
         $this->addOperation('Edit');
         $this->addOperation('Delete');
         $modelDescription = $this->model->describe();
+        $otherModelDescriptions = array();
+        
         
         if(count($this->listFields) == 0)
         {
@@ -80,13 +82,17 @@ class ModelControllerComponent extends Component
                 {
                     continue;
                 }
+                
                 if($field['primary_key'])
                 {
                     $this->keyField = $field['name'];
                     continue;
                 }
-                $field['label'] = Ntentan::toSentence($field['name']);
-                $this->listFields[] = $field;
+                
+                $this->listFields[] = array(
+                    'label' => Ntentan::toSentence($field['name']),
+                    'name' => $field['name']
+                );
             }
         }
         else 
@@ -97,14 +103,56 @@ class ModelControllerComponent extends Component
             {
                 if(!isset($modelDescription['fields'][$field]))
                 {
-                    throw  new \ntentan\models\exceptions\FieldNotFoundException("Model has no field $field");
-                }                
-                $modelDescription['fields'][$field]['label'] = Ntentan::toSentence(
-                    $modelDescription['fields'][$field]['name']
-                );
-                $this->listFields[] = $modelDescription['fields'][$field];
+                    $found = false;
+                    $belongsToModel = Model::extractModelName($field);
+                    foreach($this->model->belongsTo as $belongsTo)
+                    {
+                        if($belongsTo != $belongsToModel) continue;
+                        
+                        if(!isset($otherModelDescriptions[$belongsTo]))
+                        {
+                            $otherModelDescriptions[$belongsTo] = 
+                                Model::load(Model::getBelongsTo($belongsTo))->describe();
+                        }
+                        
+                        @$relatedField = end(explode('.', $field));
+                        if(array_key_exists($relatedField, $otherModelDescriptions[$belongsTo]['fields']))
+                        {
+                            $found = true;
+                            $otherModelDescriptions[$belongsTo]['fields'][$relatedField]['label'] = 
+                            Ntentan::singular(Ntentan::toSentence($otherModelDescriptions[$belongsTo]['name']))
+                                . ' ' .
+                            Ntentan::toSentence(
+                                $otherModelDescriptions[$belongsTo]['fields'][$relatedField]['name']
+                            );                                
+                            $this->listFields[] = array(
+                                'name' => $field,
+                                'label' => 
+                                    Ntentan::singular(Ntentan::toSentence($otherModelDescriptions[$belongsTo]['name']))
+                                        . ' ' .
+                                    Ntentan::toSentence($otherModelDescriptions[$belongsTo]['fields'][$relatedField]['name'])
+                            );
+                        }
+                    }
+                    
+                    if(!$found)
+                    {
+                        throw  new \ntentan\models\exceptions\FieldNotFoundException("Model has no field $field");
+                    }
+                }
+                else
+                {
+                    $this->listFields[] = array(
+                        'name' => $modelDescription['fields'][$field]['name'],
+                        'label' => Ntentan::toSentence(
+                            $modelDescription['fields'][$field]['name']
+                        )
+                    );
+                }
             }
         }
+        
+        
         
         $this->set('key_field', $this->keyField);
         $this->set('list_fields', $this->listFields);
@@ -118,6 +166,7 @@ class ModelControllerComponent extends Component
     
     public function api()
     {
+        ini_set('html_errors', 'off');
         $this->view->setContentType('application/json');
         $this->view->layout = false;
         $this->view->template = $this->getTemplateName('api.tpl.php');        
@@ -130,15 +179,34 @@ class ModelControllerComponent extends Component
             $response['count'] = $count;
         }
         
+        $fields = json_decode($_GET['f'], true);
+        $fields[] = 'id';
+        
         $data = $this->model->get(
             $_GET['ipp'],
             array(
                 'offset' => $_GET['ipp'] * ($_GET['pg'] - 1),
                 'conditions' => json_decode($_GET['c'], true),
-                'sort' => array('id DESC')
+                'fields' => $fields,
+                'sort' => array('id DESC'),
+                'fetch_belongs_to' => true
             )
         );
         $response['data'] = $data->toArray();
+        
+        foreach($response['data'] as $index => $row)
+        {
+            foreach($row as $field => $column)
+            {
+                if(is_array($column))
+                {
+                    foreach($column as $nestedField => $nestedValue)
+                    {
+                        $response['data'][$index][str_replace(".", "_", "$field.$nestedField")] = $nestedValue;
+                    }
+                }
+            }
+        }
         
         if(isset($_SESSION['notifications']))
         {
