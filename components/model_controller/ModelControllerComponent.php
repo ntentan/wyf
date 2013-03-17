@@ -18,6 +18,7 @@ class ModelControllerComponent extends Component
     private $linkedModels = array();
     private $linkedModelInstances = array();
     private $parent = false;
+    private $formVariables = array();
 
     public function init()
     {
@@ -60,6 +61,7 @@ class ModelControllerComponent extends Component
             'instance' => $modelInstance,
             'name' => $model
         );
+        $name = Ntentan::deCamelize($name);
         $this->addOperation(Ntentan::toSentence($name), $name);
     }
     
@@ -107,12 +109,13 @@ class ModelControllerComponent extends Component
                     $belongsToModel = Model::extractModelName($field);
                     foreach($this->model->belongsTo as $belongsTo)
                     {
-                        if($belongsTo != $belongsToModel) continue;
+                        $belongsTo = Model::getBelongsTo($belongsTo);
+                        if(Ntentan::singular($belongsTo) != $belongsToModel) continue;                        
                         
                         if(!isset($otherModelDescriptions[$belongsTo]))
                         {
                             $otherModelDescriptions[$belongsTo] = 
-                                Model::load(Model::getBelongsTo($belongsTo))->describe();
+                                Model::load($belongsTo)->describe();
                         }
                         
                         @$relatedField = end(explode('.', $field));
@@ -220,9 +223,9 @@ class ModelControllerComponent extends Component
     public function add()
     {
         $this->controller->setTitle("Add new {$this->entity}");
-        
         $this->view->template = $this->getTemplateName('add.tpl.php');
         $this->set('form_template', $this->getTemplateName('form.tpl.php'));
+        $this->set('form_variables', $this->formVariables);
         
         if(is_array($this->parent)) 
         {
@@ -406,5 +409,10 @@ class ModelControllerComponent extends Component
         $this->parent = $parent;
         $this->urlBase = "{$this->parent['url_base']}/{$this->model->getName()}/{$this->parent['id']}";
         $this->set('postfix', "of " . Ntentan::toSentence($singularModel) . " {$item}");
+    }
+    
+    public function setFormVariable($variable, $value)
+    {
+        $this->formVariables[$variable] = $value;
     }
 }

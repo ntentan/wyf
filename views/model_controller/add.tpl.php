@@ -10,10 +10,14 @@ if(count($form_errors) > 0)
     <?php
 }
 echo t($form_template, 
-    array(
-        'form' => $f, 
-        'model' => $model_description,
-        'params' => $params
+    array_merge(
+        array(
+            'form' => $f,
+            'f' => $f,
+            'model' => $model_description,
+            'params' => $params
+        ),
+        $form_variables
     )
 ) 
 ?>
