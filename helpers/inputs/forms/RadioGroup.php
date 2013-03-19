@@ -5,12 +5,13 @@ class RadioGroup extends Element
 {
     private $options = array();
     
-    public function option($label, $value, $description = null)
+    public function option($label, $value, $parameters = array())
     {
         $this->options[] = array(
             'label' => $label,
             'value' => $value,
-            'description' => $description
+            'description' => $parameters['description'],
+            'attributes' => $parameters['attributes']
         );
         return $this;
     }

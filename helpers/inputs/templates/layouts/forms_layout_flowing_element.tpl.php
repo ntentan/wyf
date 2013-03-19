@@ -1,5 +1,12 @@
-<?php $errors = $element->errors();?><div class="form-element-wrapper">
-    <label><?= $element->label() ?></label>
+<?php 
+$errors = $element->errors();
+$label = $element->label();
+if($element->getType() == 'Box')
+{
+    $hideWrapper = true;
+}
+?><?php if(!$hideWrapper): ?><div class="form-element-wrapper" id="form-element-<?= $element->name() ?>"><? endif; ?>
+    <?php if($label != ''): ?><label><?= $label ?></label><?php endif; ?>
     <?= $element ?>
     <?php if(count($errors)): ?>
     <div class="form-error">
@@ -11,4 +18,4 @@
     </ul>
     </div>
     <?php endif; ?>
-</div>
+<?php if(!$hideWrapper): ?></div><?php endif; ?>

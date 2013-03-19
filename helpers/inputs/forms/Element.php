@@ -128,6 +128,7 @@ class Element
     {
         foreach($this->attributes as $attribute => $value)
         {
+            if($value == '') continue;
             $return .= "$attribute = '$value' ";
         }
         return $return;
