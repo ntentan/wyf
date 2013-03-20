@@ -19,6 +19,9 @@ class ModelControllerComponent extends Component
     private $linkedModelInstances = array();
     private $parent = false;
     private $formVariables = array();
+    public $hasAddOperation = true;
+    public $hasEditOperation = true;
+    public $hasDeleteOperation = true;
 
     public function init()
     {
@@ -33,9 +36,29 @@ class ModelControllerComponent extends Component
         $this->urlBase = Ntentan::getUrl($this->route);
         $this->keyField = 'id';
 
-        $this->controller->addPermission("can_add_{$this->entities}", "Can add new $this->entities");
-        $this->controller->addPermission("can_edit_{$this->entities}", "Can edit existing $this->entities");
-        $this->controller->addPermission("can_delete_{$this->entities}", "Can delete existing $this->entities");
+        if($this->hasAddOperation)
+        {
+            $this->controller->addPermission(
+                "can_add_{$this->entities}", 
+                "Can add new $this->entities"
+            );
+        }
+        
+        if($this->hasEditOperation)
+        {
+            $this->controller->addPermission(
+                "can_edit_{$this->entities}", 
+                "Can edit existing $this->entities"
+            );
+        }
+        
+        if($this->hasDeleteOperation)
+        {
+            $this->controller->addPermission(
+                "can_delete_{$this->entities}", 
+                "Can delete existing $this->entities"
+            );
+        }
     }
     
     public function addOperation($label, $action = '')
@@ -70,8 +93,9 @@ class ModelControllerComponent extends Component
         $this->view->template = $this->getTemplateName('list_view.tpl.php');
         $this->controller->setTitle(ucfirst($this->entities));
         
-        $this->addOperation('Edit');
-        $this->addOperation('Delete');
+        if($this->hasEditOperation) $this->addOperation('Edit');
+        if($this->hasDeleteOperation) $this->addOperation('Delete');
+        
         $modelDescription = $this->model->describe();
         $otherModelDescriptions = array();
         
@@ -165,6 +189,10 @@ class ModelControllerComponent extends Component
         $this->set('operations', $this->operations);
         $this->set('foreign_key', $this->parent['foreign_key']);
         $this->set('foreign_key_value', $this->parent['id']);
+        
+        $this->set('has_add_operation', $this->hasAddOperation);
+        $this->set('has_edit_operation', $this->hasEditOperation);
+        $this->set('has_delete_operation', $this->hasDeleteOperation);
     }
     
     public function api()
