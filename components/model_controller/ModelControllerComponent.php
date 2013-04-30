@@ -39,7 +39,7 @@ class ModelControllerComponent extends Component
         if($this->hasAddOperation)
         {
             $this->controller->addPermission(
-                "can_add_{$this->entities}", 
+                "can_add_{$this->model->getName()}", 
                 "Can add new $this->entities"
             );
         }
@@ -47,7 +47,7 @@ class ModelControllerComponent extends Component
         if($this->hasEditOperation)
         {
             $this->controller->addPermission(
-                "can_edit_{$this->entities}", 
+                "can_edit_{$this->model->getName()}", 
                 "Can edit existing $this->entities"
             );
         }
@@ -55,7 +55,7 @@ class ModelControllerComponent extends Component
         if($this->hasDeleteOperation)
         {
             $this->controller->addPermission(
-                "can_delete_{$this->entities}", 
+                "can_delete_{$this->model->getName()}", 
                 "Can delete existing $this->entities"
             );
         }

@@ -8,7 +8,7 @@ use ntentan\views\template_engines\TemplateEngine;
 
 class WyfController extends Controller
 {
-    private $permissions;
+    private $permissions = array();
     public $weight;
     private $extraJavascripts;
     private $extraStylesheets;

@@ -22,6 +22,13 @@ class RolesControllerBase extends WyfController
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/system_module'));       
     }
     
+    /**
+     * 
+     * 
+     * @param ntentan\plugins\wyf\lib\modules\system\roles\RolesBase $role
+     * @param string $scanPath
+     * @return array
+     */
     private function getMenuTree($role, $scanPath = '')
     {
         $tree = array();

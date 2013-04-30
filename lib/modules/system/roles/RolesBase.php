@@ -11,7 +11,7 @@ class RolesBase extends Model
     }
     
     public function getPermission($permission)
-    {
+    {   
         $permission = Model::load('system.permissions')->getFirst(
             array(
                 'conditions' => array(
@@ -20,6 +20,7 @@ class RolesBase extends Model
                 )
             )
         );
+        
         if($permission->count() == 0)
         {
             return false;
@@ -30,3 +31,4 @@ class RolesBase extends Model
         }
     }
 }
+
