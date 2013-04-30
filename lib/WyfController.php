@@ -15,6 +15,13 @@ class WyfController extends Controller
     
     public function init()
     {
+        $bootstrapClass = "\\" . Ntentan::$namespace . "\\lib\\WyfBootstrap";
+        if(class_exists($bootstrapClass))
+        {
+            $bootstrapMethod = new \ReflectionMethod($bootstrapClass, "boot");
+            $bootstrapMethod->invoke(null, $this);
+        }
+        
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));               
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/menus'));               
         $this->addComponent('auth',
