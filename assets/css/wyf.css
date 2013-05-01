@@ -5,6 +5,10 @@ body{
     background-image: url("../images/mainbg.gif");
 }
 
+a{
+    text-decoration: none;
+}
+
 .icon-image{
 	cursor:pointer;
 	vertical-align:middle;
