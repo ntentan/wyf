@@ -18,6 +18,7 @@ class RadioGroup extends Element
     
     public function __toString() 
     {
+        unset($this->attributes['value']);
         $this->set('options', $this->options);
         return parent::__toString();
     }
