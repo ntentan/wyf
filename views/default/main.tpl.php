@@ -18,7 +18,6 @@
             ->add(p('wyf/assets/css/wyf.css'))
             ->add(p('wyf/assets/css/forms.css'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.css'))
-            ->add(p('wyf/assets/css/forms.css'))
             ->add(n('assets/css/grid.css'))
             ->add($extra_stylesheets)
         ?>
