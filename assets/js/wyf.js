@@ -163,12 +163,6 @@ wyf = {
                         wyf.listView.pages = Math.ceil(response.count / wyf.listView.itemsPerPage);
                         $('#wyf_list_view_size').html(wyf.listView.pages);
                     }
-                    
-                    if(response.notifications !== undefined)
-                    {
-                        wyf.notify(response.notifications);
-                    }
-                    
                 }
             );
         },
@@ -222,13 +216,18 @@ wyf = {
     
     notify : function(notification)
     {
-        $('#notification').css({display:'none'});
+        $('#notification').html(notification);
+        var originalTop = 50 - ($('#notification').height() + 40);
+        $('#notification').css({top :originalTop  + 'px'});
         setTimeout(
             function(){
-                $('#notification').html('<p>' + notification + '</p>').slideToggle(
-                    'slow',
-                    function (){
-                        setTimeout(function(){$('#notification').slideToggle()}, 5000);
+                $('#notification').show();
+                $('#notification').animate({top:'45px'}, 'slow',
+                    function(){
+                        setTimeout(function(){
+                            $('#notification').animate({top:originalTop + 'px'});
+                        },
+                        6000);
                     }
                 );
             },
@@ -246,11 +245,18 @@ function adjustUI()
     $('#header').css({width:'100%'});
     $('#side_menu').css({height:($(window).height() - 50) + 'px'});
     
-    // Adjust reporting options
-    
+    // Adjust notification
+    $('#notification').css({left:'240px', width:($(window).width() - 480) + 'px'});
 }
 
 $(function(){
     $(window).resize(adjustUI);
     adjustUI();
+    $.getJSON(
+        ntentan.url('system/notifications'),
+        function(response)
+        {
+            if(response !== false) wyf.notify(response);
+        }
+    );
 });

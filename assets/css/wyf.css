@@ -259,12 +259,17 @@ a#dashboard-icon{
     font-weight: bold;
 }
 
-#notification p{
+#notification{
     padding:15px;
-    font-size:small;
+    padding-top:20px;
     margin:0px;
-    background-color:#f6fff7;
-    color:#029f2d;
+    background-color: rgba(255, 250, 227, 0.9);
+    color:#ffa92e;
+    position:fixed;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+    display:none;
 }
 
 /************************ REPORTING PAGE *****************************/

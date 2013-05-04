@@ -239,12 +239,6 @@ class ModelControllerComponent extends Component
             }
         }
         
-        if(isset($_SESSION['notifications']))
-        {
-            $response['notifications'] = $_SESSION['notifications'];
-            unset($_SESSION['notifications']);
-        }
-        
         $this->set('response', $response);
     }
     
@@ -274,7 +268,7 @@ class ModelControllerComponent extends Component
             if($this->model->validate())
             {
                 $this->model->save();
-                WyfController::notify("Added a new {$this->entity} {$this->model}");
+                WyfController::notify("Added a new {$this->entity} <b>{$this->model}</b>");
                 Ntentan::redirect($this->urlBase);
             }
             else
@@ -337,7 +331,7 @@ class ModelControllerComponent extends Component
         
         if($_GET['confirm'] == 'yes')
         {
-            WyfController::notify("Deleted {$this->entity} {$item}");
+            WyfController::notify("Deleted {$this->entity} <b>{$item}</b>");
             $item->delete();
             Ntentan::redirect($this->urlBase);
         }
@@ -374,7 +368,7 @@ class ModelControllerComponent extends Component
             if($item->validate())
             {
                 $item->update();
-                WyfController::notify("Edited {$this->entity} {$item}");                
+                WyfController::notify("Edited {$this->entity} <b>{$item}</b>");
                 Ntentan::redirect($this->urlBase);
             }
             else
