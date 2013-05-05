@@ -259,6 +259,8 @@ a#dashboard-icon{
     font-weight: bold;
 }
 
+/************** notifications **********************/
+
 #notification{
     padding:15px;
     padding-top:20px;
@@ -290,3 +292,30 @@ a#dashboard-icon{
 .wyf-report-output-options{
 	display: none;
 }
+
+.import-error-table{
+    margin-top:10px;
+    margin-bottom:10px;
+    border-collapse: collapse;
+    width:50%;
+    min-width:500px;
+    font-size:small;
+}
+
+.import-error-table th, .import-error-table td{
+    padding:3px;
+    padding-left:8px;
+    padding-right:8px;
+}
+
+.import-error-table th{
+    background-color:#c0c0c0;
+    text-align: left;
+    color:#fff;
+}
+
+.import-error-table td{
+    border:1px dotted #c0c0c0;
+    background-color:#fff;
+}
+

@@ -256,7 +256,17 @@ $(function(){
         ntentan.url('system/notifications'),
         function(response)
         {
-            if(response !== false) wyf.notify(response);
+            if(response !== false) 
+            {
+                if(response.notification !== false) wyf.notify(response.notifications);
+                if(response.js !== false)
+                {
+                    var script = document.createElement("script");
+                    script.type = 'text/javascript';
+                    script.src = ntentan.url('system/notifications/js');
+                    document.getElementsByTagName("head")[0].appendChild(script);
+                }
+            }
         }
     );
 });

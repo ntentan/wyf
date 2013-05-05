@@ -148,4 +148,9 @@ class WyfController extends Controller
     {
         $_SESSION['notifications'] = $notification;
     }
+    
+    public static function runJs($js)
+    {
+        $_SESSION['js'] = $js;
+    }
 }
