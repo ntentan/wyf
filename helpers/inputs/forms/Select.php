@@ -3,7 +3,7 @@ namespace ntentan\plugins\wyf\helpers\inputs\forms;
 
 class Select extends Element
 {
-    private $options;
+    private $options = array();
     
     public function option($label, $value)
     {
