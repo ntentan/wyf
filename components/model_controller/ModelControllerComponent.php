@@ -22,6 +22,7 @@ class ModelControllerComponent extends Component
     public $hasAddOperation = true;
     public $hasEditOperation = true;
     public $hasDeleteOperation = true;
+    public $importer = array();
 
     public function init()
     {
@@ -300,30 +301,81 @@ class ModelControllerComponent extends Component
             {
                 $file = fopen($file, 'r');
                 $headers = fgetcsv($file);
+                foreach($headers as $i => $header)
+                {
+                    $headers[$i] = strtolower(str_replace(" ", "_", $header));
+                }
                 $line = 2;
+                $added = 0;
+                $updated = 0;
+                $this->model->dataStore->begin();
                 
                 while(!feof($file))
                 {
                     $data = fgetcsv($file);
-                    $newEntry = $this->model->getNew();
+                    $entryData = array();
+                    $hasData = false;
+                    $mode = 'save';
+                    
                     foreach($headers as $i => $header)
                     {
-                        $newEntry[$header] = $data[$i];
+                        $entryData[$header] = $data[$i];
+                        if($data[$i] != '') $hasData = true;
                     }
-                    
 
-                    if($newEntry->save() === false)
+                    if($hasData)
                     {
-                        $error = true;
-                        $errors[] = array(
-                            'line' => $line,
-                            'errors' => $newEntry->invalidFields
-                        );
-                        break;
+                        if(isset($this->importer['key']))
+                        {
+                            $entry = $this->model->getJustFirst(
+                                array(
+                                    'conditions' => array(
+                                        $this->importer['key'] => $entryData[$this->importer['key']]
+                                    )
+                                )
+                            );
+                            
+                            if($entry->count() > 0)
+                            {
+                                $mode = 'update';
+                            }
+                        }
+                        else 
+                        {
+                            $entry = $this->model->getNew();
+                        }
+                        
+                        $entry->setData($entryData);
+                        
+                        switch($mode)
+                        {
+                            case 'save':
+                                $response = $entry->save();
+                                $added++;
+                                break;
+                            
+                            case 'update':
+                                $response = $entry->update();
+                                $updated++;
+                                break;
+                        }
+                        
+                        print $mode;
+                        
+                        if($response === false)
+                        {
+                            $error = true;
+                            $errors[] = array(
+                                'line' => $line,
+                                'errors' => $entry->invalidFields
+                            );
+                            break;
+                        }
                     }
                     
                     $line++;
                 }
+                
             }
             
             if($error)
@@ -333,6 +385,8 @@ class ModelControllerComponent extends Component
             }
             else
             {
+                $this->model->dataStore->end();
+                WyfController::notify("Successfully Imported <b>{$this->entities}</b>. <b>$added</b> {$this->entities} added and <b>$updated</b> {$this->entities} updated");
                 Ntentan::redirect($this->urlBase);
             }
         }

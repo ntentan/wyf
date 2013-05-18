@@ -22,7 +22,7 @@ This file is in the CSV format and can be edited in any spreadsheet application.
             <td><?= $error['line'] ?></td>
             <td>
                 <?php foreach($error['errors'] as $field => $field_errors): ?>
-                    <b><?= $field ?></b>
+                    <b><?= s($field) ?></b>
                     <ul>
                     <?php foreach($field_errors as $field_error): ?>
                     <li><?= $field_error ?></li>
