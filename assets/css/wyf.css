@@ -319,3 +319,10 @@ a#dashboard-icon{
     background-color:#fff;
 }
 
+.import-error-table ul{
+    margin:0px;
+    padding:0px;
+    margin-left:20px;
+    list-style-type:square;
+    margin-bottom:10px;
+}

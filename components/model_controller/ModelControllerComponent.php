@@ -293,10 +293,14 @@ class ModelControllerComponent extends Component
         if(isset($_FILES['data_file']))
         {
             $file = "tmp/" . uniqid();
+            $error = false;
+            $errors = array();
+            
             if(move_uploaded_file($_FILES['data_file']['tmp_name'], $file))
             {
                 $file = fopen($file, 'r');
                 $headers = fgetcsv($file);
+                $line = 2;
                 
                 while(!feof($file))
                 {
@@ -310,15 +314,26 @@ class ModelControllerComponent extends Component
 
                     if($newEntry->save() === false)
                     {
-                        // Do something useful here
+                        $error = true;
+                        $errors[] = array(
+                            'line' => $line,
+                            'errors' => $newEntry->invalidFields
+                        );
+                        break;
                     }
+                    
+                    $line++;
                 }
-                
-                Ntentan::redirect($this->urlBase);
+            }
+            
+            if($error)
+            {
+                $this->set('upload_error', "Failed to upload file");
+                $this->set('errors', $errors);
             }
             else
             {
-                $this->set('upload_error', "Failed to upload file");
+                Ntentan::redirect($this->urlBase);
             }
         }
         
