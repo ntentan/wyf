@@ -360,8 +360,6 @@ class ModelControllerComponent extends Component
                                 break;
                         }
                         
-                        print $mode;
-                        
                         if($response === false)
                         {
                             $error = true;
@@ -386,7 +384,9 @@ class ModelControllerComponent extends Component
             else
             {
                 $this->model->dataStore->end();
-                WyfController::notify("Successfully Imported <b>{$this->entities}</b>. <b>$added</b> {$this->entities} added and <b>$updated</b> {$this->entities} updated");
+                WyfController::notify(
+                    "Successfully Imported <b>{$this->entities}</b>. <b>$added</b> {$this->entities} added and <b>$updated</b> {$this->entities} updated"
+                );
                 Ntentan::redirect($this->urlBase);
             }
         }

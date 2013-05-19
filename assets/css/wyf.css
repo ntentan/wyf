@@ -207,6 +207,37 @@ ul#sub_menu_list > li.selected > a{
     border-radius: 3px;
 }
 
+.wyf_suggester_box
+{
+    position:absolute;
+    left:0px;
+    top:0px;
+    display:none;
+    background-color:#fff;
+    border:1px solid #f0f0f0;
+    min-width:200px;
+}
+
+.wyf_suggestion
+{
+    padding:4px;
+    font-size:smaller;
+    color:#a0a0a0;
+    cursor:pointer;
+    border-bottom:1px solid #fcfcfc;
+}
+
+.wyf_suggestion > span
+{
+    font-size: x-small;
+    font-weight: bold;
+    color:#808080;
+}
+
+.wyf_suggestion:hover
+{
+    background-color:#fff9d9;
+}
 
 /*************** SIDE MENU ******************/
 

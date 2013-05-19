@@ -233,6 +233,59 @@ wyf = {
             },
             1000
         );
+    },
+    
+    suggester : {
+        optionsView : undefined,
+        
+        getUrl : function(text, model, params)
+        {
+            var url = "system/suggester/suggest/";
+            url += model + '?s=' + escape(text);
+
+            if(typeof params.searchFields === "object")
+            {
+                url += '&search_fields=';
+                for(var i = 0; i < params.searchFields.length; i++)
+                {
+                    url += params.searchFields[i] + ( i === params.searchFields.length - 1 ? '' : '/');
+                }
+            }
+
+            if(typeof params.fields === "object")
+            {
+                url += '&fields=';
+                for(var i = 0; i < params.fields.length; i++)
+                {
+                    url += params.fields[i] + ( i === params.fields.length - 1 ? '' : '/');
+                }
+            }        
+
+            return ntentan.url(url);
+        },
+                
+        initOptionsView : function()
+        {
+            wyf.suggester.optionsView = document.createElement('div');
+            $(wyf.suggester.optionsView).addClass('wyf_suggester_box');
+            $('body').append(wyf.suggester.optionsView);
+        },
+                
+        showOptionsView : function(options, offset)
+        {
+            $(wyf.suggester.optionsView).offset(offset);
+            $(wyf.suggester.optionsView).html("");
+            for(var i in options)
+            {
+                $(wyf.suggester.optionsView).append(
+                    "<div class='wyf_suggestion'>" + 
+                    options[i].label + 
+                    (options[i].code === undefined ? '' : "<br/><span>" + options[i].code + "</span>")+ 
+                    "</div>"
+                );
+            }
+            $(wyf.suggester.optionsView).show();
+        }
     }
 };
 })();

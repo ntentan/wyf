@@ -31,7 +31,7 @@ class SuggesterControllerBase extends WyfController
         
         $response = $model->dataStore->query(
             sprintf(
-                "SELECT %s FROM %s WHERE %s LIMIT 20",
+                "SELECT %s FROM %s WHERE %s LIMIT 10",
                 implode(",", $fields),
                 $model->dataStore->table,
                 implode(" OR ", $conditions)
