@@ -237,6 +237,62 @@ wyf = {
     
     suggester : {
         optionsView : undefined,
+        options : undefined,
+        
+        getBoxBoxColumn : function(params){
+            var activeCell;
+            
+            return {
+                label : params.label,
+                bind:   params.bind,
+                render: params.render,
+                editorCreated : function(grid, editor)
+                {
+                    var xhr;
+                    wyf.suggester.initOptionsView();
+                    
+                    editor.onkeyup = function(){
+                        var url = wyf.suggester.getUrl(
+                            $(editor).val(), 
+                            params.model,
+                            {
+                                searchFields : params.searchFields,
+                                fields : params.fields
+                            }
+                        );
+                            
+                        if(typeof xhr === 'object')
+                        {
+                            xhr.abort();
+                        }
+                        xhr = $.getJSON(url, function(response){
+                            var options = [];
+                            for(var i in response)
+                            {
+                                options.push(params.formatResponse(response[i]));
+                            }
+                            var offset = $(editor).offset();
+                            offset.top += 28;
+                            wyf.suggester.showOptionsView(
+                                options, 
+                                offset,
+                                function(index){
+                                    console.log(activeCell);
+                                    console.log(grid.data[activeCell.row]);
+                                    console.log(response[index]);
+                                }
+                            );
+                        });
+                    };            
+                },
+                editorShown : function(row, column) {
+                    activeCell = {
+                        row : row,
+                        column : column
+                    };
+                }
+            };
+        },
         
         getUrl : function(text, model, params)
         {
@@ -271,20 +327,27 @@ wyf = {
             $('body').append(wyf.suggester.optionsView);
         },
                 
-        showOptionsView : function(options, offset)
+        showOptionsView : function(options, offset, callback)
         {
+            wyf.suggester.options = options;
+            
             $(wyf.suggester.optionsView).offset(offset);
             $(wyf.suggester.optionsView).html("");
             for(var i in options)
             {
                 $(wyf.suggester.optionsView).append(
-                    "<div class='wyf_suggestion'>" + 
+                    "<div class='wyf_suggestion' sindex='" + i + "'>" + 
                     options[i].label + 
                     (options[i].code === undefined ? '' : "<br/><span>" + options[i].code + "</span>")+ 
                     "</div>"
                 );
             }
             $(wyf.suggester.optionsView).show();
+            $('.wyf_suggestion').click(
+                function(){
+                    callback(parseInt($(this).attr('sindex')));
+                }
+            );
         }
     }
 };
