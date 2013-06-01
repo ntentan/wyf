@@ -240,17 +240,19 @@ wyf = {
         options : undefined,
         
         getBoxBoxColumn : function(params){
-            var activeCell;
+            var activeCell, editor;
             
             return {
                 label : params.label,
                 bind:   params.bind,
                 render: params.render,
-                editorCreated : function(grid, editor)
+
+                
+                editorCreated : function(grid, _editor)
                 {
                     var xhr;
                     wyf.suggester.initOptionsView();
-                    
+                    editor = _editor;
                     editor.onkeyup = function(){
                         var url = wyf.suggester.getUrl(
                             $(editor).val(), 
@@ -271,25 +273,35 @@ wyf = {
                             {
                                 options.push(params.formatResponse(response[i]));
                             }
-                            var offset = $(editor).offset();
-                            offset.top += 28;
+                            
                             wyf.suggester.showOptionsView(
                                 options, 
-                                offset,
                                 function(index){
-                                    console.log(activeCell);
-                                    console.log(grid.data[activeCell.row]);
-                                    console.log(response[index]);
+                                    grid.hideEditor();
+                                    if(typeof grid.data[activeCell.row] === "undefined")
+                                    {
+                                        grid.data[activeCell.row] = [];
+                                    }
+                                    params.onSelect(grid.data[activeCell.row], response[index])
                                 }
                             );
                         });
                     };            
                 },
-                editorShown : function(row, column) {
+                editorShown : function(row, column) 
+                {
+                    var offset = $(editor).offset();
+                    $(wyf.suggester.optionsView).css({
+                        left : offset.left + 'px',
+                        top : (offset.top + 28) + 'px'
+                    });
                     activeCell = {
                         row : row,
                         column : column
                     };
+                },
+                editorHidden : function() {
+                    $(wyf.suggester.optionsView).hide();
                 }
             };
         },
@@ -327,11 +339,10 @@ wyf = {
             $('body').append(wyf.suggester.optionsView);
         },
                 
-        showOptionsView : function(options, offset, callback)
+        showOptionsView : function(options, callback)
         {
             wyf.suggester.options = options;
             
-            $(wyf.suggester.optionsView).offset(offset);
             $(wyf.suggester.optionsView).html("");
             for(var i in options)
             {
