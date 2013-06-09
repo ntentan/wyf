@@ -252,7 +252,9 @@ wyf = {
                 {
                     var xhr;
                     wyf.suggester.initOptionsView();
+                    
                     editor = _editor;
+                    
                     editor.onkeyup = function(){
                         var url = wyf.suggester.getUrl(
                             $(editor).val(), 
@@ -277,12 +279,16 @@ wyf = {
                             wyf.suggester.showOptionsView(
                                 options, 
                                 function(index){
-                                    grid.hideEditor();
                                     if(typeof grid.data[activeCell.row] === "undefined")
                                     {
                                         grid.data[activeCell.row] = [];
                                     }
-                                    params.onSelect(grid.data[activeCell.row], response[index])
+                                    
+                                    params.onSelect(grid.data[activeCell.row], response[index]);
+                                    grid.render();
+                                    grid.hideEditor();
+                                    
+                                    $(wyf.suggester.optionsView).hide();
                                 }
                             );
                         });
