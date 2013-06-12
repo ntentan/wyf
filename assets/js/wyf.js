@@ -240,13 +240,12 @@ wyf = {
         options : undefined,
         
         getBoxBoxColumn : function(params){
-            var activeCell, editor;
+            var activeCell, editor, editorActive, selectedOption = false;
             
             return {
                 label : params.label,
                 bind:   params.bind,
                 render: params.render,
-
                 
                 editorCreated : function(grid, _editor)
                 {
@@ -255,7 +254,12 @@ wyf = {
                     
                     editor = _editor;
                     
-                    editor.onkeyup = function(){
+                    editor.onkeyup = function(event){
+                        if(
+                            event.keyCode === 40 || 
+                            event.keyCode === 38
+                        ) return;
+                        
                         var url = wyf.suggester.getUrl(
                             $(editor).val(), 
                             params.model,
@@ -271,6 +275,7 @@ wyf = {
                         }
                         xhr = $.getJSON(url, function(response){
                             var options = [];
+                            selectedOption = false;
                             for(var i in response)
                             {
                                 options.push(params.formatResponse(response[i]));
@@ -294,20 +299,61 @@ wyf = {
                         });
                     };            
                 },
-                editorShown : function(row, column) 
-                {
+                
+                editorShown : function(row, column){
                     var offset = $(editor).offset();
+                    
+                    editorActive = true;
+                    
                     $(wyf.suggester.optionsView).css({
                         left : offset.left + 'px',
                         top : (offset.top + 28) + 'px'
                     });
+                    
                     activeCell = {
                         row : row,
                         column : column
                     };
                 },
+                        
                 editorHidden : function() {
+                    editorActive = false;
                     $(wyf.suggester.optionsView).hide();
+                },
+                        
+                keypressed : function(event){
+                    if(!editorActive) return;
+                    switch(event.keyCode)
+                    {
+                        case 40:
+                            if(selectedOption === false)
+                            {
+                                selectedOption = 0;
+                            } 
+                            else 
+                            {
+                                selectedOption++;
+                            }
+                            
+                            if(selectedOption === wyf.suggester.options.length)
+                            {
+                                selectedOption = wyf.suggester.options.length - 1;
+                            }
+                            $('.wyf_suggestion').removeClass('suggestion-selected');
+                            $('#wyf_suggestion_' + selectedOption).addClass('suggestion-selected');
+                            return true;
+                            
+                        case 38:
+                            selectedOption--;
+                            if(selectedOption < 0) selectedOption = 0;
+                            $('.wyf_suggestion').removeClass('suggestion-selected');
+                            $('#wyf_suggestion_' + selectedOption).addClass('suggestion-selected');
+                            return true;
+                            
+                        case 13:
+                            $('#wyf_suggestion_' + selectedOption).click();
+                            break;
+                    }
                 }
             };
         },
@@ -333,7 +379,7 @@ wyf = {
                 {
                     url += params.fields[i] + ( i === params.fields.length - 1 ? '' : '/');
                 }
-            }        
+            }
 
             return ntentan.url(url);
         },
@@ -353,7 +399,7 @@ wyf = {
             for(var i in options)
             {
                 $(wyf.suggester.optionsView).append(
-                    "<div class='wyf_suggestion' sindex='" + i + "'>" + 
+                    "<div id='wyf_suggestion_" + i + "' class='wyf_suggestion' sindex='" + i + "'>" + 
                     options[i].label + 
                     (options[i].code === undefined ? '' : "<br/><span>" + options[i].code + "</span>")+ 
                     "</div>"

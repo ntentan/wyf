@@ -234,7 +234,7 @@ ul#sub_menu_list > li.selected > a{
     color:#808080;
 }
 
-.wyf_suggestion:hover
+.wyf_suggestion:hover, .suggestion-selected
 {
     background-color:#fff9d9;
 }
