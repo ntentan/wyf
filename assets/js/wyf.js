@@ -246,6 +246,7 @@ wyf = {
                 label : params.label,
                 bind:   params.bind,
                 render: params.render,
+                required : params.required,
                 
                 editorCreated : function(grid, _editor)
                 {
@@ -352,7 +353,7 @@ wyf = {
                             
                         case 13:
                             $('#wyf_suggestion_' + selectedOption).click();
-                            break;
+                            return true;
                     }
                 }
             };
