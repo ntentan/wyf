@@ -11,7 +11,8 @@
 <div id="wyf_list_view_control">
     <div class="row">
         <div class="column grid_10_3">
-            <span class="wyf_button nav_button" onclick="wyf.listView.prevPage()">&lt; Prev</span><span class="wyf_button nav_button" onclick="wyf.listView.nextPage()">Next &gt;</span>
+            <span id="wyf_left_nav" class="nav_button nav_left nav_button_active" onclick="wyf.listView.prevPage()">&lt; Prev
+            </span><span id="wyf_right_nav" class="nav_button nav_right nav_button_active" onclick="wyf.listView.nextPage()">Next &gt;</span>
         </div>
         <div class="column grid_10_7">
             <div id="wyf_list_view_pagecount">

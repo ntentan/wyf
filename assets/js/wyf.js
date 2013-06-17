@@ -172,15 +172,43 @@ wyf = {
         },
         nextPage : function()
         {
-            this.page++;
-            this.update(false);
-            $('#wyf_list_view_page').html(this.page);
+            if(this.page < this.pages)
+            {
+                this.page++;
+                this.update(false);
+                $('#wyf_list_view_page').html(this.page);
+            }
+            
+            if(this.page === this.pages)
+            {
+                $('#wyf_right_nav').removeClass('nav_button_active');
+                $('#wyf_right_nav').addClass('nav_button_inactive');
+            }
+            else if(this.page === 2)
+            {
+                $('#wyf_left_nav').addClass('nav_button_active');
+                $('#wyf_left_nav').removeClass('nav_button_inactive');                
+            }
         },
         prevPage : function()
         {
-            this.page--;
-            this.update(false);
-            $('#wyf_list_view_page').html(this.page);
+            if(this.page > 1)
+            {
+                this.page--;
+                this.update(false);
+                $('#wyf_list_view_page').html(this.page);
+            }
+            
+            if(this.page === 1)
+            {
+                $('#wyf_left_nav').removeClass('nav_button_active');
+                $('#wyf_left_nav').addClass('nav_button_inactive');            
+            }
+            else if(this.page === this.pages - 1)
+            {
+                $('#wyf_right_nav').addClass('nav_button_active');
+                $('#wyf_right_nav').removeClass('nav_button_inactive');                
+            }            
         },
         setFields : function(fields)
         {
@@ -214,8 +242,15 @@ wyf = {
         }
     },
     
-    notify : function(notification)
+    notify : function(notification, type)
     {
+        if(typeof type === "undefined")
+        {
+            type = "info";
+        }
+        
+        $('#notification').addClass('notification-' + type);
+        
         $('#notification').html(notification);
         var originalTop = 50 - ($('#notification').height() + 40);
         $('#notification').css({top :originalTop  + 'px'});
@@ -225,7 +260,12 @@ wyf = {
                 $('#notification').animate({top:'45px'}, 'slow',
                     function(){
                         setTimeout(function(){
-                            $('#notification').animate({top:originalTop + 'px'});
+                            $('#notification').animate(
+                                {top:originalTop + 'px'},
+                                function(){
+                                    $('#notification').removeClass('notification-' + type);
+                                }
+                            );
                         },
                         6000);
                     }
@@ -244,8 +284,8 @@ wyf = {
             
             return {
                 label : params.label,
-                bind:   params.bind,
-                render: params.render,
+                bind : params.bind,
+                render : params.render,
                 required : params.required,
                 
                 editorCreated : function(grid, _editor)
