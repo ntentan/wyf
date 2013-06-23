@@ -8,6 +8,14 @@
     padding-top:10px;
 }
 
+.form-element-description
+{
+    font-size:smaller;
+    color:#c0c0c0;
+    text-shadow:1px 1px #fff;
+    margin-top:5px;
+}
+
 .form-element-wrapper label
 {
     font-weight: bold;
@@ -114,4 +122,3 @@ div.form-error ul{
 .form-radio-group-option label{
     font-weight: normal;
 }
-

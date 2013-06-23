@@ -15,7 +15,7 @@ class ModelControllerComponent extends Component
     private $urlBase;
     private $entities;
     private $entity;
-    private $linkedModels = array();
+    private $linkedModelOperations = array();
     private $linkedModelInstances = array();
     private $parent = false;
     private $formVariables = array();
@@ -76,17 +76,30 @@ class ModelControllerComponent extends Component
         return str_replace('.', '_', $this->controller->model->getRoute()) . "_$base";
     }
     
-    public function linkWith($model)
+    public function linkWith($model, $params = array())
     {
         $modelInstance = Model::load($model);
         $name = lcfirst(Ntentan::camelize($modelInstance->getName()));
-        $this->linkedModels[] = $name;
-        $this->linkedModelInstances[$name] = array(
+        
+        if(isset($params['operation'])) {
+            $operation = $params['operation'];
+        } else {
+            $operation = $name;
+        }
+        
+        $this->linkedModelOperations[] = $operation;
+        $this->linkedModelInstances[$operation] = array(
             'instance' => $modelInstance,
             'name' => $model
-        );
-        $name = Ntentan::deCamelize($name);
-        $this->addOperation(Ntentan::toSentence($name), $name);
+        );        
+        
+        if(isset($params['operation_label'])) {
+            $operationLabel = $params['operation_label'];
+        } else {
+            $operationLabel = Ntentan::toSentence ($operation);
+        }
+        
+        $this->addOperation($operationLabel, Ntentan::deCamelize($operation));
     }
     
     public function run()
@@ -453,7 +466,7 @@ class ModelControllerComponent extends Component
     
     public function hasMethod($method = null) 
     {
-        if(array_search($method, $this->linkedModels) === false)
+        if(array_search($method, $this->linkedModelOperations) === false)
         {
             return parent::hasMethod($method);
         }
@@ -465,7 +478,7 @@ class ModelControllerComponent extends Component
     
     public function runMethod($params, $method = null) 
     {
-        if(array_search($method, $this->linkedModels) !== false)
+        if(array_search($method, $this->linkedModelOperations) !== false)
         {
             $controllerPath = str_replace('.', '/',$this->linkedModelInstances[$method]['instance']->getRoute());
             

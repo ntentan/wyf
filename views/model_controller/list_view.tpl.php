@@ -1,7 +1,7 @@
 <h2><?= ucfirst($entities) ?> <?= $postfix ?></h2>
 <div id="wyf_toolbar">
     <?php if($has_add_operation): ?>
-    <a class="wyf_button" id="toolbar_add" href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a><?php
+    <span class="wyf_button" id="toolbar_add"><a href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a></span><?php
     if($wyf_import_url != ''):?><a class="wyf_button" id="toolbar_import" href="<?= $wyf_import_url ?>">Import <?= $entities ?></a><?php endif; ?>
     <?php endif; ?>
 </div>
@@ -66,5 +66,6 @@
 </script>
 <?php
 load_asset('images/add.png', p('wyf/assets/images/add.png'));
+load_asset('images/addbg.gif', p('wyf/assets/images/addbg.gif'));
 load_asset('images/import.png', p('wyf/assets/images/import.png'));
 ?>

@@ -2,7 +2,8 @@ body{
     font-family: Helvetica, sans-serif;
     margin:0px;
     font-size:0.9em;
-    background-image: url("../images/mainbg.gif");
+    /*background-image: url("../images/mainbg.gif");*/
+    background-color:#fdfdfd;
 }
 
 a{
@@ -118,7 +119,6 @@ ul#sub_menu_list > li.selected > a{
     color:#606060;
     background-color:#f8f8f8;
     text-shadow: 1px 1px 0px #fff;
-    background-repeat: no-repeat;
     background-position: 8px 50%;
     border:1px solid #c0c0c0;
     border-radius: 3px;
@@ -132,21 +132,38 @@ ul#sub_menu_list > li.selected > a{
 
 #wyf_toolbar
 {
-    padding:5px;
+    padding:7px;
     margin-bottom:10px;
-    background-color:#fcfcfc;
+    background-color:#fff;
     border-radius: 5px;
     box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
 }
 
-#wyf_toolbar > a{
-    text-decoration: none;
-    padding-left: 30px;
+#wyf_toolbar > span{
     margin-right:5px;
+    height:16px;
 }
 
-#wyf_toolbar > a#toolbar_add    { background-image: url("../images/add.png");   }
-#wyf_toolbar > a#toolbar_import { background-image: url("../images/import.png");}
+#wyf_toolbar > span > a {
+    text-decoration: none;
+    padding-left: 20px;
+    background-repeat: no-repeat;  
+    color:#606060;
+}
+
+#wyf_toolbar > span#toolbar_add > a { 
+    background-image: url("../images/add.png");
+    color: #029f2d;
+}
+#wyf_toolbar > span#toolbar_add {
+    border-color:#029f2d;
+    border-width:1px;
+    background-color:#dbfdd6;
+    background-image:url("../images/addbg.gif");
+}
+
+#wyf_toolbar > span > a#toolbar_import { background-image: url("../images/import.png");}
+
 #wyf_toolbar > select {
     padding:7px;
     font-weight:bold;
@@ -283,7 +300,7 @@ a.main-menu-side-button{
 }
 
 a.selected{
-    background-color:#fff;
+    background-color:#fdfdfd;
     box-shadow: 0 4px 2px -2px grey;
 }
 
