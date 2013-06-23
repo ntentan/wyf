@@ -7,6 +7,9 @@ use ntentan\Ntentan;
 use ntentan\plugins\wyf\lib\WyfController;
 use ntentan\models\Model;
 
+/**
+ * The ModelControllerComponent as
+ */
 class ModelControllerComponent extends Component
 {
     public $listFields = array();
@@ -192,8 +195,6 @@ class ModelControllerComponent extends Component
                 }
             }
         }
-        
-        
         
         $this->set('key_field', $this->keyField);
         $this->set('list_fields', $this->listFields);
@@ -484,7 +485,8 @@ class ModelControllerComponent extends Component
             
             $parentInfo = array(
                 'model' => $this->model, 
-                'url_base' => $this->urlBase
+                'url_base' => $this->urlBase,
+                'method' => $method
             );
             
             $controller = \ntentan\controllers\Controller::load($controllerPath, true);
@@ -511,7 +513,7 @@ class ModelControllerComponent extends Component
         $parent['item'] = (string)$item;
         $parent['entinty'] = $singularModel;
         $this->parent = $parent;
-        $this->urlBase = "{$this->parent['url_base']}/{$this->model->getName()}/{$this->parent['id']}";
+        $this->urlBase = "{$this->parent['url_base']}/{$parent['method']}/{$this->parent['id']}";
         $this->set('postfix', "of " . Ntentan::toSentence($singularModel) . " {$item}");
     }
     
