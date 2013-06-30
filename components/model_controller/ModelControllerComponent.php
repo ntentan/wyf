@@ -65,6 +65,34 @@ class ModelControllerComponent extends Component
         }
     }
     
+    public function __set($property, $value)
+    {
+        switch($property)
+        {
+            case 'entity':
+                $this->entity = $value;
+                $this->entities = Ntentan::plural($value);
+                $this->set('entity', $this->entity);
+                $this->set('entities', $this->entities);                
+                break;
+            
+            default:
+                parent::__set($property, $value);
+        }
+    }
+    
+    public function __get($property)
+    {
+        switch($property)
+        {
+            case 'entity':
+                return $this->entity;
+                break;
+            default:
+                return parent::__get($property);
+        }
+    }
+
     public function addOperation($label, $action = '')
     {
         $this->operations[] = array(

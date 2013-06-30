@@ -65,7 +65,7 @@
     </table>
 </script>
 <?php
-load_asset('images/add.png', p('wyf/assets/images/add.png'));
-load_asset('images/addbg.gif', p('wyf/assets/images/addbg.gif'));
-load_asset('images/import.png', p('wyf/assets/images/import.png'));
+    load_asset('images/add.png', p('wyf/assets/images/add.png'));
+    load_asset('images/addbg.gif', p('wyf/assets/images/addbg.gif'));
+    load_asset('images/import.png', p('wyf/assets/images/import.png'));
 ?>
