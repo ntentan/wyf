@@ -1,7 +1,8 @@
 <h2><?= ucfirst($entities) ?> <?= $postfix ?></h2>
 <div id="wyf_toolbar">
     <?php if($has_add_operation): ?>
-    <span class="wyf_button" id="toolbar_add"><a href="<?= $wyf_add_url ?>">Add a new <?= $entity ?></a></span><?php
+    <?php if($add_button_label == '') $add_button_label = 'Add a new ' . $entity; ?>
+    <span class="wyf_button" id="toolbar_add"><a href="<?= $wyf_add_url ?>"><?= $add_button_label ?></a></span><?php
     if($wyf_import_url != ''):?><a class="wyf_button" id="toolbar_import" href="<?= $wyf_import_url ?>">Import <?= $entities ?></a><?php endif; ?>
     <?php endif; ?>
 </div>

@@ -26,6 +26,8 @@ class ModelControllerComponent extends Component
     public $hasEditOperation = true;
     public $hasDeleteOperation = true;
     public $importer = array();
+    
+    public $addButtonLabel;
 
     public function init()
     {
@@ -232,6 +234,8 @@ class ModelControllerComponent extends Component
         $this->set('operations', $this->operations);
         $this->set('foreign_key', $this->parent['foreign_key']);
         $this->set('foreign_key_value', $this->parent['id']);
+        
+        $this->set('add_button_label', $this->addButtonLabel);
         
         $this->set('has_add_operation', $this->hasAddOperation);
         $this->set('has_edit_operation', $this->hasEditOperation);
