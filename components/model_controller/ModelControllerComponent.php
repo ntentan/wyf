@@ -293,7 +293,7 @@ class ModelControllerComponent extends Component
     {
         $this->controller->setTitle("Add new {$this->entity}");
         $this->view->template = $this->getTemplateName('add.tpl.php');
-        $this->set('form_template', $this->getTemplateName('form.tpl.php'));
+        $this->setIfNotSet('form_template', $this->getTemplateName('form.tpl.php'));
         $this->set('form_variables', $this->formVariables);
         
         if(is_array($this->parent)) 
