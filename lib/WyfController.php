@@ -6,9 +6,17 @@ use ntentan\models\Model;
 use ntentan\Ntentan;
 use ntentan\views\template_engines\TemplateEngine;
 
+/**
+ * Base controller for all wyf app modules you want to appear in the menu.
+ */
 class WyfController extends Controller
 {
     private $permissions = array();
+    
+    /**
+     * 
+     * @var integer
+     */
     public $weight;
     private $extraJavascripts;
     private $extraStylesheets;
@@ -22,8 +30,8 @@ class WyfController extends Controller
             $bootstrapMethod->invoke(null, $this);
         }
         
-        TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));               
-        TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/menus'));               
+        TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
+        TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/menus'));
         $this->addComponent('auth',
             array(
                 'users_model' => 'system.users',
@@ -32,8 +40,8 @@ class WyfController extends Controller
             )
         );
         $this->set('route_breakdown', explode('/', Ntentan::$route));
-        $this->set('wyf_title', Ntentan::$config['application']['name']);
-        $this->set('wyf_app_name', Ntentan::$config['application']['name']);
+        $this->set('wyf_title', Ntentan::$appName);
+        $this->set('wyf_app_name', Ntentan::$appName);
     }
     
     public function mc()
@@ -93,9 +101,7 @@ class WyfController extends Controller
         }
         
         $_SESSION['menu']['main'] = $sideMenu;
-        
-        echo $_SESSION['menu']['main'];
-        
+                
         Ntentan::redirect('dashboard');
     }
     
@@ -142,7 +148,6 @@ class WyfController extends Controller
         
         return $routes;
     }
-    
     
     public static function notify($notification)
     {
