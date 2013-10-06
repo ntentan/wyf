@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php 
+$route_breakdown = $route_breakdown->unescape();
+?><!DOCTYPE html>
 <html lang="en">
     <head>
         <title><?= $wyf_title ?></title>
@@ -8,7 +10,7 @@
             ->add(p('wyf/assets/js/wyf.js'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.js'))
             ->add(p('wyf/assets/js/mustache.js'))
-            ->add($extra_javascripts)
+            ->add($extra_javascripts->unescape())
         ?>
         
         <?= $helpers->javascript->ntentan() ?>
@@ -19,7 +21,7 @@
             ->add(p('wyf/assets/css/forms.css'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.css'))
             ->add(n('assets/css/grid.css'))
-            ->add($extra_stylesheets)
+            ->add($extra_stylesheets->unescape())
         ?>
         
         <?php
@@ -74,7 +76,7 @@
             <?php endif; ?>
             <div id="notification"></div>
             <div <?= $sub_menu_active ? "class='sub_menu_active'" :'' ?>id="contents">
-                <?php echo $contents ?>
+                <?php echo $contents->unescape() ?>
             </div>
         </div>
     </body>

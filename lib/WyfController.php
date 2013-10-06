@@ -63,7 +63,7 @@ class WyfController extends Controller
     
     public function setTitle($title)
     {
-        $this->set('wyf_title', Ntentan::$config['application']['name'] . " : {$title}");
+        $this->set('wyf_title', Ntentan::$appName . " : {$title}");
     }
     
     public static function postLogin()

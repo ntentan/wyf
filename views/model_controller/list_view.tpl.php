@@ -24,7 +24,7 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        wyf.listView.api = "<?= $wyf_api_url ?>";
+        wyf.listView.api = "<?= $wyf_api_url->unescape() ?>";
         <?php if($foreign_key != ''): ?>
         wyf.listView.setConditions({
             <?=$foreign_key?> : "<?= $foreign_key_value ?>"
@@ -32,7 +32,7 @@
         <?php endif; ?>
         <?php 
         $fields = array();
-        foreach($list_fields as $list_field){
+        foreach($list_fields->unescape() as $list_field){
             $fields[] = $list_field['name'];
         }
         ?>
@@ -43,7 +43,7 @@
 <script type="text/html" id="wyf_list_view_template">
     <table id="wyf_list_table">
         <thead>
-            <tr><?php foreach($list_fields as $field){
+            <tr><?php foreach($list_fields->unescape() as $field){
                 echo "<th>{$field['label']}</th>";
             }?><th></th></tr>
         </thead>
