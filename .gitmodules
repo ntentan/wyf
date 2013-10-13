@@ -1,3 +1,3 @@
-[submodule "assets/js/Kalendae"]
-	path = assets/js/Kalendae
+[submodule "vendor/Kalendae"]
+	path = vendor/Kalendae
 	url = git://github.com/ChiperSoft/Kalendae.git
