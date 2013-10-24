@@ -17,7 +17,7 @@ echo t($form_template,
             'model' => $model_description,
             'params' => $params
         ),
-        $form_variables
+        $form_variables->unescape()
     )
 ) 
 ?>

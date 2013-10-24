@@ -1,8 +1,6 @@
 <?php
 namespace ntentan\plugins\wyf\components\report_controller;
 
-require_once "dashy/lib/Dashy.php";
-
 use ntentan\controllers\components\Component;
 use ntentan\views\template_engines\TemplateEngine;
 use ntentan\Ntentan;
@@ -21,6 +19,8 @@ class ReportControllerComponent extends Component
     
     public function __construct($params) 
     {
+        require_once Ntentan::getPluginPath("wyf/vendor/dashy/lib/Dashy.php");
+        
         // Use the default reporting settings and load the report file
         if(is_string($params['report']))
         {
