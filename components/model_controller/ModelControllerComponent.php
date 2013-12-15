@@ -316,7 +316,7 @@ class ModelControllerComponent extends Component
             {
                 $this->model->save();
                 WyfController::notify("Added a new {$this->entity} <b>{$this->model}</b>");
-                Ntentan::redirect($this->urlBase);
+                Ntentan::redirect($this->route);
             }
             else
             {
@@ -433,7 +433,7 @@ class ModelControllerComponent extends Component
                 WyfController::notify(
                     "Successfully Imported <b>{$this->entities}</b>. <b>$added</b> {$this->entities} added and <b>$updated</b> {$this->entities} updated"
                 );
-                Ntentan::redirect($this->urlBase);
+                Ntentan::redirect($this->route);
             }
         }
         
@@ -448,7 +448,7 @@ class ModelControllerComponent extends Component
         {
             WyfController::notify("Deleted {$this->entity} <b>{$item}</b>");
             $item->delete();
-            Ntentan::redirect($this->urlBase);
+            Ntentan::redirect($this->route);
         }
         else
         {
@@ -484,7 +484,7 @@ class ModelControllerComponent extends Component
             {
                 $item->update();
                 WyfController::notify("Edited {$this->entity} <b>{$item}</b>");
-                Ntentan::redirect($this->urlBase);
+                Ntentan::redirect($this->route);
             }
             else
             {
