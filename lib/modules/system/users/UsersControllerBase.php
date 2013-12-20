@@ -40,7 +40,7 @@ class UsersControllerBase extends WyfController
                 $role->save();
             }
             
-            Ntentan::redirect(Ntentan::getUrl($this->route));
+            Ntentan::redirect($this->route);
         }
         $item = $this->model->getJustFirstWithId($id);
         $roles = Model::load('system.roles')->getAll();
