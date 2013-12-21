@@ -26,6 +26,7 @@ class ReportControllerComponent extends Component
         {
             $this->report = \Dashy::loadReport($params['report']);
         }
+        
         // Present a customized report based on ntentan
         else
         {
