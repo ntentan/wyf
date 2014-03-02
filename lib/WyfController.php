@@ -42,6 +42,10 @@ class WyfController extends Controller
         $this->set('route_breakdown', explode('/', Ntentan::$route));
         $this->set('wyf_title', Ntentan::$appName);
         $this->set('wyf_app_name', Ntentan::$appName);
+        
+        // Prevent the framework from barking
+        $this->set('extra_javascripts', '');
+        $this->set('extra_stylesheets', '');
     }
     
     public function mc()
@@ -70,19 +74,22 @@ class WyfController extends Controller
     {
         $menu = array();
         
-        // Get the roles the user is attached to
-        $userRoles = Model::load('system.user_roles')->getAll(
-            array(
-                'conditions' => array(
-                    'user_id' => $_SESSION['user']['id']
-                )
-            )
-        );
-                
-        foreach($userRoles->toArray() as $userRole)
+        if(Ntentan::$config['wyf.has_roles'] == 'true')
         {
-            $role = Model::load('system.roles')->getJustFirstWithId($userRole['role_id']);
-            $menu = array_merge(json_decode($role->menu_tree, true), $menu);
+            // Get the roles the user is attached to
+            $userRoles = Model::load('system.user_roles')->getAll(
+                array(
+                    'conditions' => array(
+                        'user_id' => $_SESSION['user']['id']
+                    )
+                )
+            );
+
+            foreach($userRoles->toArray() as $userRole)
+            {
+                $role = Model::load('system.roles')->getJustFirstWithId($userRole['role_id']);
+                $menu = array_merge(json_decode($role->menu_tree, true), $menu);
+            }
         }
         
         $sideMenu = array();
