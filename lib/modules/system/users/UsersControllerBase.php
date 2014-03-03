@@ -42,6 +42,7 @@ class UsersControllerBase extends WyfController
             
             Ntentan::redirect($this->route);
         }
+        
         $item = $this->model->getJustFirstWithId($id);
         $roles = Model::load('system.roles')->getAll();
         $assignedRoles = Model::load('system.user_roles')->getJustWithUserId($id, array('fields'=>array('role_id')))->toArray();

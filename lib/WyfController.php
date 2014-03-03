@@ -91,6 +91,10 @@ class WyfController extends Controller
                 $menu = array_merge(json_decode($role->menu_tree, true), $menu);
             }
         }
+        else
+        {
+            require Ntentan::$appHome . Ntentan::$modulesPath . "/menu.php";
+        }        
         
         $sideMenu = array();
         
