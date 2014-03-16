@@ -429,18 +429,32 @@
                 for (var i in options)
                 {
                     $(wyf.suggester.optionsView).append(
-                            "<div id='wyf_suggestion_" + i + "' class='wyf_suggestion' sindex='" + i + "'>" +
-                            options[i].label +
-                            (options[i].code === undefined ? '' : "<br/><span>" + options[i].code + "</span>") +
-                            "</div>"
-                            );
+                        "<div id='wyf_suggestion_" + i + "' class='wyf_suggestion' sindex='" + i + "'>" +
+                        options[i].label +
+                        (options[i].code === undefined ? '' : "<br/><span>" + options[i].code + "</span>") +
+                        "</div>"
+                    );
                 }
                 $(wyf.suggester.optionsView).show();
                 $('.wyf_suggestion').click(
-                        function() {
-                            callback(parseInt($(this).attr('sindex')));
-                        }
+                      function() {
+                          callback(parseInt($(this).attr('sindex')));
+                      }
                 );
+            }
+        },
+        tabs : {
+            init : function(tab)
+            {
+                wyf.tabs.show(tab, '0');
+            },
+            
+            show : function(tab, id)
+            {
+                $('.form-tabs-tab').hide();
+                $('#' + tab + '_' + id).show();
+                $('.form-tabs-tab-selector').removeClass('form-tabs-tab-selected');
+                $('#tab_selector_' + tab + '_' + id).addClass('form-tabs-tab-selected');
             }
         }
     };

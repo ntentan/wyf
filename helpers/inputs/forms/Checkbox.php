@@ -16,7 +16,7 @@ class Checkbox extends Element
         return TemplateEngine::render('wyf_inputs_forms_checkbox.tpl.php', $this->getTemplateVariables());
     }
 
-    public function label($label = false)
+    /*public function label($label = false)
     {
         if($label == false)
         {
@@ -26,5 +26,5 @@ class Checkbox extends Element
         {
             $this->label = $label;
         }
-    }
+    }*/
 }

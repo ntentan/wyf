@@ -1,3 +1,8 @@
+form{
+    background-color:#efefef;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 #form-wrapper{
     width:50%;
 }
@@ -20,20 +25,24 @@
 {
     font-weight: bold;
     color:#808080;
-    display: block;
+    display: inline-block;
+    width:180px;
+    text-align: right;
+    margin-right:10px;
+    vertical-align: top;
 }
 
 label.form-label
 {
-	margin-top:10px;
+    margin-top:10px;
 }
 
 .form-element-wrapper input[type=text]
 {
-    width:98%;
-    padding:1%;
+    padding:5px;
     border:1px solid #e0e0e0;
     box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.07);
+    width: 400px;
 }
 
 .form-element-wrapper select
@@ -46,10 +55,11 @@ label.form-label
 }
 
 .form-element-wrapper textarea{
-    border:1px solid #f0f0f0;
-    width:98%;
-    padding:1%;
+    border:1px solid #e0e0e0;
     height:80px;
+    width:400px;
+    padding:5px;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.07);
 }
 
 div.form-error{
@@ -145,4 +155,35 @@ div.form-error ul{
 
 .form-radio-group-option label{
     font-weight: normal;
+}
+
+.form-tabs-tab{
+    display:none;
+}
+
+.form-tabs-tab-list{
+    float:left;
+    width:250px;
+}
+
+.form-tabs-tabs{
+    float:left;
+    width:1000px;
+}
+
+.form-tabs-tab-list > ul{
+    list-style: none;
+    margin:10px;
+    padding:0px;
+}
+
+.form-tabs-tab-list > ul > li{
+    padding:5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-tabs-tab-list > ul > li.form-tabs-tab-selected{
+    background-color:#808080;
+    color:#fff;
 }
