@@ -5,6 +5,22 @@ class Tabs extends Container
 {
     private $tabs = array();
     
+    public function data($data = false)
+    {
+        foreach($this->tabs as $tab)
+        {
+            $tab->data($data);
+        }
+    }
+    
+    public function errors($errors = false)
+    {
+        foreach($this->tabs as $tab)
+        {
+            $tab->errors($errors);
+        }
+    }
+    
     public function tab()
     {
         $arguments = func_get_args();

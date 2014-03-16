@@ -51,7 +51,7 @@ label.form-label
 }
 
 .form-element-wrapper input[type=text].form-error{
-    border:1px solid #feaca5;
+    border:1px solid red;
 }
 
 .form-element-wrapper textarea{
@@ -68,6 +68,16 @@ div.form-error{
     padding:7px;
     font-size:small;
     color:#e33a2b;
+    margin-bottom: 10px;
+}
+
+.form-element-wrapper div.form-error{
+    margin-bottom:0px;
+    margin-left:194px;
+    background-color:#fe8085;
+    color:#fff;
+    font-weight: bold;
+    width:398px;
 }
 
 div.form-error ul{
