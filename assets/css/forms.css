@@ -191,6 +191,7 @@ div.form-error ul{
     padding:5px;
     margin-bottom: 5px;
     font-weight: bold;
+    cursor:pointer
 }
 
 .form-tabs-tab-list > ul > li.form-tabs-tab-selected{
