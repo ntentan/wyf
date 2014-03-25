@@ -17,8 +17,7 @@ form{
 {
     font-size:smaller;
     color:#c0c0c0;
-    text-shadow:1px 1px #fff;
-    margin-top:5px;
+    margin-left:195px;
 }
 
 .form-element-wrapper label
@@ -29,6 +28,7 @@ form{
     width:180px;
     text-align: right;
     margin-right:10px;
+    margin-top:7px;
     vertical-align: top;
 }
 
@@ -156,11 +156,15 @@ div.form-error ul{
 }
 
 .form-radio-group{
-    padding-top:10px;
+    display:inline-block;
 }
 
 .form-radio-group-option{
-    
+    display:inline-block;
+}
+
+.form-radio-group-option > label{
+    width:auto;
 }
 
 .form-radio-group-option label{

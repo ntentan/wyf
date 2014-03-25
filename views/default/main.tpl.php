@@ -1,6 +1,4 @@
-<?php 
-$route_breakdown = $route_breakdown->unescape();
-?><!DOCTYPE html>
+<?php $route_breakdown = $route_breakdown->unescape() ?><!DOCTYPE html>
 <html lang="en">
     <head>
         <title><?= $wyf_title ?></title>

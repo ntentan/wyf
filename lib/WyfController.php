@@ -18,8 +18,8 @@ class WyfController extends Controller
      * @var integer
      */
     public $weight;
-    private $extraJavascripts;
-    private $extraStylesheets;
+    private $extraJavascripts = array();
+    private $extraStylesheets = array();
     
     public function init()
     {
@@ -43,9 +43,8 @@ class WyfController extends Controller
         $this->set('wyf_title', Ntentan::$appName);
         $this->set('wyf_app_name', Ntentan::$appName);
         
-        // Prevent the framework from barking
-        $this->set('extra_javascripts', '');
-        $this->set('extra_stylesheets', '');
+        $this->set('extra_javascripts', $this->extraJavascripts);
+        $this->set('extra_stylesheets', $this->extraStylesheets);
     }
     
     public function mc()
@@ -56,13 +55,11 @@ class WyfController extends Controller
     public function addExtraJavascript($extraJavascript)
     {
         $this->extraJavascripts[] = $extraJavascript;
-        $this->set('extra_javascripts', $this->extraJavascripts);
     }  
     
     public function addExtraStylesheet($extraStylesheet)
     {
         $this->extraStylesheets[] = $extraStylesheet;
-        $this->set('extra_stylesheets', $this->extraStylesheets);
     }
     
     public function setTitle($title)
