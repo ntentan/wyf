@@ -11,7 +11,8 @@ class RadioGroup extends Element
             'label' => $label,
             'value' => $value,
             'description' => $parameters['description'],
-            'attributes' => $parameters['attributes']
+            'attributes' => $parameters['attributes'],
+            'checked' => $parameters['checked']
         );
         return $this;
     }

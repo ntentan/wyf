@@ -6,8 +6,10 @@ body{
     background-color:#fdfdfd;
 }
 
-a{
+a, .wyf-link{
     text-decoration: none;
+    color:#6298cf;
+    cursor: pointer;
 }
 
 .icon-image{

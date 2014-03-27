@@ -6,6 +6,7 @@
             $helpers->javascript
             ->add(n('assets/js/jquery.js'))
             ->add(p('wyf/assets/js/wyf.js'))
+            ->add(p('wyf/assets/js/api.js'))
             ->add(p('wyf/vendor/Kalendae/build/kalendae.js'))
             ->add(p('wyf/assets/js/mustache.js'))
             ->add($extra_javascripts->unescape())
