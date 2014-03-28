@@ -20,6 +20,7 @@ class WyfController extends Controller
     public $weight;
     private $extraJavascripts = array();
     private $extraStylesheets = array();
+    private static $bootstrapClass = false;
     
     public function init()
     {
@@ -28,6 +29,7 @@ class WyfController extends Controller
         {
             $bootstrapMethod = new \ReflectionMethod($bootstrapClass, "boot");
             $bootstrapMethod->invoke(null, $this);
+            self::$bootstrapClass = $bootstrapClass;
         }
         
         TemplateEngine::appendPath(Ntentan::getPluginPath('wyf/views/default'));
@@ -109,6 +111,18 @@ class WyfController extends Controller
         }
         
         $_SESSION['menu']['main'] = $sideMenu;
+        
+        if(self::$bootstrapClass !== false)
+        {
+            try{
+                $bootstrapMethod = new \ReflectionMethod(self::$bootstrapClass, "login");
+                $bootstrapMethod->invoke(null, $this);
+            }
+            catch(\ReflectionException $e)
+            {
+                //Do nothing
+            }
+        }
                 
         Ntentan::redirect('dashboard');
     }
