@@ -12,5 +12,9 @@ var api = {
     put : function(url, data, success)
     {
         api.call('PUT', url, data, success);
+    },
+    get : function(url, data, success)
+    {
+        api.call('GET?' + data, url, null, success);
     }
 }
