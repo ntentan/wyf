@@ -9,8 +9,8 @@ form{
 
 .form-element-wrapper
 {
-    padding-bottom:10px;
-    padding-top:10px;
+    padding-bottom:5px;
+    padding-top:5px;
 }
 
 .form-element-description
@@ -124,12 +124,13 @@ div.form-error ul{
 
 .form-element-wrapper fieldset{
     border:1px solid #dcdcdc;
-    margin:0px;
+    margin:10px;
+    margin-top:0px;
+    margin-bottom: 0px;
 }
 
 .form-element-wrapper fieldset legend{
     font-weight: bold;
-    font-size: 1.2em;
     padding-left: 10px;
     padding-right: 10px;
     color:#404040;
@@ -202,3 +203,4 @@ div.form-error ul{
     background-color:#808080;
     color:#fff;
 }
+

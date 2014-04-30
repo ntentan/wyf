@@ -466,6 +466,8 @@ class ModelControllerComponent extends Component
         $item = $this->model->getFirstWithId($id);        
         $this->set('item', (string)$item);
         $this->controller->setTitle("Edit {$this->entity} {$item}");    
+        $this->set('form_variables', $this->formVariables);
+
         
         if(is_array($this->parent)) 
         {
