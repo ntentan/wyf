@@ -470,6 +470,9 @@ function adjustUI()
 
     // Adjust notification
     $('#notification').css({left: '240px', width: ($(window).width() - 480) + 'px'});
+    
+    // Adjust tabs
+    $('.form-tabs-tabs').width($('.form-tabs-container').width() - $('.form-tabs-tab-list').width() - 10);
 }
 
 $(function() {

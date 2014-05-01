@@ -1,5 +1,5 @@
 form{
-    background-color:#efefef;
+    background-color:#fcfcfc;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -42,7 +42,7 @@ label.form-label
     padding:5px;
     border:1px solid #e0e0e0;
     box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.07);
-    width: 400px;
+    width: 40%;
 }
 
 .form-element-wrapper select
@@ -183,7 +183,7 @@ div.form-error ul{
 
 .form-tabs-tabs{
     float:left;
-    width:1000px;
+    /*width:1000px;*/
 }
 
 .form-tabs-tab-list > ul{
@@ -200,7 +200,7 @@ div.form-error ul{
 }
 
 .form-tabs-tab-list > ul > li.form-tabs-tab-selected{
-    background-color:#808080;
+    background-color:#6095cb;
     color:#fff;
 }
 

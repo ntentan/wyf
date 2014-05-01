@@ -36,8 +36,8 @@
         <div id="wrapper">
             <div id="header">
                 <div class="row">
-                    <div class="column grid_10_7"><h1><?= $wyf_app_name ?></h1></div>
-                    <div class="column grid_10_3">
+                    <div class="column grid_10_5"><h1><?= $wyf_app_name ?></h1></div>
+                    <div class="column grid_10_5">
                         <div id="profile_box">
                         <?php if($_SESSION['user']['username'] != ''): ?>
                             Logged in as <b><?= $_SESSION['user']['username'] ?></b> | <a href="<?= u('logout') ?>">Logout</a>&nbsp;&nbsp;&nbsp;

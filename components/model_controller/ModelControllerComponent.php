@@ -467,7 +467,6 @@ class ModelControllerComponent extends Component
         $this->set('item', (string)$item);
         $this->controller->setTitle("Edit {$this->entity} {$item}");    
         $this->set('form_variables', $this->formVariables);
-
         
         if(is_array($this->parent)) 
         {
