@@ -1,5 +1,10 @@
 (function() {
     wyf = {
+        resizers : [],
+        addResizer : function(resizer)
+        {
+            this.resizers.push(resizer);
+        },
         reports: {
             filterSerial: 0,
             addFilter: function(filterParameters)
@@ -473,6 +478,11 @@ function adjustUI()
     
     // Adjust tabs
     $('.form-tabs-tabs').width($('.form-tabs-container').width() - $('.form-tabs-tab-list').width() - 10);
+            
+    for(var i in wyf.resizers)
+    {
+        if(typeof wyf.resizers[i] === 'function') wyf.resizers[i]();
+    }
 }
 
 $(function() {
