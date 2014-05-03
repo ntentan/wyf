@@ -65,7 +65,9 @@ label.form-label
 div.form-error{
     background-color:#feefee;    
     margin-top:5px;
-    padding:7px;
+    padding:5px;
+    padding-left:6px;
+    padding-right:6px;
     font-size:small;
     color:#e33a2b;
     margin-bottom: 10px;
@@ -77,7 +79,7 @@ div.form-error{
     background-color:#fe8085;
     color:#fff;
     font-weight: bold;
-    width:398px;
+    width:40%;
 }
 
 div.form-error ul{
