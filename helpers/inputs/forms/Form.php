@@ -7,10 +7,24 @@ use ntentan\Ntentan;
 class Form extends Container
 {
     private $submitValue = 'Save';
+    private $ajax = false;
     
     public function __construct()
     {
         $this->attribute('method', 'post');
+    }
+    
+    public function ajax($ajax)
+    {
+        if($ajax != '' || $ajax != false)
+        {
+            $this->ajax = $ajax;
+        }
+        else 
+        {
+            $this->ajax = false;            
+        }
+        return $this;            
     }
     
     public function setSubmitValue($submitValue)
@@ -99,7 +113,8 @@ class Form extends Container
         return array_merge(
             parent::getTemplateVariables(),
             array(
-                'submit_value' => $this->submitValue
+                'submit_value' => $this->submitValue,
+                'ajax' => $this->ajax
             )
         );
     }
