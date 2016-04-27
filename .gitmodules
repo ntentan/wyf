@@ -1,6 +1,0 @@
-[submodule "vendor/Kalendae"]
-	path = vendor/Kalendae
-	url = git://github.com/ChiperSoft/Kalendae.git
-[submodule "vendor/dashy"]
-	path = vendor/dashy
-	url = https://github.com/ekowabaka/dashy.git
