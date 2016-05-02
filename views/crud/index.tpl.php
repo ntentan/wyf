@@ -1,9 +1,8 @@
-<h2><?= ucfirst($entities) ?> <?= $postfix ?></h2>
+<h2><?= ucfirst($entities) ?></h2>
 <div id="wyf_toolbar">
     <?php if($has_add_operation): ?>
-    <?php if($add_button_label == '') $add_button_label = 'Add a new ' . $entity; ?>
-    <span class="wyf_button" id="toolbar_add"><a href="<?= $wyf_add_url ?>"><?= $add_button_label ?></a></span><?php
-    if($wyf_import_url != ''):?><a class="wyf_button" id="toolbar_import" href="<?= $wyf_import_url ?>">Import <?= $entities ?></a><?php endif; ?>
+    <span class="wyf_button" id="toolbar_add"><a href="<?= $add_item_url ?>"><?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a></span><?php
+    if($import_items_url != ''):?><a class="wyf_button" id="toolbar_import" href="<?= $import_items_url ?>">Import <?= $entities ?></a><?php endif; ?>
     <?php endif; ?>
 </div>
 <div id="wyf_list_view">
@@ -24,7 +23,7 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        wyf.listView.api = "<?= $wyf_api_url->unescape() ?>";
+        wyf.listView.api = "<?= unescape($api_url) ?>";
         <?php if($foreign_key != ''): ?>
         wyf.listView.setConditions({
             <?=$foreign_key?> : "<?= $foreign_key_value ?>"
@@ -32,7 +31,7 @@
         <?php endif; ?>
         <?php 
         $fields = array();
-        foreach($list_fields->unescape() as $list_field){
+        foreach(unescape($list_fields) as $list_field){
             $fields[] = $list_field['name'];
         }
         ?>
@@ -43,7 +42,7 @@
 <script type="text/html" id="wyf_list_view_template">
     <table id="wyf_list_table">
         <thead>
-            <tr><?php foreach($list_fields->unescape() as $field){
+            <tr><?php foreach(unescape($list_fields) as $field){
                 echo "<th>{$field['label']}</th>";
             }?><th></th></tr>
         </thead>
@@ -66,7 +65,7 @@
     </table>
 </script>
 <?php
-    load_asset('images/add.png', p('wyf/assets/images/add.png'));
-    load_asset('images/addbg.gif', p('wyf/assets/images/addbg.gif'));
-    load_asset('images/import.png', p('wyf/assets/images/import.png'));
+    load_asset('images/add.png');
+    load_asset('images/addbg.gif');
+    load_asset('images/import.png');
 ?>

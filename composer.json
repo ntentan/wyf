@@ -11,6 +11,7 @@
     "autoload" : {
         "psr-4": {
             "ntentan\\wyf\\": "src/",
+            "ntentan\\extensions\\wyf\\" : "src/extensions/",
             "ntentan\\wyf\\tests\\" : "tests/"
         }
     }

@@ -148,28 +148,28 @@
             fields: undefined,
             update: function(info)
             {
-                $.getJSON(
-                        this.api + 'ipp=' + this.itemsPerPage + '&pg=' + this.page + (info ? '&info=yes' : '') + this.getConditions() + this.getFields(),
-                        function(response)
-                        {
-                            $('#wyf_list_view').html(
-                                    Mustache.render(
-                                            $('#wyf_list_view_template').html(),
-                                            {list: response.data}
-                                    )
-                                    );
+              $.getJSON(
+                  this.api + '?limit=' + this.itemsPerPage + '&page=' + this.page + this.getConditions() + this.getFields(),
+                  function(response)
+                  {
+                    $('#wyf_list_view').html(
+                      Mustache.render(
+                        $('#wyf_list_view_template').html(),
+                        {list: response}
+                      )
+                    );
 
-                            if (response.count !== undefined)
-                            {
-                                wyf.listView.pages = Math.ceil(response.count / wyf.listView.itemsPerPage);
-                                $('#wyf_list_view_size').html(wyf.listView.pages);
-                            }
-                        }
-                );
+                    if (response.count !== undefined)
+                    {
+                      wyf.listView.pages = Math.ceil(response.count / wyf.listView.itemsPerPage);
+                      $('#wyf_list_view_size').html(wyf.listView.pages);
+                    }
+                  }
+              );
             },
             init: function()
             {
-                this.update(true);
+              this.update(true);
             },
             nextPage: function()
             {
@@ -219,7 +219,7 @@
             {
                 if (this.fields !== undefined)
                 {
-                    return "&f=" + escape(JSON.stringify(this.fields));
+                    return "&fields=" + this.fields.join(",");
                 }
                 else
                 {
@@ -488,21 +488,4 @@ function adjustUI()
 $(function() {
     $(window).resize(adjustUI);
     adjustUI();
-    $.getJSON(
-        ntentan.url('system/notifications'),
-        function(response)
-        {
-            if (response !== false)
-            {
-                if (response.notification !== false) wyf.notify(response.notifications);
-                if (response.js !== false)
-                {
-                    var script = document.createElement("script");
-                    script.type = 'text/javascript';
-                    script.src = ntentan.url('system/notifications/js');
-                    document.getElementsByTagName("head")[0].appendChild(script);
-                }
-            }
-        }
-    );
 });

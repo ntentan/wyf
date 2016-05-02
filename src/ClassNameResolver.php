@@ -11,30 +11,24 @@ namespace ntentan\wyf;
 use ntentan\Ntentan;
 use ntentan\utils\Text;
 use ntentan\nibii\interfaces\ClassResolverInterface as ModelClassResolver;
-use ntentan\controllers\interfaces\ClassResolverInterface as ControllerClassResolver;
+use ntentan\nibii\Relationship;
 
 /**
  * Description of ClassNameResolver
  *
  * @author ekow
  */
-class ClassNameResolver implements ModelClassResolver, ControllerClassResolver
+class ClassNameResolver implements ModelClassResolver
 {
-    public function getControllerClassName($name)
-    {
-        return sprintf(
-            '\%s\app\controllers\%sController', 
-            Ntentan::getNamespace(), 
-            Text::ucamelize($name)
-        );        
-    }
-
     public function getModelClassName($model, $context)
     {
-        if($context == nibii\Relationship::BELONGS_TO) {
+        if($context == Relationship::BELONGS_TO) {
             $model = Text::pluralize($model);
         }
         $namespace = Ntentan::getNamespace();
-        return "\\$namespace\\app\\models\\" . Text::ucamelize(explode('.', $model)[0]);        
+        $modelParts = explode('.', $model);
+        $name = Text::ucamelize(array_pop($modelParts));
+        $base = implode('\\', $modelParts);
+        return "\\$namespace\\app\\$base\\models\\$name";        
     }
 }
