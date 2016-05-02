@@ -13,6 +13,7 @@ use ntentan\honam\TemplateEngine;
 use ntentan\controllers\Url;
 use ntentan\utils\Text;
 use ntentan\Model;
+use ntentan\controllers\Redirect;
 
 /**
  * Description of CrudController
@@ -63,6 +64,20 @@ class CrudController extends WyfController
     
     public function add()
     {
-        
+        View::set('model', $this->getModel()->createNew());
+        View::set('form_template', str_replace('.', '_', $this->getWyfPackage()) . '_form');
+    }
+    
+    /**
+     * @ntentan.action add
+     * @ntentan.method POST
+     * @ntentan.binder \ntentan\wyf\controllers\binders\CrudDataBinder
+     */
+    public function store(Model $model)
+    {
+        if($model->isValid()) {
+            $model->save();
+            return Redirect::action('index');
+        }
     }
 }

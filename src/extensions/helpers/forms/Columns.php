@@ -1,5 +1,5 @@
 <?php
-namespace ntentan\plugins\wyf\helpers\inputs\forms;
+namespace ntentan\extensions\wyf\helpers\forms;
 
 class Columns extends Container
 {

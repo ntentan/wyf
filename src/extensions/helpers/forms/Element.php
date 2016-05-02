@@ -1,7 +1,7 @@
 <?php
-namespace ntentan\plugins\wyf\helpers\inputs\forms;
+namespace ntentan\extensions\wyf\helpers\forms;
 
-use ntentan\views\template_engines\TemplateEngine;
+use ntentan\honam\TemplateEngine;
 use ntentan\Ntentan;
 
 class Element
@@ -15,15 +15,15 @@ class Element
     protected $renderWithType;
     protected $description;
     
-    public function __construct($label = '', $name = '')
+    public function __construct($name = '', $label = null)
     {
-        $this->label($label);
+        $this->label($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
         $this->name($name);
     }
     
     public function __toString() 
     {
-        $type = $this->renderWithType == '' ? Ntentan::deCamelize($this->getType()) : $this->renderWithType;
+        $type = $this->renderWithType == '' ? \ntentan\utils\Text::deCamelize($this->getType()) : $this->renderWithType;
         
         return TemplateEngine::render(
             "wyf_inputs_forms_{$type}.tpl.php", 
@@ -126,6 +126,7 @@ class Element
     
     public function renderAttributes()
     {
+        $return = '';
         foreach($this->attributes as $attribute => $value)
         {
             if($value == '') continue;

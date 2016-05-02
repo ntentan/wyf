@@ -1,7 +1,7 @@
 <?php
-namespace ntentan\plugins\wyf\helpers\inputs\forms\tabs;
+namespace ntentan\extensions\wyf\helpers\forms\tabs;
 
-use ntentan\plugins\wyf\helpers\inputs\forms\Container;
+use ntentan\extensions\wyf\helpers\forms\Container;
 
 class Tab extends Container
 {   

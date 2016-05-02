@@ -1,7 +1,7 @@
 <?php
-namespace ntentan\plugins\wyf\helpers\inputs\forms;
+namespace ntentan\extensions\wyf\helpers\forms;
 
-use ntentan\views\template_engines\TemplateEngine;
+use ntentan\honam\TemplateEngine;
 use ntentan\Ntentan;
 
 class Form extends Container
@@ -32,82 +32,6 @@ class Form extends Container
         $this->submitValue = $submitValue;
         return $this;
     }
-    
-    public function setup($fields, $params = array())
-    {
-        foreach($fields as $field)
-        {
-            if($field['primary_key'] === true) continue;
-            
-            if(is_array($params['hide']))
-            {
-                if(array_search($field['name'], $params['hide']) !== false)
-                {
-                    $field['type'] = 'hidden';
-                }
-            }
-            
-            switch($field['type'])
-            {
-                case 'hidden':
-                    $element = new Hidden(
-                        $field['name']
-                    );
-                    break;
-                    
-                case 'string':
-                    $element = new Text(
-                        Ntentan::toSentence($field['name']), 
-                        $field['name']
-                    );
-                    break;
-                
-                case 'datetime':
-                    $element = new Date(
-                        Ntentan::toSentence($field['name']), 
-                        $field['name']
-                    );                    
-                    break;
-                
-                case 'boolean':
-                    $element = new Checkbox(
-                        Ntentan::toSentence($field['name']), 
-                        $field['name']
-                    );                     
-                    break;
-                
-                case 'text':
-                    $element = new Text(
-                        Ntentan::toSentence($field['name']), 
-                        $field['name']
-                    );                    
-                    $element->multiline(true);
-                    break;
-                
-                case 'integer':
-                case 'double':
-                    $element = new Text(
-                        Ntentan::toSentence($field['name']), 
-                        $field['name']
-                    );
-                    break;
-                                
-                case 'date':
-                    $element = new Date(
-                        Ntentan::toSentence($field['name']),
-                        $field['name']
-                    );
-                    break;
-                                
-                default:
-                    throw new \Exception("Unknown datatype {$field['type']}");
-            }
-            
-            $this->add($element);
-        }
-        
-        return $this;
-    }    
     
     public function getTemplateVariables() {
         return array_merge(
@@ -143,7 +67,7 @@ class Form extends Container
         }        
         
         return TemplateEngine::render(
-            'wyf_input_forms_form.tpl.php', 
+            'wyf_forms_form', 
             $this->getTemplateVariables()
         );
     }

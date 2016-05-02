@@ -1,14 +1,11 @@
 <?php 
 $errors = $element->errors();
 $label = $element->label();
-if($element->getType() == 'Box')
-{
-    $hideWrapper = true;
-}
+$hideWrapper = $element->getType() == 'Box' ? true : false;
 ?>
 <?php if(!$hideWrapper): ?><div class="form-element-wrapper" id="form-element-<?= $element->name() ?>"><?php endif; ?>
 <?php if($label != ''): ?><label><?= $label ?></label><?php endif; ?>
-<?= $element ?>
+<?= unescape($element) ?>
 <?php if($element->description() != ''): ?>
     <div class="form-element-description"><?= $element->description() ?></div>
 <?php endif; ?>
