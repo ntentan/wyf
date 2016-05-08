@@ -107,17 +107,17 @@ class WyfController extends Controller
         $_SESSION['notifications'] = $notification;
     }
     
-    protected function getWyfName()
+    public function getWyfName()
     {
         return $this->name;
     }
     
-    protected function getWyfPackage()
+    public function getWyfPackage()
     {
         return $this->package;
     }
     
-    protected function getWyfPath()
+    public function getWyfPath()
     {
         return $this->path;
     }

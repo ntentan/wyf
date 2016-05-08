@@ -16,6 +16,9 @@ use ntentan\honam\TemplateEngine;
 use ntentan\honam\AssetsLoader;
 use ntentan\View;
 use ntentan\utils\Text;
+use ntentan\controllers\ModelBinders;
+use ntentan\Model;
+use ntentan\controllers\DefaultModelBinder;
 
 /**
  * Description of newPHPClass

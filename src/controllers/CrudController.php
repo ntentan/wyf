@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace ntentan\wyf\controllers;
 
 use ntentan\View;
@@ -71,13 +65,13 @@ class CrudController extends WyfController
     /**
      * @ntentan.action add
      * @ntentan.method POST
-     * @ntentan.binder \ntentan\wyf\controllers\binders\CrudDataBinder
+     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
      */
     public function store(Model $model)
     {
-        if($model->isValid()) {
-            $model->save();
+        if($model->save()) {
             return Redirect::action('index');
         }
+        
     }
 }
