@@ -11,6 +11,7 @@ namespace ntentan\wyf;
 use ntentan\Ntentan;
 use ntentan\utils\Text;
 use ntentan\nibii\interfaces\ClassResolverInterface as ModelClassResolver;
+use ntentan\controllers\interfaces\ClassResolverInterface as ControllerClassResolver;
 use ntentan\nibii\Relationship;
 
 /**
@@ -18,17 +19,27 @@ use ntentan\nibii\Relationship;
  *
  * @author ekow
  */
-class ClassNameResolver implements ModelClassResolver
+class ClassNameResolver implements ModelClassResolver, ControllerClassResolver
 {
+    private function getWyfClassName($wyfPath, $type)
+    {
+        $namespace = Ntentan::getNamespace();
+        $wyfPathParts = explode('.', $wyfPath);
+        $name = Text::ucamelize(array_pop($wyfPathParts));
+        $base = (count($wyfPathParts) ? '\\' : '') . implode('\\', $wyfPathParts);
+        return "\\$namespace\\app$base\\$type\\$name";          
+    }
+    
     public function getModelClassName($model, $context)
     {
         if($context == Relationship::BELONGS_TO) {
             $model = Text::pluralize($model);
         }
-        $namespace = Ntentan::getNamespace();
-        $modelParts = explode('.', $model);
-        $name = Text::ucamelize(array_pop($modelParts));
-        $base = implode('\\', $modelParts);
-        return "\\$namespace\\app\\$base\\models\\$name";        
+        return $this->getWyfClassName($model, 'models');
+    }
+
+    public function getControllerClassName($name)
+    {
+        return $this->getWyfClassName($name, 'controllers') . 'Controller';
     }
 }

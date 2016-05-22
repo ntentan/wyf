@@ -16,13 +16,19 @@ use ntentan\controllers\Redirect;
  */
 class CrudController extends WyfController
 {   
+    private $operations = [];
+    
     public function __construct()
     {
         parent::__construct();
+        $this->addOperation('edit');
+        $this->addOperation('delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
+        
         View::set('entities', $this->getWyfName());
         View::set('entity', Text::singularize($this->getWyfName()));
         View::set('has_add_operation', true);
+        View::set('form_template', str_replace('.', '_', $this->getWyfPackage()) . '_form');        
     }
 
     /**
@@ -41,10 +47,12 @@ class CrudController extends WyfController
         View::set('api_url', Url::path('api/' . $this->getWyfPath()));
         
         $model = $this->getModel();
-        $fields = $model->getDescription()->getFields();
-        $listFields = [];
+        $description = $model->getDescription();
+        $fields = $description->getFields();
+        $primaryKey = $description->getPrimaryKey()[0];
         
         foreach($fields as $field) {
+            if($field['name'] == $primaryKey) continue;
             $listFields[] = [
                 'name' => $field['name'],
                 'label' => $field['name']
@@ -52,14 +60,14 @@ class CrudController extends WyfController
         }
         
         View::set('list_fields', $listFields);
-        View::set('operations', []);
+        View::set('operations', $this->operations);
+        View::set('primary_key_field', $primaryKey);
         View::set('foreign_key', false);
     }
     
     public function add()
     {
         View::set('model', $this->getModel()->createNew());
-        View::set('form_template', str_replace('.', '_', $this->getWyfPackage()) . '_form');
     }
     
     /**
@@ -70,8 +78,37 @@ class CrudController extends WyfController
     public function store(Model $model)
     {
         if($model->save()) {
-            return Redirect::action('index');
+            return Redirect::action(null);
+        }    
+    }
+    
+    public function edit($id)
+    {
+        $model = $this->getModel();
+        $primaryKey = $model->getDescription()->getPrimaryKey()[0];
+        View::set('model', $this->getModel()->fetchFirst([$primaryKey => $id]));
+    }
+    
+    /**
+     * @ntentan.action edit
+     * @ntentan.method POST
+     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
+     * 
+     * @param Model $model
+     * @return type
+     */
+    public function  update(Model $model)
+    {
+        if($model->save()) {
+            return Redirect::action(null);
         }
-        
+    }
+    
+    protected function addOperation($action, $label = null)
+    {
+        $this->operations[] = [
+            'label' => $label == null ? $action : $label,
+            'action' => $action
+        ];
     }
 }

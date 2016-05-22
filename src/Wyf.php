@@ -39,16 +39,18 @@ class Wyf
             ['default' => ['controller' => controllers\ApiController::class, 'action' => 'rest']]
         );
         
-        Router::mapRoute('wyf_main', function($route){
-            $routeArray = explode('/', $route);
-            $routeDetails = self::getController(
-                $routeArray, 
-                realpath(__DIR__ . '/../../../../src/app/'),
-                \ntentan\Ntentan::getNamespace() . '\app'
-            );
-            $routeDetails['controller_path'] = $route;
-            return $routeDetails;
-        });
+        Router::mapRoute('wyf_main', 
+            function($route){
+                $routeArray = explode('/', $route);
+                $routeDetails = self::getController(
+                    $routeArray, 
+                    realpath(__DIR__ . '/../../../../src/app/'),
+                    \ntentan\Ntentan::getNamespace() . '\app'
+                );
+                return $routeDetails;
+            },
+            ['default' => ['action' => 'index']]
+        );
         
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
@@ -57,22 +59,30 @@ class Wyf
         View::set('wyf_app_name', $parameters['short_name']);
         
         InjectionContainer::bind(ModelClassResolver::class)->to(ClassNameResolver::class);
+        InjectionContainer::bind(ControllerClassResolver::class)->to(ClassNameResolver::class);
     }
     
-    private static function getController($routeArray, $basePath, $namespace)
+    private static function getController($routeArray, $basePath, $namespace, $controllerPath = "")
     {
         $path = array_shift($routeArray);
         $controllerClass = Text::ucamelize($path) . 'Controller';
         $controllerFile = "$basePath/controllers/{$controllerClass}.php";
-        if(is_dir("$basePath/$path")){
-            return self::getController($routeArray, "$basePath/$path", "$namespace\\$path");
+        
+        if($path == "" && !empty($routeArray)) {
+            return self::getController($routeArray, $basePath, $namespace, $controllerPath);
+        } else if(is_dir("$basePath/$path") && !empty($routeArray)) {
+            // enter directories to find nested controllers
+            return self::getController($routeArray, "$basePath/$path", "$namespace\\$path", "$controllerPath/$path");
         } else if(file_exists($controllerFile)) {
+            // return controller info
             return [
                 'controller' => "$namespace\\controllers\\$controllerClass",
                 'action' => array_shift($routeArray),
-                'id' => implode('/', $routeArray)
+                'id' => implode('/', $routeArray),
+                'controller_path' => substr("$controllerPath/$path", 1)
             ];
-            $controller = $controllerFile;
+        } else {
+            return [];
         }
     }
 }

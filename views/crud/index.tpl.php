@@ -57,7 +57,7 @@
             
             //Operations
             foreach($operations as $operation){
-                echo "<a href='{$operation['link']}/{{{$key_field}}}'>{$operation['label']}</a> ";
+                echo "<a href='{$operation['action']}/{{{$primary_key_field}}}'>{$operation['label']}</a> ";
             }
             ?></td></tr>
             {{/list}}

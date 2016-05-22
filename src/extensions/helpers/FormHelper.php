@@ -31,7 +31,7 @@ class FormHelper extends \ntentan\honam\Helper
         
         foreach($fields as $field) {
             if($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false) continue;
-            $form->add($this->inputForField($field));
+            $form->add($this->inputForField($field)->value($model[$field['name']]));
         }
         
         return $form;
