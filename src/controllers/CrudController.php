@@ -45,6 +45,7 @@ class CrudController extends WyfController
         View::set('add_item_url', Url::action('add'));
         View::set('import_items_url', Url::action('import'));
         View::set('api_url', Url::path('api/' . $this->getWyfPath()));
+        View::set('base_url', Url::action(''));
         
         $model = $this->getModel();
         $description = $model->getDescription();

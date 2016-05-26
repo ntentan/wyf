@@ -7,24 +7,10 @@ use ntentan\Ntentan;
 class Form extends Container
 {
     private $submitValue = 'Save';
-    private $ajax = false;
     
     public function __construct()
     {
         $this->attribute('method', 'post');
-    }
-    
-    public function ajax($ajax)
-    {
-        if($ajax != '' || $ajax != false)
-        {
-            $this->ajax = $ajax;
-        }
-        else 
-        {
-            $this->ajax = false;            
-        }
-        return $this;            
     }
     
     public function setSubmitValue($submitValue)
