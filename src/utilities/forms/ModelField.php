@@ -1,5 +1,5 @@
 <?php
-namespace ntentan\extensions\wyf\helpers\forms;
+namespace ntentan\wyf\utilities\forms;
 
 use ntentan\Ntentan;
 
