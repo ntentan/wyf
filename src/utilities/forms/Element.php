@@ -17,8 +17,8 @@ class Element
     
     public function __construct($name = '', $label = null)
     {
-        $this->label($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
-        $this->name($name);
+        $this->setLabel($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
+        $this->setName($name);
     }
     
     public function __toString() 
@@ -38,90 +38,56 @@ class Element
         return end($array);
     }
     
-    public function attribute($attribute, $value = false)
+    public function setAttribute($attribute, $value)
     {
-        if($value !== false)
-        {
-            $this->attributes[$attribute] = $value;
-            return $this;
-        }
-        else
-        {
-            return $this->attributes[$attribute];
-        }
+        $this->attributes[$attribute] = $value;
+        return $this;
     }
     
-    public function value($value = false)
+    public function getValue($value = false)
     {
-        return $this->data($value);
+        return $this->data;
     }
     
-    public function data($data = false)
+    public function setData($data = false)
     {
-        if($data === false)
+        if($this->data == '' && $data != '')
         {
-            return $this->data;
+            $this->data = $data;
+            $this->setAttribute('value', $data);
+            $this->set('field_value', $data); 
         }
-        else
-        {
-            if($this->data == '' && $data != '')
-            {
-                $this->data = $data;
-                $this->attribute('value', $data);
-                $this->set('field_value', $data); 
-            }
-            return $this;
-        }
+        return $this;
     }
     
-    public function errors($errors = false)
+    public function setErrors($errors)
     {
-        if($errors === false)
-            return $this->errors;
-        else
-        {
-            $this->errors = $errors;        
-        }
+        $this->errors = $errors;        
+        return $this;
     }
     
-    public function label($label = false)
+    public function getErrors()
     {
-        if($label === false)
-        {
-            return $this->label;
-        }
-        else
-        {
-            $this->label = $label;
-            return $this;
-        }
+        return $this->errors;
     }
     
-    public function description($description = false)
+    public function setLabel($label = false)
     {
-        if($description === false)
-        {
-            return $this->description;
-        }
-        else
-        {
-            $this->description = $description;
-            return $this;
-        }
+        $this->label = $label;
+        return $this;
     }
     
-    public function name($name = false)
+    public function setDescription($description = false)
     {
-        if($name === false)
-        {
-            return $this->name;
-        }
-        else
-        {
-            $this->name = $name;
-            $this->attribute('name', $name);
-            return $this;
-        }
+        $this->description = $description;
+        return $this;
+    }
+    
+    public function setName($name = false)
+    {
+        $this->name = $name;
+        $this->setAttribute('name', $name);
+        return $this;
     }
     
     public function renderAttributes()
@@ -143,7 +109,7 @@ class Element
                 'label' => $this->label,
                 'name' => $this->name,
                 'attributes' => $this->renderAttributes(),
-                'extra_css_classes' => count($this->errors()) > 0 ? 'form-error' : '',
+                'extra_css_classes' => count($this->setErrors()) > 0 ? 'form-error' : '',
                 'value' => $this->data
             )
         );
@@ -154,7 +120,7 @@ class Element
         $this->variables[$key] = $value;
     }
     
-    public function create()
+    public static function create()
     {
         $args = func_get_args();
         $type = array_shift($args);

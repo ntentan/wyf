@@ -1,7 +1,7 @@
 <?php
 namespace ntentan\extensions\wyf\helpers\forms;
 
-class Select extends Element
+class SelectField extends Element
 {
     private $options = array();
     

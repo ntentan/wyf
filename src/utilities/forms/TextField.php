@@ -1,11 +1,11 @@
 <?php
 namespace ntentan\extensions\wyf\helpers\forms;
 
-class Text extends Element
+class TextField extends Element
 {
-    private  $multiline;
+    private $multiline;
     
-    public function multiline($multiline)
+    public function setMultiline($multiline)
     {
         $this->multiline = $multiline;
         $this->set('multiline', $multiline);

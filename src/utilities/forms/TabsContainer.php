@@ -1,23 +1,24 @@
 <?php
 namespace ntentan\extensions\wyf\helpers\forms;
 
-class Tabs extends Container
+class TabsContainer extends Container
 {
     private $tabs = array();
     
-    public function data($data = false)
+    public function setData($data = false)
     {
         foreach($this->tabs as $tab)
         {
-            $tab->data($data);
+            $tab->setData($data);
         }
+        return $this;
     }
     
-    public function errors($errors = false)
+    public function setErrors($errors = false)
     {
         foreach($this->tabs as $tab)
         {
-            $tab->errors($errors);
+            $tab->setErrors($errors);
         }
     }
     
@@ -39,7 +40,7 @@ class Tabs extends Container
     public function id($id)
     {
         $this->set('id', $id);
-        $this->attribute('id', $id);
+        $this->setAttribute('id', $id);
         return $this;
     }
     

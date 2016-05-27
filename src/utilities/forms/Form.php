@@ -10,7 +10,7 @@ class Form extends Container
     
     public function __construct()
     {
-        $this->attribute('method', 'post');
+        $this->setAttribute('method', 'post');
     }
     
     public function setSubmitValue($submitValue)
@@ -29,7 +29,7 @@ class Form extends Container
         );
     }
     
-    public function errors($errors = false)
+    public function setErrors($errors = false)
     {
         if($errors === false) return;
         $this->errors = $errors;
@@ -41,14 +41,14 @@ class Form extends Container
         {
             if(is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container"))
             {
-                $element->data($this->data);
-                $element->errors($this->errors);
+                $element->setData($this->data);
+                $element->setErrors($this->errors);
             }
             else
             {
-                $name = $element->name();
-                $element->data($this->data[$name]);
-                $element->errors($this->errors[$name]);
+                $name = $element->getName();
+                $element->setData($this->data[$name]);
+                $element->setErrors($this->errors[$name]);
             }
         }        
         

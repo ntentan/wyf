@@ -3,12 +3,12 @@ namespace ntentan\extensions\wyf\helpers\forms;
 
 use ntentan\views\template_engines\TemplateEngine;
 
-class Date extends Element
+class DateField extends Element
 {
     public function __construct($label = '', $name = '')
     {
-        $this->label($label);
-        $this->name($name);
+        $this->setLabel($label);
+        $this->setName($name);
     }
     
     public function __toString() 

@@ -3,7 +3,7 @@ namespace ntentan\extensions\wyf\helpers\forms;
 
 use ntentan\Ntentan;
 
-class Relate extends Select
+class RelateField extends Select
 {
     public function __construct($model, $submodel)
     {
@@ -13,8 +13,8 @@ class Relate extends Select
         $entity = Ntentan::singular($submodel->getName());
         $parentEntity = Ntentan::singular($model->getName());
         
-        $this->label(Ntentan::toSentence($entity));
-        $this->name("{$entity}_id");
+        $this->setLabel(Ntentan::toSentence($entity));
+        $this->setName("{$entity}_id");
         $parentId = "{$parentEntity}_id";
         
         

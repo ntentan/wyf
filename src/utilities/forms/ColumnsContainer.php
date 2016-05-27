@@ -1,7 +1,7 @@
 <?php
 namespace ntentan\extensions\wyf\helpers\forms;
 
-class Columns extends Container
+class ColumnsContainer extends Container
 {
     public function __construct($numColumns)
     {

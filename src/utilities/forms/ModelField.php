@@ -3,15 +3,15 @@ namespace ntentan\extensions\wyf\helpers\forms;
 
 use ntentan\Ntentan;
 
-class Model extends Select
+class ModelField extends Select
 {
     public function __construct($model)
     {
         $this->renderWithType = 'select';
         $model = \ntentan\models\Model::load($model);
         $entity = Ntentan::singular($model->getName());
-        $this->label(Ntentan::toSentence($entity));
-        $this->name("{$entity}_id");
+        $this->setLabel(Ntentan::toSentence($entity));
+        $this->setName("{$entity}_id");
         
         $options = $model->getAll();
         foreach($options as $option)

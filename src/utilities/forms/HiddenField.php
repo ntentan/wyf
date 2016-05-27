@@ -1,14 +1,14 @@
 <?php
 namespace ntentan\extensions\wyf\helpers\forms;
 
-class Hidden extends Element
+class HiddenField extends Element
 {
     public function __construct($name) 
     {
-        $this->name($name);
+        $this->setName($name);
     }
     
-    public function label($label = false)
+    public function setLabel($label = false)
     {
         
     }

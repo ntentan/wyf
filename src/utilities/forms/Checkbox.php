@@ -7,8 +7,8 @@ class Checkbox extends Element
 {
     public function __construct($label = '', $name = '')
     {
-        $this->label($label);
-        $this->name($name);
+        $this->setLabel($label);
+        $this->setName($name);
     }
     
     public function __toString() 
