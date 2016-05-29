@@ -24,6 +24,7 @@ class CrudController extends WyfController
         $this->addOperation('edit');
         $this->addOperation('delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
+        TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/forms'));
         
         View::set('entities', $this->getWyfName());
         View::set('entity', Text::singularize($this->getWyfName()));
@@ -88,6 +89,7 @@ class CrudController extends WyfController
         $model = $this->getModel();
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
         View::set('model', $this->getModel()->fetchFirst([$primaryKey => $id]));
+        View::set('primary_key_field', $primaryKey);
     }
     
     /**

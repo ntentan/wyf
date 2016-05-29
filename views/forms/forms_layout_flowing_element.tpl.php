@@ -1,13 +1,14 @@
 <?php 
-$errors = $element->errors();
-$label = $element->label();
-$hideWrapper = $element->getType() == 'Box' ? true : false;
+$errors = $element->getErrors();
+$label = $element->getLabel();
+$hideWrapper = in_array($element->getType(), ['HiddenField']) ? true : false;
+$description = $element->getDescription();
 ?>
-<?php if(!$hideWrapper): ?><div class="form-element-wrapper" id="form-element-<?= $element->name() ?>"><?php endif; ?>
+<?php if(!$hideWrapper): ?><div class="form-element-wrapper" id="form-element-<?= $element->getName() ?>"><?php endif; ?>
 <?php if($label != ''): ?><label><?= $label ?></label><?php endif; ?>
 <?= unescape($element) ?>
-<?php if($element->description() != ''): ?>
-    <div class="form-element-description"><?= $element->description() ?></div>
+<?php if($description != ''): ?>
+    <div class="form-element-description"><?= $description ?></div>
 <?php endif; ?>
 <?php if(count($errors)): ?>
     <div class="form-error">

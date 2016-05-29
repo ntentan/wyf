@@ -1,1 +1,3 @@
-<div id="form_wrapper"><?= $helpers->wyf->form->forModel(unescape($model)) ?></div>
+<?= 
+unescape($form)->forModel($model->unescape())->__toString()
+?>

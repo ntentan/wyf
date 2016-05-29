@@ -44,7 +44,7 @@ class Element
         return $this;
     }
     
-    public function getValue($value = false)
+    public function getData($value = false)
     {
         return $this->data;
     }
@@ -77,10 +77,20 @@ class Element
         return $this;
     }
     
+    public function getLabel()
+    {
+        return $this->label;
+    }
+    
     public function setDescription($description = false)
     {
         $this->description = $description;
         return $this;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
     }
     
     public function setName($name = false)
@@ -90,13 +100,18 @@ class Element
         return $this;
     }
     
-    public function renderAttributes()
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    private function renderAttributes()
     {
         $return = '';
         foreach($this->attributes as $attribute => $value)
         {
             if($value == '') continue;
-            $return .= "$attribute = '$value' ";
+            $return .= sprintf('%s = "%s" ', $attribute, htmlentities($value));
         }
         return $return;
     }
@@ -109,7 +124,7 @@ class Element
                 'label' => $this->label,
                 'name' => $this->name,
                 'attributes' => $this->renderAttributes(),
-                'extra_css_classes' => count($this->setErrors()) > 0 ? 'form-error' : '',
+                'extra_css_classes' => count($this->getErrors()) > 0 ? 'form-error' : '',
                 'value' => $this->data
             )
         );

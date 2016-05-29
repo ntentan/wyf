@@ -23,8 +23,7 @@ class Form extends Container
         return array_merge(
             parent::getTemplateVariables(),
             array(
-                'submit_value' => $this->submitValue,
-                'ajax' => $this->ajax
+                'submit_value' => $this->submitValue
             )
         );
     }
@@ -57,4 +56,31 @@ class Form extends Container
             $this->getTemplateVariables()
         );
     }
+    
+    public function forModel($model)
+    {
+        $description = $model->getDescription();
+        $fields = $description->getFields();
+        $autoPrimaryKey = $description->getAutoPrimaryKey();
+        $primaryKeys = $description->getPrimaryKey();
+        
+        foreach($fields as $field) {
+            if($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false) continue;
+            $this->add($this->inputForField($field)->setData($model[$field['name']]));
+        }
+        
+        return $this;
+    }
+    
+    private function inputForField($field)
+    {
+        $input = null;
+        switch($field['type']) {
+            case 'string':
+            case 'integer':
+                $input = new TextField($field['name']);
+                break;
+        }
+        return $input;
+    }    
 }
