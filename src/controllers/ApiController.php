@@ -10,6 +10,7 @@ namespace ntentan\wyf\controllers;
 
 use ntentan\View;
 use ntentan\Model;
+use ntentan\utils\Input;
 
 /**
  * Description of ApiController
@@ -28,12 +29,9 @@ class ApiController extends WyfController
         View::setLayout('plain');
         View::setTemplate('api');
         $model = $this->getModel($path);
+        $model->limit(Input::get('limit'));
+        $model->offset((Input::get('page') - 1) * Input::get('limit'));
+        header("X-Item-Count: " . $model->count());
         View::set('response', $model->fetch()->toArray());
-        //var_dump($_SERVER);
-    }
-    
-    protected function performRequest()
-    {
-        //switch($_SERVER[''])
     }
 }

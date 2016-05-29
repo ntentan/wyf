@@ -146,12 +146,13 @@
             count: 0,
             conditions: undefined,
             fields: undefined,
-            update: function(info)
+            update: function()
             {
               $.getJSON(
                   this.api + '?limit=' + this.itemsPerPage + '&page=' + this.page + this.getConditions() + this.getFields(),
-                  function(response)
+                  function(response, status, xhr)
                   {
+                    var count = xhr.getResponseHeader('X-Item-Count');
                     $('#wyf_list_view').html(
                       Mustache.render(
                         $('#wyf_list_view_template').html(),
@@ -159,11 +160,8 @@
                       )
                     );
 
-                    if (response.count !== undefined)
-                    {
-                      wyf.listView.pages = Math.ceil(response.count / wyf.listView.itemsPerPage);
-                      $('#wyf_list_view_size').html(wyf.listView.pages);
-                    }
+                    wyf.listView.pages = Math.ceil(count / wyf.listView.itemsPerPage);
+                    $('#wyf_list_view_size').html(wyf.listView.pages);
                   }
               );
             },
@@ -185,7 +183,7 @@
                     $('#wyf_right_nav').removeClass('nav_button_active');
                     $('#wyf_right_nav').addClass('nav_button_inactive');
                 }
-                else if (this.page === 2)
+                if (this.page === 2)
                 {
                     $('#wyf_left_nav').addClass('nav_button_active');
                     $('#wyf_left_nav').removeClass('nav_button_inactive');
