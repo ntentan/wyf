@@ -11,7 +11,6 @@ use ntentan\controllers\Redirect;
 
 /**
  * Description of CrudController
- *
  * @author ekow
  */
 class CrudController extends WyfController
@@ -104,6 +103,21 @@ class CrudController extends WyfController
     {
         if($model->save()) {
             return Redirect::action(null);
+        }
+    }
+    
+    public function delete($id, $confirm = null)
+    {
+        $model = $this->getModel();
+        $primaryKey = $model->getDescription()->getPrimaryKey()[0];
+        $item = $model->fetchFirst([$primaryKey => $id]);
+        if($confirm == 'yes') {
+            $item->delete();
+            return Redirect::action('');
+        } else {
+            View::set('item', $item);
+            View::set('delete_yes_url', Url::action("delete/$id", ['confirm' => 'yes']));
+            View::set('delete_no_url', Url::action(''));
         }
     }
     
