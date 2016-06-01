@@ -16,6 +16,7 @@ use ntentan\controllers\Redirect;
 class CrudController extends WyfController
 {   
     private $operations = [];
+    private $listFields = [];
     
     public function __construct()
     {
@@ -39,6 +40,17 @@ class CrudController extends WyfController
     {
         return Model::load($this->getWyfPackage());
     }
+    
+    protected function setListFields($listFields)
+    {
+        foreach($listFields as $label => $name)
+        {
+            $this->listFields[] = [
+                'name' => $name,
+                'label' => is_numeric($label) ? $name : $label
+            ];
+        }
+    }
 
     public function index()
     {
@@ -52,15 +64,17 @@ class CrudController extends WyfController
         $fields = $description->getFields();
         $primaryKey = $description->getPrimaryKey()[0];
         
-        foreach($fields as $field) {
-            if($field['name'] == $primaryKey) continue;
-            $listFields[] = [
-                'name' => $field['name'],
-                'label' => $field['name']
-            ];
+        if(empty($this->listFields)) {
+            foreach($fields as $field) {
+                if($field['name'] == $primaryKey) continue;
+                $this->listFields[] = [
+                    'name' => $field['name'],
+                    'label' => $field['name']
+                ];
+            }
         }
         
-        View::set('list_fields', $listFields);
+        View::set('list_fields', $this->listFields);
         View::set('operations', $this->operations);
         View::set('primary_key_field', $primaryKey);
         View::set('foreign_key', false);

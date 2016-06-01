@@ -57,16 +57,36 @@ class Form extends Container
         );
     }
     
+    /**
+     * 
+     * @param \ntentan\Model $model
+     * @return \ntentan\wyf\utilities\forms\Form
+     */
     public function forModel($model)
     {
         $description = $model->getDescription();
+        $relationships = $description->getRelationships();
         $fields = $description->getFields();
         $autoPrimaryKey = $description->getAutoPrimaryKey();
         $primaryKeys = $description->getPrimaryKey();
         
+        foreach($relationships as $relationship) {
+            $model = $relationship->getModelInstance();
+            $parameters = $relationship->getOptions();
+            if(isset($fields[$parameters['local_key']])) {
+                $fields[$parameters['local_key']]['model'] = $model; 
+            }
+        }
+                
         foreach($fields as $field) {
+            // Do not display primary keys on form
             if($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false) continue;
-            $this->add($this->inputForField($field)->setData($model[$field['name']]));
+            
+            if(isset($field['model'])) {
+                $this->add(new ModelField($field['model'], $field['name']));
+            } else {
+                $this->add($this->inputForField($field)->setData($model[$field['name']]));
+            }
         }
         
         return $this;
