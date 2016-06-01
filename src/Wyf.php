@@ -82,7 +82,7 @@ class Wyf
                 'controller_path' => substr("$controllerPath/$path", 1)
             ];
         } else {
-            throw new \ntentan\exceptions\RouteNotAvailableException();
+            return false;
         }
     }
 }
