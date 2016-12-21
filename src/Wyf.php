@@ -63,28 +63,4 @@ class Wyf
         InjectionContainer::bind(ControllerClassResolver::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(RouterInterface::class)->to(WyfRouter::class);
     }
-    
-    private static function getController($routeArray, $basePath, $namespace, $controllerPath = "")
-    {
-        $path = array_shift($routeArray);
-        $controllerClass = Text::ucamelize($path) . 'Controller';
-        $controllerFile = "$basePath/controllers/{$controllerClass}.php";
-        
-        if($path == "" && !empty($routeArray)) {
-            return self::getController($routeArray, $basePath, $namespace, $controllerPath);
-        } else if(is_dir("$basePath/$path") && !empty($routeArray)) {
-            // enter directories to find nested controllers
-            return self::getController($routeArray, "$basePath/$path", "$namespace\\$path", "$controllerPath/$path");
-        } else if(file_exists($controllerFile)) {
-            // return controller info
-            return [
-                'controller' => "$namespace\\controllers\\$controllerClass",
-                'action' => array_shift($routeArray),
-                'id' => implode('/', $routeArray),
-                'controller_path' => substr("$controllerPath/$path", 1)
-            ];
-        } else {
-            return false;
-        }
-    }
 }

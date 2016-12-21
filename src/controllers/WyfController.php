@@ -37,7 +37,7 @@ class WyfController extends Controller
         );
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/default'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/menus'));
-        View::set('route_breakdown', explode('/', Router::getRoute()));
+        View::set('route_breakdown', explode('/', Ntentan::getRouter()->getRoute()));
         View::set('wyf_title', Config::get('ntentan:app.name'));       
         
         $class = get_class($this);
