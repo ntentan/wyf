@@ -19,6 +19,7 @@ use ntentan\utils\Text;
 use ntentan\controllers\ModelBinders;
 use ntentan\Model;
 use ntentan\controllers\DefaultModelBinder;
+use ntentan\interfaces\RouterInterface;
 
 /**
  * Description of newPHPClass
@@ -29,7 +30,7 @@ class Wyf
 {
     public static function init($parameters = [])
     {
-        Router::mapRoute(
+        /*Router::mapRoute(
             'wyf_auth', 'auth/{action}', 
             ['default' => ['controller' => controllers\AuthController::class]]
         );
@@ -50,16 +51,17 @@ class Wyf
                 return $routeDetails;
             },
             ['default' => ['action' => 'index']]
-        );
+        );*/
         
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
         AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
         
-        View::set('wyf_app_name', $parameters['short_name']);
+        View::set('wyf_app_name', $parameters['short_name'] ?? 'WYF Application');
         
         InjectionContainer::bind(ModelClassResolver::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(ControllerClassResolver::class)->to(ClassNameResolver::class);
+        InjectionContainer::bind(RouterInterface::class)->to(WyfRouter::class);
     }
     
     private static function getController($routeArray, $basePath, $namespace, $controllerPath = "")
