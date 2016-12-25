@@ -10,8 +10,8 @@ namespace ntentan\wyf;
 
 use ntentan\Ntentan;
 use ntentan\utils\Text;
-use ntentan\nibii\interfaces\ClassResolverInterface as ModelClassResolver;
-use ntentan\controllers\interfaces\ClassResolverInterface as ControllerClassResolver;
+use ntentan\nibii\interfaces\ModelClassResolverInterface;
+use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\nibii\Relationship;
 
 /**
@@ -19,7 +19,7 @@ use ntentan\nibii\Relationship;
  *
  * @author ekow
  */
-class ClassNameResolver implements ModelClassResolver, ControllerClassResolver
+class ClassNameResolver implements ModelClassResolverInterface, ControllerClassResolverInterface
 {
     private function getWyfClassName($wyfPath, $type)
     {

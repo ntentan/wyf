@@ -9,8 +9,8 @@
 namespace ntentan\wyf;
 
 use ntentan\panie\InjectionContainer;
-use ntentan\nibii\interfaces\ClassResolverInterface as ModelClassResolver;
-use ntentan\controllers\interfaces\ClassResolverInterface as ControllerClassResolver;
+use ntentan\nibii\interfaces\ModelClassResolverInterface;
+use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\Router;
 use ntentan\honam\TemplateEngine;
 use ntentan\honam\AssetsLoader;
@@ -29,38 +29,15 @@ use ntentan\interfaces\RouterInterface;
 class Wyf
 {
     public static function init($parameters = [])
-    {
-        /*Router::mapRoute(
-            'wyf_auth', 'auth/{action}', 
-            ['default' => ['controller' => controllers\AuthController::class]]
-        );
-        
-        Router::mapRoute(
-            'wyf_api', 'api/{*path}', 
-            ['default' => ['controller' => controllers\ApiController::class, 'action' => 'rest']]
-        );
-        
-        Router::mapRoute('wyf_main', 
-            function($route){
-                $routeArray = explode('/', $route);
-                $routeDetails = self::getController(
-                    $routeArray, 
-                    realpath(__DIR__ . '/../../../../src/app/'),
-                    \ntentan\Ntentan::getNamespace() . '\app'
-                );
-                return $routeDetails;
-            },
-            ['default' => ['action' => 'index']]
-        );*/
-        
+    {        
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
         AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
         
         View::set('wyf_app_name', $parameters['short_name'] ?? 'WYF Application');
         
-        InjectionContainer::bind(ModelClassResolver::class)->to(ClassNameResolver::class);
-        InjectionContainer::bind(ControllerClassResolver::class)->to(ClassNameResolver::class);
+        InjectionContainer::bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
+        InjectionContainer::bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(RouterInterface::class)->to(WyfRouter::class);
     }
 }

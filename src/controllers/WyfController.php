@@ -10,7 +10,7 @@ use ntentan\Router;
 use ntentan\config\Config;
 
 /**
- * Base controller for all wyf app modules you want to appear in the menu.
+ * Base controller for all WYF application modules you want to appear in the menu.
  */
 class WyfController extends Controller
 {
