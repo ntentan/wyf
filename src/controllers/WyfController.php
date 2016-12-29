@@ -2,11 +2,9 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\Controller;
-use ntentan\Model;
 use ntentan\Ntentan;
 use ntentan\honam\TemplateEngine;
 use ntentan\View;
-use ntentan\Router;
 use ntentan\config\Config;
 
 /**
