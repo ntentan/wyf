@@ -10,6 +10,7 @@ namespace ntentan\wyf;
 
 use ntentan\panie\InjectionContainer;
 use ntentan\nibii\interfaces\ModelClassResolverInterface;
+use ntentan\nibii\interfaces\TableNameResolverInterface;
 use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\Router;
 use ntentan\honam\TemplateEngine;
@@ -39,5 +40,6 @@ class Wyf
         InjectionContainer::bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(RouterInterface::class)->to(WyfRouter::class);
+        InjectionContainer::bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
     }
 }

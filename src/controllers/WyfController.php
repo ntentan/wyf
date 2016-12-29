@@ -29,7 +29,7 @@ class WyfController extends Controller
     {   
         $this->addComponent('auth',
             array(
-                'users_model' => 'system.users',
+                'users_model' => 'auth.users',
                 'on_success' => 'call_function',
                 'login_route' => 'auth/login',
                 'success_function' => AuthController::class . '::postLogin'

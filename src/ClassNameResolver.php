@@ -11,6 +11,7 @@ namespace ntentan\wyf;
 use ntentan\Ntentan;
 use ntentan\utils\Text;
 use ntentan\nibii\interfaces\ModelClassResolverInterface;
+use ntentan\nibii\interfaces\TableNameResolverInterface;
 use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\nibii\Relationship;
 
@@ -19,7 +20,7 @@ use ntentan\nibii\Relationship;
  *
  * @author ekow
  */
-class ClassNameResolver implements ModelClassResolverInterface, ControllerClassResolverInterface
+class ClassNameResolver implements ModelClassResolverInterface, ControllerClassResolverInterface, TableNameResolverInterface
 {
     private function getWyfClassName($wyfPath, $type)
     {
@@ -41,5 +42,18 @@ class ClassNameResolver implements ModelClassResolverInterface, ControllerClassR
     public function getControllerClassName($name)
     {
         return $this->getWyfClassName($name, 'controllers') . 'Controller';
+    }
+
+    /**
+     * Returns the name of a database table given the model.
+     * @param \ntentan\Model $instance
+     */
+    public function getTableName($instance) {
+        $class = (new \ReflectionClass($instance))->getName();
+        preg_match('|zefe\\\\app\\\\(?<base>[a-zA-Z0-9]+)\\\\.*models\\\\(?<model>[a-zA-Z0-9]+)|', $class, $matches);
+        $driver = \ntentan\atiaa\Db::getDriver();
+        $schema = Text::deCamelize(strtolower($driver->quoteIdentifier($matches['base'])));
+        $table = Text::deCamelize(strtolower($driver->quoteIdentifier($matches['model'])));
+        return "$schema.$table";
     }
 }
