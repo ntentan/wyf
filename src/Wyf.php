@@ -12,15 +12,10 @@ use ntentan\panie\InjectionContainer;
 use ntentan\nibii\interfaces\ModelClassResolverInterface;
 use ntentan\nibii\interfaces\TableNameResolverInterface;
 use ntentan\interfaces\ControllerClassResolverInterface;
-use ntentan\Router;
 use ntentan\honam\TemplateEngine;
 use ntentan\honam\AssetsLoader;
 use ntentan\View;
-use ntentan\utils\Text;
-use ntentan\controllers\ModelBinders;
-use ntentan\Model;
-use ntentan\controllers\DefaultModelBinder;
-use ntentan\interfaces\RouterInterface;
+use ntentan\Ntentan;
 
 /**
  * Description of newPHPClass
@@ -39,7 +34,16 @@ class Wyf
         
         InjectionContainer::bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
-        InjectionContainer::bind(RouterInterface::class)->to(WyfRouter::class);
         InjectionContainer::bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
+        
+        Ntentan::getRouter()->mapRoute(
+            'wyf_auth', 'auth/{action}', 
+            ['default' => ['controller' => controllers\AuthController::class]]
+        );
+        
+        Ntentan::getRouter()->mapRoute(
+            'wyf_api', 'api/{*path}', 
+            ['default' => ['controller' => controllers\ApiController::class, 'action' => 'rest']]
+        );         
     }
 }
