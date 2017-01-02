@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace ntentan\wyf;
 
 use ntentan\panie\InjectionContainer;
@@ -29,6 +23,8 @@ class Wyf
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
         AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
+        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));
+        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
         
         View::set('wyf_app_name', $parameters['short_name'] ?? 'WYF Application');
         

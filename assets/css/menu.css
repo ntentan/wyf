@@ -1,0 +1,30 @@
+#menu{
+    top: 50px;
+    width: 376px;
+    min-width: 376px;
+    vertical-align: top;
+    position:fixed;
+}
+
+#main-menu{
+    width: 75px;
+    display: inline-block;
+}
+
+#main-menu > .menu-item{
+    width: 75px;
+    height: 75px;
+    background-image: url(../images/system.png);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+#main-menu > .main-item-selected{
+    background-color: white;
+    box-shadow: 0 4px 3px -3px rgba(0,0,0,0.3);    
+}
+
+#sub-menu{
+    width:300px;
+    display: inline-block;
+}

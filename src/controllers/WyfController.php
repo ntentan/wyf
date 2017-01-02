@@ -24,7 +24,7 @@ class WyfController extends Controller
     private $path;
     
     public function __construct()
-    {   
+    {
         $this->addComponent('auth',
             array(
                 'users_model' => 'auth.users',
@@ -33,11 +33,7 @@ class WyfController extends Controller
                 'success_function' => AuthController::class . '::postLogin'
             )
         );
-        TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/default'));
-        TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/menus'));
         View::set('route_breakdown', explode('/', Ntentan::getRouter()->getRoute()));
-        View::set('wyf_title', Config::get('ntentan:app.name'));       
-        
         $class = get_class($this);
         $namespace = Ntentan::getNamespace();
         if(preg_match(
@@ -49,6 +45,7 @@ class WyfController extends Controller
             $this->name = str_replace(".", " ", $this->package);
             $this->path = str_replace(' ', '/', $this->name);
         }
+        View::set('menu', $this->getMenu());
     }
     
     protected function setTitle($title)
@@ -71,40 +68,6 @@ class WyfController extends Controller
         return $this->permissions;
     }
     
-    public static function getRoutes()
-    {
-        Ntentan::$config[Ntentan::$context]['error_handler'] = 'dashboard/error';
-                
-        $routes = array(
-            array(
-                'pattern' => '/login/',
-                'route' => 'dashboard/login'
-            ),
-            array(
-                'pattern' => '/logout/',
-                'route' => 'dashboard/logout'
-            )
-        );
-        
-        if(is_array($_SESSION['menu']['sub']))
-        {
-            foreach($_SESSION['menu']['sub'] as $subMenu => $item)
-            {
-                $routes[] = array(
-                    'pattern' => "/(?<path>^($subMenu|$subMenu\/)$)/",
-                    'route' => 'dashboard/package/::path'
-                );
-            }
-        }
-        
-        return $routes;
-    }
-    
-    protected function notify($notification)
-    {
-        $_SESSION['notifications'] = $notification;
-    }
-    
     public function getWyfName()
     {
         return $this->name;
@@ -113,10 +76,14 @@ class WyfController extends Controller
     public function getWyfPackage()
     {
         return $this->package;
-    }
+    }    
     
-    public function getWyfPath()
+    /**
+     * 
+     * @return array
+     */
+    public function getMenu()
     {
-        return $this->path;
+        return [];
     }
 }
