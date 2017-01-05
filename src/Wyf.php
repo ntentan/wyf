@@ -26,20 +26,25 @@ class Wyf
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
         
-        View::set('wyf_app_name', $parameters['short_name'] ?? 'WYF Application');
+        View::set('wyf_app_name', $parameters['name'] ?? 'WYF Application');
         
         InjectionContainer::bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
         InjectionContainer::bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
         
-        Ntentan::getRouter()->mapRoute(
+        $router = Ntentan::getRouter();
+        $router->registerLoader('wyf_controller', WyfLoader::class);
+        $router->mapRoute(
             'wyf_auth', 'auth/{action}', 
             ['default' => ['controller' => controllers\AuthController::class]]
         );
-        
-        Ntentan::getRouter()->mapRoute(
+        $router->mapRoute(
             'wyf_api', 'api/{*path}', 
             ['default' => ['controller' => controllers\ApiController::class, 'action' => 'rest']]
-        );         
+        );
+        $router->mapRoute(
+            'default', '{*wyf_controller}', 
+            ['default' => ['wyf_controller' => 'dashboard']]
+        );
     }
 }
