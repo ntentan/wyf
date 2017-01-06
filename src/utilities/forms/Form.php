@@ -98,8 +98,17 @@ class Form extends Container
         switch($field['type']) {
             case 'string':
             case 'integer':
+            case 'double':
                 $input = new TextField($field['name']);
                 break;
+            case 'date':
+                $input = new DateField($field['name']);
+                break;
+            case 'boolean':
+                $input = new Checkbox($field['name']);
+                break;
+            default:
+                throw new \Exception("Unknown type {$field['type']}");
         }
         return $input;
     }    

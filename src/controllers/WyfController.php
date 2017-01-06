@@ -3,9 +3,7 @@ namespace ntentan\wyf\controllers;
 
 use ntentan\Controller;
 use ntentan\Ntentan;
-use ntentan\honam\TemplateEngine;
 use ntentan\View;
-use ntentan\config\Config;
 
 /**
  * Base controller for all WYF application modules you want to appear in the menu.
@@ -85,5 +83,10 @@ class WyfController extends Controller
     public function getMenu()
     {
         return [];
+    }
+    
+    public function getWyfPath()
+    {
+        return $this->path;
     }
 }
