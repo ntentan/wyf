@@ -24,6 +24,7 @@ class Wyf
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
         AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));
+        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
         
         View::set('wyf_app_name', $parameters['name'] ?? 'WYF Application');

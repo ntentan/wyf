@@ -24,7 +24,7 @@ class CrudController extends WyfController
         $this->addOperation('edit');
         $this->addOperation('delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
-        TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/forms'));
+        TemplateEngine::appendPath('views/forms');
         
         View::set('entities', $this->getWyfName());
         View::set('entity', Text::singularize($this->getWyfName()));

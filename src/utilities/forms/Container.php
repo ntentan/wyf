@@ -1,6 +1,8 @@
 <?php
 namespace ntentan\wyf\utilities\forms;
 
+use ntentan\utils\Text;
+
 class Container extends Element
 {
     protected $elements = array();
@@ -16,6 +18,11 @@ class Container extends Element
         }
         return $this;
     }
+    
+    /*public static function create($string)
+    {
+        var_dump(Text::camelize($string));
+    }*/
     
     public function getTemplateVariables()
     {

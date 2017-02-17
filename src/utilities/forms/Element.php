@@ -3,6 +3,7 @@ namespace ntentan\wyf\utilities\forms;
 
 use ntentan\honam\TemplateEngine;
 use ntentan\Ntentan;
+use ntentan\utils\Text;
 
 class Element
 {
@@ -140,8 +141,8 @@ class Element
         $args = func_get_args();
         $type = array_shift($args);
         $typeClass = new \ReflectionClass(
-            'ntentan\\plugins\\wyf\\helpers\\inputs\forms\\' . 
-            \ntentan\Ntentan::camelize($type)
+            'ntentan\\wyf\\utilities\\forms\\' . 
+            Text::ucamelize($type)
         );
         return $typeClass->newInstanceArgs($args);
     }

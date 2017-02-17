@@ -3,10 +3,6 @@ form{
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-#form-wrapper{
-    width:50%;
-}
-
 .form-element-wrapper
 {
     padding-bottom:5px;

@@ -4,6 +4,7 @@
     min-width: 376px;
     vertical-align: top;
     position:fixed;
+    display: table-cell;
 }
 
 #main-menu{

@@ -111,5 +111,5 @@ class Form extends Container
                 throw new \Exception("Unknown type {$field['type']}");
         }
         return $input;
-    }    
+    }
 }
