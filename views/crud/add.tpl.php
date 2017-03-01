@@ -2,6 +2,6 @@
 <div id="form-wrapper">
 <?php
 $form = new ntentan\wyf\utilities\forms\Form();
-echo unescape(t($form_template, ['model' => $model, 'form' => $form]))
+echo t($form_template, ['model' => $model, 'form' => $form])
 ?>
 </div>

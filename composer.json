@@ -2,6 +2,9 @@
     "name": "ntentan/wyf",
     "description": "Framework for building enterprisey apps on top of ntentan",
     "license": "MIT",
+    "require": {
+        "ekowabaka/fzui": "@stable"
+    },
     "authors": [
         {
             "name": "Ekow Abaka Ainooson",
