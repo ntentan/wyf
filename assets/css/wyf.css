@@ -176,37 +176,6 @@ h2 {
     background-color:#fff9d9;
 }
 
-/**************** LOGIN PAGE ****************/
-
-#login-box{
-    margin: 100px;
-    margin-left:auto;
-    margin-right:auto;
-    width:300px;
-    padding-right:55px;
-}
-
-#login-box h2{
-    margin-bottom: 15px;
-}
-
-#login-box input[type=text],#login-box input[type=password]{
-    width:94%;
-    padding:3%;
-    border:1px solid #f0f0f0;
-    margin-bottom:15px;
-}
-
-#login-box label{
-    font-weight: bold;
-    color:#808080;
-}
-
-#login-box input[type=submit]{
-    padding:10px;
-    font-weight: bold;
-}
-
 /************** notifications **********************/
 
 #notification{

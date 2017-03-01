@@ -12,9 +12,7 @@
             $helpers->stylesheets
                 ->add(get_asset('css/wyf.css'))
                 ->add(get_asset('css/menu.css'))
-                ->add(get_asset('css/forms.css'))
-                ->add(get_asset('css/grid.css'))
-                ->add('vendor/ekowabaka/fzui/dist/fzui.css')
+                ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
                 ->add(get_asset('css/kalendae.css'))
         ?>
         
