@@ -4,6 +4,8 @@ namespace ntentan\wyf\controllers;
 use ntentan\Controller;
 use ntentan\Ntentan;
 use ntentan\View;
+use ntentan\config\Config;
+use ntentan\wyf\Wyf;
 
 /**
  * Base controller for all WYF application modules you want to appear in the menu.
@@ -32,6 +34,7 @@ class WyfController extends Controller
             )
         );
         View::set('route_breakdown', explode('/', Ntentan::getRouter()->getRoute()));
+        View::set('wyf_app_name', Wyf::getAppName());
         $class = get_class($this);
         $namespace = Ntentan::getNamespace();
         if(preg_match(
@@ -48,7 +51,7 @@ class WyfController extends Controller
     
     protected function setTitle($title)
     {
-        View::set('wyf_title', Ntentan::$appName . " : {$title}");
+        View::set('wyf_title', Wyf::getAppName(). " | {$title}");
     }
     
     public function getDescription() 

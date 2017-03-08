@@ -7,22 +7,21 @@ use ntentan\panie\InjectionContainer;
 use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\Ntentan;
 
-class WyfLoader implements ResourceLoaderInterface
-{
-    //put your code here
-    public function load($parameters) 
-    {
+class WyfLoader implements ResourceLoaderInterface {
+
+    public function load($parameters) {
         $path = explode('/', $parameters['wyf_controller']);
         $resolver = InjectionContainer::singleton(ControllerClassResolverInterface::class);
         $testedPath = '';
         $attempts = [];
-        
-        foreach($path as $i => $section) {
+        $controllerPath = "";
+
+        foreach ($path as $i => $section) {
             $testedPath .= ".$section";
             $controllerPath .= "/$section";
             $controllerClass = $resolver->getControllerClassName(substr($testedPath, 1));
-            if(class_exists($controllerClass)) {
-                $action=isset($path[$i + 1]) ? $path[$i + 1] : 'index';
+            if (class_exists($controllerClass)) {
+                $action = isset($path[$i + 1]) ? $path[$i + 1] : 'index';
                 $parameters['id'] = implode('/', array_slice($path, $i + 2));
                 $parameters['controller_path'] = $controllerPath;
                 Ntentan::getRouter()->setVar('controller_path', $controllerPath);
@@ -31,6 +30,7 @@ class WyfLoader implements ResourceLoaderInterface
             }
             $attempts[] = $controllerClass;
         }
-        return ['success' => false, 'message' => "Failed to find any of the following classes [" . implode(', ',$attempts) . "]"];
+        return ['success' => false, 'message' => "Failed to find any of the following classes [" . implode(', ', $attempts) . "]"];
     }
+
 }

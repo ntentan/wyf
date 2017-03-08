@@ -1,13 +1,8 @@
 <h2><?= ucfirst($entities) ?></h2>
-<div id="wyf_toolbar">
-    <?php if($has_add_operation): ?>
-    <span class="wyf_button" id="toolbar_add"><a href="<?= $add_item_url ?>"><?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a></span><?php
-    if($import_items_url != ''):?><a class="wyf_button" id="toolbar_import" href="<?= $import_items_url ?>">Import <?= $entities ?></a><?php endif; ?>
-    <?php endif; ?>
-</div>
-<div id="wyf_list_view">
-    
-</div>
+<?php if($has_add_operation): ?>
+<a class="button-green" href="<?= $add_item_url ?>"><?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a>
+<?php endif; ?>
+<div id="wyf_list_view"></div>
 <div id="wyf_list_view_control">
     <div class="row">
         <div class="column grid_10_3">

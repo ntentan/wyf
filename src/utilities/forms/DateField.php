@@ -5,7 +5,7 @@ use ntentan\honam\TemplateEngine;
 
 class DateField extends Element
 {
-    public function __construct($label = '', $name = '')
+    public function __construct($name = '', $label = '')
     {
         $this->setLabel($label);
         $this->setName($name);

@@ -45,8 +45,8 @@ class Container extends Element {
             if (is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container")) {
                 $element->setErrors($errors);
             } else {
-                if (isset($errors[$element->name()])) {
-                    $element->setErrors($errors[$element->name()]);
+                if (isset($errors[$element->getName()])) {
+                    $element->setErrors($errors[$element->getName()]);
                 }
             }
         }

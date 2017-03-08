@@ -2,6 +2,8 @@
 
 namespace ntentan\wyf\utilities\forms;
 
+use ntentan\utils\Text;
+
 class TabsContainer extends Container 
 {
 
@@ -22,11 +24,12 @@ class TabsContainer extends Container
         }
     }
 
-    public function tab() 
+    public function add() 
     {
         $arguments = func_get_args();
         $label = array_shift($arguments);
         $tab = new tabs\Tab($label);
+        $tab->setId(Text::deCamelize($label));
 
         foreach ($arguments as $element) {
             $tab->add($element);

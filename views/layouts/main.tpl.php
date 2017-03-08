@@ -7,13 +7,11 @@
                 ->add(get_asset('js/jquery.js'))
                 ->add(get_asset('js/wyf.js'))
                 ->add(get_asset('js/api.js'))
-                ->add(get_asset('js/mustache.js'))
-                ->add(get_asset('js/kalendae.standalone.js')).
+                ->add(get_asset('js/mustache.js')).
             $helpers->stylesheets
                 ->add(get_asset('css/wyf.css'))
                 ->add(get_asset('css/menu.css'))
                 ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
-                ->add(get_asset('css/kalendae.css'))
         ?>
         
         <?php
@@ -27,7 +25,7 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="header">
+            <div id="header" class="blue-bg">
                 <div class="row">
                     <div class="column grid_10_5">
                         <div id="title-box">

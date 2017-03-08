@@ -11,6 +11,7 @@ class Form extends Container
     public function __construct()
     {
         $this->setAttribute('method', 'post');
+        $this->setAttribute('class', 'form-grid');
     }
     
     public function setSubmitValue($submitValue)

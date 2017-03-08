@@ -78,11 +78,14 @@ class CrudController extends WyfController
         View::set('operations', $this->operations);
         View::set('primary_key_field', $primaryKey);
         View::set('foreign_key', false);
+        
+        $this->setTitle($this->getName());
     }
     
     public function add()
     {
         View::set('model', $this->getModel()->createNew());
+        $this->setTitle("Add new {$this->getName()}");
     }
     
     /**

@@ -24,8 +24,6 @@ h2 {
 
 #header{
     position:fixed;
-    background-color:#0a7ca5;
-    background-image:url("../images/headerbg.gif");
     color:#fff;  
     box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
     z-index: 200;
