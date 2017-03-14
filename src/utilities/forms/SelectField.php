@@ -1,19 +1,19 @@
 <?php
+
 namespace ntentan\wyf\utilities\forms;
 
-class SelectField extends Element
-{
+class SelectField extends Element {
+
     private $options = array();
-    
-    public function option($label, $value)
-    {
+
+    public function addOption($label, $value) {
         $this->options[$value] = $label;
         return $this;
     }
-    
-    public function __toString() 
-    {
+
+    public function __toString() {
         $this->set('options', $this->options);
         return parent::__toString();
     }
+
 }

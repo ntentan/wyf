@@ -32,7 +32,7 @@ class ModelField extends SelectField {
      *          an instance of a model
      */
     public function __construct($model) {
-        $this->renderWithType = 'select';
+        $this->renderWithType = 'select_field';
         $instance = $this->initialize($model); 
         $name = Text::deCamelize($instance->getName());
         $this->setLabel(ucwords(str_replace('_', ' ', $name)));
