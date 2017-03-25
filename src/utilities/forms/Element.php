@@ -24,7 +24,9 @@ class Element
     
     public function __toString() 
     {
-        $type = $this->renderWithType == '' ? \ntentan\utils\Text::deCamelize($this->getType()) : $this->renderWithType;
+        $type = $this->renderWithType == '' 
+                ? \ntentan\utils\Text::deCamelize($this->getType()) 
+                : $this->renderWithType;
         
         return TemplateEngine::render(
             "wyf_inputs_forms_{$type}.tpl.php", 
@@ -98,6 +100,9 @@ class Element
     {
         $this->name = $name;
         $this->setAttribute('name', $name);
+        if(!isset($this->attributes['id'])) {
+            $this->attributes['id'] = $name;
+        }
         return $this;
     }
     
@@ -108,13 +113,17 @@ class Element
     
     private function renderAttributes()
     {
-        $return = '';
+        /*$return = '';
         foreach($this->attributes as $attribute => $value)
         {
             if($value == '') continue;
             $return .= sprintf('%s = "%s" ', $attribute, htmlentities($value));
         }
-        return $return;
+        return $return;*/
+        return TemplateEngine::render(
+            'wyf_inputs_forms_attributes', 
+            ['attributes' => $this->attributes]
+        );
     }
     
     public function getTemplateVariables()
@@ -134,6 +143,11 @@ class Element
     protected function set($key, $value)
     {
         $this->variables[$key] = $value;
+    }
+    
+    public function onChange($event)
+    {
+        $this->attributes['onchange'] = $event;
     }
     
     public static function create()

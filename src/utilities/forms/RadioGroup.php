@@ -10,9 +10,9 @@ class RadioGroup extends Element {
         $this->options[] = array(
             'label' => $label,
             'value' => $value,
-            'description' => $parameters['description'],
-            'attributes' => $parameters['attributes'],
-            'checked' => $parameters['checked']
+            'description' => $parameters['description'] ?? null,
+            'attributes' => $parameters['attributes'] ?? null,
+            'checked' => $parameters['checked'] ?? null
         );
         return $this;
     }

@@ -9,20 +9,22 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\panie\InjectionContainer;
+use ntentan\controllers\model_binders\DefaultModelBinder;
+use ntentan\Controller;
 
 /**
  * Description of CrudModelBinder
  *
  * @author ekow
  */
-class CrudModelBinder extends \ntentan\controllers\DefaultModelBinder
+class CrudModelBinder extends DefaultModelBinder
 {
-    public function bind(\ntentan\Controller $controller, $type)
+    public function bind(Controller $controller, $type, $name)
     {
         if($type == 'ntentan\Model') {
-            $type = InjectionContainer::singleton(\ntentan\nibii\interfaces\ClassResolverInterface::class)
+            $type = InjectionContainer::singleton(\ntentan\nibii\interfaces\ModelClassResolverInterface::class)
                 ->getModelClassName($controller->getWyfPackage(), null);
         }
-        return parent::bind($controller, $type);
+        return parent::bind($controller, $type, $name);
     }
 }
