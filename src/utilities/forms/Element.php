@@ -1,163 +1,108 @@
 <?php
+
 namespace ntentan\wyf\utilities\forms;
 
 use ntentan\honam\TemplateEngine;
 use ntentan\Ntentan;
 use ntentan\utils\Text;
 
-class Element
-{
+class Element {
+
     protected $label;
-    protected $name;
     protected $attributes = array();
-    protected $data;
     protected $errors;
     protected $variables = array();
     protected $renderWithType;
     protected $description;
-    
-    public function __construct($name = '', $label = null)
-    {
+    protected $parent;
+
+    public function __construct($name = '', $label = null) {
         $this->setLabel($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
         $this->setName($name);
     }
-    
-    public function __toString() 
-    {
+
+    public function __toString() {
         $type = $this->renderWithType == '' 
-                ? \ntentan\utils\Text::deCamelize($this->getType()) 
-                : $this->renderWithType;
+            ? \ntentan\utils\Text::deCamelize($this->getType()) 
+            : $this->renderWithType;
         
         return TemplateEngine::render(
-            "wyf_inputs_forms_{$type}.tpl.php", 
-            $this->getTemplateVariables()
+            "wyf_inputs_forms_{$type}.tpl.php", $this->getTemplateVariables()
         );
     }
-    
-    public function getType()
-    {
+
+    public function getType() {
         $class = new \ReflectionClass($this);
         $array = explode('\\', $class->getName());
         return end($array);
     }
-    
-    public function setAttribute($attribute, $value)
-    {
+
+    public function setAttribute($attribute, $value) {
         $this->attributes[$attribute] = $value;
         return $this;
     }
     
-    public function getData($value = false)
-    {
-        return $this->data;
+    public function getAttribute($attribute) {
+        return $this->attributes[$attribute] ?? null;
     }
-    
-    public function setData($data = false)
-    {
-        if($this->data == '' && $data != '')
-        {
-            $this->data = $data;
-            $this->setAttribute('value', $data);
-            $this->set('field_value', $data); 
-        }
+
+    public function setErrors($errors) {
+        $this->errors = $errors;
         return $this;
     }
-    
-    public function setErrors($errors)
-    {
-        $this->errors = $errors;        
-        return $this;
-    }
-    
-    public function getErrors()
-    {
+
+    public function getErrors() {
         return $this->errors;
     }
-    
-    public function setLabel($label = false)
-    {
+
+    public function setLabel($label = false) {
         $this->label = $label;
         return $this;
     }
-    
-    public function getLabel()
-    {
+
+    public function getLabel() {
         return $this->label;
     }
-    
-    public function setDescription($description = false)
-    {
+
+    public function setDescription($description = false) {
         $this->description = $description;
         return $this;
     }
-    
-    public function getDescription()
-    {
+
+    public function getDescription() {
         return $this->description;
     }
-    
-    public function setName($name = false)
-    {
-        $this->name = $name;
-        $this->setAttribute('name', $name);
-        if(!isset($this->attributes['id'])) {
-            $this->attributes['id'] = $name;
-        }
-        return $this;
-    }
-    
-    public function getName()
-    {
-        return $this->name;
-    }
-    
-    private function renderAttributes()
-    {
-        /*$return = '';
-        foreach($this->attributes as $attribute => $value)
-        {
-            if($value == '') continue;
-            $return .= sprintf('%s = "%s" ', $attribute, htmlentities($value));
-        }
-        return $return;*/
+
+    private function renderAttributes() {
         return TemplateEngine::render(
-            'wyf_inputs_forms_attributes', 
-            ['attributes' => $this->attributes]
+            'wyf_inputs_forms_attributes', ['attributes' => $this->attributes]
         );
     }
-    
-    public function getTemplateVariables()
-    {
-        return array_merge(
-            $this->variables,
-            array(
-                'label' => $this->label,
-                'name' => $this->name,
-                'attributes' => $this->renderAttributes(),
-                'extra_css_classes' => count($this->getErrors()) > 0 ? 'form-error' : '',
-                'value' => $this->data
-            )
-        );
+
+    public function getTemplateVariables() {
+        return $this->variables + [
+            'label' => $this->label,
+            'attributes' => $this->renderAttributes(),
+            'extra_css_classes' => count($this->getErrors()) > 0 ? 'form-error' : ''
+        ];
     }
-    
-    protected function set($key, $value)
-    {
+
+    protected function set($key, $value) {
         $this->variables[$key] = $value;
     }
-    
-    public function onChange($event)
-    {
-        $this->attributes['onchange'] = $event;
-    }
-    
-    public static function create()
-    {
+
+    public static function create() {
         $args = func_get_args();
         $type = array_shift($args);
         $typeClass = new \ReflectionClass(
-            'ntentan\\wyf\\utilities\\forms\\' . 
+            'ntentan\\wyf\\utilities\\forms\\' .
             Text::ucamelize($type)
         );
         return $typeClass->newInstanceArgs($args);
     }
+    
+    public function setParent($parent) {
+        $this->parent = $parent;
+    }
+
 }

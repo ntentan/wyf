@@ -2,7 +2,7 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class RadioGroup extends Element {
+class RadioGroup extends Input {
 
     private $options = array();
 

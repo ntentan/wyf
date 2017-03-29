@@ -1,16 +1,15 @@
 <?php
+
 namespace ntentan\wyf\utilities\forms;
 
 use ntentan\honam\TemplateEngine;
 
-class DateField extends Element
-{
-    
-    public function __toString() 
-    {
+class DateField extends Input {
+
+    public function __toString() {
         return TemplateEngine::render(
-            'wyf_inputs_forms_date.tpl.php', 
-            $this->getTemplateVariables()
+                        'wyf_inputs_forms_date.tpl.php', $this->getTemplateVariables()
         );
     }
+
 }

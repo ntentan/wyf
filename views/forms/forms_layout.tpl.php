@@ -2,10 +2,11 @@
     <?php 
     $errors = $element->getErrors();
     $label = $element->getLabel();
+    $id = $element->getAttribute('id');
     $hideWrapper = in_array($element->getType(), ['HiddenField']) ? true : false;
     $description = $element->getDescription();
     ?>
-    <?php if(!$hideWrapper): ?><div class="form-element" id="form-element-<?= $element->getName() ?>"><?php endif; ?>
+    <?php if(!$hideWrapper): ?><div class="form-element" id="form-element-<?= $id ?>"><?php endif; ?>
     <?php if($label != ''): ?><label><?= $label ?></label><?php endif; ?>
     <?= unescape($element) ?>
     <?php if($description != ''): ?>

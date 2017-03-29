@@ -2,7 +2,7 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class TextField extends Element {
+class TextField extends Input {
 
     private $multiline;
     private $masked;

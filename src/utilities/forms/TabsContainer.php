@@ -9,10 +9,10 @@ class TabsContainer extends Container
 
     private $tabs = [];
 
-    public function setData($data = false) 
+    public function setValue($data = false) 
     {
         foreach ($this->tabs as $tab) {
-            $tab->setData($data);
+            $tab->setValue($data);
         }
         return $this;
     }

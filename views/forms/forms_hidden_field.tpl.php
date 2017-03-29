@@ -1,1 +1,1 @@
-<input type="hidden" <?= unescape($attributes) ?> />
+<input type="hidden" name="<?= $name ?>" value="<?= $value ?>" <?= unescape($attributes) ?> />

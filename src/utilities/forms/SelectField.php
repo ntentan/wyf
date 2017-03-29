@@ -2,7 +2,7 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class SelectField extends Element {
+class SelectField extends Input {
 
     private $options = array();
 

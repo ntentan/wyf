@@ -6,49 +6,42 @@ use ntentan\utils\Text;
 
 class Container extends Element {
 
+    /**
+     *
+     * @var array<\ntentan\honam\helpers\form\Element>
+     */
     protected $elements = array();
+    private $data;
 
     public function add() {
         $elements = func_get_args();
         foreach ($elements as $element) {
-            $element->setData($this->data[$element->getName()]);
-            $element->setErrors($this->errors[$element->getName()]);
+            $element->setParent($this);
             $this->elements [] = $element;
         }
         return $this;
     }
 
     public function getTemplateVariables() {
-        $variables = array(
+        return [
             'elements' => $this->elements,
-            'layout' => 'flowing'
-        );
-
-        return array_merge($variables, parent::getTemplateVariables());
+        ] + parent::getTemplateVariables();
     }
-
-    public function setData($data = false) {
+    
+    /**
+     * 
+     * @param type $element
+     * @return type
+     */
+    public function getValueFor($element) {
+        // If we have data for element return else call my parent for that or 
+        // return null if I have no parents
+        return $this->data[$element->getName()] ?? 
+            ($this->parent ? $this->parent->getValueFor($element) : null);
+    }
+    
+    public function setData($data) {
         $this->data = $data;
-        foreach ($this->elements as $element) {
-            if (is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container")) {
-                $element->setData($data);
-            } else {
-                if (isset($data[$element->getName()])) {
-                    $element->setData($data[$element->getName()]);
-                }
-            }
-        }
     }
-
-    public function setErrors($errors = false) {
-        foreach ($this->elements as $element) {
-            if (is_a($element, "\\ntentan\\plugins\\wyf\\helpers\\inputs\\forms\\Container")) {
-                $element->setErrors($errors);
-            } else {
-                if (isset($errors[$element->getName()])) {
-                    $element->setErrors($errors[$element->getName()]);
-                }
-            }
-        }
-    }
+    
 }

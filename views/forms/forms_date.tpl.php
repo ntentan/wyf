@@ -1,1 +1,1 @@
-<input type="date" <?= $attributes->unescape() ?>/>
+<input type="date" name="<?= $name ?>" value="<?= $value ?>" <?= $attributes->unescape() ?>/>
