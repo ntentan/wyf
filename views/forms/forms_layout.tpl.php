@@ -1,16 +1,16 @@
 <?php foreach($elements as $element):?>
     <?php 
-    $errors = $element->getErrors();
     $label = $element->getLabel();
     $id = $element->getAttribute('id');
     $hideWrapper = in_array($element->getType(), ['HiddenField']) ? true : false;
     $description = $element->getDescription();
+    $errors = $element->getErrors();
     ?>
-    <?php if(!$hideWrapper): ?><div class="form-element" id="form-element-<?= $id ?>"><?php endif; ?>
-    <?php if($label != ''): ?><label><?= $label ?></label><?php endif; ?>
+    <?php if(!$hideWrapper): ?><div class="form-element <?= $errors ? "form-error" : "" ?>" id="form-element-<?= $id ?>"><?php endif; ?>
+    <?php if($label): ?><label><?= $label ?></label><?php endif; ?>
     <?= unescape($element) ?>
     <?php if($description != ''): ?>
-        <div class="form-element-description"><?= $description ?></div>
+        <span class="form-description"><?= $description ?></span>
     <?php endif; ?>
     <?php if(count($errors)): ?>
         <div class="form-error">

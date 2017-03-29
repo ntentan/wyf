@@ -40,6 +40,11 @@ class Container extends Element {
             ($this->parent ? $this->parent->getValueFor($element) : null);
     }
     
+    public function getErrorsFor($element) {
+        return $this->errors[$element->getName()] ?? 
+            ($this->parent ? $this->parent->getErrorsFor($element) : null);
+    }
+    
     public function setData($data) {
         $this->data = $data;
     }

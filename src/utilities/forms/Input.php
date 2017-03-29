@@ -35,4 +35,8 @@ class Input extends Element {
         ] + parent::getTemplateVariables();
     }
     
+    public function getErrors() {
+        return $this->errors ?? $this->parent->getErrorsFor($this);
+    }
+    
 }

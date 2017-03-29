@@ -2,7 +2,8 @@
 <div id="form-wrapper">
 <?php
 $form = new ntentan\wyf\utilities\forms\Form();
-$form->setData(unescape($model->getData()->toArray()));
+$form->setData($model->getData()->toArray());
+$form->setErrors($model->getInvalidFields());
 echo t($form_template, ['model' => $model, 'form' => $form])
 ?>
 </div>
