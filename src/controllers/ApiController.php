@@ -17,21 +17,28 @@ use ntentan\utils\Input;
  *
  * @author ekow
  */
-class ApiController extends WyfController
-{
-    private function getModel($path)
-    {
-        return Model::load(str_replace('/', '.', $path));
-    }
-    
-    public function rest($path)
-    {
+class ApiController extends WyfController {
+
+    public function __construct() {
+        parent::__construct();
         View::setLayout('plain');
         View::setTemplate('api');
+    }
+    
+    private function getModel($path) {
+        return Model::load(str_replace('/', '.', $path));
+    }
+
+    public function model($path) {
         $model = $this->getModel($path);
         $model->limit(Input::get('limit'));
         $model->offset((Input::get('page') - 1) * Input::get('limit'));
         header("X-Item-Count: " . $model->count());
         View::set('response', $model->fetch()->toArray());
     }
+    
+    public function index() {
+        
+    }
+
 }

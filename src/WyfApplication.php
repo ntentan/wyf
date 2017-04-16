@@ -16,15 +16,15 @@ use ntentan\Ntentan;
  *
  * @author ekow
  */
-class Wyf {
+class WyfApplication extends \ntentan\Application {
     
-    private static $appName;
+    private $appName;
     
-    public static function getAppName() {
-        return self::$appName;
+    public static function getName() {
+        return $this->appName;
     }
 
-    public static function init($parameters = []) {
+    public function setup() {
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
         AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
@@ -32,13 +32,13 @@ class Wyf {
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
 
-        self::$appName = $parameters['name'] ?? 'WYF Application';
+        //self::$appName = $parameters['name'] ?? 'WYF Application';
+        $container = $this->context->getContainer();
+        $container->bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
+        $container->bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
+        $container->bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
 
-        InjectionContainer::bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
-        InjectionContainer::bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
-        InjectionContainer::bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
-
-        $router = Ntentan::getRouter();
+        $router = $this->context->getRouter();
         $router->registerLoader('wyf_controller', WyfLoader::class);
         $router->mapRoute(
             'wyf_auth', 
@@ -51,7 +51,7 @@ class Wyf {
             ['default' => ['controller' => controllers\ApiController::class, 'action' => 'rest']]
         );
         $router->mapRoute(
-                'default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]
+            'default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]
         );
     }
 

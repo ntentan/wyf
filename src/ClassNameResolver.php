@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace ntentan\wyf;
 
 use ntentan\Ntentan;
@@ -59,7 +53,7 @@ class ClassNameResolver implements ModelClassResolverInterface, ControllerClassR
         $driver = \ntentan\atiaa\Db::getDriver();
         $schema = Text::deCamelize($matches['base']);
         $table = Text::deCamelize($matches['model']);
-        return "$schema.$table";
+        return ['schema' => $schema, 'table' => $table];
     }
 
 }

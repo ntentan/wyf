@@ -18,20 +18,11 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        wyf.listView.api = "<?= unescape($api_url) ?>";
-        <?php if($foreign_key != ''): ?>
-        wyf.listView.setConditions({
-            <?=$foreign_key?> : "<?= $foreign_key_value ?>"
-        })
-        <?php endif; ?>
-        <?php 
-        $fields = array();
-        foreach(unescape($list_fields) as $list_field){
-            $fields[] = $list_field['name'];
-        }
-        ?>
-        wyf.listView.setFields(<?= json_encode($fields) ?>);
-        wyf.listView.init();
+        api.get("<?= $api_url ?>", {},
+            function(data){
+                console.log(data);
+            }
+        );
     })
 </script>
 <script type="text/html" id="wyf_list_view_template">
