@@ -5,13 +5,19 @@ namespace ntentan\wyf;
 use ntentan\interfaces\ResourceLoaderInterface;
 use ntentan\panie\InjectionContainer;
 use ntentan\interfaces\ControllerClassResolverInterface;
-use ntentan\Ntentan;
+use ntentan\Context;
 
 class WyfLoader implements ResourceLoaderInterface {
+    
+    private $context;
+    
+    public function __construct(Context $context) {
+        $this->context = $context;
+    }
 
     public function load($parameters) {
         $path = explode('/', $parameters['wyf_controller']);
-        $resolver = InjectionContainer::singleton(ControllerClassResolverInterface::class);
+        $resolver = $this->context->getContainer()->singleton(ControllerClassResolverInterface::class);
         $testedPath = '';
         $attempts = [];
         $controllerPath = "";
@@ -24,8 +30,8 @@ class WyfLoader implements ResourceLoaderInterface {
                 $action = isset($path[$i + 1]) ? $path[$i + 1] : 'index';
                 $parameters['id'] = implode('/', array_slice($path, $i + 2));
                 $parameters['controller_path'] = $controllerPath;
-                Ntentan::getRouter()->setVar('controller_path', $controllerPath);
-                InjectionContainer::resolve($controllerClass)->executeControllerAction($action, $parameters);
+                //Ntentan::getRouter()->setVar('controller_path', $controllerPath);
+                $this->context->getContainer()->resolve($controllerClass)->executeControllerAction($action, $parameters);
                 return ['success' => true];
             }
             $attempts[] = $controllerClass;

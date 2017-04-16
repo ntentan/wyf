@@ -4,7 +4,6 @@ namespace ntentan\wyf\controllers;
 use ntentan\Controller;
 use ntentan\Ntentan;
 use ntentan\View;
-use ntentan\config\Config;
 use ntentan\wyf\Wyf;
 
 /**
@@ -25,7 +24,7 @@ class WyfController extends Controller
     
     public function __construct()
     {
-        $this->addComponent('auth',
+        /*$this->addComponent('auth',
             array(
                 'users_model' => 'auth.users',
                 'on_success' => 'call_function',
@@ -46,7 +45,7 @@ class WyfController extends Controller
             $this->name = str_replace(".", " ", $this->package);
             $this->path = str_replace(' ', '/', $this->name);
         }
-        View::set('menu', $this->getMenu());
+        View::set('menu', $this->getMenu());*/
     }
     
     protected function setTitle($title)

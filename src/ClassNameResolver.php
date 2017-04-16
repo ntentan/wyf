@@ -17,13 +17,18 @@ use ntentan\nibii\Relationship;
  * @author ekow
  */
 class ClassNameResolver implements ModelClassResolverInterface, ControllerClassResolverInterface, TableNameResolverInterface {
+    
+    private $namespace;
+    
+    public function __construct(\ntentan\Context $context) {
+        $this->namespace = $context->getNamespace();
+    }
 
     private function getWyfClassName($wyfPath, $type) {
-        $namespace = Ntentan::getNamespace();
         $wyfPathParts = explode('.', $wyfPath);
         $name = Text::ucamelize(array_pop($wyfPathParts));
         $base = (count($wyfPathParts) ? '\\' : '') . implode('\\', $wyfPathParts);
-        return "\\$namespace\\app$base\\$type\\$name";
+        return "\\$this->namespace\\app$base\\$type\\$name";
     }
 
     /**
