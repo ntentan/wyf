@@ -3,7 +3,6 @@
 namespace ntentan\wyf;
 
 use ntentan\interfaces\ResourceLoaderInterface;
-use ntentan\panie\InjectionContainer;
 use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\Context;
 
@@ -17,7 +16,9 @@ class WyfLoader implements ResourceLoaderInterface {
 
     public function load($parameters) {
         $path = explode('/', $parameters['wyf_controller']);
-        $resolver = $this->context->getContainer()->singleton(ControllerClassResolverInterface::class);
+        $resolver = $this->context
+            ->getContainer()
+            ->singleton(ControllerClassResolverInterface::class);
         $testedPath = '';
         $attempts = [];
         $controllerPath = "";
@@ -31,12 +32,16 @@ class WyfLoader implements ResourceLoaderInterface {
                 $parameters['id'] = implode('/', array_slice($path, $i + 2));
                 $parameters['controller_path'] = $controllerPath;
                 //Ntentan::getRouter()->setVar('controller_path', $controllerPath);
-                $this->context->getContainer()->resolve($controllerClass)->executeControllerAction($action, $parameters);
+                $controllerInstance = $this->context->getContainer()->resolve($controllerClass);
+                $controllerInstance->executeControllerAction($action, $parameters, $this->context);
                 return ['success' => true];
             }
             $attempts[] = $controllerClass;
         }
-        return ['success' => false, 'message' => "Failed to find any of the following classes [" . implode(', ', $attempts) . "]"];
+        return [
+            'success' => false, 
+            'message' => "Failed to find any of the following classes [" . implode(', ', $attempts) . "]"
+        ];
     }
 
 }
