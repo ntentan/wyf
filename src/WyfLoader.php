@@ -33,8 +33,7 @@ class WyfLoader implements ResourceLoaderInterface {
                 $parameters['controller_path'] = $controllerPath;
                 //Ntentan::getRouter()->setVar('controller_path', $controllerPath);
                 $controllerInstance = $this->context->getContainer()->resolve($controllerClass);
-                $controllerInstance->executeControllerAction($action, $parameters, $this->context);
-                return ['success' => true];
+                return $controllerInstance->executeControllerAction($action, $parameters, $this->context);
             }
             $attempts[] = $controllerClass;
         }
