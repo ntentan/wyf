@@ -7,7 +7,8 @@ use ntentan\nibii\interfaces\TableNameResolverInterface;
 use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\honam\TemplateEngine;
 use ntentan\honam\AssetsLoader;
-use ntentan\middleware\MVC;
+use ntentan\middleware\MVCMiddleware;
+use ntentan\middleware\AuthMiddleware;
 
 /**
  * Description of newPHPClass
@@ -21,19 +22,23 @@ class WyfApplication extends \ntentan\Application {
     public static function getName() {
         return $this->appName;
     }
+    
+    public function getMenu() {
+        return [];
+    }
 
     public function setup() {
         
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
         AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
-        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));
+        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));        
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
         
         $container = $this->context->getContainer();
-        $container->bind(MVC::class)->to(MVC::class)->asSingleton();
-        $container->resolve(MVC::class)->registerLoader('wyf_controller', WyfLoader::class);
+        $container->bind(MVCMiddleware::class)->to(MVCMiddleware::class)->asSingleton();
+        $container->resolve(MVCMiddleware::class)->registerLoader('wyf_controller', WyfLoader::class);
 
         //self::$appName = $parameters['name'] ?? 'WYF Application';
         $container->bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
@@ -58,6 +63,9 @@ class WyfApplication extends \ntentan\Application {
         $router->mapRoute(
             'default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]
         );
+        
+        $view = $container->resolve(\ntentan\View::class);
+        $this->prependMiddleware(AuthMiddleware::with(['login_route' => '/login']));
     }
 
 }

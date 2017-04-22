@@ -18,17 +18,17 @@ class CrudController extends WyfController {
     private $operations = [];
     private $listFields = [];
 
-    public function __construct() {
+    public function __construct(View $view) {
         parent::__construct();
         $this->addOperation('edit');
         $this->addOperation('delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
         TemplateEngine::appendPath('views/forms');
 
-        View::set('entities', $this->getWyfName());
-        View::set('entity', Text::singularize($this->getWyfName()));
-        View::set('has_add_operation', true);
-        View::set('form_template', str_replace('.', '_', $this->getWyfPackage()) . '_form');
+        $view->set('entities', $this->getWyfName());
+        $view->set('entity', Text::singularize($this->getWyfName()));
+        $view->set('has_add_operation', true);
+        $view->set('form_template', str_replace('.', '_', $this->getWyfPackage()) . '_form');
     }
 
     /**
@@ -49,11 +49,6 @@ class CrudController extends WyfController {
     }
 
     public function index() {
-        View::set('add_item_url', Url::action('add'));
-        View::set('import_items_url', Url::action('import'));
-        View::set('api_url', Url::path('api/' . $this->getWyfPath()));
-        View::set('base_url', Url::action(''));
-
         $model = $this->getModel();
         $description = $model->getDescription();
         $fields = $description->getFields();
@@ -69,11 +64,17 @@ class CrudController extends WyfController {
                 ];
             }
         }
-
-        View::set('list_fields', $this->listFields);
-        View::set('operations', $this->operations);
-        View::set('primary_key_field', $primaryKey);
-        View::set('foreign_key', false);
+        
+        $view->set([
+            'add_item_url' => Url::action('add'),
+            'import_items_url'=> Url::action('import'),
+            'api_url' => Url::path('api/' . $this->getWyfPath()),
+            'base_url' => Url::action(''),
+            'list_fields' => $this->listFields,
+            'operations' => $this->operations,
+            'primary_key_field' => $primaryKey,
+            'foreign_key' => false
+        ]);
 
         $this->setTitle($this->getName());
     }

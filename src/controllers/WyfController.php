@@ -23,15 +23,7 @@ class WyfController extends Controller {
     private $path;
 
     public function __construct() {
-        /* $this->addComponent('auth',
-          array(
-          'users_model' => 'auth.users',
-          'on_success' => 'call_function',
-          'login_route' => 'auth/login',
-          'success_function' => AuthController::class . '::postLogin'
-          )
-          );
-          View::set('route_breakdown', explode('/', Ntentan::getRouter()->getRoute()));
+        /*View::set('route_breakdown', explode('/', Ntentan::getRouter()->getRoute()));
           View::set('wyf_app_name', Wyf::getAppName());
           $class = get_class($this);
           $namespace = Ntentan::getNamespace();
@@ -69,14 +61,6 @@ class WyfController extends Controller {
 
     public function getWyfPackage() {
         return $this->package;
-    }
-
-    /**
-     * 
-     * @return array
-     */
-    public function getMenu() {
-        return [];
     }
 
     public function getWyfPath() {
