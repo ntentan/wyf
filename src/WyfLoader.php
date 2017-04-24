@@ -4,6 +4,7 @@ namespace ntentan\wyf;
 
 use ntentan\interfaces\ResourceLoaderInterface;
 use ntentan\interfaces\ControllerClassResolverInterface;
+use ntentan\exceptions\ControllerNotFoundException;
 use ntentan\Context;
 
 class WyfLoader implements ResourceLoaderInterface {
@@ -37,10 +38,8 @@ class WyfLoader implements ResourceLoaderInterface {
             }
             $attempts[] = $controllerClass;
         }
-        return [
-            'success' => false, 
-            'message' => "Failed to find any of the following classes [" . implode(', ', $attempts) . "]"
-        ];
+        
+        throw new ControllerNotFoundException("Failed to find any of the following classes [" . implode(', ', $attempts) . "]");
     }
 
 }
