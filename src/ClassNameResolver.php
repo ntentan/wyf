@@ -55,7 +55,6 @@ class ClassNameResolver implements ModelClassResolverInterface, ControllerClassR
     public function getTableName($instance) {
         $class = (new \ReflectionClass($instance))->getName();
         preg_match('|zefe\\\\app\\\\(?<base>[a-zA-Z0-9]+)\\\\.*models\\\\(?<model>[a-zA-Z0-9]+)|', $class, $matches);
-        $driver = \ntentan\atiaa\Db::getDriver();
         $schema = Text::deCamelize($matches['base']);
         $table = Text::deCamelize($matches['model']);
         return ['schema' => $schema, 'table' => $table];

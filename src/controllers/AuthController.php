@@ -8,8 +8,8 @@
 
 namespace ntentan\wyf\controllers;
 
-use ntentan\Ntentan;
 use ntentan\View;
+use ntentan\Session;
 
 /**
  * Description of AuthController
@@ -21,4 +21,10 @@ class AuthController extends WyfController {
     public function login(View $view) {
         return $view;
     }
+    
+    public function logout() {
+        Session::reset();
+        return new \ntentan\Redirect("");
+    }
+    
 }
