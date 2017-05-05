@@ -7,7 +7,8 @@ use ntentan\honam\TemplateEngine;
 use ntentan\controllers\Url;
 use ntentan\utils\Text;
 use ntentan\Model;
-use ntentan\controllers\Redirect;
+use ntentan\Context;
+use ntentan\Redirect;
 
 /**
  * Description of CrudController
@@ -18,8 +19,9 @@ class CrudController extends WyfController {
     private $operations = [];
     private $listFields = [];
 
-    public function __construct(View $view) {
-        parent::__construct();
+    public function __construct(Context $context) {
+        parent::__construct($context);
+        $view = $context->getContainer()->resolve(View::class);
         $this->addOperation('edit');
         $this->addOperation('delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
@@ -48,7 +50,7 @@ class CrudController extends WyfController {
         }
     }
 
-    public function index() {
+    public function index(View $view) {
         $model = $this->getModel();
         $description = $model->getDescription();
         $fields = $description->getFields();
@@ -65,6 +67,7 @@ class CrudController extends WyfController {
             }
         }
         
+        $this->setTitle($this->getWyfName());
         $view->set([
             'add_item_url' => Url::action('add'),
             'import_items_url'=> Url::action('import'),
@@ -76,12 +79,13 @@ class CrudController extends WyfController {
             'foreign_key' => false
         ]);
 
-        $this->setTitle($this->getName());
+        return $view;
     }
 
-    public function add() {
-        View::set('model', $this->getModel()->createNew());
-        $this->setTitle("Add new {$this->getName()}");
+    public function add(View $view) {
+        $view->set('model', $this->getModel()->createNew());
+        $this->setTitle("Add new {$this->getWyfName()}");
+        return $view;
     }
 
     /**
@@ -89,12 +93,13 @@ class CrudController extends WyfController {
      * @ntentan.method POST
      * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
      */
-    public function store(Model $model) {
+    public function store(Model $model, View $view) {
         if ($model->save()) {
-            return Redirect::action(null);
+            return $this->getRedirect();
         }
-        View::set('model', $model);
-        $this->setTitle("Add new {$this->getName()}");
+        $view->set('model', $model);
+        $this->setTitle("Add new {$this->getWyfName()}");
+        return $view;
     }
 
     public function edit($id) {

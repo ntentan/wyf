@@ -19,8 +19,12 @@ class WyfApplication extends \ntentan\Application {
 
     private $appName;
 
-    public static function getName() {
+    public function getName() {
         return $this->appName;
+    }
+    
+    public function setName($name) {
+        $this->appName = $name;
     }
     
     public function getMenu() {

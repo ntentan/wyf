@@ -3,8 +3,9 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\Controller;
-use ntentan\View;
 use ntentan\wyf\Wyf;
+use ntentan\Context;
+use ntentan\View;
 
 /**
  * Base controller for all WYF application modules you want to appear in the menu.
@@ -21,26 +22,31 @@ class WyfController extends Controller {
     private $package;
     private $name;
     private $path;
+    private $titleBase;
+    private $view;
 
-    public function __construct() {
-        /*View::set('route_breakdown', explode('/', Ntentan::getRouter()->getRoute()));
-          View::set('wyf_app_name', Wyf::getAppName());
-          $class = get_class($this);
-          $namespace = Ntentan::getNamespace();
-          if(preg_match(
-          "/$namespace\\\\app\\\\(?<base>.*)\\\\controllers\\\\(?<name>.*)Controller/",
-          $class, $matches
-          ))
-          {
-          $this->package = strtolower(str_replace("\\", ".", $matches['base']) . "." . $matches['name']);
-          $this->name = str_replace(".", " ", $this->package);
-          $this->path = str_replace(' ', '/', $this->name);
-          }
-          View::set('menu', $this->getMenu()); */
+    public function __construct(Context $context) {
+        $this->view = $context->getContainer()->resolve(View::class);
+        $app = $context->getApp();
+        $appName = $app->getName();
+        $this->view->set('route_breakdown', explode('/', $context->getRouter()->getRoute()));
+        $this->view->set('wyf_app_name', $appName);
+        $this->titleBase = "{$appName} | ";
+        $class = get_class($this);
+        $namespace = $context->getNamespace();
+        if(preg_match(
+            "/$namespace\\\\app\\\\(?<base>.*)\\\\controllers\\\\(?<name>.*)Controller/",
+            $class, $matches
+        )) {
+            $this->package = strtolower(str_replace("\\", ".", $matches['base']) . "." . $matches['name']);
+            $this->name = str_replace(".", " ", $this->package);
+            $this->path = str_replace(' ', '/', $this->name);
+        }
+        $this->view->set('menu', $app->getMenu());
     }
 
     protected function setTitle($title) {
-        View::set('wyf_title', Wyf::getAppName() . " | {$title}");
+        $this->view->set('wyf_title', "{$this->titleBase} | {$title}");
     }
 
     public function getDescription() {

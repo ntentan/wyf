@@ -1,3 +1,4 @@
+<?= $auth_message ?>
 <?php
 $form = new \ntentan\wyf\utilities\forms\Form();
 $form->add(
