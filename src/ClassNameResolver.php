@@ -2,7 +2,6 @@
 
 namespace ntentan\wyf;
 
-use ntentan\Ntentan;
 use ntentan\utils\Text;
 use ntentan\nibii\interfaces\ModelClassResolverInterface;
 use ntentan\nibii\interfaces\TableNameResolverInterface;

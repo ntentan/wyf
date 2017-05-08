@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?= $wyf_title ?></title>
+        <title><?= $wyf_title ?> | <?= $wyf_app_name ?></title>
         <?= 
             $helpers->javascripts
                 ->add(get_asset('js/jquery.js'))

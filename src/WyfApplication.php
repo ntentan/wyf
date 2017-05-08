@@ -44,7 +44,6 @@ class WyfApplication extends \ntentan\Application {
         $container->bind(MVCMiddleware::class)->to(MVCMiddleware::class)->asSingleton();
         $container->resolve(MVCMiddleware::class)->registerLoader('wyf_controller', WyfLoader::class);
 
-        //self::$appName = $parameters['name'] ?? 'WYF Application';
         $container->bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
         $container->bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
         $container->bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
@@ -58,9 +57,14 @@ class WyfApplication extends \ntentan\Application {
         $router->mapRoute(
             'wyf_api', 
             'api/{*path}', 
-            ['default' => 
-                ['controller' => 
-                    controllers\ApiController::class, 'action' => 'rest'
+            [
+                'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest'],
+                'pipeline' => [
+                    [AuthMiddleware::class, [
+                        'auth_method' => 'http_basic', 
+                        'users_model' => 'auth.users']
+                    ],
+                    [MVCMiddleware::class]
                 ]
             ]
         );
@@ -69,11 +73,10 @@ class WyfApplication extends \ntentan\Application {
         );
         
         $view = $container->resolve(\ntentan\View::class);
-        $this->prependMiddleware(AuthMiddleware::with([
-                'login_route' => 'auth/login',
-                'users_model' => 'auth.users'
-            ])
-        );
+        $this->prependMiddleware(AuthMiddleware::class, [
+            'login_route' => 'auth/login',
+            'users_model' => 'auth.users'
+        ]);
     }
 
 }

@@ -3,7 +3,6 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\Controller;
-use ntentan\wyf\Wyf;
 use ntentan\Context;
 use ntentan\View;
 
@@ -31,7 +30,7 @@ class WyfController extends Controller {
         $appName = $app->getName();
         $this->view->set('route_breakdown', explode('/', $context->getRouter()->getRoute()));
         $this->view->set('wyf_app_name', $appName);
-        $this->titleBase = "{$appName} | ";
+        $this->titleBase = "{$appName}";
         $class = get_class($this);
         $namespace = $context->getNamespace();
         if(preg_match(
@@ -46,7 +45,7 @@ class WyfController extends Controller {
     }
 
     protected function setTitle($title) {
-        $this->view->set('wyf_title', "{$this->titleBase} | {$title}");
+        $this->view->set('wyf_title', $title);
     }
 
     public function getDescription() {
