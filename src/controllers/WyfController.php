@@ -30,6 +30,7 @@ class WyfController extends Controller {
         $appName = $app->getName();
         $this->view->set('route_breakdown', explode('/', $context->getRouter()->getRoute()));
         $this->view->set('wyf_app_name', $appName);
+        $this->view->set('wyf_logout_url', $context->getUrl('auth/logout'));
         $this->titleBase = "{$appName}";
         $class = get_class($this);
         $namespace = $context->getNamespace();

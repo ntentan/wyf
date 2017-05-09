@@ -17,13 +17,15 @@ use ntentan\Redirect;
 class CrudController extends WyfController {
 
     private $operations = [];
-    private $listFields = [];
+    protected $listFields = [];
+    private $context;
 
     public function __construct(Context $context) {
         parent::__construct($context);
+        $this->context = $context;
         $view = $context->getContainer()->resolve(View::class);
-        $this->addOperation('edit');
-        $this->addOperation('delete');
+        $this->addOperation('edit', 'Edit');
+        $this->addOperation('delete', 'Delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
         TemplateEngine::appendPath('views/forms');
 
@@ -52,27 +54,31 @@ class CrudController extends WyfController {
 
     public function index(View $view) {
         $model = $this->getModel();
-        $description = $model->getDescription();
-        $fields = $description->getFields();
-        $primaryKey = $description->getPrimaryKey()[0];
 
+        $description = $model->getDescription();
+        $primaryKey = $description->getPrimaryKey()[0];            
         if (empty($this->listFields)) {
+            $fields = $description->getFields();
             foreach ($fields as $field) {
-                if ($field['name'] == $primaryKey)
+                if ($field['name'] == $primaryKey) {
                     continue;
-                $this->listFields[] = [
-                    'name' => $field['name'],
-                    'label' => $field['name']
-                ];
+                }
+                $this->listFields[$field['name']] = ucwords(str_replace('_', ' ', $field['name']));
             }
         }
         
         $this->setTitle($this->getWyfName());
+        // Prevent this from repeating
+        $fields = [$primaryKey];
+        foreach($this->listFields as $field => $label) {
+            $fields[] = is_numeric($field) ? $label : $field;
+        }
+        $fields = implode(',', $fields);
         $view->set([
-            'add_item_url' => Url::action('add'),
-            'import_items_url'=> Url::action('import'),
-            'api_url' => Url::path('api/' . $this->getWyfPath()),
-            'base_url' => Url::action(''),
+            'add_item_url' => $this->getActionUrl('add'),
+            'import_items_url'=> $this->getActionUrl('import'),
+            'api_url' => $this->context->getUrl('api/' . $this->getWyfPath() . "?fields=$fields"),
+            'base_url' => $this->getActionUrl(''),
             'list_fields' => $this->listFields,
             'operations' => $this->operations,
             'primary_key_field' => $primaryKey,

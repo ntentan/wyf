@@ -4,9 +4,10 @@ var api = {
       url: url,
       data: data,
       type: type
-    }).done(function (data) {
-      if (typeof success === 'function')
-        success(data);
+    }).done(function (data, status, xhr) {
+      if (typeof success === 'function') {
+        success(data, xhr);
+      }
     });
   },
   put: function (url, data, success) {

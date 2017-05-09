@@ -19,36 +19,15 @@
 <script type="text/javascript">
     $(function(){
         api.get("<?= $api_url ?>", {},
-            function(data){
-                console.log(data);
+            function(data, xhr){
+                $('#wyf_list_view').html(Mustache.render($('#wyf_list_view_template').html(), {list:data}));
+                $('#wyf_list_view_size').html(Math.ceil(xhr.getResponseHeader('X-Item-Count') / 10));
             }
         );
     })
 </script>
 <script type="text/html" id="wyf_list_view_template">
-    <table id="wyf_list_table">
-        <thead>
-            <tr><?php foreach(unescape($list_fields) as $field){
-                echo "<th>{$field['label']}</th>";
-            }?><th></th></tr>
-        </thead>
-        <tbody>
-            {{#list}}
-            <tr><?php 
-            
-            // Columns
-            foreach($list_fields as $field){
-                echo sprintf("<td>{{%s}}</td>", str_replace(".", "_", $field['name']));
-            }?><td class="wyf_list_table_operations"><?php 
-            
-            //Operations
-            foreach($operations as $operation){
-                echo "<a href='{$base_url}{$operation['action']}/{{{$primary_key_field}}}'>{$operation['label']}</a> ";
-            }
-            ?></td></tr>
-            {{/list}}
-        </tbody>
-    </table>
+    <?= t(str_replace(" ", "_", $entities) . "_wyf_crud_list", ['list_fields' => $list_fields, 'operations' => $operations, 'primary_key_field' => $primary_key_field]) ?>
 </script>
 <?php
     load_asset('images/add.png');

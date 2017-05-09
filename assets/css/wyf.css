@@ -61,3 +61,31 @@ h2 {
     margin-top:20%;
     min-width: 300px;
 }
+
+#wyf_list_table{
+    border-collapse: collapse;
+    border: 1px solid #f0f0f0;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+    table-layout: fixed;
+    width:100%;
+}
+
+#wyf_list_table > tbody > tr:hover{
+    background-color:#fff9db
+}
+
+#wyf_list_table td, #wyf_list_table th {
+    padding:10px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#wyf_list_table th {
+    font-weight: bold;
+    color: #808080;
+    border-bottom: 1px solid #f8f8f8;
+    text-align: left;
+}

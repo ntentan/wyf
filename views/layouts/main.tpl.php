@@ -35,7 +35,7 @@
                     <div class="column grid_10_5">
                         <div id="profile-box">
                         <?php if($_SESSION['user']['username'] != ''): ?>
-                            Logged in as <b><?= $_SESSION['user']['username'] ?></b> | <a href="<?= u('auth/logout') ?>">Logout</a>&nbsp;&nbsp;&nbsp;
+                            Logged in as <b><?= $_SESSION['user']['username'] ?></b> | <a href="<?= $wyf_logout_url ?>">Logout</a>&nbsp;&nbsp;&nbsp;
                         <?php endif; ?>
                         </div>
                     </div>

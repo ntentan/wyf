@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace ntentan\wyf\controllers;
 
 use ntentan\View;
@@ -24,6 +18,7 @@ class ApiController extends WyfController {
         parent::__construct($context);
         $view->setLayout('plain');
         $view->setTemplate('api');
+        $view->setContentType('application/json');
     }
     
     private function getModel($path) {
@@ -33,9 +28,10 @@ class ApiController extends WyfController {
     private function get($path, $view) {
         $model = $this->getModel($path);
         $model->limit(Input::get('limit'));
+        $model->fields(explode(',', Input::get('fields')));
         $model->offset((Input::get('page') - 1) * Input::get('limit'));
         header("X-Item-Count: " . $model->count());
-        $view->set('response', $model->fetch()->toArray());
+        $view->set('response', $model->fetch()->toArray(1));
     }
     
     public function index() {
