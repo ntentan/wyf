@@ -20,14 +20,15 @@
     $(function(){
         api.get("<?= $api_url ?>", {},
             function(data, xhr){
-                $('#wyf_list_view').html(Mustache.render($('#wyf_list_view_template').html(), {list:data}));
+                var template = Handlebars.compile($('#wyf_list_view_template').html());
+                $('#wyf_list_view').html(template({list:data}));
                 $('#wyf_list_view_size').html(Math.ceil(xhr.getResponseHeader('X-Item-Count') / 10));
             }
         );
     })
 </script>
 <script type="text/html" id="wyf_list_view_template">
-    <?= t(str_replace(" ", "_", $entities) . "_wyf_crud_list", ['list_fields' => $list_fields, 'operations' => $operations, 'primary_key_field' => $primary_key_field]) ?>
+    <?= t("wyf_crud_" . str_replace(" ", "_", $entities) . "_list", ['list_fields' => $list_fields, 'operations' => $operations, 'primary_key_field' => $primary_key_field]) ?>
 </script>
 <?php
     load_asset('images/add.png');

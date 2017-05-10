@@ -5,6 +5,7 @@ namespace ntentan\wyf\controllers;
 use ntentan\Controller;
 use ntentan\Context;
 use ntentan\View;
+use ntentan\utils\Text;
 
 /**
  * Base controller for all WYF application modules you want to appear in the menu.
@@ -38,7 +39,7 @@ class WyfController extends Controller {
             "/$namespace\\\\app\\\\(?<base>.*)\\\\controllers\\\\(?<name>.*)Controller/",
             $class, $matches
         )) {
-            $this->package = strtolower(str_replace("\\", ".", $matches['base']) . "." . $matches['name']);
+            $this->package = strtolower(Text::deCamelize(str_replace("\\", ".", $matches['base'])) . "." . Text::deCamelize($matches['name']));
             $this->name = str_replace(".", " ", $this->package);
             $this->path = str_replace(' ', '/', $this->name);
         }
