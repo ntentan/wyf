@@ -6,18 +6,14 @@
     </thead>
     <tbody>
         {{#list}}
-        <tr><?php 
-
-        // Columns
-        foreach($list_fields as $field => $label){
-            echo sprintf("<td>{{%s}}</td>", str_replace(".", "_", is_numeric($field) ? $label : $field));
-        }?><td class="wyf_list_table_operations"><?php 
-
-        //Operations
-        foreach($operations as $operation){
-            echo "<a href='{$base_url}{$operation['action']}/{{{$primary_key_field}}}'>{$operation['label']}</a> ";
-        }
-        ?></td></tr>
+        <tr>
+            <?php foreach($list_fields as $field => $label): ?>
+                <?= sprintf("<td>{{%s}}</td>", str_replace(".", "_", is_numeric($field) ? $label : $field)) ?>
+            <?php endforeach;?>
+            <td>
+            <?= t('operations', ['base_url' => $base_url, 'operations' => $operations, 'primary_key_field' => $primary_key_field]) ?>
+            </td>
+        </tr>
         {{/list}}
     </tbody>
 </table>

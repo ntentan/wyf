@@ -13,6 +13,7 @@
                 ->add(get_asset('css/wyf.css'))
                 ->add(get_asset('css/menu.css'))
                 ->add(get_asset('css/app.css'))
+                ->add(get_asset('css/font-awesome.min.css'))
                 ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
         ?>
         
@@ -22,7 +23,12 @@
         load_asset('images/headerbg.gif', get_asset('images/headerbg.gif'));
         load_asset('images/sidemenubg.gif', get_asset('images/sidemenubg.gif'));
         load_asset('images/mainbg.gif', get_asset('images/mainbg.gif'));
-        load_asset('images/selectedbg.gif', get_asset('images/selectedbg.gif'));        
+        load_asset('images/selectedbg.gif', get_asset('images/selectedbg.gif'));       
+        
+        load_asset('fonts/fontawesome-webfont.woff', get_asset('fonts/fontawesome-webfont.woff'));
+        load_asset('fonts/fontawesome-webfont.woff2', get_asset('fonts/fontawesome-webfont.woff2'));
+        load_asset('fonts/fontawesome-webfont.svg', get_asset('fonts/fontawesome-webfont.svg'));
+        load_asset('fonts/fontawesome-webfont.ttf', get_asset('fonts/fontawesome-webfont.ttf'));
         ?>
     </head>
     <body>

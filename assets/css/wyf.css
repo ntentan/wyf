@@ -89,3 +89,29 @@ h2 {
     border-bottom: 1px solid #f8f8f8;
     text-align: left;
 }
+
+.wyf_list_operations {
+    list-style: none;
+    margin:0px;
+    text-align: right;
+}
+
+.wyf_list_operations > li{
+    display: inline-block;
+    margin-left: 10px;
+    font-size: smaller;
+}
+
+.wyf_list_operations > li > a:before{
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: inherit;
+    color: #808080;
+}
+
+
+.operation-edit:before { content: "\f040" }
+.operation-delete:before { content: "\f1f8" }
+  
