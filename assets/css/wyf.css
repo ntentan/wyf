@@ -111,6 +111,14 @@ h2 {
     color: #808080;
 }
 
+#wyf_list_add_button {
+    margin:5px;
+}
+
+#wyf_list_header h2 {
+    margin-bottom: 0px;
+    vertical-align: bottom;
+}
 
 .operation-edit:before { content: "\f040" }
 .operation-delete:before { content: "\f1f8" }

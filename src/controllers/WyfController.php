@@ -40,8 +40,8 @@ class WyfController extends Controller {
             $class, $matches
         )) {
             $this->package = strtolower(Text::deCamelize(str_replace("\\", ".", $matches['base'])) . "." . Text::deCamelize($matches['name']));
-            $this->name = str_replace(".", " ", $this->package);
-            $this->path = str_replace(' ', '/', $this->name);
+            $this->name = str_replace("_", " ", Text::deCamelize($matches['name']));
+            $this->path = str_replace('.', '/', $this->package);
         }
         $this->view->set('menu', $app->getMenu());
     }

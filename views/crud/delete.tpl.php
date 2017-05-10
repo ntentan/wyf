@@ -3,6 +3,6 @@
     note that this action cannot be reversed
 </p>
 <p>
-    <a href="<?= $delete_yes_url ?>">Yes</a>
-    <a href="<?= $delete_no_url ?>">No</a>
+    <a class="button button-red" href="<?= $delete_yes_url ?>">Yes</a>
+    <a class="button button-blue" href="<?= $delete_no_url ?>">No</a>
 </p>

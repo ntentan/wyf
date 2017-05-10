@@ -33,7 +33,7 @@ class CrudController extends WyfController {
         $view->set('entities', $this->getWyfName());
         $view->set('entity', Text::singularize($this->getWyfName()));
         $view->set('has_add_operation', true);
-        $view->set('form_template', str_replace('.', '_', $this->getWyfPackage()) . '_form');
+        $view->set('package', str_replace('.', '_', $this->getWyfPackage()));
     }
 
     /**
@@ -109,11 +109,13 @@ class CrudController extends WyfController {
         return $view;
     }
 
-    public function edit($id) {
+    public function edit(View $view, $id) {
         $model = $this->getModel();
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
-        View::set('model', $this->getModel()->fetchFirst([$primaryKey => $id]));
-        View::set('primary_key_field', $primaryKey);
+        $view->set('model', $this->getModel()->fetchFirst([$primaryKey => $id]));
+        $view->set('primary_key_field', $primaryKey);
+        $this->setTitle("Edit {$this->getWyfName()}");
+        return $view;
     }
 
     /**
@@ -124,24 +126,29 @@ class CrudController extends WyfController {
      * @param Model $model
      * @return type
      */
-    public function update(Model $model) {
+    public function update(Model $model, View $view) {
         if ($model->save()) {
-            return Redirect::action(null);
+            return $this->getRedirect();
         }
+        $primaryKey = $model->getDescription()->getPrimaryKey()[0];
+        $view->set('primary_key_field', $primaryKey);
+        $view->set('model', $model);
+        $this->setTitle("Edit {$this->getWyfName()}");
+        return $view;
     }
 
-    public function delete($id, $confirm = null) {
+    public function delete(View $view, $id, $confirm = null) {
         $model = $this->getModel();
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
         $item = $model->fetchFirst([$primaryKey => $id]);
         if ($confirm == 'yes') {
             $item->delete();
-            return Redirect::action('');
-        } else {
-            View::set('item', $item);
-            View::set('delete_yes_url', Url::action("delete/$id", ['confirm' => 'yes']));
-            View::set('delete_no_url', Url::action(''));
+            return $this->getRedirect();
         }
+        $view->set('item', $item);
+        $view->set('delete_yes_url', $this->getActionUrl("delete/$id?confirm=yes"));
+        $view->set('delete_no_url', $this->getActionUrl(''));
+        return $view;
     }
 
     protected function addOperation($action, $label = null) {

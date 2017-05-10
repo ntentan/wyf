@@ -1,7 +1,13 @@
-<h2><?= ucfirst($entities) ?></h2>
-<?php if($has_add_operation): ?>
-<a class="button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span> <?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a>
-<?php endif; ?>
+<div class="row" id="wyf_list_header">
+    <div class="column grid_10_7">
+        <h2><?= ucwords($entities) ?></h2>
+    </div>
+    <div class="column grid_10_3" style="text-align: right">
+        <?php if($has_add_operation): ?>
+        <a id="wyf_list_add_button" class="button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span> <?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a>
+        <?php endif; ?>
+    </div>
+</div>
 <div id="wyf_list_view"></div>
 <div id="wyf_list_view_nav">
     <div class="button-group button-group-mini">
@@ -17,7 +23,7 @@ $(function(){ wyf.list.render("<?= $api_url ?>", 1) })
 </script>
 <script type="text/html" id="wyf_list_view_template">
     <?= t(
-            "wyf_crud_" . str_replace(" ", "_", $entities) . "_list", 
+            "wyf_{$package}_list", 
             [
                 'list_fields' => $list_fields, 
                 'operations' => $operations, 

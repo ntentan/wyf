@@ -10,7 +10,7 @@ use ntentan\Model;
  * a model. 
  */
 class ModelField extends SelectField {
-    
+
     /**
      * If a string is passed, initialize and return a Model. However if a model
      * is passed, allow it to pass through.
@@ -18,7 +18,7 @@ class ModelField extends SelectField {
      * @return \ntentan\Model
      */
     private function initialize($model) {
-        if(is_string($model)) {
+        if (is_string($model)) {
             $object = Model::load($model);
         } else {
             $object = $model;
@@ -33,13 +33,13 @@ class ModelField extends SelectField {
      */
     public function __construct($model) {
         $this->renderWithType = 'select_field';
-        $instance = $this->initialize($model); 
+        $instance = $this->initialize($model);
         $name = Text::deCamelize($instance->getName());
         $this->setLabel(ucwords(str_replace('_', ' ', $name)));
         $this->setName(Text::singularize($name) . '_id');
         $options = $instance->fetch();
         foreach ($options as $option) {
-            $this->option((string) $option, $option->id);
+            $this->addOption((string) $option, $option->id);
         }
     }
 
