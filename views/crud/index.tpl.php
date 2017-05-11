@@ -32,8 +32,3 @@ $(function(){ wyf.list.render("<?= $api_url ?>", 1) })
             ]
         ) ?>
 </script>
-<?php
-    load_asset('images/add.png');
-    load_asset('images/addbg.gif');
-    load_asset('images/import.png');
-?>

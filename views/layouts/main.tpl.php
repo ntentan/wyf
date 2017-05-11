@@ -17,14 +17,7 @@
                 ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
         ?>
         
-        <?php
-        load_asset('images/home.png', get_asset('images/dashboard.png'));
-        load_asset('images/system.png', get_asset('images/system.png'));
-        load_asset('images/headerbg.gif', get_asset('images/headerbg.gif'));
-        load_asset('images/sidemenubg.gif', get_asset('images/sidemenubg.gif'));
-        load_asset('images/mainbg.gif', get_asset('images/mainbg.gif'));
-        load_asset('images/selectedbg.gif', get_asset('images/selectedbg.gif'));       
-        
+        <?php              
         load_asset('fonts/fontawesome-webfont.woff', get_asset('fonts/fontawesome-webfont.woff'));
         load_asset('fonts/fontawesome-webfont.woff2', get_asset('fonts/fontawesome-webfont.woff2'));
         load_asset('fonts/fontawesome-webfont.svg', get_asset('fonts/fontawesome-webfont.svg'));
