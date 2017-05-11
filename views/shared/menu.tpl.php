@@ -6,6 +6,7 @@
             $selected = "menu-item-selected";
             $subMenu = $item['children'];
             $baseRoute = $item['route'];
+            $label = $item['label'];
         } else {
             $selected = "";
         }?>
@@ -15,9 +16,12 @@
     </div>
     <?php if(!empty($subMenu)): ?>
     <div id="sub-menu">
+        <h1><?= $label ?></h1>
         <ul>            
         <?php foreach($subMenu as $item): ?>
-            <li><a href="<?= "/{$baseRoute}/{$item['route']}" ?>"><?= $item["label"] ?></a></li>
+            <li <?= $item['route'] == $route_breakdown[1] ? "class='menu-item-selected'" : "" ?>>
+                <a href="<?= "/{$baseRoute}/{$item['route']}" ?>"><?= $item["label"] ?></a>
+            </li>
         <?php endforeach; ?>
         </ul>            
     </div>

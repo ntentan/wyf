@@ -31,26 +31,35 @@
 }
 
 #sub-menu{
-    width:250px;
+    width:210px;
     display: inline-block;
     left:75px;
     top:50px;
     position:fixed;
-    border-right: 1px solid #f0f0f0;
+    border-right: 1px dashed #f0f0f0;
     background-color: #fff;
+    padding:20px;
 }
 
 #sub-menu > ul {
     list-style: none;
-    margin:0px;
-    padding:20px;
+    padding:0px;
 }
 
 #sub-menu > ul > li {
     font-weight: bold;
     display:block;
-    padding:5px;
+    padding:7px;
     margin-bottom: 5px;
+}
+
+#sub-menu .menu-item-selected {
+    background-color: #3bbf7e;
+    border-radius: 5px;
+}
+
+#sub-menu .menu-item-selected a{
+    color: #fff;
 }
 
 
