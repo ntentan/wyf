@@ -10,6 +10,7 @@
 #main-menu{
     width: 75px;
     display: inline-block;
+    position:fixed;
 }
 
 #main-menu > .menu-item{
@@ -25,7 +26,32 @@
     box-shadow: 0 4px 3px -3px rgba(0,0,0,0.3);    
 }
 
-#sub-menu{
-    width:300px;
-    display: inline-block;
+#main-menu .menu-item-selected{
+    background-color:#fff;
 }
+
+#sub-menu{
+    width:250px;
+    display: inline-block;
+    left:75px;
+    top:50px;
+    position:fixed;
+    border-right: 1px solid #f0f0f0;
+    background-color: #fff;
+}
+
+#sub-menu > ul {
+    list-style: none;
+    margin:0px;
+    padding:20px;
+}
+
+#sub-menu > ul > li {
+    font-weight: bold;
+    display:block;
+    padding:5px;
+    margin-bottom: 5px;
+}
+
+
+

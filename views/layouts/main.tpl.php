@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div id="notification"></div>
-            <?= t('menu.tpl.php', ['menu' => $menu]) ?>
+            <?= t('menu.tpl.php', ['menu' => $menu, 'route_breakdown' => $route_breakdown]) ?>
             <div id="contents">
                 <?php echo $contents->unescape(); ?>
             </div>

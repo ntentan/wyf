@@ -4,11 +4,9 @@ namespace ntentan\wyf\controllers;
 
 use ntentan\View;
 use ntentan\honam\TemplateEngine;
-use ntentan\controllers\Url;
 use ntentan\utils\Text;
 use ntentan\Model;
 use ntentan\Context;
-use ntentan\Redirect;
 
 /**
  * Description of CrudController

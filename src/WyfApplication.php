@@ -9,13 +9,14 @@ use ntentan\honam\TemplateEngine;
 use ntentan\honam\AssetsLoader;
 use ntentan\middleware\MVCMiddleware;
 use ntentan\middleware\AuthMiddleware;
+use ntentan\Application;
 
 /**
  * Description of newPHPClass
  *
  * @author ekow
  */
-class WyfApplication extends \ntentan\Application {
+class WyfApplication extends Application {
 
     private $appName;
 
