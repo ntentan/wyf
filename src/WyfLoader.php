@@ -30,9 +30,9 @@ class WyfLoader implements ResourceLoaderInterface {
             $controllerClass = $resolver->getControllerClassName(substr($testedPath, 1));
             if (class_exists($controllerClass)) {
                 $action = isset($path[$i + 1]) ? $path[$i + 1] : 'index';
+                $controllerPath = str_replace('.', '/', $controllerPath);
                 $parameters['id'] = implode('/', array_slice($path, $i + 2));
-                $parameters['controllerPath'] = $controllerPath;
-                //Ntentan::getRouter()->setVar('controller_path', $controllerPath);
+                $parameters['controller_path'] = $controllerPath;
                 $this->context->getApp()->getParameters()->set('controller_path', $controllerPath);
                 $controllerInstance = $this->context->getContainer()->resolve($controllerClass);
                 return $controllerInstance->executeControllerAction($action, $parameters, $this->context);

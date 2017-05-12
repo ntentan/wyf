@@ -66,7 +66,7 @@ class CrudController extends WyfController {
             }
         }
         
-        $this->setTitle($this->getWyfName());
+        $this->setTitle(ucwords($this->getWyfName()));
         // Prevent this from repeating
         $fields = [$primaryKey];
         foreach($this->listFields as $field => $label) {
@@ -89,7 +89,7 @@ class CrudController extends WyfController {
 
     public function add(View $view) {
         $view->set('model', $this->getModel()->createNew());
-        $this->setTitle("Add new {$this->getWyfName()}");
+        $this->setTitle("Add new " . ucwords($this->getWyfName()));
         return $view;
     }
 

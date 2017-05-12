@@ -10,8 +10,8 @@
         } else {
             $selected = "";
         }?>
-        <div title="<?= $item['label'] ?>" class="menu-item <?= $selected ?>" id="menu-item-<?= $item['route'] ?>">            
-        </div>
+        <a href="/<?= $item['route'] ?>" title="<?= $item['label'] ?>" class="menu-item <?= $selected ?>" id="menu-item-<?= $item['route'] ?>">            
+        </a>
         <?php endforeach; ?>
     </div>
     <?php if(!empty($subMenu)): ?>
