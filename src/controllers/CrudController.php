@@ -8,10 +8,6 @@ use ntentan\utils\Text;
 use ntentan\Model;
 use ntentan\Context;
 
-/**
- * Description of CrudController
- * @author ekow
- */
 class CrudController extends WyfController {
 
     private $operations = [];

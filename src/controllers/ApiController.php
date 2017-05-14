@@ -21,17 +21,30 @@ class ApiController extends WyfController {
         $view->setContentType('application/json');
     }
     
-    private function getModel($path) {
-        return Model::load(str_replace('/', '.', $path));
+    private function decodePath($path) {
+        $split = explode("/", $path);
+        if(is_numeric(end($split))) {
+            $id = array_pop($split);
+        }
+        return ['model' => Model::load(implode('.', $split)), 'id' => $id];
     }
 
     private function get($path, $view) {
-        $model = $this->getModel($path);
-        $model->limit(Input::get('limit'));
-        $model->fields(explode(',', Input::get('fields')));
-        $model->offset((Input::get('page') - 1) * Input::get('limit'));
-        header("X-Item-Count: " . $model->count());
-        $view->set('response', $model->fetch()->toArray(1));
+        $pathInfo = $this->decodePath($path);
+        $model = $pathInfo['model'];
+        if(Input::exists(Input::GET, 'fields')) {
+            $model->fields(explode(',', Input::get('fields')));
+        }
+        if($pathInfo['id']){
+            $primaryKey = $model->getDescription()->getPrimaryKey()[0];
+            $model->filter([$primaryKey => $pathInfo['id']]);
+            $view->set('response', $model->fetchFirst()->toArray(Input::get('depth')));
+        } else {
+            $model->limit(Input::get('limit'));
+            $model->offset((Input::get('page') - 1) * Input::get('limit'));
+            header("X-Item-Count: " . $model->count());
+            $view->set('response', $model->fetch()->toArray(Input::get('depth')));
+        }
     }
     
     public function index() {
