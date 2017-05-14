@@ -71,7 +71,7 @@ class WyfApplication extends Application {
         );
         
         foreach($this->getMenu() as $item) {
-            if(count($item['children']) > 0) {
+            if(count($item['children'] ?? []) > 0) {
                 $router->mapRoute("wyf_{$item['route']}", $item['route'],
                     [
                         'default' => ['wyf_controller' => "{$item['route']}.{$item['children'][0]['route']}"]
