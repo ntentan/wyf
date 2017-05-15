@@ -5,7 +5,8 @@
     "require": {
         "ekowabaka/fzui": "dev-master",
 	"components/handlebars.js": "4.*",
-	"components/jquery": "3.*"
+	"components/jquery": "3.*",
+	"fortawesome/font-awesome": "4.*"
     },
     "authors": [
         {
