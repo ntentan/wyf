@@ -4,24 +4,25 @@
         <title><?= $wyf_title ?> | <?= $wyf_app_name ?></title>
         <?= 
             $helpers->javascripts
-                ->add(get_asset('js/jquery.js'))
+                ->add('components/jquery/jquery.js')
                 ->add(get_asset('js/wyf.js'))
                 ->add(get_asset('js/api.js'))
-                ->add(get_asset('js/handlebars.js'))
+                ->add('components/handlebars/handlebars.js')
+                ->add('vendor/ekowabaka/fzui/dist/fzui.min.js')
                 ->add(get_asset('js/app.js')).
             $helpers->stylesheets
                 ->add(get_asset('css/wyf.css'))
                 ->add(get_asset('css/menu.css'))
                 ->add(get_asset('css/app.css'))
-                ->add(get_asset('css/font-awesome.min.css'))
+                ->add('vendor/fortawesome/font-awesome/css/font-awesome.css')
                 ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
         ?>
         
         <?php              
-        load_asset('fonts/fontawesome-webfont.woff', get_asset('fonts/fontawesome-webfont.woff'));
-        load_asset('fonts/fontawesome-webfont.woff2', get_asset('fonts/fontawesome-webfont.woff2'));
-        load_asset('fonts/fontawesome-webfont.svg', get_asset('fonts/fontawesome-webfont.svg'));
-        load_asset('fonts/fontawesome-webfont.ttf', get_asset('fonts/fontawesome-webfont.ttf'));
+        load_asset('fonts/fontawesome-webfont.woff', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff');
+        load_asset('fonts/fontawesome-webfont.woff2', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff2');
+        load_asset('fonts/fontawesome-webfont.svg', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.svg');
+        load_asset('fonts/fontawesome-webfont.ttf', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.ttf');
         ?>
     </head>
     <body>

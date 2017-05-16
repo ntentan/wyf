@@ -31,15 +31,27 @@ class ModelField extends SelectField {
      * @param string|\ntentan\Model $model A string as the model name or 
      *          an instance of a model
      */
-    public function __construct($model) {
-        $this->renderWithType = 'select_field';
+    public function __construct($model, $formTemplate = null) {
         $instance = $this->initialize($model);
         $name = Text::deCamelize($instance->getName());
-        $this->setLabel(ucwords(str_replace('_', ' ', $name)));
+        $label = Text::singularize(ucwords(str_replace('_', ' ', $name)));
+        $this->setLabel($label);
         $this->setName(Text::singularize($name) . '_id');
         $options = $instance->fetch();
         foreach ($options as $option) {
             $this->addOption((string) $option, $option->id);
+        }
+        if($formTemplate) {
+            $this->set('has_add', true);
+            $this->set('model', $instance);
+            $this->set('form_template', $formTemplate);
+            $this->set('entity', $label);
+            $this->set('package', $name);
+            if(count($options)) {
+                $this->addOption("---", "-");
+            }
+            $this->addOption("Add a new {$this->getLabel()}", 'new');
+            $this->setAttribute('onchange', "fzui.modal('#{$name}_add_modal')");
         }
     }
 

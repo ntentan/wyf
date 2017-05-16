@@ -29,14 +29,28 @@ class ApiController extends WyfController {
         }
         return ['model' => Model::load(implode('.', $split)), 'id' => $id];
     }
+    
+    private function post($path, $view) {
+        if(Input::server('CONTENT_TYPE') != 'application/json') {
+            $view->set('response', ['message' => 'Accepts only application/json content']);
+            http_response_code(400);
+            return;
+        }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $model = $this->decodePath($path)['model'];
+        $model->setData($data);
+        if($model->save()) {
+            $view->set('response', ['id' => $model->id]);
+        } else {
+            http_response_code(400);
+            $view->set('response', ['message' => 'Failed to save data', 'errors' => $model->getInvalidFields()]);
+        }
+    }
 
     private function get($path, $view) {
         $pathInfo = $this->decodePath($path);
         $model = $pathInfo['model'];
         $query = [];
-//        if(Input::exists(Input::GET, 'fields')) {
-//            $model->fields(explode(',', Input::get('fields')));
-//        }
         $input = Input::get();
         foreach($input as $key => $value) {
             if(array_search($key, ['limit', 'page', 'depth', 'fields'])) {
@@ -47,12 +61,15 @@ class ApiController extends WyfController {
         }
         if($pathInfo['id']){
             $primaryKey = $model->getDescription()->getPrimaryKey()[0];
-            $view->set(
-                'response', 
-                $model->fetchFirst(
-                    [$primaryKey => $pathInfo['id']]
-                )->toArray(Input::get('depth'))
+            $item = $model->fetchFirst(
+                [$primaryKey => $pathInfo['id']]
             );
+            if($item->count() == 0) {
+                $view->set('response', ['message' => 'item not found']);
+                http_response_code(404);
+            } else {
+                $view->set('response', $item->toArray(Input::get('depth')));
+            }
         } else {
             $model->limit(Input::get('limit'));
             $model->offset((Input::get('page') - 1) * Input::get('limit'));
@@ -66,7 +83,13 @@ class ApiController extends WyfController {
     }
     
     public function rest(View $view, $path) {
-        $this->get($path, $view);
+        switch(Input::server('REQUEST_METHOD')){
+            case 'GET': 
+                $this->get($path, $view);
+                break;
+            case 'POST':
+                $this->post($path, $view);
+        }
         return $view;
     }
 

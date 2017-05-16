@@ -1,7 +1,6 @@
 <?php
-
 namespace ntentan\wyf\utilities\forms;
 
-class UploadField extends Input {
+class MultiField extends Input {
     
 }

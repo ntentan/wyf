@@ -3,7 +3,6 @@
 namespace ntentan\wyf\utilities\forms;
 
 use ntentan\honam\TemplateEngine;
-use ntentan\Ntentan;
 
 class Form extends Container {
 
@@ -12,6 +11,7 @@ class Form extends Container {
     public function __construct() {
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-grid');
+        $this->setTag('form');
     }
 
     public function setSubmitValue($submitValue) {
@@ -21,10 +21,15 @@ class Form extends Container {
 
     public function getTemplateVariables() {
         return array_merge(
-                parent::getTemplateVariables(), array(
-            'submit_value' => $this->submitValue
-                )
+            parent::getTemplateVariables(), array(
+                'submit_value' => $this->submitValue
+            )
         );
+    }
+    
+    public function setTag($tag) {
+        $this->set('tag', $tag);
+        return $this;
     }
 
     public function setErrors($errors = false) {
@@ -35,7 +40,7 @@ class Form extends Container {
 
     public function __toString() {
         return TemplateEngine::render(
-                        'wyf_forms_form', $this->getTemplateVariables()
+            'wyf_forms_form', $this->getTemplateVariables()
         );
     }
 

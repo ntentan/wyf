@@ -8,6 +8,9 @@ $(function(){
 });
 
 var wyf = {
+  showCreateItemForm : function() {
+    
+  },
   list : {
     pages : 0,
     currentPage : 1,

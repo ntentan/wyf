@@ -54,6 +54,10 @@ h2 {
     max-width: 800px;
 }
 
+#wyf-modal-wrapper{
+    padding:20px;
+}
+
 .login-box{
     margin-left: auto;
     margin-right: auto;
@@ -123,4 +127,3 @@ h2 {
 
 .operation-edit:before { content: "\f040" }
 .operation-delete:before { content: "\f1f8" }
-  

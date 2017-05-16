@@ -15,11 +15,6 @@ class Element {
     protected $description;
     protected $parent;
 
-    public function __construct($name = '', $label = null) {
-        $this->setLabel($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
-        $this->setName($name);
-    }
-
     public function __toString() {
         $type = $this->renderWithType == '' 
             ? \ntentan\utils\Text::deCamelize($this->getType()) 

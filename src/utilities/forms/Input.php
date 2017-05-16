@@ -1,11 +1,17 @@
 <?php
+
 namespace ntentan\wyf\utilities\forms;
 
 class Input extends Element {
-    
+
     protected $name;
-    protected $value;    
+    protected $value;
     
+    public function __construct($name = '', $label = null) {
+        $this->setLabel($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
+        $this->setName($name);
+    }    
+
     public function setName($name = false) {
         $this->name = $name;
         if (!isset($this->attributes['id'])) {
@@ -18,7 +24,6 @@ class Input extends Element {
         return $this->name;
     }
 
-
     public function getValue() {
         return $this->value ?? $this->parent->getValueFor($this);
     }
@@ -27,16 +32,16 @@ class Input extends Element {
         $this->value = $value;
         return $this;
     }
-    
+
     public function getTemplateVariables() {
         return [
-            'value' => $this->getValue(), 
+            'value' => $this->getValue(),
             'name' => $this->getName()
-        ] + parent::getTemplateVariables();
+                ] + parent::getTemplateVariables();
     }
-    
+
     public function getErrors() {
         return $this->errors ?? $this->parent->getErrorsFor($this);
     }
-    
+
 }
