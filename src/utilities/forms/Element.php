@@ -74,15 +74,19 @@ class Element {
     }
 
     public function getTemplateVariables() {
-        return $this->variables + [
+        return [
             'label' => $this->label,
             'attributes' => $this->renderAttributes(),
             'extra_css_classes' => count($this->getErrors()) > 0 ? 'form-error' : ''
-        ];
+        ] + $this->variables;
     }
 
-    protected function set($key, $value) {
-        $this->variables[$key] = $value;
+    protected function setTemplateVariables($key, $value = null) {
+        if($value === null) {
+            $this->variables = $key + $this->variables;
+        } else {
+            $this->variables[$key] = $value;
+        }
     }
 
     public static function create() {

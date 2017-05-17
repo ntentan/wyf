@@ -36,13 +36,13 @@ class TabsContainer extends Container {
     }
 
     public function id($id) {
-        $this->set('id', $id);
+        $this->setTemplateVariable('id', $id);
         $this->setAttribute('id', $id);
         return $this;
     }
 
     public function __toString() {
-        $this->set('tabs', $this->tabs);
+        $this->setTemplateVariable('tabs', $this->tabs);
         return parent::__toString();
     }
 

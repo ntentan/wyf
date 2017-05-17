@@ -12,7 +12,7 @@ class SelectField extends Input {
     }
 
     public function __toString() {
-        $this->set('options', $this->options);
+        $this->setTemplateVariable('options', $this->options);
         return parent::__toString();
     }
 
