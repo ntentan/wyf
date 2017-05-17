@@ -19,7 +19,7 @@ class RadioGroup extends Input {
 
     public function __toString() {
         unset($this->attributes['value']);
-        $this->setTemplateVariable('options', $this->options);
+        $this->set('options', $this->options);
         return parent::__toString();
     }
 

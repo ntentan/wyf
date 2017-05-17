@@ -9,13 +9,13 @@ class TextField extends Input {
 
     public function setMultiline($multiline) {
         $this->multiline = $multiline;
-        $this->setTemplateVariable('multiline', $multiline);
+        $this->set('multiline', $multiline);
         return $this;
     }
 
     public function setMasked($masked) {
         $this->masked = $masked;
-        $this->setTemplateVariable('masked', $masked);
+        $this->set('masked', $masked);
         return $this;
     }
 

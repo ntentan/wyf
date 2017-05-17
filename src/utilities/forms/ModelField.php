@@ -42,11 +42,11 @@ class ModelField extends SelectField {
             $this->addOption((string) $option, $option->id);
         }
         if($formTemplate) {
-            $this->setTemplateVariable('has_add', true);
-            $this->setTemplateVariable('model', $instance);
-            $this->setTemplateVariable('form_template', $formTemplate);
-            $this->setTemplateVariable('entity', $label);
-            $this->setTemplateVariable('package', $name);
+            $this->set('has_add', true);
+            $this->set('model', $instance);
+            $this->set('form_template', $formTemplate);
+            $this->set('entity', $label);
+            $this->set('package', $name);
             if(count($options)) {
                 $this->addOption("---", "-");
             }

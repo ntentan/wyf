@@ -28,7 +28,7 @@ class Form extends Container {
     }
     
     public function setTag($tag) {
-        $this->setTemplateVariable('tag', $tag);
+        $this->set('tag', $tag);
         return $this;
     }
 
