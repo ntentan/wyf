@@ -19,7 +19,7 @@
     </div>
 </div>
 <script type="text/javascript">
-$(function(){ wyf.list.render("<?= $api_url ?>", 1) })
+$(function(){ wyf.list.render("<?= $api_url . $api_parameters?>", 1) })
 </script>
 <script type="text/html" id="wyf_list_view_template">
     <?= t(

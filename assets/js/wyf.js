@@ -8,8 +8,60 @@ $(function(){
 });
 
 var wyf = {
-  showCreateItemForm : function() {
-    
+  showCreateItemForm : function(package, list) {
+    if(list.value == 'new') {
+      fzui.modal('#' + package + '_add_modal')
+    } else if(list.value == '-') {
+      list.value = '';
+    }
+  },
+  saveInputs : function(package, url, field, callback) {
+    var data = {}
+    var formSelector = '#' + package + '_add_form';
+    $(formSelector + ' :input').serializeArray().map(function(x){data[x.name] = x.value;});
+    api.post({
+      url: url, 
+      data: JSON.stringify(data), 
+      success: function(response){
+        if(typeof callback === 'function') {
+          callback(
+            true, 
+            {data:data, response:response, field:field, url:url}, 
+            function(){fzui.closeModal();}
+          );
+        }
+      },
+      failure: function(response){
+        for(name in response.invalid_fields) {
+          var errors = response.invalid_fields[name].reduce(
+            function(arr,x){
+              arr.push({error:x}); 
+              return arr;
+            }, []
+          );
+          var template = Handlebars.compile("<ul>{{#errors}}<li>{{error}}</li>{{/errors}}</ul>");
+          $(formSelector + " #form-element-" + name).addClass('form-error');
+          $(formSelector + " #form-element-" + name +" :input").after(template({errors: errors}));
+        }
+        if(typeof callback === 'function') {
+          callback(false, {data:data, response:response, field:field});
+        }
+      }
+    })
+  },
+  forms : {
+    addToListCallback : function(success, data, callback) {
+      if(!success) return;
+      api.get({
+        url : data.url + "/" + data.response.id,
+        contentType : 'text/plain',
+        success : function(response) {
+          $('#' + data.field+" option:first").after($('<option/>', {value:data.response.id, text:response}));
+          $('#' + data.field).val(data.response.id);
+          callback();
+        }
+      });
+    }
   },
   list : {
     pages : 0,
@@ -17,8 +69,8 @@ var wyf = {
     itemsPerPage : 20,
     apiUrl : null,
     render : function(url, page) {
-      api.get(url, {page:page, limit:wyf.list.itemsPerPage},
-        function(data, xhr){
+      api.get({url:url, data:{page:page, limit:wyf.list.itemsPerPage},
+        success:function(data, xhr){
             var template = Handlebars.compile($('#wyf_list_view_template').html());
             $('#wyf_list_view').html(template({list:data}));
             wyf.list.currentPage = page;
@@ -29,7 +81,7 @@ var wyf = {
             }
             $('#wyf_list_view_size').html(wyf.list.pages);
         }
-      )
+      })
     },
     next : function() {
       wyf.list.currentPage++;

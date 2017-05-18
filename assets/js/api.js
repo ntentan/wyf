@@ -1,19 +1,32 @@
 var api = {
-  call: function (type, url, data, success) {
+  call: function (parameters) {
     $.ajax({
-      url: url,
-      data: data,
-      type: type
+      url: parameters.url,
+      data: parameters.data,
+      type: parameters.type,
+      headers: {
+        "Content-Type" : parameters.contentType ? parameters.contentType : "application/json"
+      }
     }).done(function (data, status, xhr) {
-      if (typeof success === 'function') {
-        success(data, xhr);
+      if (typeof parameters.success === 'function') {
+        parameters.success(data, xhr);
+      }
+    }).fail(function(xhr) {
+      if(typeof parameters.failure === 'function') {
+        parameters.failure(JSON.parse(xhr.responseText), xhr);
       }
     });
   },
-  put: function (url, data, success) {
-    api.call('PUT', url, data, success);
+  put: function (parameters) {
+    parameters.type = 'PUT';
+    api.call(parameters);
   },
-  get: function (url, data, success) {
-    api.call('GET', url, data, success);
+  post: function(parameters) {
+    parameters.type = 'POST';
+    api.call(parameters);
+  },
+  get: function (parameters) {
+    parameters.type = 'GET';
+    api.call(parameters);
   }
 }

@@ -11,7 +11,9 @@
             echo t($form_template, ['model' => $model, 'form' => $form])
             ?>
             <div style="text-align:right">
-                <button class="button-blue" onclick="console.log($('#<?= $package ?>_add_form :input').serialize())">Save</button>
+                <button class="button-blue" onclick="wyf.saveInputs('<?= $package ?>', '<?= $api_url ?>', '<?= $name ?>', wyf.forms.addToListCallback)">
+                    Save
+                </button>
             </div>            
         </div>  
     </div>

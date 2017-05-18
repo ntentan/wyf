@@ -14,6 +14,7 @@ class Element {
     protected $renderWithType;
     protected $description;
     protected $parent;
+    protected static $sharedFormData;
 
     public function __toString() {
         $type = $this->renderWithType == '' 
@@ -81,7 +82,7 @@ class Element {
         ];
     }
 
-    protected function set($key, $value) {
+    public function set($key, $value) {
         $this->variables[$key] = $value;
     }
 
@@ -93,6 +94,10 @@ class Element {
             Text::ucamelize($type)
         );
         return $typeClass->newInstanceArgs($args);
+    }
+    
+    public static function setSharedFormData($data) {
+        self::$sharedFormData = $data;
     }
     
     public function setParent($parent) {

@@ -2,8 +2,6 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-use ntentan\utils\Text;
-
 class Container extends Element {
 
     /**

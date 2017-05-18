@@ -43,8 +43,9 @@ class ApiController extends WyfController {
             $view->set('response', ['id' => $model->id]);
         } else {
             http_response_code(400);
-            $view->set('response', ['message' => 'Failed to save data', 'errors' => $model->getInvalidFields()]);
+            $view->set('response', ['message' => 'Failed to save data', 'invalid_fields' => $model->getInvalidFields()]);
         }
+        return $view;
     }
 
     private function get($path, $view) {
@@ -68,7 +69,12 @@ class ApiController extends WyfController {
                 $view->set('response', ['message' => 'item not found']);
                 http_response_code(404);
             } else {
-                $view->set('response', $item->toArray(Input::get('depth')));
+                if(Input::server('CONTENT_TYPE') == "text/plain") {
+                    header("Content-Type: text/plain");
+                    return (string)$item;
+                } else {
+                    $view->set('response', $item->toArray(Input::get('depth')));
+                }
             }
         } else {
             $model->limit(Input::get('limit'));
@@ -76,6 +82,7 @@ class ApiController extends WyfController {
             header("X-Item-Count: " . $model->count());
             $view->set('response', $model->fetch()->toArray(Input::get('depth')));
         }
+        return $view;
     }
     
     public function index() {
@@ -85,12 +92,12 @@ class ApiController extends WyfController {
     public function rest(View $view, $path) {
         switch(Input::server('REQUEST_METHOD')){
             case 'GET': 
-                $this->get($path, $view);
+                $response = $this->get($path, $view);
                 break;
             case 'POST':
-                $this->post($path, $view);
+                $response = $this->post($path, $view);
         }
-        return $view;
+        return $response;
     }
 
 }
