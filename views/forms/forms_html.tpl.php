@@ -1,2 +1,2 @@
-<?= $html ?>
+<?= unescape($html) ?>
 

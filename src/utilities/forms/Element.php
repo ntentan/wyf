@@ -82,10 +82,10 @@ class Element {
         ];
     }
 
-    public function set($key, $value) {
+    protected function set($key, $value) {
         $this->variables[$key] = $value;
     }
-
+    
     public static function create() {
         $args = func_get_args();
         $type = array_shift($args);
@@ -98,6 +98,10 @@ class Element {
     
     public static function setSharedFormData($data) {
         self::$sharedFormData = $data;
+    }
+    
+    public static function getSharedFormData($key) {
+        return self::$sharedFormData[$key];
     }
     
     public function setParent($parent) {

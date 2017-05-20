@@ -6,8 +6,9 @@
         <div class="form-wrapper">
             <?php
             $form = new ntentan\wyf\utilities\forms\Form();
-            $form->setAttribute('id', "{$package}_add_form");
-            $form->setTag('div')->setSubmitValue(false);
+            $form->setAttribute('id', "{$package}_add_form")
+                ->setTag('div')
+                ->setSubmitValue(false);
             echo t($form_template, ['model' => $model, 'form' => $form])
             ?>
             <div style="text-align:right">
