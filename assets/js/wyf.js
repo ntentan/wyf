@@ -9,16 +9,17 @@ $(function(){
 
 var wyf = {
   forms : {
-    showCreateItemForm : function(package, list) {
+    showCreateItemForm : function(entity, list) {
       if(list.value == 'new') {
-        fzui.modal('#' + package + '_add_modal')
+        fzui.modal('#' + entity + '_add_modal')
+        list.value = '';
       } else if(list.value == '-') {
         list.value = '';
       }
     },
-    validateInputs : function(package, url, field, callback) {
+    validateInputs : function(entity, url, field, callback) {
       var data = {}
-      var formSelector = '#' + package + '_add_form';
+      var formSelector = '#' + entity + '_add_form';
       $(formSelector + ' :input').serializeArray().map(function(x){data[x.name] = x.value;});
       api.post({
         url: url + "/validator", 
@@ -27,7 +28,7 @@ var wyf = {
           if(typeof callback === 'function') {
             callback(
               true, 
-              {response: response, field: field}
+              {response: response, field: field, data: data}
             );
             fzui.closeModal();
           }
@@ -45,15 +46,22 @@ var wyf = {
             $(formSelector + " #form-element-" + name +" :input").after(template({errors: errors}));
           }
           if(typeof callback === 'function') {
-            callback(false, {response: response, field: field});
+            callback(false, {response: response, field: field, data: data});
           }
         }
       })
     },
     addToListCallback : function(success, data) {
       if(!success) return;
-      $('#' + data.field+" option:first").after($('<option/>', {value:0, text:data.response.string}));
+      $('#' + data.field + " option:first").after($('<option/>', {value:0, text:data.response.string}));
       $('#' + data.field).val(0);      
+      var fieldContainer = $('#form-element-' + data.field + " > .hidden-fields");
+      var package = $('#' + data.field).attr('package');
+      
+      fieldContainer.html("");
+      for(var field in data.data) {
+        fieldContainer.append($("<input/>").attr({type:"hidden", name:package+"."+field}).val(data.data[field]));
+      }
     }
   },
   list : {

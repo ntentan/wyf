@@ -42,7 +42,7 @@ class ModelField extends SelectField {
         foreach ($options as $option) {
             $this->addOption((string) $option, $option->id);
         }
-        if($formTemplate) {
+        if($formTemplate && is_string($model)) {
             if($apiUrl === null && is_string($model)) {
                 $apiUrl = self::$sharedFormData['base_api_url'] . "/" . str_replace(".", "/", $model);
             }
@@ -50,13 +50,14 @@ class ModelField extends SelectField {
             $this->set('model', $instance);
             $this->set('form_template', $formTemplate);
             $this->set('entity', $label);
-            $this->set('package', $name);
+            $this->set('entity', $name);
             $this->set('api_url', $apiUrl);
             if(count($options)) {
                 $this->addOption("---", "-");
             }
             $this->addOption("Add a new {$this->getLabel()}", 'new');
-            $this->setAttribute('onchange', "wyf.forms.showCreateItemForm('$name', this)");
+            $this->setAttribute('onchange', "wyf.forms.showCreateItemForm('$name', this)")
+                ->setAttribute('package', Text::singularize($model));
         }
     }
 
