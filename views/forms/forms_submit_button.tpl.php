@@ -1,0 +1,1 @@
+<input type="submit" <?= unescape($attributes) ?> value="<?= $value ?>" />

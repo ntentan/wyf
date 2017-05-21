@@ -25,7 +25,7 @@ class Input extends Element {
     }
 
     public function getValue() {
-        return $this->value ?? $this->parent->getValueFor($this);
+        return $this->value ?? ($this->parent ? $this->parent->getValueFor($this) : null);
     }
 
     public function setValue($value) {
@@ -41,7 +41,7 @@ class Input extends Element {
     }
 
     public function getErrors() {
-        return $this->errors ?? $this->parent->getErrorsFor($this);
+        return $this->errors ?? ($this->parent ? $this->parent->getErrorsFor($this) : null);
     }
 
 }

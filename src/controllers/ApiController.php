@@ -24,7 +24,8 @@ class ApiController extends WyfController {
     private function decodePath($path) {
         $split = explode("/", $path);
         $id = null;
-        if(is_numeric(end($split))) {
+        $end = end($split);
+        if(is_numeric($end) || $end == 'validator') {
             $id = array_pop($split);
         }
         return ['model' => Model::load(implode('.', $split)), 'id' => $id];
@@ -34,16 +35,35 @@ class ApiController extends WyfController {
         if(Input::server('CONTENT_TYPE') != 'application/json') {
             $view->set('response', ['message' => 'Accepts only application/json content']);
             http_response_code(400);
-            return;
+            return $view;
         }
         $data = json_decode(file_get_contents('php://input'), true);
-        $model = $this->decodePath($path)['model'];
+        $decoded = $this->decodePath($path);
+        $model = $decoded['model'];
         $model->setData($data);
-        if($model->save()) {
-            $view->set('response', ['id' => $model->id]);
+        
+        if($decoded['id'] == "validator") {
+            $validity = $model->validate();
+            $isValid = $validity === true ? true : false;
+            $response = ['valid' => $isValid];
+            
+            if($isValid) {
+                $response['string'] = (string) $model;
+            } else {
+                http_response_code(400);
+                $response['invalid_fields'] = $validity;
+            }
+            $view->set('response', $response);
         } else {
-            http_response_code(400);
-            $view->set('response', ['message' => 'Failed to save data', 'invalid_fields' => $model->getInvalidFields()]);
+            if($model->save()) {
+                $view->set('response', ['id' => $model->id]);
+            } else {
+                http_response_code(400);
+                $view->set('response', [
+                    'message' => 'Failed to save data', 
+                    'invalid_fields' => $model->getInvalidFields()
+                ]);
+            }
         }
         return $view;
     }

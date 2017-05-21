@@ -8,59 +8,52 @@ $(function(){
 });
 
 var wyf = {
-  showCreateItemForm : function(package, list) {
-    if(list.value == 'new') {
-      fzui.modal('#' + package + '_add_modal')
-    } else if(list.value == '-') {
-      list.value = '';
-    }
-  },
-  saveInputs : function(package, url, field, callback) {
-    var data = {}
-    var formSelector = '#' + package + '_add_form';
-    $(formSelector + ' :input').serializeArray().map(function(x){data[x.name] = x.value;});
-    api.post({
-      url: url, 
-      data: JSON.stringify(data), 
-      success: function(response){
-        if(typeof callback === 'function') {
-          callback(
-            true, 
-            {data:data, response:response, field:field, url:url}, 
-            function(){fzui.closeModal();}
-          );
-        }
-      },
-      failure: function(response){
-        for(name in response.invalid_fields) {
-          var errors = response.invalid_fields[name].reduce(
-            function(arr,x){
-              arr.push({error:x}); 
-              return arr;
-            }, []
-          );
-          var template = Handlebars.compile("<ul>{{#errors}}<li>{{error}}</li>{{/errors}}</ul>");
-          $(formSelector + " #form-element-" + name).addClass('form-error');
-          $(formSelector + " #form-element-" + name +" :input").after(template({errors: errors}));
-        }
-        if(typeof callback === 'function') {
-          callback(false, {data:data, response:response, field:field});
-        }
-      }
-    })
-  },
   forms : {
-    addToListCallback : function(success, data, callback) {
-      if(!success) return;
-      api.get({
-        url : data.url + "/" + data.response.id,
-        contentType : 'text/plain',
-        success : function(response) {
-          $('#' + data.field+" option:first").after($('<option/>', {value:data.response.id, text:response}));
-          $('#' + data.field).val(data.response.id);
-          callback();
+    showCreateItemForm : function(package, list) {
+      if(list.value == 'new') {
+        fzui.modal('#' + package + '_add_modal')
+      } else if(list.value == '-') {
+        list.value = '';
+      }
+    },
+    validateInputs : function(package, url, field, callback) {
+      var data = {}
+      var formSelector = '#' + package + '_add_form';
+      $(formSelector + ' :input').serializeArray().map(function(x){data[x.name] = x.value;});
+      api.post({
+        url: url + "/validator", 
+        data: JSON.stringify(data), 
+        success: function(response){
+          if(typeof callback === 'function') {
+            callback(
+              true, 
+              {response: response, field: field}
+            );
+            fzui.closeModal();
+          }
+        },
+        failure: function(response){
+          for(name in response.invalid_fields) {
+            var errors = response.invalid_fields[name].reduce(
+              function(arr,x){
+                arr.push({error:x}); 
+                return arr;
+              }, []
+            );
+            var template = Handlebars.compile("<ul>{{#errors}}<li>{{error}}</li>{{/errors}}</ul>");
+            $(formSelector + " #form-element-" + name).addClass('form-error');
+            $(formSelector + " #form-element-" + name +" :input").after(template({errors: errors}));
+          }
+          if(typeof callback === 'function') {
+            callback(false, {response: response, field: field});
+          }
         }
-      });
+      })
+    },
+    addToListCallback : function(success, data) {
+      if(!success) return;
+      $('#' + data.field+" option:first").after($('<option/>', {value:0, text:data.response.string}));
+      $('#' + data.field).val(0);      
     }
   },
   list : {

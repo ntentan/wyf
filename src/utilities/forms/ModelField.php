@@ -56,7 +56,7 @@ class ModelField extends SelectField {
                 $this->addOption("---", "-");
             }
             $this->addOption("Add a new {$this->getLabel()}", 'new');
-            $this->setAttribute('onchange', "wyf.showCreateItemForm('$name', this)");
+            $this->setAttribute('onchange', "wyf.forms.showCreateItemForm('$name', this)");
         }
     }
 

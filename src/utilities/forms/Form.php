@@ -7,6 +7,7 @@ use ntentan\honam\TemplateEngine;
 class Form extends Container {
 
     private $submitValue = 'Save';
+    private $submitButton;
 
     public function __construct() {
         $this->setAttribute('method', 'post');
@@ -16,13 +17,25 @@ class Form extends Container {
 
     public function setSubmitValue($submitValue) {
         $this->submitValue = $submitValue;
+        if($submitValue !== false) {
+            $this->getSubmitButton()->setValue($submitValue);
+        }
         return $this;
+    }
+    
+    public function getSubmitButton() {
+        if(!$this->submitButton) {
+            $this->submitButton = self::create('submit_button', $this->submitValue);
+        }
+        return $this->submitButton;
     }
 
     public function getTemplateVariables() {
         return array_merge(
             parent::getTemplateVariables(), array(
-                'submit_value' => $this->submitValue
+                'submit_button' => $this->submitValue 
+                    ? $this->getSubmitButton() 
+                    : false
             )
         );
     }

@@ -8,9 +8,9 @@ use ntentan\utils\Text;
 class Element {
 
     protected $label;
-    protected $attributes = array();
+    protected $attributes = [];
     protected $errors;
-    protected $variables = array();
+    protected $variables = [];
     protected $renderWithType;
     protected $description;
     protected $parent;

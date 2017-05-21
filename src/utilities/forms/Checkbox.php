@@ -6,8 +6,4 @@ use ntentan\honam\TemplateEngine;
 
 class Checkbox extends Input {
 
-    public function __toString() {
-        return TemplateEngine::render('wyf_inputs_forms_checkbox.tpl.php', $this->getTemplateVariables());
-    }
-
 }
