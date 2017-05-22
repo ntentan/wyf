@@ -4,7 +4,7 @@ namespace ntentan\wyf\utilities\forms;
 
 class SelectField extends Input {
 
-    private $options = array();
+    protected $options = array();
 
     public function addOption($label, $value) {
         $this->options[$value] = $label;

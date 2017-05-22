@@ -53,12 +53,13 @@ var wyf = {
     },
     addToListCallback : function(success, data) {
       if(!success) return;
-      $('#' + data.field + " option:first").after($('<option/>', {value:0, text:data.response.string}));
-      $('#' + data.field).val(0);      
+      $('#' + data.field + " option:first").after($('<option/>', {value:'-1', text:data.response.string}));
+      $('#' + data.field).val("-1");      
       var fieldContainer = $('#form-element-' + data.field + " > .hidden-fields");
       var package = $('#' + data.field).attr('package');
       
       fieldContainer.html("");
+      fieldContainer.append($('<input/>').attr({type:'hidden', name:package}).val(data.response.string));
       for(var field in data.data) {
         fieldContainer.append($("<input/>").attr({type:"hidden", name:package+"."+field}).val(data.data[field]));
       }

@@ -1,9 +1,13 @@
 <?= t("wyf_forms_select_field", ['value'=>$value, 'name' => $name, 'extra_css_classes' => $extra_css_classes, 'attributes' => $attributes, 'options'=>$options, 'label'=>$label]) ?>
 <?php if($has_add): ?>
-<div class="hidden-fields"></div>
+<div class="hidden-fields">
+    <?php foreach($hidden_fields as $key => $value): ?>
+    <input type='hidden' name='<?= $key ?>' value='<?= $value ?>' />
+    <?php endforeach; ?>
+</div>
 <div class="modal" id="<?= "{$entity}_add_modal" ?>">
     <div class="wyf-modal-wrapper">
-        <h2>Add a new <?= $entity ?></h2>
+        <h2>Add a new <?= $label ?></h2>
         <div class="form-wrapper">
             <?php
             $form = new ntentan\wyf\utilities\forms\Form();
