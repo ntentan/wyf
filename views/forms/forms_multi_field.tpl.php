@@ -1,8 +1,14 @@
 <div class="input-wrapper">
-    <a onclick="fzui.modal('#<?= $field_name ?>-multi-field-form')"><i class="fa fa-plus-circle"></i> Add new <?= ntentan\utils\Text::singularize($label) ?></a>
+    <a onclick="fzui.modal('#<?= $field_name ?>-multi-field-form')"><i class="fa fa-plus-circle"></i> Attach <?= $label ?></a>
+</div>
+<div class="hidden-fields">
+    
 </div>
 <div class="modal" id="<?= $field_name ?>-multi-field-form">
     <div class="wyf-modal-wrapper">
-        <?= t($form_template, $form_template_data) ?>
+        <?= t(
+                "{$type}_forms_multi_field_form", 
+                ['create_form' => $form_template, 'package' => $package, 'type' => $type]
+            ) ?>
     </div>
 </div>

@@ -14,22 +14,6 @@ class ModelField extends SelectField {
     
     private $hasAdd;
     private $model;
-    
-
-    /**
-     * If a string is passed, initialize and return a Model. However if a model
-     * is passed, allow it to pass through.
-     * @param string|\ntentan\Model $model
-     * @return \ntentan\Model
-     */
-    private function initialize($model) {
-        if (is_string($model)) {
-            $object = Model::load($model);
-        } else {
-            $object = $model;
-        }
-        return $object;
-    }
 
     /**
      * Create a new ModelField.
@@ -37,7 +21,7 @@ class ModelField extends SelectField {
      *          an instance of a model
      */
     public function __construct($model, $formTemplate = null, $apiUrl = null) {
-        $instance = $this->initialize($model);
+        $instance = Model::load($model);
         $name = Text::deCamelize($instance->getName());
         $label = Text::singularize(ucwords(str_replace('_', ' ', $name)));
         $this->setLabel($label);
@@ -46,7 +30,7 @@ class ModelField extends SelectField {
         foreach ($options as $option) {
             $this->addOption((string) $option, $option->id);
         }
-        if($formTemplate && is_string($model)) {
+        if(($formTemplate && is_string($model)) || $this->hasAdd) {
             $this->hasAdd = true;
             $this->model = Text::singularize($model);
             if($apiUrl === null && is_string($model)) {
@@ -61,13 +45,16 @@ class ModelField extends SelectField {
                 $this->addOption("---", "-");
             }
             $this->addOption("Add a new {$this->getLabel()}", 'new');
-            $this->setAttribute('onchange', "wyf.forms.showCreateItemForm('$name', this)")
+            $this->setAttribute('onchange', "wyf.forms.showCreateItemForm(this, '{$name}_add_form')")
                 ->setAttribute('package', $this->model);
         }
     }
     
     public function getValue() {
         $value = parent::getValue();
+        
+        // If a new item is being added extract the details from post data and
+        // setup hidden fields.
         if($value == '-1') {
             $this->options = ['-1' => Input::post($this->model)] + $this->options;
             $postFields = Input::post();

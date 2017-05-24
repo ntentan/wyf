@@ -8,18 +8,43 @@ $(function(){
 });
 
 var wyf = {
+  /**
+   * 
+   * @type type
+   */
   forms : {
-    showCreateItemForm : function(entity, list) {
+    showCreateItemForm : function(list, templateId) {
+      $('#' + templateId + '_view').html("");
       if(list.value == 'new') {
-        fzui.modal('#' + entity + '_add_modal')
+        var template = Handlebars.compile($('#' + templateId + '_template').html());
+        if($('body').hasClass('modal-active')) {
+          console.log(templateId + '_template');
+          $('#' + templateId + '_view').html(template());
+        } else {
+          $('#' + templateId + '_modal div.form-wrapper').html(template())
+          fzui.modal('#' + templateId + '_modal');
+        }
         list.value = '';
       } else if(list.value == '-') {
         list.value = '';
       }
     },
-    validateInputs : function(entity, url, field, callback) {
+    
+    showMultiFieldPreview : function(list) {
+      
+    },
+    
+    /**
+     * Call the WYF API to validate inputs found in a given container.
+     * 
+     * @param {type} formSelector
+     * @param {type} url
+     * @param {type} callbackData
+     * @param {type} callback
+     * @returns {undefined}
+     */
+    validateInputs : function(formSelector, url, callbackData, callback) {
       var data = {}
-      var formSelector = '#' + entity + '_add_form';
       $(formSelector + ' :input').serializeArray().map(function(x){data[x.name] = x.value;});
       api.post({
         url: url + "/validator", 
@@ -28,7 +53,7 @@ var wyf = {
           if(typeof callback === 'function') {
             callback(
               true, 
-              {response: response, field: field, data: data}
+              {response: response, callbackData: callbackData, data: data}
             );
             fzui.closeModal();
           }
@@ -46,22 +71,23 @@ var wyf = {
             $(formSelector + " #form-element-" + name +" :input").after(template({errors: errors}));
           }
           if(typeof callback === 'function') {
-            callback(false, {response: response, field: field, data: data});
+            callback(false, {response: response, callbackData: callbackData, data: data});
           }
         }
       })
     },
     addToListCallback : function(success, data) {
       if(!success) return;
-      $('#' + data.field + " option:first").after($('<option/>', {value:'-1', text:data.response.string}));
-      $('#' + data.field).val("-1");      
-      var fieldContainer = $('#form-element-' + data.field + " > .hidden-fields");
-      var package = $('#' + data.field).attr('package');
+      var field = data.callbackData;
+      $('#' + field + " option:first").after($('<option/>', {value:'-1', text:data.response.string}));
+      $('#' + field).val("-1");      
+      var fieldContainer = $('#form-element-' + field + " > .hidden-fields");
+      var package = $('#' + field).attr('package');
       
       fieldContainer.html("");
       fieldContainer.append($('<input/>').attr({type:'hidden', name:package}).val(data.response.string));
-      for(var field in data.data) {
-        fieldContainer.append($("<input/>").attr({type:"hidden", name:package+"."+field}).val(data.data[field]));
+      for(var key in data.data) {
+        fieldContainer.append($("<input/>").attr({type:"hidden", name:package+"."+key}).val(data.data[key]));
       }
     }
   },
