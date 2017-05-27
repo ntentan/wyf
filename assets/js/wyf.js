@@ -8,10 +8,6 @@ $(function(){
 });
 
 var wyf = {
-  /**
-   * 
-   * @type type
-   */
   forms : {
     showCreateItemForm : function(list, templateId) {
       $('#' + templateId + '_view').html("");
@@ -30,8 +26,27 @@ var wyf = {
       }
     },
     
-    showMultiFieldPreview : function(list) {
+    addMultiFields : function(field, model, primaryKey, type) {
+      var form = '#' + type + '-multi-field-form';
+      var value = $(form + ' select[name=' + field + ']').val();
       
+      if(value == '') {
+        $(form + ' #form-element-' + field).addClass('form-error');
+      } else if(value == '-1') {
+        $(form + ' #form-element-' + field).removeClass('form-error');
+        $(form + ' #form-element-' + field + ' .hidden-fields input[type=hidden]').each(function(i, input){
+          $('#form-element-' + type + ' .hidden-fields').append(
+            $('<input/>').attr({type:'hidden', name:input.name + '[]', value:input.value})
+          );        
+        });
+        fzui.closeModal();
+      } else {
+        $(form + ' #form-element-' + field).removeClass('form-error');
+        $('#form-element-' + type + ' .hidden-fields').append(
+          $('<input/>').attr({type:'hidden', name:model + '.' + primaryKey + '[]', value:value})
+        );        
+        fzui.closeModal();
+      }
     },
     
     /**

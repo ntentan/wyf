@@ -37,7 +37,7 @@ class Input extends Element {
         return [
             'value' => $this->getValue(),
             'name' => $this->getName()
-                ] + parent::getTemplateVariables();
+        ] + parent::getTemplateVariables();
     }
 
     public function getErrors() {
