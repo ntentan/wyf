@@ -52,6 +52,7 @@ class ModelField extends SelectField {
     
     public function getValue() {
         $value = parent::getValue();
+        $hiddenFields = [];
         
         // If a new item is being added extract the details from post data and
         // setup hidden fields.
@@ -59,15 +60,14 @@ class ModelField extends SelectField {
             $this->options = ['-1' => Input::post($this->model)] + $this->options;
             $postFields = Input::post();
             $lenght = strlen($this->model);
-            $hiddenFields = [];
             foreach($postFields as $key => $postedValue) {
                 if(substr($key, 0, $lenght) == $this->model) {
                     $hiddenFields[$key] = $postedValue;
                 }
             }
-            $this->set('hidden_fields', $hiddenFields);
             $this->set('options', $this->options);
         }
+        $this->set('hidden_fields', $hiddenFields);
         return $value;
     }
 

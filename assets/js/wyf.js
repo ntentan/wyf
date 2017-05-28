@@ -9,6 +9,7 @@ $(function(){
 
 var wyf = {
   forms : {
+    multiFields : {},
     showCreateItemForm : function(list, templateId) {
       $('#' + templateId + '_view').html("");
       if(list.value == 'new') {
@@ -29,6 +30,10 @@ var wyf = {
     addMultiFields : function(field, model, primaryKey, type) {
       var form = '#' + type + '-multi-field-form';
       var value = $(form + ' select[name=' + field + ']').val();
+      if(wyf.forms.multiFields[field] === undefined) {
+        wyf.forms.multiFields[field] = 0;
+      }
+      var index = '[' + wyf.forms.multiFields[field] + ']';
       
       if(value == '') {
         $(form + ' #form-element-' + field).addClass('form-error');
@@ -36,16 +41,18 @@ var wyf = {
         $(form + ' #form-element-' + field).removeClass('form-error');
         $(form + ' #form-element-' + field + ' .hidden-fields input[type=hidden]').each(function(i, input){
           $('#form-element-' + type + ' .hidden-fields').append(
-            $('<input/>').attr({type:'hidden', name:input.name + '[]', value:input.value})
+            $('<input/>').attr({type:'hidden', name:model + '.' + input.name.split('.').pop() + index, value:input.value})
           );        
         });
         fzui.closeModal();
+        wyf.forms.multiFields[field]++;
       } else {
         $(form + ' #form-element-' + field).removeClass('form-error');
         $('#form-element-' + type + ' .hidden-fields').append(
-          $('<input/>').attr({type:'hidden', name:model + '.' + primaryKey + '[]', value:value})
+          $('<input/>').attr({type:'hidden', name:model + '.' + primaryKey + index, value:value})
         );        
         fzui.closeModal();
+        wyf.forms.multiFields[field]++;
       }
     },
     

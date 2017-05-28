@@ -33,6 +33,7 @@ class Form extends Container {
     public function getTemplateVariables() {
         return array_merge(
             parent::getTemplateVariables(), array(
+                'submit_value' => $this->submitValue,
                 'submit_button' => $this->submitValue 
                     ? $this->getSubmitButton() 
                     : false
@@ -69,7 +70,7 @@ class Form extends Container {
         $autoPrimaryKey = $description->getAutoPrimaryKey();
         $primaryKeys = $description->getPrimaryKey();
 
-        foreach ($relationships as $relationship) {
+        foreach ($relationships ?? [] as $relationship) {
             $model = $relationship->getModelInstance();
             $parameters = $relationship->getOptions();
             if (isset($fields[$parameters['local_key']])) {
