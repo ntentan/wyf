@@ -9,9 +9,8 @@ Element::setSharedFormData([
     'api_url' => $api_url,
     'base_api_url' => $base_api_url
 ]);
-
 $form = new Form();
-$form->setData($model->toArray());
+$form->setData($model->toArray(1));
 $form->setErrors($model->getInvalidFields());
 $form->add(
     (new HiddenField($primary_key_field))->setValue($model[unescape($primary_key_field)])

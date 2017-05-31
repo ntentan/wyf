@@ -127,3 +127,14 @@ h2 {
 
 .operation-edit:before { content: "\f040" }
 .operation-delete:before { content: "\f1f8" }
+
+.multi-field-preview {
+    border:1px solid #f0f0f0;
+    margin-bottom: 7px;
+    margin-top:7px;
+    padding:10px;
+    border-radius: 3px;
+    color:#809866;
+    background-color: #fafff5;
+}
+

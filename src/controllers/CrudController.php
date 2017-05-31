@@ -111,8 +111,8 @@ class CrudController extends WyfController {
 
     public function edit(View $view, $id) {
         $model = $this->getModel();
+        $view->set('model', $this->getModel()->fetchFirst($id));
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
-        $view->set('model', $this->getModel()->fetchFirst([$primaryKey => $id]));
         $view->set('primary_key_field', $primaryKey);
         $this->setTitle("Edit {$this->getWyfName()}");
         return $view;

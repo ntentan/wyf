@@ -2,14 +2,9 @@ function resizer(){
   $('#menu > div').height($(window).height() - $('#header').height());
 }
 
-$(function(){
-  $(window).resize(resizer);  
-  resizer();
-});
-
 var wyf = {
   forms : {
-    multiFields : {},
+    multiFieldValues : {},
     showCreateItemForm : function(list, templateId) {
       $('#' + templateId + '_view').html("");
       if(list.value == 'new') {
@@ -26,7 +21,10 @@ var wyf = {
         list.value = '';
       }
     },
-    
+    renderMultiFieldItem : function(field, data) {
+      var template = Handlebars.compile($('#' + field + '-multi-field-preview').html());
+      $('#form-element-' + field + ' .input-wrapper').append("<div class='multi-field-preview'>" + template(data) + "</div>");
+    },
     addMultiFields : function(field, model, primaryKey, type) {
       var form = '#' + type + '-multi-field-form';
       var value = $(form + ' select[name=' + field + ']').val();
@@ -151,3 +149,13 @@ var wyf = {
     }
   }
 };
+
+$(function(){
+  $(window).resize(resizer);  
+  resizer();
+  for(var field in wyf.forms.multiFieldValues) {
+    for(var item in wyf.forms.multiFieldValues[field]) {
+      wyf.forms.renderMultiFieldItem(field, wyf.forms.multiFieldValues[field][item]);
+    }
+  }
+});

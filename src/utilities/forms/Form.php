@@ -47,8 +47,9 @@ class Form extends Container {
     }
 
     public function setErrors($errors = false) {
-        if ($errors === false)
+        if ($errors === false) {
             return;
+        }
         $this->errors = $errors;
     }
 

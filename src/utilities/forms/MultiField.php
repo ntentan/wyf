@@ -12,7 +12,7 @@ class MultiField extends ModelField {
         $primaryKey = $instance->getDescription()->getPrimaryKey()[0];
         $label = ucwords(str_replace('_', ' ', $type));
         $this->setLabel($label);
-        $this->setName("{$model}[]");
+        $this->setName($model);
         $this->setAttribute('id', $type);
         $this->set('type', $type);
         $this->set('entity', Text::singularize($label));
