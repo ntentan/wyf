@@ -136,5 +136,29 @@ h2 {
     border-radius: 3px;
     color:#809866;
     background-color: #fafff5;
+    position:relative;
 }
 
+.multi-field-preview .multi-field-buttons{
+    position: absolute;
+    width: 100%;
+    left:0px;
+    top:0px;
+    text-align: right;
+    padding:5px;
+    box-sizing:border-box
+}
+
+.multi-field-delete{
+    border: none;
+    box-shadow: none;
+    background:transparent;
+    padding: 0px;
+    margin: 0px;    
+}
+
+.multi-field-delete:after{
+    content: '\274c';
+    font-size: 12px;
+    color: #809866;
+}

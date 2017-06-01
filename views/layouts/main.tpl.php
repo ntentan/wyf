@@ -11,11 +11,11 @@
                 ->add('vendor/ekowabaka/fzui/dist/fzui.min.js')
                 ->add(get_asset('js/app.js')).
             $helpers->stylesheets
+                ->add('vendor/fortawesome/font-awesome/css/font-awesome.css')
+                ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
                 ->add(get_asset('css/wyf.css'))
                 ->add(get_asset('css/menu.css'))
                 ->add(get_asset('css/app.css'))
-                ->add('vendor/fortawesome/font-awesome/css/font-awesome.css')
-                ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
         ?>
         
         <?php              
