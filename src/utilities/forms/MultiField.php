@@ -25,4 +25,12 @@ class MultiField extends SelectField {
         $this->set('api_url', $apiUrl);
     }
     
+    public function getValue() {
+        $value = parent::getValue();
+        if(is_a($value, Model::class)) {
+            $value = $value->toArray();
+        }
+        return $value;
+    }
+    
 }
