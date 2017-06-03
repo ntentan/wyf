@@ -4,7 +4,7 @@ namespace ntentan\wyf\utilities\forms;
 use ntentan\Model;
 use ntentan\utils\Text;
 
-class MultiField extends ModelField {
+class MultiField extends SelectField {
     
     public function __construct($model, $formTemplate = null, $apiUrl = null) {
         $instance = Model::load($model);
@@ -19,6 +19,10 @@ class MultiField extends ModelField {
         $this->set('package', $model);
         $this->set('form_template', $formTemplate);
         $this->set('primary_key', $primaryKey);
+        if($apiUrl === null && is_string($model)) {
+            $apiUrl = self::$sharedFormData['base_api_url'] . "/" . str_replace(".", "/", $model);
+        }
+        $this->set('api_url', $apiUrl);
     }
     
 }

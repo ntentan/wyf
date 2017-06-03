@@ -11,7 +11,6 @@ var wyf = {
       if(list.value == 'new') {
         var template = Handlebars.compile($('#' + templateId + '_template').html());
         if($('body').hasClass('modal-active')) {
-          console.log(templateId + '_template');
           $('#' + templateId + '_view').html(template());
         } else {
           $('#' + templateId + '_modal div.form-wrapper').html(template())
@@ -55,7 +54,7 @@ var wyf = {
       $('#form-element-' + field.name + ' .input-wrapper').append(wrapper);
       wyf.forms.multiFieldIds[field.name]++;
     },
-    addMultiFields : function(field, model, primaryKey, type) {
+    addMultiFields : function(field, model, primaryKey, type, apiUrl) {
       var form = '#' + type + '-multi-field-form';
       var value = $(form + ' select[name=' + field + ']').val();
       
@@ -71,11 +70,14 @@ var wyf = {
         fzui.closeModal();
       } else {
         $(form + ' #form-element-' + field).removeClass('form-error');
-        /*$('#form-element-' + type + ' .hidden-fields').append(
-          $('<input/>').attr({type:'hidden', name:model + '.' + primaryKey + index, value:value})
-        );*/        
+        api.get({
+          url: apiUrl + '/' + value,
+          success: function(response){
+            $(form + ' #form-element-' + field).removeClass('form-error');
+            wyf.forms.renderMultiFieldItem({name:type, model:model, primaryKey:primaryKey}, response)
+          }
+        })
         fzui.closeModal();
-        //wyf.forms.multiFields[field]++;
       }
     },
     

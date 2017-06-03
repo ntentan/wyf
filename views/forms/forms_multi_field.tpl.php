@@ -19,7 +19,8 @@
                 [
                     'create_form' => $form_template, 'package' => $package, 
                     'type' => $type, 'entity' => $entity,
-                    'primary_key' => $primary_key
+                    'primary_key' => $primary_key,
+                    'api_url' => $api_url
                 ]
             ) ?>
     </div>
