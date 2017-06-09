@@ -27,9 +27,7 @@ class ModelField extends SelectField {
         $this->setLabel($label);
         $this->setName(Text::singularize($name) . '_id');
         $options = $instance->fetch();
-        foreach ($options as $option) {
-            $this->addOption((string) $option, $option->id);
-        }
+        
         if(($formTemplate && is_string($model)) || $this->hasAdd) {
             $this->hasAdd = true;
             $this->model = Text::singularize($model);
@@ -41,12 +39,16 @@ class ModelField extends SelectField {
             $this->set('form_template', $formTemplate);
             $this->set('entity', $name);
             $this->set('api_url', $apiUrl);
+            $this->addOption("⊕ Add a new {$this->getLabel()}", 'new');
             if(count($options)) {
-                $this->addOption("---", "-");
+                $this->addOption("────────────", "-");
             }
-            $this->addOption("Add a new {$this->getLabel()}", 'new');
             $this->setAttribute('onchange', "wyf.forms.showCreateItemForm(this, '{$name}_add_form')")
                 ->setAttribute('package', $this->model);
+        }
+        
+        foreach ($options as $option) {
+            $this->addOption((string) $option, $option->id);
         }
     }
     

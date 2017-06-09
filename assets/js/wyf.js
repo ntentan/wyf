@@ -22,7 +22,7 @@ var wyf = {
       }
     },
     /**
-     * 
+     * Render a single item under the multifield button as a preview.
      * @param string field
      * @param object data
      */
@@ -123,10 +123,16 @@ var wyf = {
         }
       })
     },
+    /**
+     * Adds an item to the select list after it has been created on the form.
+     * @param {type} success
+     * @param {type} data
+     * @returns {undefined}
+     */
     addToListCallback : function(success, data) {
       if(!success) return;
       var field = data.callbackData;
-      $('#' + field + " option:first").after($('<option/>', {value:'-1', text:data.response.string}));
+      $('#' + field + " option:last").after($('<option/>', {value:'-1', text:data.response.string}));
       $('#' + field).val("-1");      
       var fieldContainer = $('#form-element-' + field + " > .hidden-fields");
       var package = $('#' + field).attr('package');
@@ -144,7 +150,7 @@ var wyf = {
     itemsPerPage : 20,
     apiUrl : null,
     render : function(url, page) {
-      api.get({url:url, data:{page:page, limit:wyf.list.itemsPerPage},
+      api.get({url:url, data:{page:page, limit:wyf.list.itemsPerPage, sort:'id'},
         success:function(data, xhr){
             var template = Handlebars.compile($('#wyf_list_view_template').html());
             $('#wyf_list_view').html(template({list:data}));

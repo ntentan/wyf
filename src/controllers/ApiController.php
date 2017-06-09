@@ -71,15 +71,14 @@ class ApiController extends WyfController {
     private function get($path, $view) {
         $pathInfo = $this->decodePath($path);
         $model = $pathInfo['model'];
-        $query = [];
         $input = Input::get();
+        
         foreach($input as $key => $value) {
-            if(array_search($key, ['limit', 'page', 'depth', 'fields'])) {
-                $query[$key] = $value;
-            } else if(preg_match("/fields:(?<model>[0-9a-z_.]+)/", $key, $matches)) {
+            if(preg_match("/fields:(?<model>[0-9a-z_.]+)/", $key, $matches)) {
                 $model->with($matches['model'])->setFields(explode(',', $value));
             }
         }
+        
         if($pathInfo['id']){
             $primaryKey = $model->getDescription()->getPrimaryKey()[0];
             $item = $model->fetchFirst(
@@ -99,9 +98,11 @@ class ApiController extends WyfController {
         } else {
             $model->limit(Input::get('limit'));
             $model->offset((Input::get('page') - 1) * Input::get('limit'));
+            $model->sortBy(Input::get('sort'));
             header("X-Item-Count: " . $model->count());
             $view->set('response', $model->fetch()->toArray(Input::get('depth')));
         }
+        
         return $view;
     }
     
