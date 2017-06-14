@@ -7,11 +7,15 @@ use ntentan\honam\TemplateEngine;
 use ntentan\utils\Text;
 use ntentan\Model;
 use ntentan\Context;
+use ntentan\utils\filesystem\UploadedFile;
+use ajumamoro\Queue;
+use ntentan\wyf\jobs\ImportDataJob;
 
 class CrudController extends WyfController {
 
     private $operations = [];
     protected $listFields = [];
+    protected $importFields = [];
     private $context;
 
     public function __construct(Context $context) {
@@ -30,6 +34,7 @@ class CrudController extends WyfController {
             'entities' => $this->getWyfName(),
             'entity' => Text::singularize($this->getWyfName()),
             'has_add_operation' => true,
+            'has_import_operation' => true,
             'package' => str_replace('.', '_', $this->getWyfPackage()),
             'api_url' => "$apiUrl/$wyfPath",
             'base_api_url' => $apiUrl,
@@ -78,7 +83,7 @@ class CrudController extends WyfController {
         $fields = implode(',', $fields);
         $view->set([
             'add_item_url' => $this->getActionUrl('add'),
-            'import_items_url'=> $this->getActionUrl('import'),
+            'import_items_url' => $this->getActionUrl('import'),
             'api_parameters' => "?fields=$fields",
             'list_fields' => $this->listFields,
             'operations' => $this->operations,
@@ -106,6 +111,60 @@ class CrudController extends WyfController {
         }
         $view->set('model', $model);
         $this->setTitle("Add new {$this->getWyfName()}");
+        return $view;
+    }
+    
+    /**
+     * 
+     * @ntentan.action import
+     * @ntentan.method POST
+     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
+     * 
+     * @param UploadedFile $data
+     * @return type
+     */
+    public function importData(UploadedFile $data, Model $model) {
+        
+        $destination = "uploads/" . basename($data->getPath());
+        $data->copyTo($destination);
+        $queue = $this->context->getContainer()->resolve(Queue::class);
+        $job = new ImportDataJob($destination, $model);
+        $job->setAttributes(['file' => $destination]);
+        $jobId = $queue->add($job);
+        return json_encode($jobId);
+    }
+    
+    public function import(View $view, $id) {
+        if($id == 'template') {
+            $view->setLayout('plain');
+            $view->setTemplate('import_csv');
+            $headers = array();
+            $modelDescription = $this->getModel()->getDescription();
+            $fields = array_keys($modelDescription->getFields());
+            $primaryKey = $modelDescription->getPrimaryKey();
+            $relationships = $modelDescription->getRelationships();  
+            
+            foreach($this->importFields as $key => $field) {
+                if(is_numeric($key)) {
+                    $field = $field;
+                    $label = ucwords(str_replace('_', ' ', $field));
+                } else {
+                    $label = $field;
+                    $field = $key;
+                }
+                
+                if(in_array($field, $primaryKey)) continue;
+                if(!in_array($field, $fields)) continue;
+                $headers[] = $label;
+            }
+            
+            $view->set('headers', $headers);
+            header("Content-Type: text/csv");
+            header("Content-Disposition: attachment; filename={$this->getWyfName()}.csv");
+        } else {
+            $view->set('import_template_url', $this->getActionUrl('import/template'));
+            $this->setTitle("Import " . ucwords($this->getWyfName()));
+        }
         return $view;
     }
 

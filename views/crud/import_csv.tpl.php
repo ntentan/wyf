@@ -1,10 +1,6 @@
 <?php
-$headers = array();
-foreach($model_description['fields'] as $field)
-{
-    if($field['primary_key']) continue;
-    $headers[] = s($field['name']);
+$comma = "";
+foreach($headers as $header) {
+    print "$comma\"$header\"";
+    $comma = ',';
 }
-
-$output = fopen("php://output", 'w');
-fputcsv($output, $headers);

@@ -6,6 +6,9 @@
         <?php if($has_add_operation): ?>
         <a id="wyf_list_add_button" class="button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span> <?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a>
         <?php endif; ?>
+        <?php if($has_import_operation): ?>
+        <a id="wyf_list_add_button" class="button" href="<?= $import_items_url ?>"><span class="fa fa-plus-circle"></span> <?= isset($add_button_label) ? $add_button_label : "Import $entities" ?></a>
+        <?php endif; ?>    
     </div>
 </div>
 <div id="wyf_list_view"></div>

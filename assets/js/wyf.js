@@ -179,6 +179,22 @@ var wyf = {
       } else {
         wyf.list.render(wyf.list.apiUrl, wyf.list.currentPage);
       }
+    },
+    uploadData : function(url) {
+      $('<input/>').attr({type:'file'})
+        .change(function(event){
+          var form = new FormData();
+          console.log(url);
+          form.append('data', event.target.files[0]);
+          $.ajax({
+            type: 'POST',
+            url: url,
+            processData: false,
+            contentType: false,
+            data: form
+          })
+        })
+        .click();
     }
   }
 };
