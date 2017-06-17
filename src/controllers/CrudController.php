@@ -124,11 +124,10 @@ class CrudController extends WyfController {
      * @return type
      */
     public function importData(UploadedFile $data, Model $model) {
-        
         $destination = "uploads/" . basename($data->getPath());
         $data->copyTo($destination);
         $queue = $this->context->getContainer()->resolve(Queue::class);
-        $job = new ImportDataJob($destination, $model);
+        $job = new ImportDataJob($destination, $model, $this->importFields);
         $job->setAttributes(['file' => $destination]);
         $jobId = $queue->add($job);
         return json_encode($jobId);
@@ -141,7 +140,6 @@ class CrudController extends WyfController {
             $headers = array();
             $modelDescription = $this->getModel()->getDescription();
             $fields = array_keys($modelDescription->getFields());
-            $primaryKey = $modelDescription->getPrimaryKey();
             $relationships = $modelDescription->getRelationships();  
             
             foreach($this->importFields as $key => $field) {
@@ -152,8 +150,6 @@ class CrudController extends WyfController {
                     $label = $field;
                     $field = $key;
                 }
-                
-                if(in_array($field, $primaryKey)) continue;
                 if(!in_array($field, $fields)) continue;
                 $headers[] = $label;
             }
