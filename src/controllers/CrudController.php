@@ -133,34 +133,46 @@ class CrudController extends WyfController {
         return json_encode($jobId);
     }
     
-    public function import(View $view, $id) {
-        if($id == 'template') {
-            $view->setLayout('plain');
-            $view->setTemplate('import_csv');
-            $headers = array();
-            $modelDescription = $this->getModel()->getDescription();
-            $fields = array_keys($modelDescription->getFields());
-            $relationships = $modelDescription->getRelationships();  
-            
-            foreach($this->importFields as $key => $field) {
-                if(is_numeric($key)) {
-                    $field = $field;
-                    $label = ucwords(str_replace('_', ' ', $field));
-                } else {
-                    $label = $field;
-                    $field = $key;
-                }
-                if(!in_array($field, $fields)) continue;
-                $headers[] = $label;
+    public function importTemplate(View $view) {
+        $view->setLayout('plain');
+        $view->setTemplate('import_csv');
+        $headers = array();
+        $modelDescription = $this->getModel()->getDescription();
+        $fields = array_keys($modelDescription->getFields());
+        $relationships = $modelDescription->getRelationships();  
+
+        foreach($this->importFields as $key => $field) {
+            if(is_numeric($key)) {
+                $field = $field;
+                $label = ucwords(str_replace('_', ' ', $field));
+            } else {
+                $label = $field;
+                $field = $key;
             }
-            
-            $view->set('headers', $headers);
-            header("Content-Type: text/csv");
-            header("Content-Disposition: attachment; filename={$this->getWyfName()}.csv");
-        } else {
-            $view->set('import_template_url', $this->getActionUrl('import/template'));
-            $this->setTitle("Import " . ucwords($this->getWyfName()));
+            if(!in_array($field, $fields)) continue;
+            $headers[] = $label;
         }
+
+        $view->set('headers', $headers);
+        header("Content-Type: text/csv");
+        header("Content-Disposition: attachment; filename={$this->getWyfName()}.csv");
+        return $view;
+    }
+    
+    public function importStatus(View $view, $id) {
+        $queue = $this->context->getContainer()->resolve(Queue::class);
+        $status = $queue->getJobStatus($id);
+        $view->setTemplate('plain');
+        $view->setLayout('api');
+        $view->set('response', $status);
+        header('Content-Type: application/json');
+        return $view;
+        
+    }
+    
+    public function import(View $view) {
+        $view->set('import_template_url', $this->getActionUrl('import_template'));
+        $this->setTitle("Import " . ucwords($this->getWyfName()));
         return $view;
     }
 

@@ -6,41 +6,38 @@ format the file, you can download a <?= $entities ?> data template
 file <a href="<?= $import_template_url ?>">here</a>.
 This file is in the CSV format and can be edited in any spreadsheet application.
 </p>
-<p>
+<p id="import-actions">
     <a href="<?= $import_template_url ?>" class="button-green"><span class="fa fa-download"></span> Download Template</a>
     <button onclick="wyf.list.uploadData('<?= $base_url ?>import')" class="button-blue"><span class="fa fa-upload"></span> Upload Data</button>
 </p>
-
-<?php if($upload_error ?? false): ?>
-    <div class="form-error"><?= $upload_error ?></div>
-<?php endif; ?>
-
-<?php if(count($errors ?? []) > 0): ?>
-<table class="import-error-table">
-    <thead>
-        <tr><th>Line</th><th>Error</th></tr>
-    </thead>
-    <tbody>
-        <?php foreach($errors as $error): ?>
-        <tr>
-            <td><?= $error['line'] ?></td>
-            <td>
-                <?php foreach($error['errors'] as $field => $field_errors): ?>
-                    <b><?= s($field) ?></b>
-                    <ul>
-                    <?php foreach($field_errors as $field_error): ?>
-                    <li><?= $field_error ?></li>
-                    <?php endforeach; ?>
-                    </ul>
-                <?php endforeach; ?>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<?php endif; ?>
-
-
-<div id="form_wrapper">
-    <?php ?>
+<div id="import-errors">
+    
 </div>
+<script id='import-errors-template' type='text/x-handlebars'>
+    <table>
+        <thead>
+            <tr><th>Line</th><th>Errors</th></tr>
+        </thead>
+        <tbody>
+            {{#errors}}
+            <tr>
+                <td>{{line}}</td>
+                <td>
+                    <dl>
+                    {{#each errors}}
+                        <dt>{{@key}}</dt>
+                        <dd>
+                            <ul>
+                            {{#each this}}
+                                <li>{{this}}</li>
+                             {{/each}}
+                            </ul>
+                        </dd>
+                    {{/each}}
+                    </dl>
+                </td>
+            </tr>
+            {{/errors}}
+        </tbody>
+    </table>
+</script>

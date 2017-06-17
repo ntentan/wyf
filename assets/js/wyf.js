@@ -180,18 +180,39 @@ var wyf = {
         wyf.list.render(wyf.list.apiUrl, wyf.list.currentPage);
       }
     },
+    showUploadErrors: function(response) {
+      var template = Handlebars.compile($('#import-errors-template').html());
+      $('#import-errors').html(template({errors:response}));
+    },
     uploadData : function(url) {
       $('<input/>').attr({type:'file'})
         .change(function(event){
           var form = new FormData();
-          console.log(url);
           form.append('data', event.target.files[0]);
+          $('#import-actions').html("Importing ...");
           $.ajax({
             type: 'POST',
             url: url,
             processData: false,
             contentType: false,
             data: form
+          }).done(function(jobId){
+            var checkStatus = function() {
+              api.call({
+                url :url + '_status/' + jobId,
+                success : function(response) {
+                  if(response.status == 'finished') {
+                    errors = JSON.parse(response.response);
+                    if(errors.length > 0) {
+                      wyf.list.showUploadErrors(errors);
+                    }
+                  } else {
+                    setTimeout(checkStatus, 3000);
+                  }
+                }
+              });
+            };
+            setTimeout(checkStatus, 3000);
           })
         })
         .click();
