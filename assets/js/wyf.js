@@ -180,9 +180,15 @@ var wyf = {
         wyf.list.render(wyf.list.apiUrl, wyf.list.currentPage);
       }
     },
-    showUploadErrors: function(response) {
-      var template = Handlebars.compile($('#import-errors-template').html());
-      $('#import-errors').html(template({errors:response}));
+    showUploadMessage: function(response) {
+      var template;
+      if(response.errors.length > 0){
+        template = Handlebars.compile($('#import-errors-template').html());
+        $('#import-actions').slideToggle();
+      } else {
+        template = Handlebars.compile($('#import-success-template').html());
+      }
+      $('#import-message').html(template(response));
     },
     uploadData : function(url) {
       $('<input/>').attr({type:'file'})
@@ -202,13 +208,10 @@ var wyf = {
               api.call({
                 url :url + '_status/' + jobId,
                 success : function(response) {
-                  $('#import-loader').slideToggle();
-                  if(response.status == 'finished') {
-                    errors = JSON.parse(response.response);
-                    if(errors.length > 0) {
-                      $('#import-actions').slideToggle();
-                      wyf.list.showUploadErrors(errors);
-                    }
+                  if(response.status == 'finished' || response.status == 'failed') {
+                    $('#import-loader').slideToggle();
+                    results = JSON.parse(response.response);
+                    wyf.list.showUploadMessage(results);
                   } else {
                     setTimeout(checkStatus, 3000);
                   }

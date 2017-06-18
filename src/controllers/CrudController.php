@@ -142,18 +142,20 @@ class CrudController extends WyfController {
         $headers = array();
         $modelDescription = $this->getModel()->getDescription();
         $fields = array_keys($modelDescription->getFields());
-        $relationships = $modelDescription->getRelationships();  
+        $relationshipDetails = $modelDescription->getRelationships();  
+        $relationships = array_keys($relationshipDetails);
 
         foreach($this->importFields as $key => $field) {
             if(is_numeric($key)) {
-                $field = $field;
-                $label = ucwords(str_replace('_', ' ', $field));
+                if(is_array($field) && in_array($field[0], $relationships)) {
+                    $label = $relationshipDetails[$field[0]]->getModelInstance()->getName();
+                    $headers[] = Text::singularize(ucwords(str_replace('_', ' ',Text::deCamelize($label))));
+                } else if(in_array($field, $fields)){
+                    $headers[] = ucwords(str_replace('_', ' ', $field));
+                }
             } else {
-                $label = $field;
-                $field = $key;
+                $headers[] = $key;
             }
-            if(!in_array($field, $fields)) continue;
-            $headers[] = $label;
         }
 
         $view->set('headers', $headers);
