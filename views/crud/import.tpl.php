@@ -10,32 +10,26 @@ This file is in the CSV format and can be edited in any spreadsheet application.
     <a href="<?= $import_template_url ?>" class="button-green"><span class="fa fa-download"></span> Download Template</a>
     <button onclick="wyf.list.uploadData('<?= $base_url ?>import')" class="button-blue"><span class="fa fa-upload"></span> Upload Data</button>
 </p>
+<p id="import-loader">
+    Importing ...
+</p>
 <div id="import-errors">
     
 </div>
 <script id='import-errors-template' type='text/x-handlebars'>
-    <table>
+    <table class="import-error-table">
         <thead>
             <tr><th>Line</th><th>Errors</th></tr>
         </thead>
         <tbody>
             {{#errors}}
-            <tr>
-                <td>{{line}}</td>
-                <td>
-                    <dl>
-                    {{#each errors}}
-                        <dt>{{@key}}</dt>
-                        <dd>
-                            <ul>
-                            {{#each this}}
-                                <li>{{this}}</li>
-                             {{/each}}
-                            </ul>
-                        </dd>
-                    {{/each}}
-                    </dl>
-                </td>
+            <tr><td>{{line}}</td>
+                <td><dl>
+                {{#each errors}}
+                <dt>{{@key}}</dt>
+                <dd><ul>{{#each this}}<li>{{this}}</li>{{/each}}</ul></dd>
+                {{/each}}
+                </dl></td>
             </tr>
             {{/errors}}
         </tbody>

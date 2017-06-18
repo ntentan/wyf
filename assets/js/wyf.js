@@ -189,7 +189,8 @@ var wyf = {
         .change(function(event){
           var form = new FormData();
           form.append('data', event.target.files[0]);
-          $('#import-actions').html("Importing ...");
+          $('#import-actions').slideToggle();
+          $('#import-loader').slideToggle();
           $.ajax({
             type: 'POST',
             url: url,
@@ -201,9 +202,11 @@ var wyf = {
               api.call({
                 url :url + '_status/' + jobId,
                 success : function(response) {
+                  $('#import-loader').slideToggle();
                   if(response.status == 'finished') {
                     errors = JSON.parse(response.response);
                     if(errors.length > 0) {
+                      $('#import-actions').slideToggle();
                       wyf.list.showUploadErrors(errors);
                     }
                   } else {
@@ -212,7 +215,7 @@ var wyf = {
                 }
               });
             };
-            setTimeout(checkStatus, 3000);
+            setTimeout(checkStatus, 500);
           })
         })
         .click();

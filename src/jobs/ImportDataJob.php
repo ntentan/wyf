@@ -15,19 +15,19 @@ class ImportDataJob extends Job
         $this->importFields = $importFields;
     }
     
-    private function mapFields($headers) {
-        $fields = [];
+    private function mapHeadersAndFields($mapFrom, $fromLabels = true) {
+        $mappedTo = [];
         foreach($this->importFields as $field => $label) {
             if(is_numeric($field)) {
                 $field = $label;
                 $label = ucwords(str_replace('_', ' ', $label));
             }
-            $index = array_search($label, $headers);
+            $index = array_search($fromLabels ? $label : $field, $mapFrom);
             if($index !== false) {
-                $fields[$index] = $field;
+                $mappedTo[$index] = $fromLabels ? $field : $label;
             }
         }
-        return $fields;
+        return $mappedTo;
     }
     
     private function isLineEmpty($line) {
@@ -42,7 +42,7 @@ class ImportDataJob extends Job
         $errors = [];
         $model = $this->getContainer()->resolve($this->model);
         $file = fopen($this->dataFile, 'r');
-        $fields = $this->mapFields(fgetcsv($file));
+        $fields = $this->mapHeadersAndFields(fgetcsv($file));
         $driver = $model->getAdapter()->getDriver();
         
         $driver->beginTransaction();
@@ -64,9 +64,15 @@ class ImportDataJob extends Job
                     $model->save();
                 }
             } else {
+                $erroredFields = array_keys($validity);
+                $erroredHeaders = $this->mapHeadersAndFields($erroredFields, false);
+                $remappedValidity = [];
+                foreach($erroredFields as $i => $erroredField) {
+                    $remappedValidity[$erroredHeaders[$i]] = $validity[$erroredField];
+                }
                 $errors[] = [
                     'line' => $lineNumber,
-                    'errors' => $validity
+                    'errors' => $remappedValidity
                 ];
                 $failed = true;
                 $driver->beginTransaction();

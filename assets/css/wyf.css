@@ -162,3 +162,47 @@ h2 {
     font-size: 12px;
     color: #809866;
 }
+
+.import-error-table {
+    width:100%;
+    border-collapse: collapse;
+}
+
+.import-error-table td {
+    padding:10px;
+    border-bottom: 1px solid #feb2b2;
+    font-size: smaller;
+}
+
+.import-error-table th {
+    text-align: left;
+    background: #feb2b2;
+    padding:10px;
+}
+
+.import-error-table dl{
+    margin:0px;
+    padding:0px;
+}
+
+.import-error-table ul{
+    margin:0px;
+    padding:0px;
+    color: #606060;
+}
+
+.import-error-table dt{
+    font-weight: bold;
+}
+
+.import-error-table dd{
+    margin-bottom: 5px;
+}
+
+#import-loader{
+    background-image: url('/assets/images/small_loading.gif');
+    background-position: 0px, 50%;
+    background-repeat: no-repeat;
+    padding-left: 36px;
+    display: none;
+}
