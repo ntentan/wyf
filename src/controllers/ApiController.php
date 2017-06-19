@@ -6,6 +6,7 @@ use ntentan\View;
 use ntentan\Model;
 use ntentan\utils\Input;
 use ntentan\Context;
+use ntentan\nibii\QueryParameters;
 
 /**
  * Description of ApiController
@@ -19,6 +20,7 @@ class ApiController extends WyfController {
         $view->setLayout('plain');
         $view->setTemplate('api');
         $view->setContentType('application/json');
+        ini_set('html_errors', 'off');
     }
     
     private function decodePath($path) {
@@ -67,6 +69,51 @@ class ApiController extends WyfController {
         }
         return $view;
     }
+    
+    private function getItem($model, $view, $id) {
+        $primaryKey = $model->getDescription()->getPrimaryKey()[0];
+        $item = $model->fetchFirst(
+            [$primaryKey => $id]
+        );
+        if($item->count() == 0) {
+            $view->set('response', ['message' => 'item not found']);
+            http_response_code(404);
+        } else {
+            if(Input::server('CONTENT_TYPE') == "text/plain") {
+                header("Content-Type: text/plain");
+                return (string)$item;
+            } else {
+                $view->set('response', $item->toArray(Input::get('depth')));
+            }
+        }        
+    }
+    
+    private function search($model, $view, $query) {
+        $description = $model->getDescription();
+        $fields = $description->getFields();
+        $textFields = [];
+        $filter ='';
+        $or = '';
+        $query = "%" . strtolower($query) . "%";
+        $searchFields = explode(',', Input::get('search_fields'));
+        $modelQuery = new QueryParameters($model->getTable());
+        
+        foreach($fields as $field) {
+            if($field['type'] == 'string' && (in_array($field['name'], $searchFields) || !Input::exists(Input::GET, 'search_fields'))) {
+                $textFields[] = $field;
+                $filter .= " $or LOWER({$field['name']}) LIKE :query";
+                $or = 'OR';
+            }
+        }
+        
+        $modelQuery->setFilter($filter, ['query' => '']);
+        $results = [];
+        foreach(explode(' ', $query) as $term){
+            $modelQuery->setBoundData('query', $term);
+            $results += $model->fetch($modelQuery)->toArray(Input::get('depth'));
+        }
+        $view->set('response', $results);
+    }
 
     private function get($path, $view) {
         $pathInfo = $this->decodePath($path);
@@ -74,31 +121,21 @@ class ApiController extends WyfController {
         $input = Input::get();
         
         foreach($input as $key => $value) {
-            if(preg_match("/fields:(?<model>[0-9a-z_.]+)/", $key, $matches)) {
+            if(preg_match("/^fields:(?<model>[0-9a-z_.]+)/", $key, $matches)) {
                 $model->with($matches['model'])->setFields(explode(',', $value));
+            } else if (preg_match("/^fields/", $key, $matches)) {
+                $model->fields(explode(',', $value));
             }
         }
         
         if($pathInfo['id']){
-            $primaryKey = $model->getDescription()->getPrimaryKey()[0];
-            $item = $model->fetchFirst(
-                [$primaryKey => $pathInfo['id']]
-            );
-            if($item->count() == 0) {
-                $view->set('response', ['message' => 'item not found']);
-                http_response_code(404);
-            } else {
-                if(Input::server('CONTENT_TYPE') == "text/plain") {
-                    header("Content-Type: text/plain");
-                    return (string)$item;
-                } else {
-                    $view->set('response', $item->toArray(Input::get('depth')));
-                }
-            }
+            $this->getItem($model, $view, $pathInfo['id']);
+        } else if(Input::exists(Input::GET, 'q')) {
+            $this->search($model, $view, Input::get('q'));
         } else {
             $model->limit(Input::get('limit'));
             $model->offset((Input::get('page') - 1) * Input::get('limit'));
-            //$model->sortBy(Input::get('sort'));
+            $model->sortBy(Input::get('sort'), 'DESC');
             header("X-Item-Count: " . $model->count());
             $view->set('response', $model->fetch()->toArray(Input::get('depth')));
         }
