@@ -12,7 +12,7 @@ use ajumamoro\Queue;
 use ntentan\wyf\jobs\ImportDataJob;
 
 /**
- * 
+ *
  */
 class CrudController extends WyfController {
 
@@ -32,7 +32,7 @@ class CrudController extends WyfController {
 
         $wyfPath = $this->getWyfPath();
         $apiUrl = $context->getUrl('api');
-        $view = $context->getContainer()->resolve(View::class);        
+        $view = $context->getContainer()->resolve(View::class);
         $view->set([
             'entities' => $this->getWyfName(),
             'entity' => Text::singularize($this->getWyfName()),
@@ -46,7 +46,7 @@ class CrudController extends WyfController {
     }
 
     /**
-     * 
+     *
      * @return \ntentan\Model
      */
     protected function getModel() {
@@ -66,7 +66,7 @@ class CrudController extends WyfController {
         $model = $this->getModel();
 
         $description = $model->getDescription();
-        $primaryKey = $description->getPrimaryKey()[0];            
+        $primaryKey = $description->getPrimaryKey()[0];
         if (empty($this->listFields)) {
             $fields = $description->getFields();
             foreach ($fields as $field) {
@@ -76,7 +76,7 @@ class CrudController extends WyfController {
                 $this->listFields[$field['name']] = ucwords(str_replace('_', ' ', $field['name']));
             }
         }
-        
+
         $this->setTitle(ucwords($this->getWyfName()));
         // Prevent this from repeating
         $fields = [$primaryKey];
@@ -116,13 +116,13 @@ class CrudController extends WyfController {
         $this->setTitle("Add new {$this->getWyfName()}");
         return $view;
     }
-    
+
     /**
-     * 
+     *
      * @ntentan.action import
      * @ntentan.method POST
      * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
-     * 
+     *
      * @param UploadedFile $data
      * @return type
      */
@@ -135,14 +135,14 @@ class CrudController extends WyfController {
         $jobId = $queue->add($job);
         return json_encode($jobId);
     }
-    
+
     public function importTemplate(View $view) {
         $view->setLayout('plain');
         $view->setTemplate('import_csv');
         $headers = array();
         $modelDescription = $this->getModel()->getDescription();
         $fields = array_keys($modelDescription->getFields());
-        $relationshipDetails = $modelDescription->getRelationships();  
+        $relationshipDetails = $modelDescription->getRelationships();
         $relationships = array_keys($relationshipDetails);
 
         foreach($this->importFields as $key => $field) {
@@ -163,7 +163,7 @@ class CrudController extends WyfController {
         header("Content-Disposition: attachment; filename={$this->getWyfName()}.csv");
         return $view;
     }
-    
+
     public function importStatus(View $view, $id) {
         $queue = $this->context->getContainer()->resolve(Queue::class);
         $status = $queue->getJobStatus($id);
@@ -172,9 +172,9 @@ class CrudController extends WyfController {
         $view->set('response', $status);
         header('Content-Type: application/json');
         return $view;
-        
+
     }
-    
+
     public function import(View $view) {
         $view->set('import_template_url', $this->getActionUrl('import_template'));
         $this->setTitle("Import " . ucwords($this->getWyfName()));
@@ -194,7 +194,7 @@ class CrudController extends WyfController {
      * @ntentan.action edit
      * @ntentan.method POST
      * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
-     * 
+     *
      * @param Model $model
      * @return type
      */

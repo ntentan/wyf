@@ -19,7 +19,7 @@ h2 {
 
 #header{
     position:fixed;
-    color:#fff;  
+    color:#fff;
     box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
     z-index: 200;
     width:100%;
@@ -116,8 +116,18 @@ h2 {
     color: #808080;
 }
 
-#wyf_list_add_button {
-    margin:5px;
+#wyf-operations-button-group {
+    padding-top:5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+}
+
+#wyf-add-menu-button:after{
+    padding-left:0px;
+}
+
+#wyf-add-menu{
+    text-align: left;
 }
 
 #wyf_list_header h2 {
@@ -154,7 +164,7 @@ h2 {
     box-shadow: none;
     background:transparent;
     padding: 0px;
-    margin: 0px;    
+    margin: 0px;
 }
 
 .multi-field-delete:after{
