@@ -37,7 +37,7 @@ class CrudController extends WyfController {
             'entities' => $this->getWyfName(),
             'entity' => Text::singularize($this->getWyfName()),
             'has_add_operation' => true,
-            'has_import_operation' => true,
+            'has_import_operation' => count($this->importFields) ? true : false,
             'package' => str_replace('.', '_', $this->getWyfPackage()),
             'api_url' => "$apiUrl/$wyfPath",
             'base_api_url' => $apiUrl,

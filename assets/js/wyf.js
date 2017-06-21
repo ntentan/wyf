@@ -3,9 +3,13 @@ function resizer(){
 }
 
 var wyf = {
+  
   forms : {
+    
     multiFieldIds : {},
+    
     multiFieldValues : {},
+    
     showCreateItemForm : function(list, templateId) {
       $('#' + templateId + '_view').html("");
       if(list.value == 'new') {
@@ -21,6 +25,7 @@ var wyf = {
         list.value = '';
       }
     },
+    
     /**
      * Render a single item under the multifield button as a preview.
      * @param string field
@@ -30,7 +35,7 @@ var wyf = {
       var template = Handlebars.compile($('#' + field.name + '-multi-field-preview').html());
       var wrapper = $('<div/>').addClass('multi-field-preview');
       var index = '[' + wyf.forms.multiFieldIds[field.name] + ']';
-      
+
       wrapper.append(
         $('<div/>').addClass('multi-field-buttons').append(
           $('<button>').addClass('multi-field-delete').click(function(){
@@ -38,12 +43,12 @@ var wyf = {
           })
         )
       );
-      
+
       if(data[field.primaryKey] === undefined) {
         for(var dataField in data){
           wrapper.append(
             $('<input/>').attr({type:'hidden', name:field.model + '.' + dataField + index, value:data[dataField]})
-          );          
+          );
         }
       } else {
         wrapper.append(
@@ -57,7 +62,7 @@ var wyf = {
     addMultiFields : function(field, model, primaryKey, type, apiUrl) {
       var form = '#' + type + '-multi-field-form';
       var value = $(form + ' select[name=' + field + ']').val();
-      
+
       if(value == '') {
         $(form + ' #form-element-' + field).addClass('form-error');
       } else if(value == '-1') {
@@ -80,10 +85,10 @@ var wyf = {
         fzui.closeModal();
       }
     },
-    
+
     /**
      * Call the WYF API to validate inputs found in a given container.
-     * 
+     *
      * @param {type} formSelector
      * @param {type} url
      * @param {type} callbackData
@@ -94,12 +99,12 @@ var wyf = {
       var data = {}
       $(formSelector + ' :input').serializeArray().map(function(x){data[x.name] = x.value;});
       api.post({
-        url: url + "/validator", 
-        data: JSON.stringify(data), 
+        url: url + "/validator",
+        data: JSON.stringify(data),
         success: function(response){
           if(typeof callback === 'function') {
             callback(
-              true, 
+              true,
               {response: response, callbackData: callbackData, data: data}
             );
             fzui.closeModal();
@@ -109,7 +114,7 @@ var wyf = {
           for(name in response.invalid_fields) {
             var errors = response.invalid_fields[name].reduce(
               function(arr,x){
-                arr.push({error:x}); 
+                arr.push({error:x});
                 return arr;
               }, []
             );
@@ -133,10 +138,10 @@ var wyf = {
       if(!success) return;
       var field = data.callbackData;
       $('#' + field + " option:last").after($('<option/>', {value:'-1', text:data.response.string}));
-      $('#' + field).val("-1");      
+      $('#' + field).val("-1");
       var fieldContainer = $('#form-element-' + field + " > .hidden-fields");
       var package = $('#' + field).attr('package');
-      
+
       fieldContainer.html("");
       fieldContainer.append($('<input/>').attr({type:'hidden', name:package}).val(data.response.string));
       for(var key in data.data) {
@@ -149,13 +154,16 @@ var wyf = {
     currentPage : 1,
     itemsPerPage : 20,
     apiUrl : null,
-    render : function(url, page) {
-      api.get({url:url, data:{page:page, limit:wyf.list.itemsPerPage, sort:'id'},
+    query : '',
+    render : function(url) {
+      var getData = {page:wyf.list.currentPage, limit:wyf.list.itemsPerPage, sort:'id'};
+      if(wyf.list.query != '') {
+        getData.q = wyf.list.query;
+      }
+      api.get({url:wyf.list.apiUrl, data:getData,
         success:function(data, xhr){
             var template = Handlebars.compile($('#wyf_list_view_template').html());
             $('#wyf_list_view').html(template({list:data}));
-            wyf.list.currentPage = page;
-            wyf.list.apiUrl = url;
             wyf.list.pages = Math.ceil(xhr.getResponseHeader('X-Item-Count') / wyf.list.itemsPerPage);
             if(wyf.list.pages < 2) {
               $('#wyf_list_view_nav').hide();
@@ -169,7 +177,7 @@ var wyf = {
       if(wyf.list.currentPage > wyf.list.pages) {
         wyf.list.currentPage = wyf.list.pages;
       } else {
-        wyf.list.render(wyf.list.apiUrl, wyf.list.currentPage);
+        wyf.list.render(wyf.list.apiUrl);
       }
     },
     prev : function() {
@@ -177,7 +185,7 @@ var wyf = {
       if(wyf.list.currentPage == 0) {
         wyf.list.currentPage = 1;
       } else {
-        wyf.list.render(wyf.list.apiUrl, wyf.list.currentPage);
+        wyf.list.render(wyf.list.apiUrl);
       }
     },
     showUploadMessage: function(response) {
@@ -227,11 +235,28 @@ var wyf = {
 };
 
 $(function(){
-  $(window).resize(resizer);  
+  // Setup and handle window resizing
+  $(window).resize(resizer);
   resizer();
+
+  // Setup the search
+  $('#wyf-list-search-field').click(function(event){
+    event.stopPropagation();
+  }).keyup(function(event){
+    wyf.list.query = event.target.value;
+    wyf.list.render()
+  });
+  
+  // Set focus to search field when the search button is pressed.
+  $('#wyf-list-search-button').click(function(){
+    setTimeout(function(){$('#wyf-list-search-field').focus();}, 100);
+  })
+
+  // Initialize and render all multifields
+  // @todo Look into moving this when the centralized form system is implemented
   for(var field in wyf.forms.multiFieldValues) {
     var fieldDetails = {
-      name: field, 
+      name: field,
       model: wyf.forms.multiFieldValues[field].model,
       primaryKey: wyf.forms.multiFieldValues[field].primaryKey
     };

@@ -130,9 +130,26 @@ h2 {
     text-align: left;
 }
 
+#wyf-list-search-button:after{
+    content: "";
+    padding:0px;
+}
+
 #wyf_list_header h2 {
     margin-bottom: 0px;
     vertical-align: bottom;
+}
+
+#wyf-list-search-wrapper{
+    width:300px;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+#wyf-list-search-field{
+    width:300px;
+    border:none;
+    outline:none;
 }
 
 .operation-edit:before { content: "\f040" }

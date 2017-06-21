@@ -9,13 +9,19 @@
             <?php endif; ?>
             <?php if($has_import_operation): ?>
             <div class="dropdown">
-                <button id="wyf-add-menu-button" class="button button-green"></button>
+                <button id="wyf-add-menu-button" class="button-green"></button>
                 <ul id="wyf-add-menu" class="dropdown-contents dropdown-right menu">
                     <li><a href="<?= $import_items_url ?>"><span class="fa fa-upload"></span> <?= isset($add_button_label) ? $add_button_label : "Import $entities from file" ?></a></li>
                     <li><a href="<?= $import_items_url ?>_template"><span class="fa fa-download"></span> <?= isset($add_button_label) ? $add_button_label : "Download $entities template file" ?></a></li>
                 </ul>
             </div>
             <?php endif; ?>
+            <div class="dropdown">
+                <button id="wyf-list-search-button" class="button-yellow"><span class="fa fa-search"></span></button>
+                <div id="wyf-list-search-wrapper" class="dropdown-contents dropdown-right menu">
+                    <input id="wyf-list-search-field" type="text" placeholder="Search..." />
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -30,7 +36,7 @@
     </div>
 </div>
 <script type="text/javascript">
-$(function(){ wyf.list.render("<?= $api_url . $api_parameters?>", 1) })
+$(function(){ wyf.list.apiUrl = "<?= $api_url . $api_parameters?>"; wyf.list.render(); })
 </script>
 <script type="text/html" id="wyf_list_view_template">
     <?= t(
