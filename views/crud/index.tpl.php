@@ -16,12 +16,10 @@
                 </ul>
             </div>
             <?php endif; ?>
-            <div class="dropdown">
-                <button id="wyf-list-search-button" class="button-yellow"><span class="fa fa-search"></span></button>
-                <div id="wyf-list-search-wrapper" class="dropdown-contents dropdown-right menu">
-                    <input id="wyf-list-search-field" type="text" placeholder="Search..." />
-                </div>
-            </div>
+            <button id="wyf-list-search-button" class="button-yellow"><span class="fa fa-search"></span></button>
+        </div>
+        <div class="form-element" id="wyf-list-search-wrapper">
+            <input type="text" id="wyf-list-search-field" placeholder="Search ..." />
         </div>
     </div>
 </div>

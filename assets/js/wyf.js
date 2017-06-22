@@ -128,6 +128,7 @@ var wyf = {
         }
       })
     },
+    
     /**
      * Adds an item to the select list after it has been created on the form.
      * @param {type} success
@@ -147,12 +148,33 @@ var wyf = {
       for(var key in data.data) {
         fieldContainer.append($("<input/>").attr({type:"hidden", name:package+"."+key}).val(data.data[key]));
       }
+    },
+    
+    updateModelSearchField : function(field, apiUrl, fields, name) {
+      api.call({
+        url: apiUrl,
+        data: {q: field.value, limit: 10, fields: fields, search_fields: fields},
+        success: function(results) {
+          var template = Handlebars.compile($('#'+ name + '_preview_template').html());
+          var list = $('#' + name + '_response_list');
+          
+          list.html('');
+          if(results.length > 0) {
+            list.show();
+          } else {
+            list.hide();
+          }
+          for(var i in results) {
+            $('#' + name + '_response_list').append("<div class='model-search-field-list-item'>" + template(results[i]) + "</div>");
+          }
+        }
+      });
     }
   },
   list : {
     pages : 0,
     currentPage : 1,
-    itemsPerPage : 20,
+    itemsPerPage : 10,
     apiUrl : null,
     query : '',
     render : function(url) {
@@ -249,7 +271,9 @@ $(function(){
   
   // Set focus to search field when the search button is pressed.
   $('#wyf-list-search-button').click(function(){
-    setTimeout(function(){$('#wyf-list-search-field').focus();}, 100);
+    $('#wyf-list-search-wrapper').slideToggle(function(){
+      $('#wyf-list-search-field').focus();
+    });
   })
 
   // Initialize and render all multifields

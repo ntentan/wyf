@@ -2,21 +2,22 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-use ntentan\Ntentan;
+use ntentan\Model;
+use ntentan\utils\Text;
 
 class ModelSearchField extends Input {
 
-    public function __construct($model) {
-        $this->renderWithType = 'select';
-        $model = \ntentan\models\Model::load($model);
-        $entity = Ntentan::singular($model->getName());
-        $this->setLabel(Ntentan::toSentence($entity));
-        $this->setName("{$entity}_id");
-
-        $options = $model->getAll();
-        foreach ($options as $option) {
-            $this->option((string) $option, $option->id);
-        }
+    public function __construct($model, $fields=[], $template = "") {
+        $modelInstance = Model::load($model);
+        $entity = Text::singularize($modelInstance->getName());
+        $this->setLabel($entity);
+        $name = strtolower("{$entity}_id");
+        $this->setName($name);
+        $apiUrl = self::$sharedFormData['base_api_url'] . "/" . str_replace(".", "/", $model);
+        $fields = implode(',', $fields);
+        $this->setAttribute('onkeyup', "wyf.forms.updateModelSearchField(this,'$apiUrl', '$fields', '$name')");
+        $this->set('api_url', $apiUrl);
+        $this->set('template', $template);
     }
 
 }

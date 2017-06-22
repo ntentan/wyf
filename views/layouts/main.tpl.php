@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?= $wyf_title ?> | <?= $wyf_app_name ?></title>
+        <title><?= isset($wyf_title) ? "$wyf_title | $wyf_app_name" : $wyf_app_name ?></title>
         <?= 
             $helpers->javascripts
                 ->add('components/jquery/jquery.js')

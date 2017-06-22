@@ -14,7 +14,7 @@ class Element {
     protected $renderWithType;
     protected $description;
     protected $parent;
-    protected static $sharedFormData;
+    protected static $sharedFormData = [];
 
     public function __toString() {
         $type = $this->renderWithType == '' 
@@ -96,12 +96,8 @@ class Element {
         return $typeClass->newInstanceArgs($args);
     }
     
-    public static function setSharedFormData($data) {
-        self::$sharedFormData = $data;
-    }
-    
-    public static function getSharedFormData($key) {
-        return self::$sharedFormData[$key];
+    public static function setSharedFormData($key, $value) {
+        self::$sharedFormData[$key] = $value;
     }
     
     public function setParent($parent) {

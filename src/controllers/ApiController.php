@@ -98,6 +98,11 @@ class ApiController extends WyfController {
         $searchFields = explode(',', Input::get('search_fields'));
         $modelQuery = new QueryParameters($model->getTable());
         
+        if(Input::exists(Input::GET, 'fields')){
+            $modelQuery->setFields(explode(',', Input::get('fields')));
+        }
+        $modelQuery->setLimit(Input::get('limit'));
+        
         foreach($fields as $field) {
             if($field['type'] == 'string' && (in_array($field['name'], $searchFields) || !Input::exists(Input::GET, 'search_fields'))) {
                 $textFields[] = $field;

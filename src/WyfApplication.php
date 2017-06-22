@@ -10,6 +10,7 @@ use ntentan\honam\AssetsLoader;
 use ntentan\middleware\MVCMiddleware;
 use ntentan\middleware\AuthMiddleware;
 use ntentan\Application;
+use ntentan\wyf\utilities\forms\Element;
 
 /**
  * Description of newPHPClass
@@ -40,6 +41,7 @@ class WyfApplication extends Application {
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));        
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
+        Element::setSharedFormData('base_api_url', $this->context->getUrl('api'));
         
         $container = $this->context->getContainer();
         $container->bind(MVCMiddleware::class)->to(MVCMiddleware::class)->asSingleton();

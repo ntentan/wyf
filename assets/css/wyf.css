@@ -1,5 +1,6 @@
 body {
     margin:0px;
+    font-size: 0.85em;
 }
 
 a, .wyf-link {
@@ -141,15 +142,7 @@ h2 {
 }
 
 #wyf-list-search-wrapper{
-    width:300px;
-    border-radius: 5px;
-    padding: 7px;
-}
-
-#wyf-list-search-field{
-    width:300px;
-    border:none;
-    outline:none;
+    display:none;
 }
 
 .operation-edit:before { content: "\f040" }
@@ -232,4 +225,17 @@ h2 {
     background-repeat: no-repeat;
     padding-left: 36px;
     display: none;
+}
+
+.model-search-field-list{
+    position:absolute;
+    box-shadow: 1px 1px 3px rgba(128,128,128,0.1);
+    border:1px solid #f0f0f0;
+    display:none;
+    margin-top:5px;
+    min-width: 300px;
+}
+
+.model-search-field-list-item{
+    padding:10px;
 }
