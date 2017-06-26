@@ -97,8 +97,16 @@ class CrudController extends WyfController {
         return $view;
     }
 
-    public function add(View $view) {
-        $view->set('model', $this->getModel()->createNew());
+    /**
+     * 
+     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
+     * 
+     * @param Model $model
+     * @param View $view
+     * @return View
+     */
+    public function add(Model $model, View $view) {
+        $view->set('model', $model);
         $this->setTitle("Add new " . ucwords($this->getWyfName()));
         return $view;
     }

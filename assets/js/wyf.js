@@ -150,13 +150,33 @@ var wyf = {
       }
     },
     
+    selectModelSearchItem : function(item, name) {
+      $("input[name='" + name + "']").val($(item).attr('value')).trigger('change');
+      $('#' + name).val($(item).attr('label'));
+      $('#' + name + '_response_list').hide();
+    },
+    
+    /**
+     * 
+     * 
+     * @param string field
+     * @param string apiUrl
+     * @param string fields
+     * @param string name
+     * @returns void
+     */
     updateModelSearchField : function(field, apiUrl, fields, name) {
+      var list = $('#' + name + '_response_list');
+      
+      if(field.value == '') {
+        list.hide();
+        return;
+      }
       api.call({
         url: apiUrl,
-        data: {q: field.value, limit: 10, fields: fields, search_fields: fields},
+        data: {q: field.value, limit: 10, fields: 'id,' + fields, search_fields: fields},
         success: function(results) {
           var template = Handlebars.compile($('#'+ name + '_preview_template').html());
-          var list = $('#' + name + '_response_list');
           
           list.html('');
           if(results.length > 0) {
@@ -165,12 +185,14 @@ var wyf = {
             list.hide();
           }
           for(var i in results) {
-            $('#' + name + '_response_list').append("<div class='model-search-field-list-item'>" + template(results[i]) + "</div>");
+            $('#' + name + '_response_list').append(template(results[i]));
           }
         }
       });
     }
   },
+  
+  
   list : {
     pages : 0,
     currentPage : 1,

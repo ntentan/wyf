@@ -4,5 +4,7 @@
 </div>
 <input type="hidden" name="<?= $name ?>" />
 <script type="text/handlebars" id="<?= $name ?>_preview_template">
-    <?= unescape($template) ?>
+    <div value='{{id}}' label='<?= $value_template ?>' class='model-search-field-list-item' onclick="wyf.forms.selectModelSearchItem(this, '<?= $name ?>')">
+    <?= unescape($list_template) ?>
+    </div>
 </script>

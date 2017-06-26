@@ -239,3 +239,8 @@ h2 {
 .model-search-field-list-item{
     padding:10px;
 }
+
+.model-search-field-list-item:hover{
+    background-color:#f8f8f8;
+    cursor: pointer;
+}
