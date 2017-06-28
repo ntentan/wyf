@@ -240,7 +240,7 @@ h2 {
     padding:10px;
 }
 
-.model-search-field-list-item:hover{
+.model-search-field-list-item:hover, .model-search-field-list-item-selected{
     background-color:#f8f8f8;
     cursor: pointer;
 }

@@ -24,7 +24,8 @@ class ModelSearchField extends Input {
         $this->set('list_template', $listItemTemplate ?? trim($this->generateDefaultTempplate($fields)));
         $this->set('value_template', $valueTemplate ?? trim($this->generateDefaultTempplate($fields)));
         $fields = implode(',', $fields);
-        $this->setAttribute('onkeyup', "wyf.forms.updateModelSearchField(this,'$apiUrl', '$fields', '$name')");
+        $this->setAttribute('onkeyup', "wyf.forms.updateModelSearchField(this, event,'$apiUrl', '$fields', '$name')");
+        $this->setAttribute('autocomplete', 'off');
     }
 
     

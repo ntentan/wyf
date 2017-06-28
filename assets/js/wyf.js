@@ -165,10 +165,40 @@ var wyf = {
      * @param string name
      * @returns void
      */
-    updateModelSearchField : function(field, apiUrl, fields, name) {
+    updateModelSearchField : function(field, event, apiUrl, fields, name) {
       var list = $('#' + name + '_response_list');
       
-      if(field.value == '') {
+      if(event.code === "ArrowUp") {
+        var children = list.find(".model-search-field-list-item-selected").prev();
+        list.find(".model-search-field-list-item-selected").removeClass("model-search-field-list-item-selected");
+        if(children.length === 0) {
+          list.find("div:last-child").addClass('model-search-field-list-item-selected');
+        } else {
+          children.addClass('model-search-field-list-item-selected');
+        }
+        event.preventDefault();
+        return;
+      }
+      
+      if(event.code === "ArrowDown") {
+        var children = list.find(".model-search-field-list-item-selected").next();
+        list.find(".model-search-field-list-item-selected").removeClass("model-search-field-list-item-selected");
+        if(children.length === 0) {
+          list.find("div:first-child").addClass('model-search-field-list-item-selected');
+        } else {
+          children.addClass('model-search-field-list-item-selected');
+        }
+        event.preventDefault();
+        return;        
+      }
+      
+      if(event.code === "Enter") {
+        this.selectModelSearchItem(list.find(".model-search-field-list-item-selected"), name)
+        list.hide();
+        return;
+      }
+      
+      if(field.value === '') {
         list.hide();
         return;
       }
