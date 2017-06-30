@@ -2,28 +2,8 @@
 <html lang="en">
     <head>
         <title><?= isset($wyf_title) ? "$wyf_title | $wyf_app_name" : $wyf_app_name ?></title>
-        <?= 
-            $helpers->javascripts
-                ->add('components/jquery/jquery.js')
-                ->add(get_asset('js/wyf.js'))
-                ->add(get_asset('js/api.js'))
-                ->add('components/handlebars/handlebars.js')
-                ->add('vendor/ekowabaka/fzui/dist/fzui.min.js')
-                ->add(get_asset('js/app.js')).
-            $helpers->stylesheets
-                ->add('vendor/fortawesome/font-awesome/css/font-awesome.css')
-                ->add('vendor/ekowabaka/fzui/dist/fzui.min.css')
-                ->add(get_asset('css/wyf.css'))
-                ->add(get_asset('css/menu.css'))
-                ->add(get_asset('css/app.css'))
-        ?>
-        
-        <?php              
-        load_asset('fonts/fontawesome-webfont.woff', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff');
-        load_asset('fonts/fontawesome-webfont.woff2', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff2');
-        load_asset('fonts/fontawesome-webfont.svg', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.svg');
-        load_asset('fonts/fontawesome-webfont.ttf', 'vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.ttf');
-        ?>
+        <link href="/public/css/bundle.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="/public/js/bundle.js" ></script>
     </head>
     <body>
         <div id="wrapper">
