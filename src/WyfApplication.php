@@ -6,7 +6,6 @@ use ntentan\nibii\interfaces\ModelClassResolverInterface;
 use ntentan\nibii\interfaces\TableNameResolverInterface;
 use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\honam\TemplateEngine;
-use ntentan\honam\AssetsLoader;
 use ntentan\middleware\MVCMiddleware;
 use ntentan\middleware\AuthMiddleware;
 use ntentan\Application;
@@ -37,7 +36,6 @@ class WyfApplication extends Application {
         
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
-        AssetsLoader::appendSourceDir(realpath(__DIR__ . '/../assets'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));        
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
