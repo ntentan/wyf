@@ -4,8 +4,8 @@
     "license": "MIT",
     "require": {
         "ekowabaka/fzui": "dev-master",
-	"components/handlebars.js": "4.*",
-	"components/jquery": "3.*",
+	"frameworks/handlebars.js": "@stable",
+	"frameworks/jquery": "@stable",
 	"fortawesome/font-awesome": "4.*"
     },
     "authors": [
