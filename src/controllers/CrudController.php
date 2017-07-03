@@ -14,14 +14,16 @@ use ntentan\wyf\jobs\ImportDataJob;
 /**
  *
  */
-class CrudController extends WyfController {
+class CrudController extends WyfController
+{
 
     private $operations = [];
     protected $listFields = [];
     protected $importFields = [];
     private $context;
 
-    public function __construct(Context $context) {
+    public function __construct(Context $context)
+    {
         parent::__construct($context);
         $this->context = $context;
         $this->addOperation('edit', 'Edit');
@@ -41,7 +43,7 @@ class CrudController extends WyfController {
             'package' => str_replace('.', '_', $this->getWyfPackage()),
             'api_url' => "$apiUrl/$wyfPath",
             'base_api_url' => $apiUrl,
-            'base_url' => $context->getUrl($context->getApp()->getParameters()['controller_path'])
+            'base_url' => $context->getUrl($context->getParameter('controller_path'))
         ]);
     }
 
@@ -49,11 +51,13 @@ class CrudController extends WyfController {
      *
      * @return \ntentan\Model
      */
-    protected function getModel() {
+    protected function getModel()
+    {
         return Model::load($this->getWyfPackage());
     }
 
-    protected function setListFields($listFields) {
+    protected function setListFields($listFields)
+    {
         foreach ($listFields as $label => $name) {
             $this->listFields[] = [
                 'name' => $name,
@@ -62,7 +66,8 @@ class CrudController extends WyfController {
         }
     }
 
-    public function index(View $view) {
+    public function index(View $view)
+    {
         $model = $this->getModel();
 
         $description = $model->getDescription();
@@ -80,7 +85,7 @@ class CrudController extends WyfController {
         $this->setTitle(ucwords($this->getWyfName()));
         // Prevent this from repeating
         $fields = [$primaryKey];
-        foreach($this->listFields as $field => $label) {
+        foreach ($this->listFields as $field => $label) {
             $fields[] = is_numeric($field) ? $label : $field;
         }
         $fields = implode(',', $fields);
@@ -105,7 +110,8 @@ class CrudController extends WyfController {
      * @param View $view
      * @return View
      */
-    public function add(Model $model, View $view) {
+    public function add(Model $model, View $view)
+    {
         $view->set('model', $model);
         $this->setTitle("Add new " . ucwords($this->getWyfName()));
         return $view;
@@ -116,7 +122,8 @@ class CrudController extends WyfController {
      * @ntentan.method POST
      * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
      */
-    public function store(Model $model, View $view) {
+    public function store(Model $model, View $view)
+    {
         if ($model->save()) {
             return $this->getRedirect();
         }
@@ -134,7 +141,8 @@ class CrudController extends WyfController {
      * @param UploadedFile $data
      * @return type
      */
-    public function importData(UploadedFile $data, Model $model) {
+    public function importData(UploadedFile $data, Model $model)
+    {
         $destination = "uploads/" . basename($data->getPath());
         $data->copyTo($destination);
         $queue = $this->context->getContainer()->resolve(Queue::class);
@@ -144,7 +152,8 @@ class CrudController extends WyfController {
         return json_encode($jobId);
     }
 
-    public function importTemplate(View $view) {
+    public function importTemplate(View $view)
+    {
         $view->setLayout('plain');
         $view->setTemplate('import_csv');
         $headers = array();
@@ -153,12 +162,12 @@ class CrudController extends WyfController {
         $relationshipDetails = $modelDescription->getRelationships();
         $relationships = array_keys($relationshipDetails);
 
-        foreach($this->importFields as $key => $field) {
-            if(is_numeric($key)) {
-                if(is_array($field) && in_array($field[0], $relationships)) {
+        foreach ($this->importFields as $key => $field) {
+            if (is_numeric($key)) {
+                if (is_array($field) && in_array($field[0], $relationships)) {
                     $label = $relationshipDetails[$field[0]]->getModelInstance()->getName();
-                    $headers[] = Text::singularize(ucwords(str_replace('_', ' ',Text::deCamelize($label))));
-                } else if(in_array($field, $fields)){
+                    $headers[] = Text::singularize(ucwords(str_replace('_', ' ', Text::deCamelize($label))));
+                } else if (in_array($field, $fields)) {
                     $headers[] = ucwords(str_replace('_', ' ', $field));
                 }
             } else {
@@ -172,7 +181,8 @@ class CrudController extends WyfController {
         return $view;
     }
 
-    public function importStatus(View $view, $id) {
+    public function importStatus(View $view, $id)
+    {
         $queue = $this->context->getContainer()->resolve(Queue::class);
         $status = $queue->getJobStatus($id);
         $view->setTemplate('plain');
@@ -180,16 +190,17 @@ class CrudController extends WyfController {
         $view->set('response', $status);
         header('Content-Type: application/json');
         return $view;
-
     }
 
-    public function import(View $view) {
+    public function import(View $view)
+    {
         $view->set('import_template_url', $this->getActionUrl('import_template'));
         $this->setTitle("Import " . ucwords($this->getWyfName()));
         return $view;
     }
 
-    public function edit(View $view, $id) {
+    public function edit(View $view, $id)
+    {
         $model = $this->getModel();
         $view->set('model', $this->getModel()->fetchFirst($id));
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
@@ -206,7 +217,8 @@ class CrudController extends WyfController {
      * @param Model $model
      * @return type
      */
-    public function update(Model $model, View $view) {
+    public function update(Model $model, View $view)
+    {
         if ($model->save()) {
             return $this->getRedirect();
         }
@@ -217,7 +229,8 @@ class CrudController extends WyfController {
         return $view;
     }
 
-    public function delete(View $view, $id, $confirm = null) {
+    public function delete(View $view, $id, $confirm = null)
+    {
         $model = $this->getModel();
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
         $item = $model->fetchFirst([$primaryKey => $id]);
@@ -231,7 +244,8 @@ class CrudController extends WyfController {
         return $view;
     }
 
-    protected function addOperation($action, $label = null) {
+    protected function addOperation($action, $label = null)
+    {
         $this->operations[] = [
             'label' => $label == null ? $action : $label,
             'action' => $action
