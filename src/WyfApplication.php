@@ -86,7 +86,7 @@ class WyfApplication extends Application {
         
         $view = $container->resolve(\ntentan\View::class);
         $this->prependMiddleware(AuthMiddleware::class, [
-            'login_route' => 'auth/login',
+            'login_route' => $this->context->getUrl('auth/login'),
             'users_model' => 'auth.users'
         ]);
     }

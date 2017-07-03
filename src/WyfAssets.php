@@ -16,10 +16,10 @@ class WyfAssets {
     
     public static function js() {
         return Asset::js([
-            'components/jquery/jquery.js',
+            'vendor/frameworks/jquery/jquery.js',
             realpath(__DIR__ . '/../assets/js/api.js'),
             realpath(__DIR__ . '/../assets/js/wyf.js'),
-            'components/handlebars/handlebars.js',
+            'vendor/frameworks/handlebars.js/handlebars.js',
             'vendor/ekowabaka/fzui/dist/fzui.min.js'
         ]);
     }

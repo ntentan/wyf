@@ -19,7 +19,7 @@ class AuthController extends WyfController {
     
     public function logout() {
         Session::reset();
-        return $this->getRedirect();
+        return $this->getRedirect($this->getContext()->getUrl(''));
     }
     
 }

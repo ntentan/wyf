@@ -33,7 +33,7 @@ class WyfLoader implements ResourceLoaderInterface {
                 $controllerPath = str_replace('.', '/', $controllerPath);
                 $parameters['id'] = implode('/', array_slice($path, $i + 2));
                 $parameters['controller_path'] = $controllerPath;
-                $this->context->getApp()->getParameters()->set('controller_path', $controllerPath);
+                $this->context->setParameter('controller_path', $controllerPath);
                 $controllerInstance = $this->context->getContainer()->resolve($controllerClass);
                 return $controllerInstance->executeControllerAction($action, $parameters, $this->context);
             }
