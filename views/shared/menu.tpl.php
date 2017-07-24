@@ -10,8 +10,7 @@
         } else {
             $selected = "";
         }?>
-        <a href="/<?= $item['route'] ?>" title="<?= $item['label'] ?>" class="menu-item <?= $selected ?>" id="menu-item-<?= $item['route'] ?>">            
-        </a>
+        <a href="<?= $prefix ?>/<?= $item['route'] ?>" title="<?= $item['label'] ?>" class="menu-item <?= $selected ?>" id="menu-item-<?= $item['route'] ?>"></a>
         <?php endforeach; ?>
     </div>
     <?php if(!empty($subMenu)): ?>
@@ -20,7 +19,7 @@
         <ul>            
         <?php foreach($subMenu as $item): ?>
             <li <?= $item['route'] == $route_breakdown[1] ? "class='menu-item-selected'" : "" ?>>
-                <a href="<?= "/{$baseRoute}/{$item['route']}" ?>"><?= $item["label"] ?></a>
+                <a href="<?= "$prefix/{$baseRoute}/{$item['route']}" ?>"><?= $item["label"] ?></a>
             </li>
         <?php endforeach; ?>
         </ul>            

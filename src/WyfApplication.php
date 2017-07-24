@@ -84,7 +84,6 @@ class WyfApplication extends Application {
             'default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]
         );   
         
-        $view = $container->resolve(\ntentan\View::class);
         $this->prependMiddleware(AuthMiddleware::class, [
             'login_route' => $this->context->getUrl('auth/login'),
             'users_model' => 'auth.users'

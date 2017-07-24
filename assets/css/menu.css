@@ -8,16 +8,17 @@
 }
 
 #main-menu{
-    width: 75px;
+    width: 63.5px;
     display: inline-block;
     position:fixed;
 }
 
 #main-menu > .menu-item{
-    width: 75px;
-    height: 75px;
+    width: 63.5px;
+    height: 63.5px;
     background-repeat: no-repeat;
     background-position: 50% 50%;
+    background-size: 36px;
     opacity: 0.8;
     display: block;
 }
@@ -31,7 +32,7 @@
 #sub-menu{
     width:210px;
     display: inline-block;
-    left:75px;
+    left:63.5px;
     top:50px;
     position:fixed;
     border-right: 1px dashed #f0f0f0;
