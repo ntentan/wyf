@@ -53,7 +53,8 @@ class ClassNameResolver implements ModelClassResolverInterface, ControllerClassR
      */
     public function getTableName($instance) {
         $class = (new \ReflectionClass($instance))->getName();
-        preg_match("|{$this->namespace}\\\\app\\\\(?<base>[a-zA-Z0-9_]+)\\\\.*models\\\\(?<model>[a-zA-Z0-9]+)|", $class, $matches);
+        $namespace = addslashes($this->namespace);
+        preg_match("|{$namespace}\\\\app\\\\(?<base>[a-zA-Z0-9_]+)\\\\.*models\\\\(?<model>[a-zA-Z0-9]+)|", $class, $matches);
         $schema = Text::deCamelize($matches['base'] ?? '');
         $table = Text::deCamelize($matches['model']);
         return ['schema' => $schema, 'table' => $table];

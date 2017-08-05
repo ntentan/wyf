@@ -237,10 +237,15 @@ var wyf = {
       api.get({url:wyf.list.apiUrl, data:getData,
         success:function(data, xhr){
             var template = Handlebars.compile($('#wyf_list_view_template').html());
-            $('#wyf_list_view').html(template({list:data}));
-            wyf.list.pages = Math.ceil(xhr.getResponseHeader('X-Item-Count') / wyf.list.itemsPerPage);
-            if(wyf.list.pages < 2) {
-              $('#wyf_list_view_nav').hide();
+            var count = xhr.getResponseHeader('X-Item-Count');
+            wyf.list.pages = Math.ceil(count / wyf.list.itemsPerPage);
+            if(wyf.list.pages > 1) {
+              $('#wyf_list_view_nav').show();
+            }
+            if(count > 0) {
+              $('#wyf_list_view').html(template({list:data}));
+            } else {
+              $('#wyf_list_view').html($('#wyf_list_view_empty').html());
             }
             $('#wyf_list_view_size').html(wyf.list.pages);
         }

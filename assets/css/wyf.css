@@ -1,6 +1,5 @@
 body {
     margin:0px;
-    font-size: 0.85em;
     font-family: "Open Sans";
 }
 
@@ -52,12 +51,17 @@ h2 {
     box-sizing: border-box;
 }
 
+.contents-plain{
+    
+}
+
 #form-wrapper {
     max-width: 800px;
 }
 
 .wyf-modal-wrapper{
     padding:20px;
+    min-width: 350px;
 }
 
 .login-box{
@@ -97,6 +101,11 @@ h2 {
     text-align: left;
 }
 
+#wyf_list_banner {
+    text-align: center;
+    margin-top: 100px;
+}
+
 .wyf_list_operations {
     list-style: none;
     margin:0px;
@@ -122,6 +131,10 @@ h2 {
     padding-top:5px;
     padding-bottom: 5px;
     padding-right: 5px;
+}
+
+#wyf_list_view_nav{
+    display:none
 }
 
 #wyf-add-menu-button:after{

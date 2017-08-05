@@ -36,10 +36,8 @@ class WyfController extends Controller
         $this->view->set('wyf_logout_url', $context->getUrl('auth/logout'));
         $this->titleBase = "{$appName}";
         $class = get_class($this);
-        $namespace = $context->getNamespace();
-        if (preg_match(
-                        "/$namespace\\\\app\\\\(?<base>.*)\\\\controllers\\\\(?<name>.*)Controller/", $class, $matches
-                )) {
+        $namespace = addslashes($context->getNamespace());
+        if (preg_match("/$namespace\\\\app\\\\(?<base>.*)\\\\controllers\\\\(?<name>.*)Controller/", $class, $matches)) {
             $this->package = strtolower(Text::deCamelize(str_replace("\\", ".", $matches['base'])) . "." . Text::deCamelize($matches['name']));
             $this->name = str_replace("_", " ", Text::deCamelize($matches['name']));
             $this->path = str_replace('.', '/', $this->package);

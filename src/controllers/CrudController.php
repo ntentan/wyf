@@ -10,6 +10,7 @@ use ntentan\Context;
 use ntentan\utils\filesystem\UploadedFile;
 use ajumamoro\Queue;
 use ntentan\wyf\jobs\ImportDataJob;
+use ntentan\controllers\model_binders\DefaultModelBinder;
 
 /**
  *
@@ -45,6 +46,7 @@ class CrudController extends WyfController
             'base_api_url' => $apiUrl,
             'base_url' => $context->getUrl($context->getParameter('controller_path'))
         ]);
+        $context->getContainer()->bind(WrappedModelBinder::class)->to(DefaultModelBinder::class);
     }
 
     /**
@@ -92,6 +94,7 @@ class CrudController extends WyfController
         $view->set([
             'add_item_url' => $this->getActionUrl('add'),
             'import_items_url' => $this->getActionUrl('import'),
+            'public_path' => $this->context->getUrl('public'),
             'api_parameters' => "?fields=$fields",
             'list_fields' => $this->listFields,
             'operations' => $this->operations,
