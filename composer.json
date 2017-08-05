@@ -3,7 +3,8 @@
     "description": "Framework for building enterprisey apps on top of ntentan",
     "license": "MIT",
     "require": {
-        "ekowabaka/fzui": "dev-master",
+        "ekowabaka/fzui": "0.*",
+	"ntentan/ntentan": "0.*",
 	"frameworks/handlebars.js": "@stable",
 	"frameworks/jquery": "@stable",
 	"fortawesome/font-awesome": "4.*"
