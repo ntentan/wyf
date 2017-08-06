@@ -20,7 +20,6 @@ class CrudModelBinder implements ModelBinderInterface
     public function __construct(Container $container)
     {
         $this->wraped = $container->resolve(WrappedModelBinder::class);
-        var_dump($this->wraped);
         $this->container = $container;
     }
     
