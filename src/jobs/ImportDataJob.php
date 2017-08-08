@@ -10,7 +10,8 @@ class ImportDataJob extends Job
     private $model;
     private $importFields;
     
-    public function __construct($dataFile, $model, $importFields) {
+    public function setParameters($dataFile, $model, $importFields) 
+    {
         $this->dataFile = $dataFile;
         $this->model = (new \ReflectionClass($model))->getName();
         $this->importFields = $importFields;

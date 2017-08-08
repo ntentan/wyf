@@ -147,9 +147,11 @@ class CrudController extends WyfController
     public function importData(UploadedFile $data, Model $model)
     {
         $destination = "uploads/" . basename($data->getPath());
-        $data->copyTo($destination);
-        $queue = $this->context->getContainer()->resolve(Queue::class);
-        $job = new ImportDataJob($destination, $model, $this->importFields);
+        $data->copyTo($destination);    
+        $container = $this->context->getContainer();
+        $queue = $container->resolve(Queue::class);
+        $job = $container->resolve(ImportDataJob::class);
+        $job->setParameters($destination, $model, $this->importFields);
         $job->setAttributes(['file' => $destination]);
         $jobId = $queue->add($job);
         return json_encode($jobId);
