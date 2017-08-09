@@ -53,8 +53,10 @@ $(function(){ wyf.list.apiUrl = "<?= $api_url . $api_parameters?>"; wyf.list.ren
 </script>
 <script type="text/html" id="wyf_list_view_empty">
     <div id='wyf_list_banner'>
-        <p style='font-size: larger; padding: 50px'>You have no employees!</p>
+        <p style='font-size: larger; padding: 50px'>You have no <?= $entities ?>!</p>
         <a class='button button-green button-outline' href="<?= $add_item_url?>">Add a new <?= $entity ?></a>
-        <a class='button button-green button-outline' href='<?= $import_items_url ?>'>Import <?= $entities ?> from file</a>
+        <?php if($has_import_operation): ?>
+            <a class='button button-green button-outline' href='<?= $import_items_url ?>'>Import <?= $entities ?> from file</a>
+        <?php endif; ?>
     </div>
 </script>
