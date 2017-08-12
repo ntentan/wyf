@@ -476,16 +476,16 @@
         },
         {
             "name": "ntentan/nibii",
-            "version": "v0.5.0",
+            "version": "v0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/nibii.git",
-                "reference": "e58eb5025e88ed0f62c65c1f3251878e231f4bdf"
+                "reference": "a640fb0fdd43bf5d89077dfeacd5bda84f42820b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/nibii/zipball/e58eb5025e88ed0f62c65c1f3251878e231f4bdf",
-                "reference": "e58eb5025e88ed0f62c65c1f3251878e231f4bdf",
+                "url": "https://api.github.com/repos/ntentan/nibii/zipball/a640fb0fdd43bf5d89077dfeacd5bda84f42820b",
+                "reference": "a640fb0fdd43bf5d89077dfeacd5bda84f42820b",
                 "shasum": ""
             },
             "require": {
@@ -516,20 +516,20 @@
                 }
             ],
             "description": "ORM for ntentan",
-            "time": "2017-07-29T07:32:39+00:00"
+            "time": "2017-08-12T21:33:14+00:00"
         },
         {
             "name": "ntentan/ntentan",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/ntentan.git",
-                "reference": "534afea6d36bbb5c91834a40613dafd0cf4d1bd3"
+                "reference": "db00217a0426c2fad8677450fb5ca2de19b950bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/534afea6d36bbb5c91834a40613dafd0cf4d1bd3",
-                "reference": "534afea6d36bbb5c91834a40613dafd0cf4d1bd3",
+                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/db00217a0426c2fad8677450fb5ca2de19b950bd",
+                "reference": "db00217a0426c2fad8677450fb5ca2de19b950bd",
                 "shasum": ""
             },
             "require": {
@@ -561,7 +561,7 @@
                 }
             ],
             "description": "Another PHP application framework.",
-            "time": "2017-07-24T12:36:46+00:00"
+            "time": "2017-08-06T18:05:35+00:00"
         },
         {
             "name": "ntentan/panie",
