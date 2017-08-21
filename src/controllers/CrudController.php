@@ -146,7 +146,7 @@ class CrudController extends WyfController
      */
     public function importData(UploadedFile $data, Model $model)
     {
-        $destination = "uploads/" . basename($data->getPath());
+        $destination = ($this->context->getConfig()->get('app.temp_dir') ?? "uploads/") . basename($data->getPath());
         $data->copyTo($destination);    
         $container = $this->context->getContainer();
         $queue = $container->resolve(Queue::class);

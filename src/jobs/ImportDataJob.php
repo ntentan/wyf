@@ -3,6 +3,7 @@ namespace ntentan\wyf\jobs;
 
 use ajumamoro\Job;
 use ntentan\utils\Text;
+use ntentan\utils\Filesystem;
 
 class ImportDataJob extends Job
 {
@@ -60,6 +61,7 @@ class ImportDataJob extends Job
         $lineNumber = 2;
         $response = ['errors' => [], 'count'=> 0];
         $model = $this->getContainer()->resolve($this->model);
+        Filesystem::checkReadable($this->dataFile);
         $file = fopen($this->dataFile, 'r');
         $relationships = $model->getDescription()->getRelationships();
         $headers = fgetcsv($file);

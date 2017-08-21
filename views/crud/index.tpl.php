@@ -8,13 +8,7 @@
             <a class="button button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span>&nbsp;&nbsp;<?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a>
             <?php endif; ?>
             <?php if($has_import_operation): ?>
-            <div class="dropdown">
-                <button id="wyf-add-menu-button" class="button-green"></button>
-                <ul id="wyf-add-menu" class="dropdown-contents dropdown-right menu">
-                    <li><a href="<?= $import_items_url ?>"><span class="fa fa-upload"></span> <?= isset($add_button_label) ? $add_button_label : "Import $entities from file" ?></a></li>
-                    <li><a href="<?= $import_items_url ?>_template"><span class="fa fa-download"></span> <?= isset($add_button_label) ? $add_button_label : "Download $entities template file" ?></a></li>
-                </ul>
-            </div>
+            <a class="button button-green" href="<?= $import_items_url ?>"><span class="fa fa-upload"></span></a>
             <?php endif; ?>
             <button id="wyf-list-search-button" class="button-yellow"><span class="fa fa-search"></span></button>
         </div>

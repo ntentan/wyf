@@ -234,7 +234,7 @@ h2 {
 }
 
 #import-loader{
-    background-image: url('/assets/images/small_loading.gif');
+    background-image: url('../images/small_loading.gif');
     background-position: 0px, 50%;
     background-repeat: no-repeat;
     padding-left: 36px;

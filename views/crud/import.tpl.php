@@ -9,8 +9,8 @@ This file is in the CSV format and can be edited in any spreadsheet application.
 <div id="import-message">
 </div>
 <p id="import-actions">
-    <a href="<?= $import_template_url ?>" class="button-green"><span class="fa fa-download"></span> Download Template</a>
-    <button onclick="wyf.list.uploadData('<?= $base_url ?>import')" class="button-blue"><span class="fa fa-upload"></span> Upload Data</button>
+    <a href="<?= $import_template_url ?>" class="button-green button-outline"><span class="fa fa-download"></span> Download Template</a>
+    <button onclick="wyf.list.uploadData('<?= $base_url ?>import')" class="button-blue button-outline"><span class="fa fa-upload"></span> Upload Data</button>
 </p>
 <p id="import-loader">
     Importing ...
