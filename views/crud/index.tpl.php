@@ -1,6 +1,6 @@
 <div class="row" id="wyf_list_header">
     <div class="column grid_10_5">
-        <h2><?= ucwords($entities) ?></h2>
+        <h1><?= ucwords($entities) ?></h1>
     </div>
     <div class="column grid_10_5" style="text-align: right">
         <div id="wyf-operations-button-group" class="button-group">
