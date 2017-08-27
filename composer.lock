@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "ekowabaka/fzui",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ekowabaka/fzui.git",
-                "reference": "30ba5a5ccd7e782573f54b523d8cca80e56fa4e2"
+                "reference": "ba264509102217ccba243e1b94e88c9f7e87b6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ekowabaka/fzui/zipball/30ba5a5ccd7e782573f54b523d8cca80e56fa4e2",
-                "reference": "30ba5a5ccd7e782573f54b523d8cca80e56fa4e2",
+                "url": "https://api.github.com/repos/ekowabaka/fzui/zipball/ba264509102217ccba243e1b94e88c9f7e87b6a2",
+                "reference": "ba264509102217ccba243e1b94e88c9f7e87b6a2",
                 "shasum": ""
             },
             "type": "library",
@@ -32,7 +32,7 @@
                 }
             ],
             "description": "UI Library",
-            "time": "2017-07-29T09:27:16+00:00"
+            "time": "2017-08-03T14:26:24+00:00"
         },
         {
             "name": "fortawesome/font-awesome",
