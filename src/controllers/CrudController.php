@@ -240,7 +240,7 @@ class CrudController extends WyfController
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
         $item = $model->fetchFirst([$primaryKey => $id]);
         if ($confirm == 'yes') {
-            $item->delete();
+            $item->delete($id);
             return $this->getRedirect();
         }
         $view->set('item', $item);
