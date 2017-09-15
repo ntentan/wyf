@@ -2,92 +2,70 @@
 
 namespace ntentan\wyf;
 
-use ntentan\nibii\interfaces\ModelClassResolverInterface;
-use ntentan\nibii\interfaces\TableNameResolverInterface;
-use ntentan\interfaces\ControllerClassResolverInterface;
 use ntentan\honam\TemplateEngine;
 use ntentan\middleware\MVCMiddleware;
 use ntentan\middleware\AuthMiddleware;
 use ntentan\Application;
 use ntentan\wyf\utilities\forms\Element;
+use ntentan\Context;
 
 /**
  * Description of newPHPClass
  *
  * @author ekow
  */
-class WyfApplication extends Application {
+class WyfApplication extends Application
+{
 
-    private $appName;
+    protected function setName($name)
+    {
+        $context = Context::getInstance()->setParameter('wyf.app_name', $name);
+    }
 
-    public function getName() {
-        return $this->appName;
-    }
-    
-    public function setName($name) {
-        $this->appName = $name;
-    }
-    
-    public function getMenu() {
+    protected function getMenu()
+    {
         return [];
     }
 
-    public function setup() {
-        
+    protected function setup(): void
+    {
+        $context = Context::getInstance();
+        $context->setParameter('wyf.menu', $this->getMenu());
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/layouts'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views'));
-        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));        
+        TemplateEngine::appendPath(realpath(__DIR__ . '/../views/shared'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
-        Element::setSharedFormData('base_api_url', $this->context->getUrl('api'));
-        
-        $container = $this->context->getContainer();
-        $container->bind(MVCMiddleware::class)->to(MVCMiddleware::class)->asSingleton();
-        $container->resolve(MVCMiddleware::class)->registerLoader('wyf_controller', WyfLoader::class);
+        Element::setSharedFormData('base_api_url', $context->getUrl('api'));
 
-        $container->bind(ModelClassResolverInterface::class)->to(ClassNameResolver::class);
-        $container->bind(ControllerClassResolverInterface::class)->to(ClassNameResolver::class);
-        $container->bind(TableNameResolverInterface::class)->to(ClassNameResolver::class);
-
-        $router = $this->context->getRouter();
-        $router->mapRoute(
-            'wyf_auth', 
-            'auth/{action}', 
-            ['default' => ['controller' => controllers\AuthController::class]]
+        $this->router->mapRoute(
+            'wyf_auth', 'auth/{action}', ['default' => ['controller' => controllers\AuthController::class]]
         );
-        $router->mapRoute(
-            'wyf_api', 
-            'api/{*path}', 
-            [
-                'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest'],
-                'pipeline' => [
-                    [AuthMiddleware::class, [
-                        'auth_method' => 'http_basic', 
+        $this->router->mapRoute(
+            'wyf_api', 'api/{*path}', [
+            'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest'],
+            'pipeline' => [
+                [AuthMiddleware::class, [
+                        'auth_method' => 'http_basic',
                         'users_model' => 'auth.users']
-                    ],
-                    [MVCMiddleware::class]
-                ]
+                ],
+                [MVCMiddleware::class]
+            ]
             ]
         );
-        
-        foreach($this->getMenu() as $item) {
-            if(count($item['children'] ?? []) > 0) {
-                $router->mapRoute("wyf_{$item['route']}", $item['route'],
-                    [
-                        'default' => ['wyf_controller' => "{$item['route']}.{$item['children'][0]['route']}"]
+
+        foreach ($this->getMenu() as $item) {
+            if (count($item['children'] ?? []) > 0) {
+                $this->router->mapRoute("wyf_{$item['route']}", $item['route'], [
+                    'default' => ['wyf_controller' => "{$item['route']}.{$item['children'][0]['route']}"]
                     ]
-                ); 
+                );
             }
-        }        
-        
-        $router->mapRoute(
+        }
+
+        $this->router->mapRoute(
             'default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]
-        );   
-        
-        $this->prependMiddleware(AuthMiddleware::class, [
-            'login_route' => $this->context->getUrl('auth/login'),
-            'users_model' => 'auth.users'
-        ]);
+        );
     }
 
 }

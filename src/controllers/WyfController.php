@@ -26,12 +26,12 @@ class WyfController extends Controller
     private $titleBase;
     private $view;
 
-    public function __construct(Context $context)
+    public function __construct(View $view)
     {
-        $this->view = $context->getContainer()->resolve(View::class);
-        $app = $context->getApp();
-        $appName = $app->getName();
-        $this->view->set('route_breakdown', explode('/', $context->getRouter()->getRoute()));
+        $context = Context::getInstance();
+        $this->view = $view;
+        $appName = $context->getParameter('wyf.app_name');
+        $this->view->set('route_breakdown', explode('/', $context->getParameter('route')));
         $this->view->set('wyf_app_name', $appName);
         $this->view->set('wyf_logout_url', $context->getUrl('auth/logout'));
         $this->titleBase = "{$appName}";
@@ -42,7 +42,7 @@ class WyfController extends Controller
             $this->name = str_replace("_", " ", Text::deCamelize($matches['name']));
             $this->path = str_replace('.', '/', $this->package);
         }
-        $this->view->set('menu', $app->getMenu());
+        $this->view->set('menu', $context->getParameter('wyf.menu'));
     }
 
     protected function setTitle($title)
