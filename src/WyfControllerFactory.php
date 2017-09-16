@@ -15,13 +15,7 @@ use ntentan\View;
  */
 class WyfControllerFactory extends DefaultControllerFactory
 {
-    private function getClassName($wyfPath) 
-    {
-        $wyfPathParts = explode('.', $wyfPath);
-        $name = Text::ucamelize(array_pop($wyfPathParts));
-        $base = (count($wyfPathParts) ? '\\' : '') . implode('\\', $wyfPathParts);
-        return "\\app$base\\controllers\\{$name}Controller";
-    }
+    use ClassNameGeneratorTrait;
     
     public function setupBindings(\ntentan\panie\Container $serviceLocator)
     {
@@ -39,12 +33,11 @@ class WyfControllerFactory extends DefaultControllerFactory
         $controllerPath = "";        
         $path = explode('/', $parameters['wyf_controller']);
         $context = Context::getInstance();
-        $namespace = $context->getNamespace();
         
         foreach ($path as $i => $section) {
             $testedPath .= ".$section";
             $controllerPath .= "$section/";
-            $controllerClass = "$namespace{$this->getClassName(substr($testedPath, 1))}";
+            $controllerClass = "{$this->getClassName(substr($testedPath, 1), 'controllers')}Controller";
             if (class_exists($controllerClass)) {
                 $parameters['controller'] = $controllerClass;
                 $parameters['action'] = isset($path[$i + 1]) ? $path[$i + 1] : 'index';

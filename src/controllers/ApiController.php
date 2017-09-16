@@ -15,8 +15,7 @@ use ntentan\nibii\QueryParameters;
  */
 class ApiController extends WyfController {
 
-    public function __construct(Context $context, View $view) {
-        parent::__construct($context);
+    public function __construct(View $view) {
         $view->setLayout('plain');
         $view->setTemplate('api');
         $view->setContentType('application/json');

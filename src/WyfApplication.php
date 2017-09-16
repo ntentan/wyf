@@ -3,7 +3,7 @@
 namespace ntentan\wyf;
 
 use ntentan\honam\TemplateEngine;
-use ntentan\middleware\MVCMiddleware;
+use ntentan\middleware\MvcMiddleware;
 use ntentan\middleware\AuthMiddleware;
 use ntentan\Application;
 use ntentan\wyf\utilities\forms\Element;
@@ -46,10 +46,10 @@ class WyfApplication extends Application
             'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest'],
             'pipeline' => [
                 [AuthMiddleware::class, [
-                        'auth_method' => 'http_basic',
-                        'users_model' => 'auth.users']
+                    'auth_method' => 'http_basic',
+                    'users_model' => 'auth.users']
                 ],
-                [MVCMiddleware::class]
+                [MvcMiddleware::class]
             ]
             ]
         );

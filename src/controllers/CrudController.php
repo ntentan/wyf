@@ -23,10 +23,10 @@ class CrudController extends WyfController
     protected $importFields = [];
     private $context;
 
-    public function __construct(Context $context)
+    public function __construct(View $view)
     {
-        parent::__construct($context);
-        $this->context = $context;
+        parent::__construct($view);
+        $this->context = Context::getInstance();
         $this->addOperation('edit', 'Edit');
         $this->addOperation('delete', 'Delete');
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
@@ -34,8 +34,7 @@ class CrudController extends WyfController
         TemplateEngine::appendPath('views/lists');
 
         $wyfPath = $this->getWyfPath();
-        $apiUrl = $context->getUrl('api');
-        $view = $context->getContainer()->resolve(View::class);
+        $apiUrl = $this->context->getUrl('api');
         $view->set([
             'entities' => $this->getWyfName(),
             'entity' => Text::singularize($this->getWyfName()),
@@ -44,9 +43,8 @@ class CrudController extends WyfController
             'package' => str_replace('.', '_', $this->getWyfPackage()),
             'api_url' => "$apiUrl/$wyfPath",
             'base_api_url' => $apiUrl,
-            'base_url' => $context->getUrl($context->getParameter('controller_path'))
+            'base_url' => $this->context->getUrl($this->context->getParameter('controller_path'))
         ]);
-        $context->getContainer()->bind(WrappedModelBinder::class)->to(DefaultModelBinder::class);
     }
 
     /**
