@@ -37,4 +37,24 @@ class WyfModelFactory implements ModelFactoryInterface
         return ['schema' => $schema, 'table' => $table];
     }
 
+    public function getJunctionClassName($classA, $classB)
+    {
+        $classBParts = explode('\\', substr(nibii\Nibii::getClassName($classB), 1));
+        $classAParts = explode('\\', $classA);
+        $joinerParts = [];
+
+        foreach ($classAParts as $i => $part) {
+            if ($part == $classBParts[$i]) {
+                $joinerParts[] = $part;
+            } else {
+                break;
+            }
+        }
+
+        $class = [end($classAParts), end($classBParts)];
+        sort($class);
+        $joinerParts[] = implode('', $class);
+
+        return implode('\\', $joinerParts);
+    }    
 }
