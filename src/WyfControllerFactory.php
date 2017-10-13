@@ -9,7 +9,7 @@ use ntentan\Context;
 use ntentan\View;
 
 /**
- * Description of WycControllerFactory
+ * The default controller factory used for WYF based applications.
  *
  * @author ekow
  */
@@ -17,6 +17,10 @@ class WyfControllerFactory extends DefaultControllerFactory
 {
     use ClassNameGeneratorTrait;
     
+    /**
+     * Keep a copy of the service container
+     * @var Container
+     */
     private $serviceLocator;
     
     public function setupBindings(\ntentan\panie\Container $serviceLocator)
@@ -27,6 +31,7 @@ class WyfControllerFactory extends DefaultControllerFactory
 
     public function createController(array &$parameters) : Controller
     {
+        // Defer to the base default controller if we're not loading the Wyf controller
         if(!isset($parameters['wyf_controller'])) {
             return parent::createController($parameters);
         }
@@ -40,11 +45,11 @@ class WyfControllerFactory extends DefaultControllerFactory
         foreach ($path as $i => $section) {
             $testedPath .= ".$section";
             $controllerPath .= "$section/";
-            $controllerClass = "{$this->getClassName(substr($testedPath, 1), 'controllers')}Controller";
-            $modelClass = $this->getClassName(substr($testedPath, 1), 'models');
+            $controllerClass = "{$this->getWyfClassName(substr($testedPath, 1), 'controllers')}Controller";
+            $modelClass = $this->getWyfClassName(substr($testedPath, 1), 'models');
             if (class_exists($controllerClass)) {
                 $parameters['controller'] = $controllerClass;
-                $parameters['action'] = isset($path[$i + 1]) ? $path[$i + 1] : 'index';
+                $parameters['action'] = (isset($path[$i + 1]) && $path[$i + 1] != '') ? $path[$i + 1] : 'index';
                 $parameters['id'] = implode('/', array_slice($path, $i + 2));
                 $controllerPath = str_replace('.', '/', $controllerPath);
                 $parameters['controller_path'] = $controllerPath;

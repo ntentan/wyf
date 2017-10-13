@@ -11,9 +11,15 @@ class WyfModelFactory implements ModelFactoryInterface
 {
 
     use ClassNameGeneratorTrait;
+    
+    public function getClassName($model)
+    {
+        return $this->getWyfClassName($model, 'models');
+    }
 
     /**
-     * Return the class name for a model presented as a string. 
+     * Creates an instance of a model presented as a dot separated string.
+     *  
      * @param type $model
      * @param type $context
      * @return type
@@ -23,7 +29,7 @@ class WyfModelFactory implements ModelFactoryInterface
         if ($context == Relationship::BELONGS_TO) {
             $model = Text::pluralize($model);
         }
-        $class = $this->getClassName($model, 'models');
+        $class = $this->getWyfClassName($model, 'models');
         return new $class();
     }
 
