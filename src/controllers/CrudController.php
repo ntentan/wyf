@@ -10,9 +10,9 @@ use ntentan\Context;
 use ntentan\utils\filesystem\UploadedFile;
 use ajumamoro\Queue;
 use ntentan\wyf\jobs\ImportDataJob;
-use ntentan\controllers\model_binders\DefaultModelBinder;
 
 /**
+ * CrudController 
  *
  */
 class CrudController extends WyfController
@@ -104,9 +104,6 @@ class CrudController extends WyfController
     }
 
     /**
-     * 
-     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
-     * 
      * @param Model $model
      * @param View $view
      * @return View
@@ -121,7 +118,6 @@ class CrudController extends WyfController
     /**
      * @ntentan.action add
      * @ntentan.method POST
-     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
      */
     public function store(Model $model, View $view)
     {
@@ -134,10 +130,8 @@ class CrudController extends WyfController
     }
 
     /**
-     *
      * @ntentan.action import
      * @ntentan.method POST
-     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
      *
      * @param UploadedFile $data
      * @return type
@@ -215,8 +209,6 @@ class CrudController extends WyfController
     /**
      * @ntentan.action edit
      * @ntentan.method POST
-     * @ntentan.binder \ntentan\wyf\controllers\CrudModelBinder
-     *
      * @param Model $model
      * @return type
      */
