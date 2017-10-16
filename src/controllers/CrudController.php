@@ -9,6 +9,7 @@ use ntentan\Model;
 use ntentan\Context;
 use ntentan\utils\filesystem\UploadedFile;
 use ajumamoro\Queue;
+use ntentan\wyf\ImportDataJobInterface;
 use ntentan\wyf\jobs\ImportDataJob;
 
 /**
@@ -180,10 +181,10 @@ class CrudController extends WyfController
      * @param UploadedFile $data
      * @param Model $model
      * @param Queue $queue
-     * @param ImportDataJob $job
+     * @param ImportDataJobInterface $job
      * @return string
      */
-    public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJob $job)
+    public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJobInterface $job)
     {
         $destination = ($this->context->getConfig()->get('app.temp_dir') ?? "uploads/") . basename($data->getClientName());
         $data->copyTo($destination);

@@ -6,8 +6,9 @@ use ajumamoro\Job;
 use ntentan\utils\Text;
 use ntentan\utils\Filesystem;
 use ntentan\Model;
+use ntentan\wyf\ImportDataJobInterface;
 
-class ImportDataJob extends Job implements CrudImportDataJobInterface
+class ImportDataJob extends Job implements ImportDataJobInterface
 {
     private $dataFile;
     private $model;
@@ -67,7 +68,8 @@ class ImportDataJob extends Job implements CrudImportDataJobInterface
         $response = ['errors' => [], 'count' => 0];
         Filesystem::checkReadable($this->dataFile);
         $file = fopen($this->dataFile, 'r');
-        $model = Model::load($this->model);
+        $modelClass = $this->model;
+        $model = new $modelClass();
         $relationships = $model->getDescription()->getRelationships();
         $headers = fgetcsv($file);
         $mapping = $this->mapHeadersAndFields($headers, $relationships);

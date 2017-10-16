@@ -19,7 +19,7 @@ class WyfApplication extends Application
 
     protected function setName($name)
     {
-        $context = Context::getInstance()->setParameter('wyf.app_name', $name);
+        Context::getInstance()->setParameter('wyf.app_name', $name);
     }
 
     protected function getMenu()

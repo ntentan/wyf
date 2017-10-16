@@ -6,9 +6,11 @@ use ntentan\middleware\mvc\DefaultControllerFactory;
 use ntentan\Controller;
 use ntentan\Model;
 use ntentan\Context;
+use ntentan\panie\Container;
 use ntentan\View;
 use ajumamoro\BrokerInterface;
 use ntentan\utils\Text;
+use ntentan\wyf\jobs\ImportDataJob;
 
 /**
  * The default controller factory used for WYF based applications.
@@ -25,9 +27,8 @@ class WyfControllerFactory extends DefaultControllerFactory
      */
     private $serviceLocator;
     
-    public function setupBindings(\ntentan\panie\Container $serviceLocator)
+    public function setupBindings(Container $serviceLocator)
     {
-        //$serviceLocator->bind(View::class)->to(View::class)->asSingleton();
         $serviceLocator->setup([
             View::class => [View::class, 'singleton' => true],
             BrokerInterface::class => function($container) {
@@ -35,7 +36,8 @@ class WyfControllerFactory extends DefaultControllerFactory
                 $broker = $config->get('ajumamoro.broker', 'inline');
                 $brokerClass = "\\ajumamoro\\brokers\\" . Text::ucamelize($broker) . "Broker";
                 return $container->resolve($brokerClass, ['config' => $config->get($broker)]);
-            }
+            },
+            ImportDataJobInterface::class => ImportDataJob::class
         ]);
         $this->serviceLocator = $serviceLocator;
     }
