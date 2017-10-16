@@ -10,6 +10,29 @@ var wyf = {
     
     multiFieldValues : {},
     
+    init : function(selector) {
+      var parent = $(selector === undefined ? 'body' : selector);
+      // Setup the datepicker
+      parent.find('.pikaday').pikaday({format: 'YYYY-MM-DD'});
+
+      // Initialize and render all multifields
+      // @todo Look into moving this when the centralized form system is implemented
+      // @todo scope multifields to the ids of the forms 
+      for(var field in wyf.forms.multiFieldValues) {
+        var fieldDetails = {
+          name: field,
+          model: wyf.forms.multiFieldValues[field].model,
+          primaryKey: wyf.forms.multiFieldValues[field].primaryKey
+        };
+        wyf.forms.multiFieldIds[field] = 0;
+        for(var item in wyf.forms.multiFieldValues[field].values) {
+          wyf.forms.renderMultiFieldItem(
+            fieldDetails, wyf.forms.multiFieldValues[field].values[item]
+          );
+        }
+      }      
+    },
+    
     showCreateItemForm : function(list, templateId) {
       $('#' + templateId + '_view').html("");
       if(list.value == 'new') {
@@ -326,26 +349,12 @@ $(function(){
     wyf.list.render()
   });
   
+  wyf.forms.init('body');
+    
   // Set focus to search field when the search button is pressed.
   $('#wyf-list-search-button').click(function(){
     $('#wyf-list-search-wrapper').slideToggle(function(){
       $('#wyf-list-search-field').focus();
     });
   })
-
-  // Initialize and render all multifields
-  // @todo Look into moving this when the centralized form system is implemented
-  for(var field in wyf.forms.multiFieldValues) {
-    var fieldDetails = {
-      name: field,
-      model: wyf.forms.multiFieldValues[field].model,
-      primaryKey: wyf.forms.multiFieldValues[field].primaryKey
-    };
-    wyf.forms.multiFieldIds[field] = 0;
-    for(var item in wyf.forms.multiFieldValues[field].values) {
-      wyf.forms.renderMultiFieldItem(
-        fieldDetails, wyf.forms.multiFieldValues[field].values[item]
-      );
-    }
-  }
 });

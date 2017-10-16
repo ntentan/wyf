@@ -7,6 +7,8 @@ use ntentan\Controller;
 use ntentan\Model;
 use ntentan\Context;
 use ntentan\View;
+use ajumamoro\BrokerInterface;
+use ntentan\utils\Text;
 
 /**
  * The default controller factory used for WYF based applications.
@@ -25,7 +27,16 @@ class WyfControllerFactory extends DefaultControllerFactory
     
     public function setupBindings(\ntentan\panie\Container $serviceLocator)
     {
-        $serviceLocator->bind(View::class)->to(View::class)->asSingleton();
+        //$serviceLocator->bind(View::class)->to(View::class)->asSingleton();
+        $serviceLocator->setup([
+            View::class => [View::class, 'singleton' => true],
+            BrokerInterface::class => function($container) {
+                $config = Context::getInstance()->getConfig();
+                $broker = $config->get('ajumamoro.broker', 'inline');
+                $brokerClass = "\\ajumamoro\\brokers\\" . Text::ucamelize($broker) . "Broker";
+                return $container->resolve($brokerClass, ['config' => $config->get($broker)]);
+            }
+        ]);
         $this->serviceLocator = $serviceLocator;
     }
 
