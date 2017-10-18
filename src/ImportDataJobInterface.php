@@ -1,15 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ekow
- * Date: 10/15/17
- * Time: 10:49 PM
- */
 
 namespace ntentan\wyf;
 
 
+use ntentan\Model;
+
 interface ImportDataJobInterface
 {
-    public function setParameters($dataFile, $model, $importFields);
+    public function setParameters(string $dataFile, Model $model, array $importFields);
 }
