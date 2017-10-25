@@ -1,6 +1,6 @@
 <?php
 
-namespace ntentan\wyf;
+namespace ntentan\wyf\interfaces;
 
 
 use ntentan\Model;

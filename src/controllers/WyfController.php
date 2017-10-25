@@ -14,11 +14,6 @@ class WyfController extends Controller
 {
 
     private $permissions = array();
-
-    /**
-     * 
-     * @var integer
-     */
     public $weight;
     private $package;
     private $name;

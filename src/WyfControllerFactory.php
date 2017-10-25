@@ -11,6 +11,7 @@ use ntentan\View;
 use ajumamoro\BrokerInterface;
 use ntentan\utils\Text;
 use ntentan\wyf\jobs\ImportDataJob;
+use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
 /**
  * The default controller factory used for WYF based applications.
@@ -37,7 +38,8 @@ class WyfControllerFactory extends DefaultControllerFactory
                 $brokerClass = "\\ajumamoro\\brokers\\" . Text::ucamelize($broker) . "Broker";
                 return $container->resolve($brokerClass, ['config' => $config->get($broker)]);
             },
-            ImportDataJobInterface::class => ImportDataJob::class
+            ImportDataJobInterface::class => ImportDataJob::class,
+            KeyValueStoreInterface::class => DatabaseKeyValueStore::class
         ]);
         $this->serviceLocator = $serviceLocator;
     }

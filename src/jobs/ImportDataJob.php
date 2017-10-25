@@ -6,7 +6,7 @@ use ajumamoro\Job;
 use ntentan\Model;
 use ntentan\utils\Text;
 use ntentan\utils\Filesystem;
-use ntentan\wyf\ImportDataJobInterface;
+use ntentan\wyf\interfaces\ImportDataJobInterface;
 
 /**
  * An ajumamoro job used for importing data into WYF models.
