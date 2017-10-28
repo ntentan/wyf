@@ -5,10 +5,9 @@ namespace ntentan\wyf;
 use ntentan\ContainerBuilder;
 use ntentan\interfaces\ControllerFactoryInterface;
 use ntentan\nibii\interfaces\ModelFactoryInterface;
-use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
 /**
- * Description of WyfContainerBuilder
+ * Augments the ntentan container with WYF specific bindings.
  *
  * @author ekow
  */

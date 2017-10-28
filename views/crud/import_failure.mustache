@@ -1,0 +1,19 @@
+<h3 class="red"><span class="fa fa-exclamation-circle"></span> {{entities}}  import failed</h3>
+<p class="red">Some records failed to save. Please refer to the table below for details</p>
+<table class="import-error-table">
+    <thead>
+    <tr><th>Line</th><th>Errors</th></tr>
+    </thead>
+    <tbody>
+    {{#errors}}
+        <tr><td>{{line}}</td>
+            <td><dl>
+                {{#each errors}}
+                    <dt>{{@key}}</dt>
+                    <dd><ul>{{#each this}}<li>{{this}}</li>{{/each}}</ul></dd>
+                {{/each}}
+            </dl></td>
+        </tr>
+    {{/errors}}
+    </tbody>
+</table>

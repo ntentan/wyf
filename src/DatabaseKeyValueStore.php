@@ -3,10 +3,12 @@ namespace ntentan\wyf;
 
 
 use ntentan\atiaa\DbContext;
-use ntentan\atiaa\Driver;
-use ntentan\Context;
 use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
+/**
+ * A Key-Value store that utilizes a dedicated database table.
+ * @package ntentan\wyf
+ */
 class DatabaseKeyValueStore implements KeyValueStoreInterface
 {
     private $db;
@@ -21,7 +23,7 @@ class DatabaseKeyValueStore implements KeyValueStoreInterface
     public function get($key)
     {
         $result = $this->db->query("SELECT value FROM {$this->table} WHERE key = ?", [$key]);
-        return $result['value'] ?? null;
+        return $result[0]['value'] ?? null;
     }
 
     public function put($key, $value)

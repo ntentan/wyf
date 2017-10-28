@@ -1,2 +1,2 @@
-<?= unescape($contents) ?>
+<?= unescape($contents ?? null) ?>
 

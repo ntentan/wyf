@@ -1,43 +1,50 @@
-<h2>Import <?= $entities ?></h2>
-<p>
-You can supply a file which contains <?= $entities ?> for importing. The same
-file could also be used for updating existing <?= $entity ?> data. To help you 
-format the file, you can download a <?= $entities ?> data template
-file <a href="<?= $import_template_url ?>">here</a>.
-This file is in the CSV format and can be edited in any spreadsheet application.
-</p>
+<h2>Import <?= ucwords($entities) ?></h2>
+
 <div id="import-message">
+    <?php if($job_status === null): ?>
+    <div id="new-import-message">
+        <p>
+            You can supply a file which contains <?= $entities ?> for importing. The same
+            file could also be used for updating existing <?= $entity ?> data. To help you
+            format the file, you can download a <?= $entities ?> data template
+            file <a href="<?= $import_template_url ?>">here</a>.
+        </p>
+        <p>
+            <a href="<?= $import_template_url ?>" class="button-green button-outline"><span class="fa fa-download"></span> Download Template</a>
+            <button onclick="wyf.list.uploadData('<?= $base_url ?>import')" class="button-blue button-outline"><span class="fa fa-upload"></span> Upload Data</button>
+        </p>
+    </div>
+    <?php endif; ?>
+
+    <?php
+    if($job_status['status'] == 'queued') {
+        echo t('import_message', [
+            'title' => 'Please wait ...',
+            'message' => "Your $entities import is currently queued."]
+        ) .
+        '<script type="text/javascript"> setTimeout(wyf.list.checkImportStatus, 300) </script>';
+    } else if ($job_status['status'] == 'running') {
+        echo t('import_message', [
+            'title' => 'Importing ...',
+            'message' => "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>  Your $entities are currently being imported ..."]
+        ) .
+        '<script type="text/javascript"> setTimeout(wyf.list.checkImportStatus, 300) </script>';
+    } else if($job_status['status'] == 'finished') {
+        $response = json_decode(unescape($job_status['response']), true);
+        if(empty($response['errors'])) {
+            echo(t('import_success', ['count' => $response['count'], 'entities' => ucwords($entities), 'base_url' => $base_url]));
+        } else {
+            echo(t('import_failure', ['errors' => $response['errors']]));
+        }
+    }
+    ?>
 </div>
-<p id="import-actions">
-    <a href="<?= $import_template_url ?>" class="button-green button-outline"><span class="fa fa-download"></span> Download Template</a>
-    <button onclick="wyf.list.uploadData('<?= $base_url ?>import')" class="button-blue button-outline"><span class="fa fa-upload"></span> Upload Data</button>
-</p>
-<p id="import-loader">
-    Importing ...
-</p>
-<script id='import-errors-template' type='text/x-handlebars'>
-    <h3 class="red"><span class="fa fa-exclamation-circle"></span> Data Import Failed</h3>
-    <p class="red">Some records failed to save. Please refer to the table below for details</p>
-    <table class="import-error-table">
-        <thead>
-            <tr><th>Line</th><th>Errors</th></tr>
-        </thead>
-        <tbody>
-            {{#errors}}
-            <tr><td>{{line}}</td>
-                <td><dl>
-                {{#each errors}}
-                <dt>{{@key}}</dt>
-                <dd><ul>{{#each this}}<li>{{this}}</li>{{/each}}</ul></dd>
-                {{/each}}
-                </dl></td>
-            </tr>
-            {{/errors}}
-        </tbody>
-    </table>
-</script>
-<script id="import-success-template" type="text/x-handlebars">
-    <h3 class="green"><span class="fa fa-check-circle"></span> Data Import Successful</h3>
-    <p class="green">Successfully uploaded {{count}} <?= $entities ?>.</p>
-    <a href="<?= $base_url ?>" class="button">Back to <?=$entities ?></a>
+<script id='import-errors-template' type='text/x-handlebars'><?php include("import_failure.mustache") ?></script>
+<script id='import-success-template' type="text/x-handlebars"><?php include("import_success.mustache") ?></script>
+<script id='import-message-template' type="text/x-handlebars"><?php include("import_message.mustache") ?></script>
+<script type="text/javascript">
+<?php if($job_id): ?>
+  wyf.list.importJobUrl = "<?= $base_url ?>import_status/<?= $job_id ?>";
+<?php endif; ?>
+  wyf.list.importParameters = JSON.parse('<?= json_encode(['entities' => ucwords(unescape($entities))]) ?>');
 </script>

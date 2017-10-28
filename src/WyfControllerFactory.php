@@ -27,7 +27,11 @@ class WyfControllerFactory extends DefaultControllerFactory
      * @var Container
      */
     private $serviceLocator;
-    
+
+    /**
+     * Set's up specific bindings needed by WYF
+     * @param Container $serviceLocator
+     */
     public function setupBindings(Container $serviceLocator)
     {
         $serviceLocator->setup([
@@ -44,6 +48,12 @@ class WyfControllerFactory extends DefaultControllerFactory
         $this->serviceLocator = $serviceLocator;
     }
 
+    /**
+     * Create an instance of the controller.
+     *
+     * @param array $parameters
+     * @return Controller
+     */
     public function createController(array &$parameters) : Controller
     {
         // Defer to the base default controller if we're not loading the Wyf controller

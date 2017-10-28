@@ -9,11 +9,11 @@ use ntentan\Model;
 use ntentan\Context;
 use ntentan\utils\filesystem\UploadedFile;
 use ajumamoro\Queue;
-use ntentan\wyf\ImportDataJobInterface;
-use ntentan\wyf\jobs\ImportDataJob;
+use ntentan\wyf\interfaces\ImportDataJobInterface;
+use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
 /**
- * CrudController 
+ * Provides the CRUD interface through which databases are manipulated.
  *
  */
 class CrudController extends WyfController
@@ -184,13 +184,14 @@ class CrudController extends WyfController
      * @param ImportDataJobInterface $job
      * @return string
      */
-    public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJobInterface $job)
+    public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJobInterface $job, KeyValueStoreInterface $keyValueStore)
     {
         $destination = ($this->context->getConfig()->get('app.temp_dir') ?? "uploads/") . basename($data->getClientName());
         $data->copyTo($destination);
         $job->setParameters($destination, $model, $this->importFields);
         $job->setAttributes(['file' => $destination]);
         $jobId = $queue->add($job);
+        $keyValueStore->put($this->getImportJobIdKey(), $jobId);
         return json_encode($jobId);
     }
 
@@ -247,11 +248,38 @@ class CrudController extends WyfController
         return $view;
     }
 
-    public function import(View $view)
+    /**
+     * Presents a set of import options.
+     *
+     * @param View $view
+     * @param KeyValueStoreInterface $keyValueStore
+     * @param Queue $queue
+     * @return View
+     */
+    public function import(View $view, KeyValueStoreInterface $keyValueStore, Queue $queue)
     {
+        $jobId = $keyValueStore->get($this->getImportJobIdKey());
+        $view->set('job_status', $queue->getJobStatus($jobId));
+        $view->set('job_id',$jobId);
         $view->set('import_template_url', $this->getActionUrl('import_template'));
         $this->setTitle("Import " . ucwords($this->getWyfName()));
         return $view;
+    }
+
+    public function resetImports(KeyValueStoreInterface $keyValueStore)
+    {
+        $keyValueStore->put($this->getImportJobIdKey(), null);
+        return $this->getRedirect()->toAction('import');
+    }
+
+    /**
+     * Return the key used to save the import job id for a given model
+     *
+     * @return string
+     */
+    private function getImportJobIdKey() : string
+    {
+        return "{$this->getWyfPackage()}:import_job_id";
     }
 
     public function edit(View $view, $id)
@@ -283,6 +311,12 @@ class CrudController extends WyfController
         return $view;
     }
 
+    /**
+     * @param View $view
+     * @param $id
+     * @param null $confirm
+     * @return \ntentan\Redirect|View
+     */
     public function delete(View $view, $id, $confirm = null)
     {
         $model = $this->getModel();
@@ -298,6 +332,12 @@ class CrudController extends WyfController
         return $view;
     }
 
+    /**
+     * Add a custom operation to the CRUD list.
+     *
+     * @param $action
+     * @param string $label
+     */
     protected function addOperation($action, $label = null)
     {
         $this->operations[] = [
