@@ -15,29 +15,6 @@
         </p>
     </div>
     <?php endif; ?>
-
-    <?php
-    if($job_status['status'] == 'queued') {
-        echo t('import_message', [
-            'title' => 'Please wait ...',
-            'message' => "Your $entities import is currently queued."]
-        ) .
-        '<script type="text/javascript"> setTimeout(wyf.list.checkImportStatus, 300) </script>';
-    } else if ($job_status['status'] == 'running') {
-        echo t('import_message', [
-            'title' => 'Importing ...',
-            'message' => "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>  Your $entities are currently being imported ..."]
-        ) .
-        '<script type="text/javascript"> setTimeout(wyf.list.checkImportStatus, 300) </script>';
-    } else if($job_status['status'] == 'finished') {
-        $response = json_decode(unescape($job_status['response']), true);
-        if(empty($response['errors'])) {
-            echo(t('import_success', ['count' => $response['count'], 'entities' => ucwords($entities), 'base_url' => $base_url]));
-        } else {
-            echo(t('import_failure', ['errors' => $response['errors']]));
-        }
-    }
-    ?>
 </div>
 <script id='import-errors-template' type='text/x-handlebars'><?php include("import_failure.mustache") ?></script>
 <script id='import-success-template' type="text/x-handlebars"><?php include("import_success.mustache") ?></script>
@@ -45,6 +22,7 @@
 <script type="text/javascript">
 <?php if($job_id): ?>
   wyf.list.importJobUrl = "<?= $base_url ?>import_status/<?= $job_id ?>";
+  wyf.list.checkImportStatus();
 <?php endif; ?>
   wyf.list.importParameters = JSON.parse('<?= json_encode(['entities' => ucwords(unescape($entities))]) ?>');
 </script>
