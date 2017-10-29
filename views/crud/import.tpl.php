@@ -24,5 +24,8 @@
   wyf.list.importJobUrl = "<?= $base_url ?>import_status/<?= $job_id ?>";
   wyf.list.checkImportStatus();
 <?php endif; ?>
-  wyf.list.importParameters = JSON.parse('<?= json_encode(['entities' => ucwords(unescape($entities))]) ?>');
+  wyf.list.importParameters = JSON.parse('<?= json_encode([
+      'entities' => ucwords(unescape($entities)),
+      'base_url' => $base_url
+  ]) ?>');
 </script>

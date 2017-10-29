@@ -323,6 +323,7 @@ var wyf = {
           } else if (response.status == 'finished') {
             results = JSON.parse(response.response);
             results.entities = entities;
+            results.base_url = wyf.list.importParameters.base_url;
             if (results.errors.length > 0) {
               template = Handlebars.compile($('#import-errors-template').html());
             } else {
