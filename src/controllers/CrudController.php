@@ -2,6 +2,7 @@
 
 namespace ntentan\wyf\controllers;
 
+use ntentan\Session;
 use ntentan\View;
 use ntentan\honam\TemplateEngine;
 use ntentan\utils\Text;
@@ -42,6 +43,10 @@ class CrudController extends WyfController
      */
     private $context;
 
+    private $entity;
+
+    private $entities;
+
     /**
      * CrudController constructor.
      * @param View $view The singleton view that will eventually be used to render the page.
@@ -52,6 +57,8 @@ class CrudController extends WyfController
         $this->context = Context::getInstance();
         $this->addOperation('edit', 'Edit');
         $this->addOperation('delete', 'Delete');
+        $this->entities = $this->getWyfName();
+        $this->entity = Text::singularize($this->getWyfName());
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
         TemplateEngine::appendPath('views/forms');
         TemplateEngine::appendPath('views/lists');
@@ -59,8 +66,8 @@ class CrudController extends WyfController
         $wyfPath = $this->getWyfPath();
         $apiUrl = $this->context->getUrl('api');
         $view->set([
-            'entities' => $this->getWyfName(),
-            'entity' => Text::singularize($this->getWyfName()),
+            'entities' => $this->entities,
+            'entity' => $this->entity,
             'has_add_operation' => true,
             'has_import_operation' => count($this->importFields) ? true : false,
             'package' => str_replace('.', '_', $this->getWyfPackage()),
@@ -165,6 +172,7 @@ class CrudController extends WyfController
     public function store(Model $model, View $view)
     {
         if ($model->save()) {
+            Session::set('notification', "Added new {$this->entity}: {$model}");
             return $this->getRedirect();
         }
         $view->set('model', $model);

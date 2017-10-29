@@ -369,7 +369,19 @@ $(function () {
     wyf.list.render()
   });
 
+  // Initialize
   wyf.forms.init('body');
+
+  // Show any notifications
+  var notification = $('#notification');
+  if(notification.html() != "") {
+    notification.offset({left: $(window).width() - notification.outerWidth(true)});
+    setTimeout(function(){
+      notification.animate({opacity:"show", top:70}, function(){
+        setTimeout(function(){notification.animate({opacity:"hide", top: 85})}, 3000)
+      });
+    }, 1500)
+  }
 
   // Set focus to search field when the search button is pressed.
   $('#wyf-list-search-button').click(function () {

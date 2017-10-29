@@ -4,6 +4,7 @@ namespace ntentan\wyf\controllers;
 
 use ntentan\Controller;
 use ntentan\Context;
+use ntentan\Session;
 use ntentan\View;
 use ntentan\utils\Text;
 
@@ -29,6 +30,8 @@ class WyfController extends Controller
         $this->view->set('route_breakdown', explode('/', $context->getParameter('route')));
         $this->view->set('wyf_app_name', $appName);
         $this->view->set('wyf_logout_url', $context->getUrl('auth/logout'));
+        $this->view->set('notification', Session::get('notification'));
+        Session::set('notification', null);
         $this->titleBase = "{$appName}";
         $class = get_class($this);
         $namespace = addslashes($context->getNamespace());

@@ -257,3 +257,15 @@ h2 {
     background-color:#f8f8f8;
     cursor: pointer;
 }
+
+#notification{
+    position:fixed;
+    top: 55px;
+    background-color: rgba(255, 248, 173, 0.95);
+    box-shadow: 1px 1px 4px rgba(183, 113, 33, 0.5);
+    width: 350px;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px;
+    display: none;
+}
