@@ -273,6 +273,8 @@ var wyf = {
           wyf.list.pages = Math.ceil(count / wyf.list.itemsPerPage);
           if (wyf.list.pages > 1) {
             $('#wyf_list_view_nav').show();
+          } else {
+            $('#wyf_list_view_nav').hide();
           }
           if (count > 0) {
             $('#wyf_list_view').html(template({list: data}));
