@@ -22,13 +22,13 @@
         <img src='<?= $public_path?>/images/spinner.gif'/>
     </div>
 </div>
-<div id="wyf_list_view_nav">
-    <div class="button-group button-group-mini">
-        <button onclick="wyf.list.prev()">Prev</button>
-        <button onclick="wyf.list.next()">Next</button>
+<div id="wyf_list_view_nav" class="row">
+    <div class="button-group button-group-small column grid_10_3">
+        <button class="button-outline" onclick="wyf.list.prev()">Prev</button>
+        <button class="button-outline" onclick="wyf.list.next()">Next</button>
     </div>
-    <div id="wyf_list_view_pagecount">
-        Page <span id="wyf_list_view_page">1</span> of <span id="wyf_list_view_size">100</span>
+    <div id="wyf_list_view_pagecount" class="column grid_10_7">
+        Page <span id="wyf_list_view_page"></span> of <span id="wyf_list_view_size"></span>
     </div>
 </div>
 <script type="text/javascript">

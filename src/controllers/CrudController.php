@@ -274,6 +274,12 @@ class CrudController extends WyfController
         return $view;
     }
 
+    /**
+     * Resets the import key so fresh new imports can be started.
+     *
+     * @param KeyValueStoreInterface $keyValueStore
+     * @return $this
+     */
     public function resetImports(KeyValueStoreInterface $keyValueStore)
     {
         $keyValueStore->put($this->getImportJobIdKey(), null);
@@ -301,6 +307,8 @@ class CrudController extends WyfController
     }
 
     /**
+     * Show an update form to the user.
+     *
      * @ntentan.action edit
      * @ntentan.method POST
      * @param Model $model

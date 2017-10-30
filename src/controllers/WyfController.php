@@ -14,14 +14,40 @@ use ntentan\utils\Text;
 class WyfController extends Controller
 {
 
-    private $permissions = array();
-    public $weight;
+    /**
+     * The wyf package name of this controller.
+     * @var string
+     */
     private $package;
+
+    /**
+     * The name of this controller.
+     * @var mixed
+     */
     private $name;
+
+    /**
+     * The URL path of this controller.
+     * @var mixed
+     */
     private $path;
+
+    /**
+     * The base of the title string for this controller.
+     * @var string
+     */
     private $titleBase;
+
+    /**
+     * An instance of the view used for rendering actions in this controller.
+     * @var View
+     */
     private $view;
 
+    /**
+     * WyfController constructor.
+     * @param View $view
+     */
     public function __construct(View $view)
     {
         $context = Context::getInstance();
@@ -43,36 +69,45 @@ class WyfController extends Controller
         $this->view->set('menu', $context->getParameter('wyf.menu'));
     }
 
+    /**
+     * Set the title displayed on top of the page.
+     * @param $title
+     */
     protected function setTitle($title)
     {
         $this->view->set('wyf_title', $title);
     }
 
+    /**
+     * Return a brief description of this controller.
+     */
     public function getDescription()
     {
         
     }
 
-    public function addPermission($code, $description)
-    {
-        $this->permissions[$code] = $description;
-    }
-
-    public function getPermissions()
-    {
-        return $this->permissions;
-    }
-
+    /**
+     * Get the name of the controller.
+     * @return string
+     */
     public function getWyfName()
     {
         return $this->name;
     }
 
+    /**
+     * Get the wyf package name for this controller.
+     * @return string
+     */
     public function getWyfPackage()
     {
         return $this->package;
     }
 
+    /**
+     * Get a URL path to this controller.
+     * @return mixed
+     */
     public function getWyfPath()
     {
         return $this->path;

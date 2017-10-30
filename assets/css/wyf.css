@@ -269,3 +269,8 @@ h2 {
     margin: 15px;
     display: none;
 }
+
+#wyf_list_view_pagecount {
+    text-align: right;
+    color: #808080
+}

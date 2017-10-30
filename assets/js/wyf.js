@@ -280,6 +280,7 @@ var wyf = {
             $('#wyf_list_view').html($('#wyf_list_view_empty').html());
           }
           $('#wyf_list_view_size').html(wyf.list.pages);
+          $('#wyf_list_view_page').html(wyf.list.currentPage);
         }
       })
     },
@@ -290,6 +291,7 @@ var wyf = {
       } else {
         wyf.list.render(wyf.list.apiUrl);
       }
+      $('#wyf_list_view_page').html(wyf.list.currentPage);
     },
     prev: function () {
       wyf.list.currentPage--;
@@ -298,6 +300,7 @@ var wyf = {
       } else {
         wyf.list.render(wyf.list.apiUrl);
       }
+      $('#wyf_list_view_page').html(wyf.list.currentPage);
     },
     checkImportStatus: function () {
       api.call({
