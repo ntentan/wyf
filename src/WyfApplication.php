@@ -38,10 +38,10 @@ class WyfApplication extends Application
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
         Element::setSharedFormData('base_api_url', $context->getUrl('api'));
 
-        $this->router->mapRoute(
+        $this->router->appendRoute(
             'wyf_auth', 'auth/{action}', ['default' => ['controller' => controllers\AuthController::class]]
         );
-        $this->router->mapRoute(
+        $this->router->appendRoute(
             'wyf_api', 'api/{*path}', [
             'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest'],
             'pipeline' => [
@@ -56,16 +56,14 @@ class WyfApplication extends Application
 
         foreach ($this->getMenu() as $item) {
             if (count($item['children'] ?? []) > 0) {
-                $this->router->mapRoute("wyf_{$item['route']}", $item['route'], [
+                $this->router->appendRoute("wyf_{$item['route']}", $item['route'], [
                     'default' => ['wyf_controller' => "{$item['route']}.{$item['children'][0]['route']}"]
                     ]
                 );
             }
         }
 
-        $this->router->mapRoute(
-            'default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]
-        );
+        $this->router->appendRoute('default', '{*wyf_controller}', ['default' => ['wyf_controller' => 'dashboard']]);
     }
 
 }

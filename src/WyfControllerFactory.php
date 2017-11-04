@@ -10,6 +10,7 @@ use ntentan\panie\Container;
 use ntentan\View;
 use ajumamoro\BrokerInterface;
 use ntentan\utils\Text;
+use ntentan\wyf\controllers\CrudController;
 use ntentan\wyf\jobs\ImportDataJob;
 use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
@@ -23,13 +24,15 @@ class WyfControllerFactory extends DefaultControllerFactory
     use ClassNameGeneratorTrait;
     
     /**
-     * Keep a copy of the service container
+     * Keep a copy of the service container so we could later create bindings for the Model
+     *
      * @var Container
      */
     private $serviceLocator;
 
     /**
-     * Set's up specific bindings needed by WYF
+     * Set up specific bindings needed by WYF
+     *
      * @param Container $serviceLocator
      */
     public function setupBindings(Container $serviceLocator)
@@ -49,29 +52,39 @@ class WyfControllerFactory extends DefaultControllerFactory
     }
 
     /**
-     * Create an instance of the controller.
+     * Defers the creation of the controller to the DefaultControllerFactory extended by this class.
      *
      * @param array $parameters
      * @return Controller
      */
-    public function createController(array &$parameters) : Controller
+    private function getControllerInstance($parameters)
     {
-        // Defer to the base default controller if we're not loading the Wyf controller
-        if(!isset($parameters['wyf_controller'])) {
-            return parent::createController($parameters);
+        $controllerInstance = parent::createController($parameters);
+        if(is_a($controllerInstance, CrudController::class)) {
+            $modelClass = $this->getWyfClassName($controllerInstance->getWyfPackage(), 'models');
+            $this->serviceLocator->bind(Model::class)->to($modelClass);
         }
-        
+        return $controllerInstance;
+    }
+
+    /**
+     * Loops through the URL to extract a controller, action and associated parameters.
+     *
+     * @param $parameters
+     * @return Controller
+     */
+    private function getControllerFromPath(&$parameters)
+    {
         $testedPath = '';
         $attempts = [];
-        $controllerPath = "";        
+        $controllerPath = "";
         $path = explode('/', $parameters['wyf_controller']);
         $context = Context::getInstance();
-        
+
         foreach ($path as $i => $section) {
             $testedPath .= ".$section";
             $controllerPath .= "$section/";
             $controllerClass = "{$this->getWyfClassName(substr($testedPath, 1), 'controllers')}Controller";
-            $modelClass = $this->getWyfClassName(substr($testedPath, 1), 'models');
             if (class_exists($controllerClass)) {
                 $parameters['controller'] = $controllerClass;
                 $parameters['action'] = (isset($path[$i + 1]) && $path[$i + 1] != '') ? $path[$i + 1] : 'index';
@@ -79,10 +92,32 @@ class WyfControllerFactory extends DefaultControllerFactory
                 $controllerPath = str_replace('.', '/', $controllerPath);
                 $parameters['controller_path'] = $controllerPath;
                 $context->setParameter('controller_path', $controllerPath);
-                $this->serviceLocator->bind(Model::class)->to($modelClass);
-                return parent::createController($parameters);
+                return $this->getControllerInstance($parameters);
             }
             $attempts[] = $controllerClass;
+        }
+    }
+
+    /**
+     * Create an instance of the controller.
+     *
+     * @param array $parameters
+     * @return Controller
+     */
+    public function createController(array &$parameters) : Controller
+    {
+        // Defer to the base default controller if we're not loading a wyf controller
+        if(!isset($parameters['wyf_controller'])) {
+            return parent::createController($parameters);
+        }
+
+        if(class_exists($parameters['wyf_controller'])) {
+            // If the wyf controller class exists, setup bindings and load wyf controller
+            $parameters['controller'] = $parameters['wyf_controller'];
+            return $this->getControllerInstance($parameters);
+        } else {
+            // If not loop through the URL to find the container and any actions as well as parameters
+            return $this->getControllerFromPath($parameters);
         }
     }
 }
