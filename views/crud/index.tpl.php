@@ -5,7 +5,7 @@
     <div class="column grid_10_5" style="text-align: right">
         <div id="wyf-operations-button-group" class="button-group">
             <?php if($has_add_operation && isset($add_item_url)): ?>
-            <a class="button button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span>&nbsp;&nbsp;<?= isset($add_button_label) ? $add_button_label : "Add a new $entity" ?></a>
+            <a class="button button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span>&nbsp;&nbsp;<?= $add_item_label ?></a>
             <?php endif; ?>
             <?php if($has_import_operation && isset($import_items_url)): ?>
             <a class="button button-green" href="<?= $import_items_url ?>"><span class="fa fa-upload"></span></a>

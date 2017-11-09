@@ -2,18 +2,22 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-use ntentan\Ntentan;
+use ntentan\Model;
+use ntentan\utils\Text;
 
-class RelateField extends Input {
 
-    public function __construct($model, $submodel) {
+class RelateField extends Input
+{
+
+    public function __construct($model, $submodel)
+    {
         $this->renderWithType = 'select';
-        $model = \ntentan\models\Model::load($model);
-        $submodel = \ntentan\models\Model::load($submodel);
-        $entity = Ntentan::singular($submodel->getName());
-        $parentEntity = Ntentan::singular($model->getName());
+        $model = Model::load($model);
+        $submodel = Model::load($submodel);
+        $entity = Text::singular($submodel->getName());
+        $parentEntity = Text::singular($model->getName());
 
-        $this->setLabel(Ntentan::toSentence($entity));
+        //$this->setLabel(Ntentan::toSentence($entity));
         $this->setName("{$entity}_id");
         $parentId = "{$parentEntity}_id";
 

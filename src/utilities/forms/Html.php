@@ -2,9 +2,11 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class Html extends Element {
+class Html extends Element
+{
 
-    public function __construct($html) {
+    public function __construct($html)
+    {
         $this->set('html', $html);
     }
 

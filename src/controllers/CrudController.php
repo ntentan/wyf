@@ -47,6 +47,8 @@ class CrudController extends WyfController
 
     private $entities;
 
+    protected $addItemLabel;
+
     /**
      * CrudController constructor.
      * @param View $view The singleton view that will eventually be used to render the page.
@@ -136,7 +138,8 @@ class CrudController extends WyfController
             'list_fields' => $this->listFields,
             'operations' => $this->operations,
             'primary_key_field' => $primaryKey,
-            'foreign_key' => false
+            'foreign_key' => false,
+            'add_item_label' => $this->addItemLabel ?? "Add new {$this->entity}"
         ]);
 
         return $view;
@@ -152,7 +155,10 @@ class CrudController extends WyfController
      */
     public function add(Model $model, View $view)
     {
-        $view->set('model', $model);
+        $view->set([
+            'model' => $model,
+            'form_data' => $view->get('form_data') ?? []
+        ]);
         $this->setTitle("Add new " . ucwords($this->getWyfName()));
         return $view;
     }

@@ -4,67 +4,76 @@ namespace ntentan\wyf\utilities\forms;
 
 use ntentan\honam\TemplateEngine;
 
-class Form extends Container {
+class Form extends Container
+{
 
     private $submitValue = 'Save';
     private $submitButton;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-grid');
         $this->setTag('form');
     }
 
-    public function setSubmitValue($submitValue) {
+    public function setSubmitValue($submitValue)
+    {
         $this->submitValue = $submitValue;
-        if($submitValue !== false) {
+        if ($submitValue !== false) {
             $this->getSubmitButton()->setValue($submitValue);
         }
         return $this;
     }
-    
-    public function getSubmitButton() {
-        if(!$this->submitButton) {
+
+    public function getSubmitButton()
+    {
+        if (!$this->submitButton) {
             $this->submitButton = self::create('submit_button', $this->submitValue);
         }
         return $this->submitButton;
     }
 
-    public function getTemplateVariables() {
+    public function getTemplateVariables()
+    {
         return array_merge(
             parent::getTemplateVariables(), array(
                 'submit_value' => $this->submitValue,
-                'submit_button' => $this->submitValue 
-                    ? $this->getSubmitButton() 
+                'submit_button' => $this->submitValue
+                    ? $this->getSubmitButton()
                     : false
             )
         );
     }
-    
-    public function setTag($tag) {
+
+    public function setTag($tag)
+    {
         $this->set('tag', $tag);
         return $this;
     }
 
-    public function setErrors($errors = false) {
+    public function setErrors($errors = false)
+    {
         if ($errors === false) {
             return;
         }
         $this->errors = $errors;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return TemplateEngine::render(
             'wyf_forms_form', $this->getTemplateVariables()
         );
     }
 
     /**
-     * 
+     *
      * @param \ntentan\Model $model
      * @return \ntentan\wyf\utilities\forms\Form
      */
-    public function forModel($model) {
+    public function forModel($model)
+    {
         $description = $model->getDescription();
         $relationships = $description->getRelationships();
         $fields = $description->getFields();
@@ -94,7 +103,8 @@ class Form extends Container {
         return $this;
     }
 
-    private function inputForField($field) {
+    private function inputForField($field)
+    {
         $input = null;
         switch ($field['type']) {
             case 'string':

@@ -2,11 +2,13 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class RadioGroup extends Input {
+class RadioGroup extends Input
+{
 
     private $options = array();
 
-    public function addOption($label, $value, $parameters = array()) {
+    public function addOption($label, $value, $parameters = array())
+    {
         $this->options[] = array(
             'label' => $label,
             'value' => $value,
@@ -17,7 +19,8 @@ class RadioGroup extends Input {
         return $this;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         unset($this->attributes['value']);
         $this->set('options', $this->options);
         return parent::__toString();

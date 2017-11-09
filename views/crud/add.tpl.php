@@ -6,6 +6,6 @@ use ntentan\wyf\utilities\forms\Form;
 $form = new Form();
 $form->setData($model->getData()->toArray());
 $form->setErrors($model->getInvalidFields());
-echo t("wyf_{$package}_form", ['model' => $model, 'form' => $form])
+echo t("wyf_{$package}_form", ['model' => $model, 'form' => $form, 'form_data' => $form_data])
 ?>
 </div>

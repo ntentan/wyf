@@ -5,15 +5,18 @@ namespace ntentan\wyf\utilities\forms;
 use ntentan\Model;
 use ntentan\utils\Text;
 
-class ModelSearchField extends Input {
-    
-    public function generateDefaultTempplate($fields) {
-        return array_reduce($fields, function($carry, $item){
+class ModelSearchField extends Input
+{
+
+    public function generateDefaultTempplate($fields)
+    {
+        return array_reduce($fields, function ($carry, $item) {
             return "$carry {{{$item}}}";
         });
     }
 
-    public function __construct($model, array $fields, $listItemTemplate = null, $valueTemplate = null) {
+    public function __construct($model, array $fields, $listItemTemplate = null, $valueTemplate = null)
+    {
         $modelInstance = Model::load($model);
         $entity = Text::singularize($modelInstance->getName());
         $this->setLabel($entity);
@@ -28,5 +31,5 @@ class ModelSearchField extends Input {
         $this->setAttribute('autocomplete', 'off');
     }
 
-    
+
 }

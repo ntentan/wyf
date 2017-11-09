@@ -2,6 +2,7 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class UploadField extends Input {
-    
+class UploadField extends Input
+{
+
 }

@@ -2,17 +2,20 @@
 
 namespace ntentan\wyf\utilities\forms;
 
-class Input extends Element {
+class Input extends Element
+{
 
     protected $name;
     protected $value;
-    
-    public function __construct($name = '', $label = null) {
+
+    public function __construct($name = '', $label = null)
+    {
         $this->setLabel($label == null ? ucfirst(str_replace('_', ' ', $name)) : $label);
         $this->setName($name);
-    }    
+    }
 
-    public function setName($name = false) {
+    public function setName($name = false)
+    {
         $this->name = $name;
         if (!isset($this->attributes['id'])) {
             $this->setAttribute('id', $name);
@@ -20,27 +23,32 @@ class Input extends Element {
         return $this;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value ?? ($this->parent ? $this->parent->getValueFor($this) : null);
     }
 
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = $value;
         return $this;
     }
 
-    public function getTemplateVariables() {
+    public function getTemplateVariables()
+    {
         return [
-            'value' => $this->getValue(),
-            'name' => $this->getName()
-        ] + parent::getTemplateVariables();
+                'value' => $this->getValue(),
+                'name' => $this->getName()
+            ] + parent::getTemplateVariables();
     }
 
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->errors ?? ($this->parent ? $this->parent->getErrorsFor($this) : null);
     }
 
