@@ -155,10 +155,7 @@ class CrudController extends WyfController
      */
     public function add(Model $model, View $view)
     {
-        $view->set([
-            'model' => $model,
-            'form_data' => $view->get('form_data') ?? []
-        ]);
+        $view->set(['model' => $model, 'form_data' => $view->get('form_data') ?? []]);
         $this->setTitle("Add new " . ucwords($this->getWyfName()));
         return $view;
     }
@@ -178,10 +175,10 @@ class CrudController extends WyfController
     public function store(Model $model, View $view)
     {
         if ($model->save()) {
-            Session::set('notification', "Added new {$this->entity}: {$model}");
+            $this->notify("Added new {$this->entity}: {$model}");
             return $this->getRedirect();
         }
-        $view->set('model', $model);
+        $view->set(['model' => $model, 'form_data' => $view->get('form_data') ?? []]);
         $this->setTitle("Add new {$this->getWyfName()}");
         return $view;
     }
@@ -324,6 +321,7 @@ class CrudController extends WyfController
     public function update(Model $model, View $view)
     {
         if ($model->save()) {
+            $this->notify("Updated {$this->entity}: {$model}");
             return $this->getRedirect();
         }
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
@@ -346,6 +344,7 @@ class CrudController extends WyfController
         $item = $model->fetchFirst([$primaryKey => $id]);
         if ($confirm == 'yes') {
             $item->delete($id);
+            $this->notify("Deleted {$this->entity}: {$item}");
             return $this->getRedirect();
         }
         $view->set('item', $item);

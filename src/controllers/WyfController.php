@@ -113,4 +113,9 @@ class WyfController extends Controller
         return $this->path;
     }
 
+    public function notify($notification)
+    {
+        Session::set('notification', $notification);
+    }
+
 }
