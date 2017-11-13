@@ -3,11 +3,10 @@
 namespace ntentan\wyf;
 
 use ntentan\honam\TemplateEngine;
-use ntentan\middleware\MvcMiddleware;
-use ntentan\middleware\AuthMiddleware;
 use ntentan\Application;
 use ntentan\wyf\utilities\forms\Element;
 use ntentan\Context;
+use ntentan\wyf\controllers\AuthController;
 
 /**
  * Description of newPHPClass
@@ -39,18 +38,11 @@ class WyfApplication extends Application
         Element::setSharedFormData('base_api_url', $context->getUrl('api'));
 
         $this->router->appendRoute(
-            'wyf_auth', 'auth/{action}', ['default' => ['controller' => controllers\AuthController::class]]
+            'wyf_auth', 'auth/{action}', ['default' => ['controller' => AuthController::class]]
         );
         $this->router->appendRoute(
             'wyf_api', 'api/{*path}', [
-            'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest'],
-            'pipeline' => [
-                [AuthMiddleware::class, [
-                    'auth_method' => 'http_basic',
-                    'users_model' => 'auth.users']
-                ],
-                [MvcMiddleware::class]
-            ]
+                'default' => ['controller' => controllers\ApiController::class, 'action' => 'rest']
             ]
         );
 

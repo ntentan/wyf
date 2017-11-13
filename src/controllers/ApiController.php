@@ -152,7 +152,10 @@ class ApiController extends WyfController
             $model->offset((Input::get('page') - 1) * Input::get('limit'));
             $model->sortBy(Input::get('sort'), 'DESC');
             header("X-Item-Count: " . $model->count());
-            $view->set('response', $model->fetch()->toArray(Input::get('depth')));
+            $view->set('response', $model->fetch()->toArray(
+                Input::get('depth'),
+                Input::exists(Input::GET, 'expand_only') ? explode(',', Input::get('expand_only')) : []
+            ));
         }
 
         return $view;

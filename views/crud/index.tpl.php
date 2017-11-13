@@ -32,12 +32,13 @@
     </div>
 </div>
 <script type="text/javascript">
-  $(function(){ wyf.list.apiUrl = "<?= $api_url . $api_parameters?>"; wyf.list.render(); })
+  $(function(){ wyf.list.apiUrl = "<?= $api_url . unescape($api_parameters)?>"; wyf.list.render(); })
 </script>
 <script type="text/html" id="wyf_list_view_template">
     <?= t(
         "wyf_{$package}_list_table",
         [
+            'column_headers' => $column_headers,
             'list_fields' => $list_fields,
             'operations' => $operations,
             'primary_key_field' => $primary_key_field,

@@ -102,6 +102,7 @@ class CrudController extends WyfController
         }
     }
 
+
     /**
      * The default controller action that lists all items.
      * @param View $view
@@ -110,7 +111,9 @@ class CrudController extends WyfController
     public function index(View $view)
     {
         $model = $this->getModel();
+        $this->setTitle(ucwords($this->getWyfName()));
 
+        // Prevent this from repeating
         $description = $model->getDescription();
         $primaryKey = $description->getPrimaryKey()[0];
         if (empty($this->listFields)) {
@@ -123,19 +126,48 @@ class CrudController extends WyfController
             }
         }
 
-        $this->setTitle(ucwords($this->getWyfName()));
-        // Prevent this from repeating
         $fields = [$primaryKey];
-        foreach ($this->listFields as $field => $label) {
-            $fields[] = is_numeric($field) ? $label : $field;
+        $columnHeaders = [];
+        $relatedFields = [];
+        $listFields = [];
+        foreach ($this->listFields as $field => $fieldInfo) {
+            if(is_numeric($field)) {
+                $fields[] = $fieldInfo;
+                $listFields[] = $fieldInfo;
+                $columnHeaders[] = $fieldInfo;
+            } else  {
+                $fields[] = $field;
+                if(is_string($fieldInfo)) {
+                    $listFields[] = $field;
+                    $columnHeaders[] = $fieldInfo;
+                } else if (is_array($fieldInfo)) {
+                    if(isset($fieldInfo[0])) {
+                        $parts = explode('.', $fieldInfo[0]);
+                        $relatedFieldName = array_pop($parts);
+                        $relatedFieldModel = implode('.', $parts);
+                        if(isset($relatedFields[$relatedFieldModel])) {
+                            $relatedFields[$relatedFieldModel][] = $relatedFieldName;
+                        } else {
+                            $relatedFields[$relatedFieldModel] = [$relatedFieldName];
+                        }
+                        $listFields[] = $fieldInfo[0];
+                        $columnHeaders[] = $fieldInfo['label'] ?? $field;
+                    }
+                }
+            }
         }
-        $fields = implode(',', $fields);
+        $apiFields = implode(',', $fields);
+        foreach($relatedFields as $model => $relatedField) {
+            $apiFields .= "&fields:$model=" . implode(',', $relatedField);
+        }
+        $apiFields .= "&expand_only=" . implode(',', array_keys($relatedFields));
         $view->set([
             'add_item_url' => $this->getActionUrl('add'),
             'import_items_url' => $this->getActionUrl('import'),
             'public_path' => $this->context->getUrl('public'),
-            'api_parameters' => "?fields=$fields",
-            'list_fields' => $this->listFields,
+            'api_parameters' => "?fields=$apiFields",
+            'list_fields' => $listFields,
+            'column_headers' => $columnHeaders,
             'operations' => $this->operations,
             'primary_key_field' => $primaryKey,
             'foreign_key' => false,
