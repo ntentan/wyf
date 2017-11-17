@@ -261,7 +261,7 @@ var wyf = {
     importJobUrl: null,
     importParameters: null,
     render: function (url) {
-      var getData = {page: wyf.list.currentPage, limit: wyf.list.itemsPerPage, sort: 'id', depth: '1'};
+      var getData = {page: wyf.list.currentPage, limit: wyf.list.itemsPerPage, sort: 'id'};
       if (wyf.list.query != '') {
         getData.q = wyf.list.query;
       }

@@ -21,24 +21,28 @@ class CrudController extends WyfController
 {
     /**
      * An array of operations that this controller can perform on data records.
+     *
      * @var array
      */
     private $operations = [];
 
     /**
      * The fields that are displayed in the list of items.
+     *
      * @var array
      */
-    protected $listFields = [];
+    protected $listFields;
 
     /**
      * Fields that are expected to be in the import data file.
+     *
      * @var array
      */
     protected $importFields = [];
 
     /**
-     * An instance of the ntenan context
+     * An instance of the ntentan context
+     *
      * @var Context
      */
     private $context;
@@ -51,6 +55,7 @@ class CrudController extends WyfController
 
     /**
      * CrudController constructor.
+     *
      * @param View $view The singleton view that will eventually be used to render the page.
      */
     public function __construct(View $view)
@@ -81,7 +86,8 @@ class CrudController extends WyfController
 
     /**
      * Return an instance of the model that is wrapped by this CRUD controller.
-     * @return \ntentan\Model
+     *
+     * @return Model
      */
     protected function getModel() : Model
     {
@@ -90,6 +96,7 @@ class CrudController extends WyfController
 
     /**
      * An array that contains a list of the fields to display when listing items.
+     *
      * @param array $listFields
      */
     protected function setListFields(array $listFields)
@@ -102,74 +109,81 @@ class CrudController extends WyfController
         }
     }
 
-
-    /**
-     * The default controller action that lists all items.
-     * @param View $view
-     * @return View
-     */
-    public function index(View $view)
+    private function decodeFieldInfo($field, $fieldInfo)
     {
-        $model = $this->getModel();
-        $this->setTitle(ucwords($this->getWyfName()));
-
-        // Prevent this from repeating
-        $description = $model->getDescription();
-        $primaryKey = $description->getPrimaryKey()[0];
-        if (empty($this->listFields)) {
-            $fields = $description->getFields();
-            foreach ($fields as $field) {
-                if ($field['name'] == $primaryKey) {
-                    continue;
+        if(is_string($fieldInfo)) {
+            $listField = $field;
+            $columnHeader = $fieldInfo;
+        } else if (is_array($fieldInfo)) {
+            if(isset($fieldInfo[0])) {
+                $parts = explode('.', $fieldInfo[0]);
+                $relatedFieldName = array_pop($parts);
+                $relatedFieldModel = implode('.', $parts);
+                if(isset($relatedFields[$relatedFieldModel])) {
+                    $relatedFields[$relatedFieldModel][] = $relatedFieldName;
+                } else {
+                    $relatedFields[$relatedFieldModel] = [$relatedFieldName];
                 }
-                $this->listFields[$field['name']] = ucwords(str_replace('_', ' ', $field['name']));
+                $listField = $fieldInfo[0];
+                $columnHeader = $fieldInfo['label'] ?? $field;
             }
         }
+        return ['list_field' => $listField, 'column_header' => $columnHeader];
+    }
 
+    private function prepareListFields()
+    {
+        $primaryKey = $this->getModel()->getDescription()->getPrimaryKey()[0];
         $fields = [$primaryKey];
         $columnHeaders = [];
         $relatedFields = [];
         $listFields = [];
-        foreach ($this->listFields as $field => $fieldInfo) {
+        foreach ($this->listFields ?? ['__string' => ucwords($this->entities)] as $field => $fieldInfo) {
             if(is_numeric($field)) {
                 $fields[] = $fieldInfo;
                 $listFields[] = $fieldInfo;
                 $columnHeaders[] = $fieldInfo;
             } else  {
                 $fields[] = $field;
-                if(is_string($fieldInfo)) {
-                    $listFields[] = $field;
-                    $columnHeaders[] = $fieldInfo;
-                } else if (is_array($fieldInfo)) {
-                    if(isset($fieldInfo[0])) {
-                        $parts = explode('.', $fieldInfo[0]);
-                        $relatedFieldName = array_pop($parts);
-                        $relatedFieldModel = implode('.', $parts);
-                        if(isset($relatedFields[$relatedFieldModel])) {
-                            $relatedFields[$relatedFieldModel][] = $relatedFieldName;
-                        } else {
-                            $relatedFields[$relatedFieldModel] = [$relatedFieldName];
-                        }
-                        $listFields[] = $fieldInfo[0];
-                        $columnHeaders[] = $fieldInfo['label'] ?? $field;
-                    }
-                }
+                $decodedFieldInfo = $this->decodeFieldInfo($field, $fieldInfo);
+                $listFields[] = $decodedFieldInfo['list_field'];
+                $columnHeaders[] = $decodedFieldInfo['column_header'];
             }
         }
-        $apiFields = implode(',', $fields);
-        foreach($relatedFields as $model => $relatedField) {
+        return [
+            'fields' => $fields, 'related_fields' => $relatedFields, 'list_fields' => $listFields,
+            'column_headers' => $columnHeaders, 'primary_key' => $primaryKey
+        ];
+    }
+
+
+    /**
+     * The default controller action that lists all items.
+     *
+     * @param View $view
+     * @return View
+     */
+    public function index(View $view)
+    {
+        $this->setTitle(ucwords($this->getWyfName()));
+        $fieldDetails = $this->prepareListFields();
+
+        $apiFields = implode(',', $fieldDetails['fields']);
+        foreach($fieldDetails['related_fields'] as $model => $relatedField) {
             $apiFields .= "&fields:$model=" . implode(',', $relatedField);
         }
-        $apiFields .= "&expand_only=" . implode(',', array_keys($relatedFields));
+        if(!empty($relatedFields)) {
+            $apiFields .= "&depth=1&expand_only=" . implode(',', array_keys($fieldDetails['related_fields']));
+        }
         $view->set([
             'add_item_url' => $this->getActionUrl('add'),
             'import_items_url' => $this->getActionUrl('import'),
             'public_path' => $this->context->getUrl('public'),
             'api_parameters' => "?fields=$apiFields",
-            'list_fields' => $listFields,
-            'column_headers' => $columnHeaders,
+            'list_fields' => $fieldDetails['list_fields'],
+            'column_headers' => $fieldDetails['column_headers'],
             'operations' => $this->operations,
-            'primary_key_field' => $primaryKey,
+            'primary_key_field' => $fieldDetails['primary_key'],
             'foreign_key' => false,
             'add_item_label' => $this->addItemLabel ?? "Add new {$this->entity}"
         ]);

@@ -2,11 +2,14 @@
 
 namespace ntentan\wyf\controllers;
 
+use ntentan\nibii\exceptions\ModelNotFoundException;
 use ntentan\View;
 use ntentan\Model;
 use ntentan\utils\Input;
 use ntentan\Context;
 use ntentan\nibii\QueryParameters;
+use ntentan\wyf\api\GetRequestHandler;
+use ntentan\wyf\api\GetRequestProcessor;
 
 /**
  * Description of ApiController
@@ -15,6 +18,7 @@ use ntentan\nibii\QueryParameters;
  */
 class ApiController extends WyfController
 {
+    private $filters = [];
 
     public function __construct(View $view)
     {
@@ -73,109 +77,36 @@ class ApiController extends WyfController
         return $view;
     }
 
-    private function getItem($model, $view, $id)
-    {
-        $primaryKey = $model->getDescription()->getPrimaryKey()[0];
-        $item = $model->fetchFirst(
-            [$primaryKey => $id]
-        );
-        if ($item->count() == 0) {
-            $view->set('response', ['message' => 'item not found']);
-            http_response_code(404);
-        } else {
-            if (Input::server('CONTENT_TYPE') == "text/plain") {
-                header("Content-Type: text/plain");
-                return (string)$item;
-            } else {
-                $view->set('response', $item->toArray(Input::get('depth')));
-            }
-        }
-    }
-
-    private function search($model, $view, $query)
-    {
-        $description = $model->getDescription();
-        $fields = $description->getFields();
-        $textFields = [];
-        $partialFilter = '';
-        $or = '';
-        $query = "%" . strtolower($query) . "%";
-        $searchFields = explode(',', Input::get('search_fields'));
-        $modelQuery = new QueryParameters($model->getTable());
-
-        if (Input::exists(Input::GET, 'fields')) {
-            $modelQuery->setFields(explode(',', Input::get('fields')));
-        }
-
-        foreach ($fields as $field) {
-            if ($field['type'] == 'string' && (in_array($field['name'], $searchFields) || !Input::exists(Input::GET, 'search_fields'))) {
-                $textFields[] = $field;
-                $partialFilter .= " $or LOWER({$field['name']}) LIKE :query";
-                $or = 'OR';
-            }
-        }
-
-        $filter = '';
-        $bindData = [];
-        foreach(explode(' ', $query) as $i => $term) {
-            $filter .= str_replace(":query", ":query_$i", $partialFilter);
-            $bindData["query_$i"] = $term;
-        }
-
-        $modelQuery->setFilter($filter, $bindData);
-        header("X-Item-Count: " . $model->count($modelQuery));
-        $modelQuery->setLimit(Input::get('limit'));
-        $modelQuery->setOffset((Input::get('page') - 1) * Input::get('limit'));
-        $view->set('response', $model->fetch($modelQuery)->toArray(Input::get('depth')));
-    }
-
-    private function get($path, $view)
-    {
-        $pathInfo = $this->decodePath($path);
-        $model = $pathInfo['model'];
-        $input = Input::get();
-
-        foreach ($input as $key => $value) {
-            if (preg_match("/^fields:(?<model>[0-9a-z_.]+)/", $key, $matches)) {
-                $model->with($matches['model'])->setFields(explode(',', $value));
-            } else if (preg_match("/^fields/", $key, $matches)) {
-                $model->fields(explode(',', $value));
-            }
-        }
-
-        if ($pathInfo['id']) {
-            $this->getItem($model, $view, $pathInfo['id']);
-        } else if (Input::exists(Input::GET, 'q')) {
-            $this->search($model, $view, Input::get('q'));
-        } else {
-            $model->limit(Input::get('limit'));
-            $model->offset((Input::get('page') - 1) * Input::get('limit'));
-            $model->sortBy(Input::get('sort'), 'DESC');
-            header("X-Item-Count: " . $model->count());
-            $view->set('response', $model->fetch()->toArray(
-                Input::get('depth'),
-                Input::exists(Input::GET, 'expand_only') ? explode(',', Input::get('expand_only')) : []
-            ));
-        }
-
-        return $view;
-    }
 
     public function index()
     {
 
     }
 
-    public function rest(View $view, $path)
+    /**
+     * @ntentan.action rest
+     * @ntentan.method GET
+     * @param GetRequestHandler $processor
+     * @param View $view
+     * @param $path
+     * @return
+     */
+    public function getRequest(GetRequestHandler $processor, View $view, $path)
     {
-        switch (Input::server('REQUEST_METHOD')) {
-            case 'GET':
-                $response = $this->get($path, $view);
-                break;
-            case 'POST':
-                $response = $this->post($path, $view);
-        }
-        return $response;
+        $view->set('response', $processor->process($this->decodePath($path)));
+        return $view;
     }
+
+    /**
+     * @ntentan.action rest
+     * @ntentan.method POST
+     * @param View $view
+     * @param $path
+     */
+    public function postRequest(PostView $view, $path)
+    {
+        return $this->post($path, $view);
+    }
+
 
 }
