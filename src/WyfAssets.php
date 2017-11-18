@@ -8,7 +8,7 @@ class WyfAssets {
     public static function css() {
         return Asset::css([
             'vendor/fortawesome/font-awesome/css/font-awesome.css',
-            Asset::sass(['vendor/ekowabaka/fzui/sass/fzui.scss', 'vendor/ekowabaka/fzui/sass/*.scss']),
+            Asset::sass(['vendor/fahodzi/ui/sass/fzui.scss', 'vendor/fahodzi/ui/sass/*.scss']),
             realpath(__DIR__ . '/../assets/css/wyf.css'),
             realpath(__DIR__ . '/../assets/css/menu.css')
         ]);
@@ -23,10 +23,10 @@ class WyfAssets {
             'vendor/webmodules/pikaday/pikaday.js',
             'vendor/webmodules/pikaday/plugins/pikaday.jquery.js',
             'vendor/frameworks/handlebars.js/handlebars.js',
-            'vendor/ekowabaka/fzui/js/fzui.js',
-            'vendor/ekowabaka/fzui/js/dropdown.js',
-            'vendor/ekowabaka/fzui/js/modal.js',
-            'vendor/ekowabaka/fzui/js/nav.js',
+            'vendor/fahodzi/ui/js/fzui.js',
+            'vendor/fahodzi/ui/js/dropdown.js',
+            'vendor/fahodzi/ui/js/modal.js',
+            'vendor/fahodzi/ui/js/nav.js',
         ]);
     }
     
