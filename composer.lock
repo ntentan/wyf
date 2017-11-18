@@ -4,19 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "991983810e00fc00fda61a7531dd5d7e",
+    "content-hash": "bb5f0518b11343c98656a44fdfe21071",
     "packages": [
         {
             "name": "ekowabaka/fzui",
             "version": "v0.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ekowabaka/fzui.git",
+                "url": "https://github.com/fahodzi/ui.git",
                 "reference": "ba264509102217ccba243e1b94e88c9f7e87b6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ekowabaka/fzui/zipball/ba264509102217ccba243e1b94e88c9f7e87b6a2",
+                "url": "https://api.github.com/repos/fahodzi/ui/zipball/ba264509102217ccba243e1b94e88c9f7e87b6a2",
                 "reference": "ba264509102217ccba243e1b94e88c9f7e87b6a2",
                 "shasum": ""
             },
@@ -125,16 +125,16 @@
         },
         {
             "name": "matthiasmullie/minify",
-            "version": "1.3.46",
+            "version": "1.3.55",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matthiasmullie/minify.git",
-                "reference": "1443646268465b8930c9a7f2f8ff1a51453796d1"
+                "reference": "21084eb9e6c117f5236969532d00ed2750cd1617"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/1443646268465b8930c9a7f2f8ff1a51453796d1",
-                "reference": "1443646268465b8930c9a7f2f8ff1a51453796d1",
+                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/21084eb9e6c117f5236969532d00ed2750cd1617",
+                "reference": "21084eb9e6c117f5236969532d00ed2750cd1617",
                 "shasum": ""
             },
             "require": {
@@ -143,7 +143,7 @@
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~1.0",
+                "friendsofphp/php-cs-fixer": "~2.0",
                 "matthiasmullie/scrapbook": "~1.0",
                 "phpunit/phpunit": "~4.8"
             },
@@ -172,7 +172,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "CSS & JS minifier",
+            "description": "CSS & JavaScript minifier, in PHP. Removes whitespace, strips comments, combines files (incl. @import statements and small assets in CSS files), and optimizes/shortens a few common programming patterns.",
             "homepage": "http://www.minifier.org",
             "keywords": [
                 "JS",
@@ -181,7 +181,7 @@
                 "minifier",
                 "minify"
             ],
-            "time": "2017-07-06T12:26:44+00:00"
+            "time": "2017-10-25T11:13:12+00:00"
         },
         {
             "name": "matthiasmullie/path-converter",
@@ -312,20 +312,19 @@
         },
         {
             "name": "ntentan/atiaa",
-            "version": "v0.5.0",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/atiaa.git",
-                "reference": "169407969d1147f78ceea46d2a648183cdaa0ee0"
+                "reference": "6802e3a5ddd0b57b3b879fd6fad795dbbab07234"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/atiaa/zipball/169407969d1147f78ceea46d2a648183cdaa0ee0",
-                "reference": "169407969d1147f78ceea46d2a648183cdaa0ee0",
+                "url": "https://api.github.com/repos/ntentan/atiaa/zipball/6802e3a5ddd0b57b3b879fd6fad795dbbab07234",
+                "reference": "6802e3a5ddd0b57b3b879fd6fad795dbbab07234",
                 "shasum": ""
             },
             "require": {
-                "ntentan/panie": "0.*",
                 "ntentan/utils": "0.*",
                 "php": ">=7.1.0"
             },
@@ -351,25 +350,24 @@
                 }
             ],
             "description": "A slim wrapper around PDO to provide some extra utilities",
-            "time": "2017-07-26T07:37:22+00:00"
+            "time": "2017-11-18T06:50:10+00:00"
         },
         {
             "name": "ntentan/config",
-            "version": "v0.4.1",
+            "version": "v0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/config.git",
-                "reference": "6fdfa0fc948e17e93f316fe27f47d6a9d14e3782"
+                "reference": "b7998cbf61475942990cd873bc1dedd6439a0ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/config/zipball/6fdfa0fc948e17e93f316fe27f47d6a9d14e3782",
-                "reference": "6fdfa0fc948e17e93f316fe27f47d6a9d14e3782",
+                "url": "https://api.github.com/repos/ntentan/config/zipball/b7998cbf61475942990cd873bc1dedd6439a0ab5",
+                "reference": "b7998cbf61475942990cd873bc1dedd6439a0ab5",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0",
-                "symfony/yaml": "~2.1"
+                "phpunit/phpunit": "@stable"
             },
             "type": "library",
             "autoload": {
@@ -389,7 +387,7 @@
                 }
             ],
             "description": "Configurations manager for ntentan",
-            "time": "2017-07-03T18:11:22+00:00"
+            "time": "2017-09-17T14:10:38+00:00"
         },
         {
             "name": "ntentan/honam",
@@ -443,16 +441,16 @@
         },
         {
             "name": "ntentan/kaikai",
-            "version": "v0.3.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/kaikai.git",
-                "reference": "389ced4d1fbfcdb66504b4713731b85f34b950c5"
+                "reference": "3bc7428f19467ff00cf2459712a1e3fd94106763"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/kaikai/zipball/389ced4d1fbfcdb66504b4713731b85f34b950c5",
-                "reference": "389ced4d1fbfcdb66504b4713731b85f34b950c5",
+                "url": "https://api.github.com/repos/ntentan/kaikai/zipball/3bc7428f19467ff00cf2459712a1e3fd94106763",
+                "reference": "3bc7428f19467ff00cf2459712a1e3fd94106763",
                 "shasum": ""
             },
             "require": {
@@ -472,26 +470,25 @@
                 }
             ],
             "description": "Caching for Ntentan Framework",
-            "time": "2017-07-28T12:25:36+00:00"
+            "time": "2017-09-19T00:36:27+00:00"
         },
         {
             "name": "ntentan/nibii",
-            "version": "v0.5.1",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/nibii.git",
-                "reference": "a640fb0fdd43bf5d89077dfeacd5bda84f42820b"
+                "reference": "509951ddb2e49340b18b8042d14c6055942e5666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/nibii/zipball/a640fb0fdd43bf5d89077dfeacd5bda84f42820b",
-                "reference": "a640fb0fdd43bf5d89077dfeacd5bda84f42820b",
+                "url": "https://api.github.com/repos/ntentan/nibii/zipball/509951ddb2e49340b18b8042d14c6055942e5666",
+                "reference": "509951ddb2e49340b18b8042d14c6055942e5666",
                 "shasum": ""
             },
             "require": {
                 "ntentan/atiaa": "0.*",
                 "ntentan/kaikai": "0.*",
-                "ntentan/panie": "0.*",
                 "ntentan/utils": "0.*"
             },
             "require-dev": {
@@ -516,20 +513,20 @@
                 }
             ],
             "description": "ORM for ntentan",
-            "time": "2017-08-12T21:33:14+00:00"
+            "time": "2017-11-18T15:39:59+00:00"
         },
         {
             "name": "ntentan/ntentan",
-            "version": "v0.1.1",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/ntentan.git",
-                "reference": "db00217a0426c2fad8677450fb5ca2de19b950bd"
+                "reference": "e8595acb9fd483ea64be20c6ec3ad9ceab19ad92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/db00217a0426c2fad8677450fb5ca2de19b950bd",
-                "reference": "db00217a0426c2fad8677450fb5ca2de19b950bd",
+                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/e8595acb9fd483ea64be20c6ec3ad9ceab19ad92",
+                "reference": "e8595acb9fd483ea64be20c6ec3ad9ceab19ad92",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +538,7 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "@stable"
             },
             "type": "library",
             "autoload": {
@@ -561,24 +558,25 @@
                 }
             ],
             "description": "Another PHP application framework.",
-            "time": "2017-08-06T18:05:35+00:00"
+            "time": "2017-11-13T04:32:57+00:00"
         },
         {
             "name": "ntentan/panie",
-            "version": "v0.4.0",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/panie.git",
-                "reference": "a3c8f44ca7cd454edfc67855ea863a411442fa51"
+                "reference": "bb6cd34cc2630682532213a7eb4283d8b473aeb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/panie/zipball/a3c8f44ca7cd454edfc67855ea863a411442fa51",
-                "reference": "a3c8f44ca7cd454edfc67855ea863a411442fa51",
+                "url": "https://api.github.com/repos/ntentan/panie/zipball/bb6cd34cc2630682532213a7eb4283d8b473aeb0",
+                "reference": "bb6cd34cc2630682532213a7eb4283d8b473aeb0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.1",
+                "psr/container": "^1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "@stable"
@@ -601,24 +599,21 @@
                 }
             ],
             "description": "A thin DI container for NtentanFX",
-            "time": "2017-07-25T01:53:22+00:00"
+            "time": "2017-11-18T07:03:20+00:00"
         },
         {
             "name": "ntentan/utils",
-            "version": "v0.5.2",
+            "version": "v0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/utils.git",
-                "reference": "6409b605b9f5163be11305c28deccc1eaee7ea71"
+                "reference": "7d7f55535dacfbd286d12671c3e68f346d62b454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/utils/zipball/6409b605b9f5163be11305c28deccc1eaee7ea71",
-                "reference": "6409b605b9f5163be11305c28deccc1eaee7ea71",
+                "url": "https://api.github.com/repos/ntentan/utils/zipball/7d7f55535dacfbd286d12671c3e68f346d62b454",
+                "reference": "7d7f55535dacfbd286d12671c3e68f346d62b454",
                 "shasum": ""
-            },
-            "require": {
-                "ntentan/panie": "0.*"
             },
             "require-dev": {
                 "mikey179/vfsstream": "@stable",
@@ -642,7 +637,56 @@
                 }
             ],
             "description": "Common utility functions shared accross the ntentan framework.",
-            "time": "2017-07-29T07:21:27+00:00"
+            "time": "2017-11-18T06:59:14+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/log",
@@ -690,6 +734,89 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "webmodules/moment",
+            "version": "2.11.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webmodule/moment.git",
+                "reference": "69c1b247319215a0b7133c42cb36ff2c3c1d6116"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webmodule/moment/zipball/69c1b247319215a0b7133c42cb36ff2c3c1d6116",
+                "reference": "69c1b247319215a0b7133c42cb36ff2c3c1d6116",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "moment.js"
+                    ],
+                    "files": [
+                        "min/*.js",
+                        "locale/*.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tim Wood",
+                    "email": "washwithcare@gmail.com"
+                }
+            ],
+            "description": "Parse, validate, manipulate, and display dates in JavaScript.",
+            "homepage": "http://github.com/moment/moment/",
+            "keywords": [
+                "date",
+                "ender",
+                "format",
+                "i18n",
+                "l10n",
+                "moment",
+                "parse",
+                "time",
+                "validate"
+            ],
+            "time": "2016-01-25T18:33:46+00:00"
+        },
+        {
+            "name": "webmodules/pikaday",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jqmodules/pikaday.git",
+                "reference": "800ab704cc12fc204cd8cd6cbb0939264a05655b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jqmodules/pikaday/zipball/800ab704cc12fc204cd8cd6cbb0939264a05655b",
+                "reference": "800ab704cc12fc204cd8cd6cbb0939264a05655b",
+                "shasum": ""
+            },
+            "require": {
+                "webmodules/moment": ">=2.10.4"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD",
+                "MIT"
+            ],
+            "description": "A refreshing JavaScript Datepicker — lightweight, no dependencies, modular CSS",
+            "homepage": "http://dbushell.github.io/Pikaday/",
+            "keywords": [
+                "calendar",
+                "date",
+                "datepicker"
+            ],
+            "time": "2015-08-20T19:10:02+00:00"
         }
     ],
     "packages-dev": [],
@@ -697,7 +824,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "frameworks/handlebars.js": 0,
-        "frameworks/jquery": 0
+        "frameworks/jquery": 0,
+        "webmodules/pikaday": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
