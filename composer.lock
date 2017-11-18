@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb5f0518b11343c98656a44fdfe21071",
+    "content-hash": "a7f2184135f8f7a7c428950c67a33fda",
     "packages": [
         {
-            "name": "ekowabaka/fzui",
-            "version": "v0.1.1",
+            "name": "fahodzi/ui",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fahodzi/ui.git",
-                "reference": "ba264509102217ccba243e1b94e88c9f7e87b6a2"
+                "reference": "b759f397895e9f36bbe5de0921ba59f561521997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fahodzi/ui/zipball/ba264509102217ccba243e1b94e88c9f7e87b6a2",
-                "reference": "ba264509102217ccba243e1b94e88c9f7e87b6a2",
+                "url": "https://api.github.com/repos/fahodzi/ui/zipball/b759f397895e9f36bbe5de0921ba59f561521997",
+                "reference": "b759f397895e9f36bbe5de0921ba59f561521997",
                 "shasum": ""
             },
             "type": "library",
@@ -32,7 +32,7 @@
                 }
             ],
             "description": "UI Library",
-            "time": "2017-08-03T14:26:24+00:00"
+            "time": "2017-11-18T21:07:39+00:00"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -517,16 +517,16 @@
         },
         {
             "name": "ntentan/ntentan",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/ntentan.git",
-                "reference": "e8595acb9fd483ea64be20c6ec3ad9ceab19ad92"
+                "reference": "1f3de61e0c821f0f94c0eb250ef0711e22504558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/e8595acb9fd483ea64be20c6ec3ad9ceab19ad92",
-                "reference": "e8595acb9fd483ea64be20c6ec3ad9ceab19ad92",
+                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/1f3de61e0c821f0f94c0eb250ef0711e22504558",
+                "reference": "1f3de61e0c821f0f94c0eb250ef0711e22504558",
                 "shasum": ""
             },
             "require": {
@@ -558,7 +558,7 @@
                 }
             ],
             "description": "Another PHP application framework.",
-            "time": "2017-11-13T04:32:57+00:00"
+            "time": "2017-11-18T20:33:16+00:00"
         },
         {
             "name": "ntentan/panie",
