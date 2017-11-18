@@ -3,8 +3,9 @@ namespace ntentan\wyf\api;
 
 use ntentan\Model;
 use ntentan\utils\Input;
+use ntentan\wyf\interfaces\ApiRequestHandlerInterface;
 
-class GetRequestHandler
+class GetRequestHandler implements ApiRequestHandlerInterface
 {
     private $outputFilterActive = false;
     private $outputFields = [];

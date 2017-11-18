@@ -109,7 +109,7 @@ class CrudController extends WyfController
         }
     }
 
-    private function decodeFieldInfo($field, $fieldInfo)
+    private function decodeFieldInfo($field, $fieldInfo, &$relatedFields)
     {
         if(is_string($fieldInfo)) {
             $listField = $field;
@@ -145,7 +145,7 @@ class CrudController extends WyfController
                 $columnHeaders[] = $fieldInfo;
             } else  {
                 $fields[] = $field;
-                $decodedFieldInfo = $this->decodeFieldInfo($field, $fieldInfo);
+                $decodedFieldInfo = $this->decodeFieldInfo($field, $fieldInfo, $relatedFields);
                 $listFields[] = $decodedFieldInfo['list_field'];
                 $columnHeaders[] = $decodedFieldInfo['column_header'];
             }
