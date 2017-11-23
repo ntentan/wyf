@@ -356,13 +356,14 @@ class CrudController extends WyfController
     }
 
     /**
-     * Show an update form to the user.
+     * Saves changes to the model collected with the edit form.
+     * When save is successful redirect to the list. Whe save fails show the user a form highlighting errors.
      *
      * @ntentan.action edit
      * @ntentan.method POST
      * @param Model $model
      * @param View $view
-     * @return type
+     * @return View
      */
     public function update(Model $model, View $view)
     {
@@ -373,7 +374,7 @@ class CrudController extends WyfController
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
         $view->set('primary_key_field', $primaryKey);
         $view->set('model', $model);
-        $this->setTitle("Edit {$this->getWyfName()}");
+        $this->setTitle("Edit {$this->entity}: {$model}");
         return $view;
     }
 
@@ -381,7 +382,7 @@ class CrudController extends WyfController
      * @param View $view
      * @param $id
      * @param null $confirm
-     * @return \ntentan\Redirect|View
+     * @return View
      */
     public function delete(View $view, $id, $confirm = null)
     {
@@ -396,6 +397,7 @@ class CrudController extends WyfController
         $view->set('item', $item);
         $view->set('delete_yes_url', $this->getActionUrl("delete/$id?confirm=yes"));
         $view->set('delete_no_url', $this->getActionUrl(''));
+        $this->setTitle("Delete {$this->entity}: {$item}");
         return $view;
     }
 

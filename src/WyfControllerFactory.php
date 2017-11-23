@@ -68,7 +68,7 @@ class WyfControllerFactory extends DefaultControllerFactory
     }
 
     /**
-     * Loops through the URL to extract a controller, action and associated parameters.
+     * Loops through the URL to extract a controller, action and other associated parameters.
      *
      * @param $parameters
      * @return Controller
