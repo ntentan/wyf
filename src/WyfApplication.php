@@ -2,8 +2,10 @@
 
 namespace ntentan\wyf;
 
+use ntentan\controllers\model_binders\ViewBinder;
 use ntentan\honam\TemplateEngine;
 use ntentan\Application;
+use ntentan\wyf\controllers\crud\ListViewDecorator;
 use ntentan\wyf\utilities\forms\Element;
 use ntentan\Context;
 use ntentan\wyf\controllers\AuthController;
@@ -36,6 +38,9 @@ class WyfApplication extends Application
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/forms'));
         TemplateEngine::appendPath(realpath(__DIR__ . '/../views/menus'));
         Element::setSharedFormData('base_api_url', $context->getUrl('api'));
+
+        $this->modelBinderRegistry->register(ListViewDecorator::class, ViewBinder::class);
+
 
         $this->router->appendRoute(
             'wyf_auth', 'auth/{action}', ['default' => ['controller' => AuthController::class]]

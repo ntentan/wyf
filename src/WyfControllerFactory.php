@@ -11,6 +11,7 @@ use ntentan\View;
 use ajumamoro\BrokerInterface;
 use ntentan\utils\Text;
 use ntentan\wyf\controllers\CrudController;
+use ntentan\wyf\interfaces\ImportDataJobInterface;
 use ntentan\wyf\jobs\ImportDataJob;
 use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
@@ -38,7 +39,13 @@ class WyfControllerFactory extends DefaultControllerFactory
     public function setupBindings(Container $serviceLocator)
     {
         $serviceLocator->setup([
-            View::class => [View::class, 'singleton' => true],
+            View::class => [
+                View::class,
+                'singleton' => true,
+                'calls' => ['set' => [
+
+                ]]
+            ],
             BrokerInterface::class => function($container) {
                 $config = Context::getInstance()->getConfig();
                 $broker = $config->get('ajumamoro.broker', 'inline');

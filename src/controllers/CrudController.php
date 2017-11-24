@@ -2,7 +2,7 @@
 
 namespace ntentan\wyf\controllers;
 
-use ntentan\Session;
+use ntentan\interfaces\RenderableInterface;
 use ntentan\View;
 use ntentan\honam\TemplateEngine;
 use ntentan\utils\Text;
@@ -10,6 +10,8 @@ use ntentan\Model;
 use ntentan\Context;
 use ntentan\utils\filesystem\UploadedFile;
 use ajumamoro\Queue;
+use ntentan\wyf\controllers\crud\ListView;
+use ntentan\wyf\controllers\crud\ListViewDecorator;
 use ntentan\wyf\interfaces\ImportDataJobInterface;
 use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
@@ -62,8 +64,6 @@ class CrudController extends WyfController
     {
         parent::__construct($view);
         $this->context = Context::getInstance();
-        $this->addOperation('edit', 'Edit');
-        $this->addOperation('delete', 'Delete');
         $this->entities = $this->getWyfName();
         $this->entity = Text::singularize($this->getWyfName());
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
@@ -94,101 +94,23 @@ class CrudController extends WyfController
         return Model::load($this->getWyfPackage());
     }
 
-    /**
-     * An array that contains a list of the fields to display when listing items.
-     *
-     * @param array $listFields
-     */
-    protected function setListFields(array $listFields)
-    {
-        foreach ($listFields as $label => $name) {
-            $this->listFields[] = [
-                'name' => $name,
-                'label' => is_numeric($label) ? $name : $label
-            ];
-        }
-    }
-
-    private function decodeFieldInfo($field, $fieldInfo, &$relatedFields)
-    {
-        if(is_string($fieldInfo)) {
-            $listField = $field;
-            $columnHeader = $fieldInfo;
-        } else if (is_array($fieldInfo)) {
-            if(isset($fieldInfo[0])) {
-                $parts = explode('.', $fieldInfo[0]);
-                $relatedFieldName = array_pop($parts);
-                $relatedFieldModel = implode('.', $parts);
-                if(isset($relatedFields[$relatedFieldModel])) {
-                    $relatedFields[$relatedFieldModel][] = $relatedFieldName;
-                } else {
-                    $relatedFields[$relatedFieldModel] = [$relatedFieldName];
-                }
-                $listField = $fieldInfo[0];
-                $columnHeader = $fieldInfo['label'] ?? $field;
-            }
-        }
-        return ['list_field' => $listField, 'column_header' => $columnHeader];
-    }
-
-    private function prepareListFields()
-    {
-        $primaryKey = $this->getModel()->getDescription()->getPrimaryKey()[0];
-        $fields = [$primaryKey];
-        $columnHeaders = [];
-        $relatedFields = [];
-        $listFields = [];
-        foreach ($this->listFields ?? ['__string' => ucwords($this->entities)] as $field => $fieldInfo) {
-            if(is_numeric($field)) {
-                $fields[] = $fieldInfo;
-                $listFields[] = $fieldInfo;
-                $columnHeaders[] = $fieldInfo;
-            } else  {
-                $fields[] = $field;
-                $decodedFieldInfo = $this->decodeFieldInfo($field, $fieldInfo, $relatedFields);
-                $listFields[] = $decodedFieldInfo['list_field'];
-                $columnHeaders[] = $decodedFieldInfo['column_header'];
-            }
-        }
-        return [
-            'fields' => $fields, 'related_fields' => $relatedFields, 'list_fields' => $listFields,
-            'column_headers' => $columnHeaders, 'primary_key' => $primaryKey
-        ];
-    }
-
 
     /**
      * The default controller action that lists all items.
      *
-     * @param View $view
-     * @return View
+     * @param ListViewDecorator $listing
+     * @return RenderableInterface
      */
-    public function index(View $view)
+    public function index(ListViewDecorator $listing)
     {
-        $this->setTitle(ucwords($this->getWyfName()));
-        $fieldDetails = $this->prepareListFields();
+        $this->setTitle(ucwords($this->entities));
 
-        $apiFields = implode(',', $fieldDetails['fields']);
-        foreach($fieldDetails['related_fields'] as $model => $relatedField) {
-            $apiFields .= "&fields:$model=" . implode(',', $relatedField);
-        }
-        if(!empty($relatedFields)) {
-            $apiFields .= "&depth=1&expand_only=" . implode(',', array_keys($fieldDetails['related_fields']));
-        }
-        $view->set([
-            'add_item_url' => $this->getActionUrl('add'),
-            'import_items_url' => $this->getActionUrl('import'),
-            'public_path' => $this->context->getUrl('public'),
-            'api_parameters' => "?fields=$apiFields",
-            'list_fields' => $fieldDetails['list_fields'],
-            'column_headers' => $fieldDetails['column_headers'],
-            'operations' => $this->operations,
-            'primary_key_field' => $fieldDetails['primary_key'],
-            'foreign_key' => false,
-            'add_item_label' => $this->addItemLabel ?? "Add new {$this->entity}"
-        ]);
+        $listing->setFields($this->listFields);
+        $listing->setup($this->getWyfPackage(), $this->entities, $this->getActionUrl("/"));
+        $listing->addOperation('edit', 'Edit');
+        $listing->addOperation('delete', 'Delete');
 
-        return $view;
+        return $listing;
     }
 
     /**
@@ -400,19 +322,4 @@ class CrudController extends WyfController
         $this->setTitle("Delete {$this->entity}: {$item}");
         return $view;
     }
-
-    /**
-     * Add a custom operation to the CRUD list.
-     *
-     * @param $action
-     * @param string $label
-     */
-    protected function addOperation($action, $label = null)
-    {
-        $this->operations[] = [
-            'label' => $label == null ? $action : $label,
-            'action' => $action
-        ];
-    }
-
 }

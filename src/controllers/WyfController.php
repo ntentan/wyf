@@ -69,6 +69,11 @@ class WyfController extends Controller
         $this->view->set('menu', $context->getParameter('wyf.menu'));
     }
 
+    public function setupView(View $view)
+    {
+
+    }
+
     /**
      * Set the title displayed on top of the page.
      * @param $title
@@ -78,13 +83,6 @@ class WyfController extends Controller
         $this->view->set('wyf_title', $title);
     }
 
-    /**
-     * Return a brief description of this controller.
-     */
-    public function getDescription()
-    {
-        
-    }
 
     /**
      * Get the name of the controller.
