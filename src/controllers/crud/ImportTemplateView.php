@@ -9,24 +9,33 @@ use ntentan\View;
 
 class ImportTemplateView extends View
 {
+    private $fields;
+    private $relationshipDetails;
+    private $relationships;
+
+    private function getLabeledField($field)
+    {
+        if (is_array($field) && in_array($field[0], $this->relationships)) {
+            $label = $this->relationshipDetails[$field[0]]->getModelInstance()->getName();
+            return Text::singularize(ucwords(str_replace('_', ' ', Text::deCamelize($label))));
+        } else if (in_array($field, $this->fields)) {
+            return ucwords(str_replace('_', ' ', $field));
+        }
+    }
+
     public function setModel(Model $model, array $importFields, $entity = 'item')
     {
         $this->setLayout('plain');
         $this->setTemplate('import_csv');
         $headers = array();
         $modelDescription = $model->getDescription();
-        $fields = array_keys($modelDescription->getFields());
-        $relationshipDetails = $modelDescription->getRelationships();
-        $relationships = array_keys($relationshipDetails);
+        $this->fields = array_keys($modelDescription->getFields());
+        $this->relationshipDetails = $modelDescription->getRelationships();
+        $this->relationships = array_keys($this->relationshipDetails);
 
         foreach ($importFields as $key => $field) {
             if (is_numeric($key)) {
-                if (is_array($field) && in_array($field[0], $relationships)) {
-                    $label = $relationshipDetails[$field[0]]->getModelInstance()->getName();
-                    $headers[] = Text::singularize(ucwords(str_replace('_', ' ', Text::deCamelize($label))));
-                } else if (in_array($field, $fields)) {
-                    $headers[] = ucwords(str_replace('_', ' ', $field));
-                }
+                $headers[] = $this->getLabeledField($field);
             } else {
                 $headers[] = $key;
             }
