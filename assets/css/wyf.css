@@ -233,9 +233,7 @@ h2 {
 }
 
 #import-loader{
-    background-image: url('../images/small_loading.gif');
-    background-position: 0px, 50%;
-    background-repeat: no-repeat;
+    background: url('../images/small_loading.gif') no-repeat 0px, 50%;
     padding-left: 36px;
     display: none;
 }
@@ -247,6 +245,7 @@ h2 {
     display:none;
     margin-top:5px;
     min-width: 300px;
+    font-size: 11pt;
 }
 
 .model-search-field-list-item{

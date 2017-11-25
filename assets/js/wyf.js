@@ -188,10 +188,10 @@ var wyf = {
     /**
      *
      *
-     * @param string field
-     * @param string apiUrl
-     * @param string fields
-     * @param string name
+     * @param field
+     * @param apiUrl
+     * @param fields
+     * @param name
      * @returns void
      */
     updateModelSearchField: function (field, event, apiUrl, fields, name) {
@@ -240,6 +240,7 @@ var wyf = {
           list.html('');
           if (results.length > 0) {
             list.show();
+            list.css({'left': $('#' + name).offset().left});
           } else {
             list.hide();
           }
