@@ -26,6 +26,6 @@
 <?php endif; ?>
   wyf.list.importParameters = JSON.parse('<?= json_encode([
       'entities' => ucwords(unescape($entities)),
-      'base_url' => $base_url
+      'base_url' => $base_url->unescape()
   ]) ?>');
 </script>

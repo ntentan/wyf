@@ -3,6 +3,7 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\interfaces\RenderableInterface;
+use ntentan\Redirect;
 use ntentan\View;
 use ntentan\honam\TemplateEngine;
 use ntentan\utils\Text;
@@ -10,7 +11,7 @@ use ntentan\Model;
 use ntentan\Context;
 use ntentan\utils\filesystem\UploadedFile;
 use ajumamoro\Queue;
-use ntentan\wyf\controllers\crud\ListView;
+use ntentan\wyf\controllers\crud\ImportTemplateView;
 use ntentan\wyf\controllers\crud\ListViewDecorator;
 use ntentan\wyf\interfaces\ImportDataJobInterface;
 use ntentan\wyf\interfaces\KeyValueStoreInterface;
@@ -177,35 +178,12 @@ class CrudController extends WyfController
     /**
      * Generates an import template and outputs it as a CSV file.
      *
-     * @param View $view
+     * @param ImportTemplateView $view
      * @return View
      */
-    public function importTemplate(View $view)
+    public function importTemplate(ImportTemplateView $view)
     {
-        $view->setLayout('plain');
-        $view->setTemplate('import_csv');
-        $headers = array();
-        $modelDescription = $this->getModel()->getDescription();
-        $fields = array_keys($modelDescription->getFields());
-        $relationshipDetails = $modelDescription->getRelationships();
-        $relationships = array_keys($relationshipDetails);
-
-        foreach ($this->importFields as $key => $field) {
-            if (is_numeric($key)) {
-                if (is_array($field) && in_array($field[0], $relationships)) {
-                    $label = $relationshipDetails[$field[0]]->getModelInstance()->getName();
-                    $headers[] = Text::singularize(ucwords(str_replace('_', ' ', Text::deCamelize($label))));
-                } else if (in_array($field, $fields)) {
-                    $headers[] = ucwords(str_replace('_', ' ', $field));
-                }
-            } else {
-                $headers[] = $key;
-            }
-        }
-
-        $view->set('headers', $headers);
-        header("Content-Type: text/csv");
-        header("Content-Disposition: attachment; filename={$this->getWyfName()}.csv");
+        $view->setModel($this->getModel(), $this->importFields, $this->entities);
         return $view;
     }
 
@@ -249,7 +227,7 @@ class CrudController extends WyfController
      * Resets the import key so fresh new imports can be started.
      *
      * @param KeyValueStoreInterface $keyValueStore
-     * @return $this
+     * @return Redirect
      */
     public function resetImports(KeyValueStoreInterface $keyValueStore)
     {

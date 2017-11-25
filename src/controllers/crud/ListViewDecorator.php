@@ -30,8 +30,8 @@ class ListViewDecorator implements ThemableInterface, RenderableInterface
         $this->controllerUrl = $controllerUrl;
         $context = Context::getInstance();
         $this->view->set([
-            'add_item_url' => "{$this->controllerUrl}/add",
-            'import_items_url' => "{$this->controllerUrl}/import",
+            'add_item_url' => "{$this->controllerUrl}add",
+            'import_items_url' => "{$this->controllerUrl}import",
             'public_path' => $context->getUrl('public'),
             'add_item_label' => $this->addItemLabel ?? "Add new " . Text::singularize($this->entities)
         ]);
