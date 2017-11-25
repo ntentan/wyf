@@ -1,11 +1,11 @@
 <div class="row" id="wyf_list_header">
     <div class="column grid_10_5">
-        <h1><?= $header ?? ucwords($entities) ?></h1>
+        <h1><?= $list_heading ?? ucwords($entities) ?></h1>
     </div>
     <div class="column grid_10_5" style="text-align: right">
         <div id="wyf-operations-button-group" class="button-group">
             <?php if($has_add_operation && isset($add_item_url)): ?>
-            <a class="button button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span>&nbsp;&nbsp;<?= $add_item_label ?></a>
+            <a class="button button-green" href="<?= $add_item_url ?>"><span class="fa fa-plus-circle"></span>&nbsp;&nbsp;<?= $add_item_label ?? "Add a new {$entity}" ?></a>
             <?php endif; ?>
             <?php if($has_import_operation && isset($import_items_url)): ?>
             <a class="button button-green" href="<?= $import_items_url ?>"><span class="fa fa-upload"></span></a>
@@ -48,7 +48,7 @@
 </script>
 <script type="text/html" id="wyf_list_view_empty">
     <div id='wyf_list_banner'>
-        <p style='font-size: larger; padding: 50px'>You have no <?= $entities ?>!</p>
+        <p style='font-size: larger; padding: 50px'>No <?= $entities ?> found!</p>
         <a class='button button-green button-outline' href="<?= $add_item_url?>">Add a new <?= $entity ?></a>
         <?php if($has_import_operation): ?>
             <a class='button button-green button-outline' href='<?= $import_items_url ?>'>Import <?= $entities ?> from file</a>

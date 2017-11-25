@@ -2,6 +2,7 @@
 
 namespace ntentan\wyf\controllers;
 
+use ntentan\exceptions\RouteNotAvailableException;
 use ntentan\interfaces\RenderableInterface;
 use ntentan\Redirect;
 use ntentan\View;
@@ -22,12 +23,6 @@ use ntentan\wyf\interfaces\KeyValueStoreInterface;
  */
 class CrudController extends WyfController
 {
-    /**
-     * An array of operations that this controller can perform on data records.
-     *
-     * @var array
-     */
-    private $operations = [];
 
     /**
      * The fields that are displayed in the list of items.
@@ -54,7 +49,13 @@ class CrudController extends WyfController
 
     private $entities;
 
-    protected $addItemLabel;
+    protected $hasAddOperation = true;
+
+    protected $hasImportOperation;
+
+    protected $hasEditOperation = true;
+
+    protected $hasDeleteOperation = true;
 
     /**
      * CrudController constructor.
@@ -76,13 +77,20 @@ class CrudController extends WyfController
         $view->set([
             'entities' => $this->entities,
             'entity' => $this->entity,
-            'has_add_operation' => true,
+            'has_add_operation' => $this->hasAddOperation,
             'has_import_operation' => count($this->importFields) ? true : false,
             'package' => str_replace('.', '_', $this->getWyfPackage()),
             'api_url' => "$apiUrl/$wyfPath",
             'base_api_url' => $apiUrl,
             'base_url' => $this->context->getUrl($this->context->getParameter('controller_path'))
         ]);
+    }
+
+    private function checkIf($check)
+    {
+        if(!$check) {
+            throw new RouteNotAvailableException("Operation is not available for this controller");
+        }
     }
 
     /**
@@ -108,15 +116,19 @@ class CrudController extends WyfController
 
         $listing->setFields($this->listFields);
         $listing->setup($this->getWyfPackage(), $this->entities, $this->getActionUrl("/"));
-        $listing->addOperation('edit', 'Edit');
-        $listing->addOperation('delete', 'Delete');
-
+        if($this->hasEditOperation){
+            $listing->addOperation('edit', 'Edit');
+        }
+        if($this->hasDeleteOperation){
+            $listing->addOperation('delete', 'Delete');
+        }
         return $listing;
     }
 
     /**
      * The controller action for adding new items.
-     * This action is executed during a get request to present the user with the initial form.
+     * This action is executed through a GET request to present the user with a form from which information to be saved
+     * in a model is collected.
      *
      * @param Model $model An instance of a model
      * @param View $view The view to be used for rendering the page.
@@ -124,6 +136,7 @@ class CrudController extends WyfController
      */
     public function add(Model $model, View $view)
     {
+        $this->checkIf($this->hasAddOperation);
         $view->set(['model' => $model, 'form_data' => $view->get('form_data') ?? []]);
         $this->setTitle("Add new " . ucwords($this->getWyfName()));
         return $view;
@@ -143,6 +156,7 @@ class CrudController extends WyfController
      */
     public function store(Model $model, View $view)
     {
+        $this->checkIf($this->hasAddOperation);
         if ($model->save()) {
             $this->notify("Added new {$this->entity}: {$model}");
             return $this->getRedirect();
@@ -166,6 +180,7 @@ class CrudController extends WyfController
      */
     public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJobInterface $job, KeyValueStoreInterface $keyValueStore)
     {
+        $this->checkIf($this->hasImportOperation);
         $destination = ($this->context->getConfig()->get('app.temp_dir') ?? "uploads/") . basename($data->getClientName());
         $data->copyTo($destination);
         $job->setParameters($destination, $model, $this->importFields);
@@ -183,6 +198,7 @@ class CrudController extends WyfController
      */
     public function importTemplate(ImportTemplateView $view)
     {
+        $this->checkIf($this->hasImportOperation);
         $view->setModel($this->getModel(), $this->importFields, $this->entities);
         return $view;
     }
@@ -197,6 +213,7 @@ class CrudController extends WyfController
      */
     public function importStatus(View $view, Queue $queue, $id)
     {
+        $this->checkIf($this->hasImportOperation);
         $status = $queue->getJobStatus($id);
         $view->setTemplate('plain');
         $view->setLayout('api');
@@ -215,6 +232,7 @@ class CrudController extends WyfController
      */
     public function import(View $view, KeyValueStoreInterface $keyValueStore, Queue $queue)
     {
+        $this->checkIf($this->hasImportOperation);
         $jobId = $keyValueStore->get($this->getImportJobIdKey());
         $view->set('job_status', $queue->getJobStatus($jobId));
         $view->set('job_id',$jobId);
@@ -231,6 +249,7 @@ class CrudController extends WyfController
      */
     public function resetImports(KeyValueStoreInterface $keyValueStore)
     {
+        $this->checkIf($this->hasImportOperation);
         $keyValueStore->put($this->getImportJobIdKey(), null);
         return $this->getRedirect()->toAction('import');
     }
@@ -247,6 +266,7 @@ class CrudController extends WyfController
 
     public function edit(View $view, $id)
     {
+        $this->checkIf($this->hasEditOperation);
         $model = $this->getModel();
         $view->set('model', $this->getModel()->fetchFirst($id));
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
@@ -263,10 +283,11 @@ class CrudController extends WyfController
      * @ntentan.method POST
      * @param Model $model
      * @param View $view
-     * @return View
+     * @return RenderableInterface
      */
     public function update(Model $model, View $view)
     {
+        $this->checkIf($this->hasEditOperation);
         if ($model->save()) {
             $this->notify("Updated {$this->entity}: {$model}");
             return $this->getRedirect();
@@ -282,10 +303,11 @@ class CrudController extends WyfController
      * @param View $view
      * @param $id
      * @param null $confirm
-     * @return View
+     * @return RenderableInterface
      */
     public function delete(View $view, $id, $confirm = null)
     {
+        $this->checkIf($this->hasDeleteOperation);
         $model = $this->getModel();
         $primaryKey = $model->getDescription()->getPrimaryKey()[0];
         $item = $model->fetchFirst([$primaryKey => $id]);

@@ -1,7 +1,8 @@
 <?php
-namespace ntentan\wyf\api;
+namespace ntentan\wyf\controllers\api;
 
 use ntentan\Model;
+use ntentan\nibii\QueryParameters;
 use ntentan\utils\Input;
 use ntentan\wyf\interfaces\ApiRequestHandlerInterface;
 

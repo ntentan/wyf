@@ -5,8 +5,8 @@ namespace ntentan\wyf\controllers;
 use ntentan\View;
 use ntentan\Model;
 use ntentan\utils\Input;
-use ntentan\wyf\api\GetRequestHandler;
-use ntentan\wyf\api\PostRequestHandler;
+use ntentan\wyf\controllers\api\GetRequestHandler;
+use ntentan\wyf\controllers\api\PostRequestHandler;
 
 /**
  * Description of ApiController
@@ -44,7 +44,7 @@ class ApiController extends WyfController
      * @ntentan.action rest
      * @ntentan.method GET
      *
-     * @param GetRequestHandler $handler
+     * @param \ntentan\wyf\controllers\api\GetRequestHandler $handler
      * @param View $view
      * @param $path
      * @return View
