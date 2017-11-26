@@ -50,7 +50,7 @@ class WyfControllerFactory extends DefaultControllerFactory
                 $config = Context::getInstance()->getConfig();
                 $broker = $config->get('ajumamoro.broker', 'inline');
                 $brokerClass = "\\ajumamoro\\brokers\\" . Text::ucamelize($broker) . "Broker";
-                return $container->resolve($brokerClass, ['config' => $config->get($broker)]);
+                return $container->resolve($brokerClass, ['config' => $config->get("ajumamoro.$broker")]);
             },
             ImportDataJobInterface::class => ImportDataJob::class,
             KeyValueStoreInterface::class => DatabaseKeyValueStore::class

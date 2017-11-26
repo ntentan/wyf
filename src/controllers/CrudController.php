@@ -51,7 +51,7 @@ class CrudController extends WyfController
 
     protected $hasAddOperation = true;
 
-    protected $hasImportOperation;
+    protected $hasImportOperation = true;
 
     protected $hasEditOperation = true;
 
@@ -232,7 +232,7 @@ class CrudController extends WyfController
      */
     public function import(View $view, KeyValueStoreInterface $keyValueStore, Queue $queue)
     {
-        $this->checkIf($this->hasImportOperation);
+        $this->checkIf($this->hasImportOperation && $this->importFields);
         $jobId = $keyValueStore->get($this->getImportJobIdKey());
         $view->set('job_status', $queue->getJobStatus($jobId));
         $view->set('job_id',$jobId);
