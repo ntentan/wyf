@@ -111,6 +111,7 @@ class ImportDataJob extends Job implements ImportDataJobInterface
     /**
      * Perform the actual import.
      * @return string The response for the job caller.
+     * @throws \ntentan\utils\exceptions\FileNotReadableException
      */
     public function go()
     {

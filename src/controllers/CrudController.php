@@ -133,6 +133,7 @@ class CrudController extends WyfController
      * @param Model $model An instance of a model
      * @param View $view The view to be used for rendering the page.
      * @return View
+     * @throws RouteNotAvailableException
      */
     public function add(Model $model, View $view)
     {
@@ -153,6 +154,7 @@ class CrudController extends WyfController
      * @param Model $model An instance of the model populated with data from the form.
      * @param View $view The view to be used for rendering the page.
      * @return View
+     * @throws RouteNotAvailableException
      */
     public function store(Model $model, View $view)
     {
@@ -177,6 +179,7 @@ class CrudController extends WyfController
      * @param Queue $queue
      * @param ImportDataJobInterface $job
      * @return string
+     * @throws RouteNotAvailableException
      */
     public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJobInterface $job, KeyValueStoreInterface $keyValueStore)
     {
@@ -195,6 +198,7 @@ class CrudController extends WyfController
      *
      * @param ImportTemplateView $view
      * @return View
+     * @throws RouteNotAvailableException
      */
     public function importTemplate(ImportTemplateView $view)
     {
@@ -210,6 +214,7 @@ class CrudController extends WyfController
      * @param Queue $queue
      * @param $id
      * @return View
+     * @throws RouteNotAvailableException
      */
     public function importStatus(View $view, Queue $queue, $id)
     {
@@ -229,6 +234,7 @@ class CrudController extends WyfController
      * @param KeyValueStoreInterface $keyValueStore
      * @param Queue $queue
      * @return View
+     * @throws RouteNotAvailableException
      */
     public function import(View $view, KeyValueStoreInterface $keyValueStore, Queue $queue)
     {
@@ -246,6 +252,7 @@ class CrudController extends WyfController
      *
      * @param KeyValueStoreInterface $keyValueStore
      * @return Redirect
+     * @throws RouteNotAvailableException
      */
     public function resetImports(KeyValueStoreInterface $keyValueStore)
     {
@@ -284,6 +291,7 @@ class CrudController extends WyfController
      * @param Model $model
      * @param View $view
      * @return RenderableInterface
+     * @throws RouteNotAvailableException
      */
     public function update(Model $model, View $view)
     {
@@ -304,6 +312,7 @@ class CrudController extends WyfController
      * @param $id
      * @param null $confirm
      * @return RenderableInterface
+     * @throws RouteNotAvailableException
      */
     public function delete(View $view, $id, $confirm = null)
     {
