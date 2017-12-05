@@ -13,7 +13,6 @@ use ntentan\utils\Text;
 use ntentan\wyf\controllers\CrudController;
 use ntentan\wyf\interfaces\ImportDataJobInterface;
 use ntentan\wyf\jobs\ImportDataJob;
-use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
 /**
  * The default controller factory used for WYF based applications.
@@ -52,8 +51,7 @@ class WyfControllerFactory extends DefaultControllerFactory
                 $brokerClass = "\\ajumamoro\\brokers\\" . Text::ucamelize($broker) . "Broker";
                 return $container->resolve($brokerClass, ['config' => $config->get("ajumamoro.$broker")]);
             },
-            ImportDataJobInterface::class => ImportDataJob::class,
-            KeyValueStoreInterface::class => DatabaseKeyValueStore::class
+            ImportDataJobInterface::class => ImportDataJob::class
         ]);
         $this->serviceLocator = $serviceLocator;
     }

@@ -20,6 +20,9 @@ class ModelField extends SelectField
      * Create a new ModelField.
      * @param string|\ntentan\Model $model A string as the model name or
      *          an instance of a model
+     * @param null $formTemplate
+     * @param null $apiUrl
+     * @throws \ntentan\nibii\NibiiException
      */
     public function __construct($model, $formTemplate = null, $apiUrl = null)
     {

@@ -2,10 +2,12 @@
 
 namespace ntentan\wyf;
 
+use ntentan\Application;
 use ntentan\ContainerBuilder;
 use ntentan\interfaces\ControllerFactoryInterface;
 use ntentan\nibii\interfaces\ModelFactoryInterface;
 use ntentan\View;
+use ntentan\wyf\interfaces\KeyValueStoreInterface;
 
 /**
  * Augments the ntentan container with WYF specific bindings.
@@ -18,6 +20,8 @@ class WyfContainerBuilder extends ContainerBuilder
     {
         $container = parent::getContainer();
         $container->setup([
+            KeyValueStoreInterface::class => DatabaseKeyValueStore::class,
+            Application::class => ['calls' => ['initializeKeyValueStore']],
             ControllerFactoryInterface::class => WyfControllerFactory::class,
             ModelFactoryInterface::class => WyfModelFactory::class,
             View::class => function() {

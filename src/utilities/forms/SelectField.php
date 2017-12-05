@@ -5,11 +5,11 @@ namespace ntentan\wyf\utilities\forms;
 class SelectField extends Input
 {
 
-    protected $options = array();
+    protected $options = [];
 
     public function addOption($label, $value)
     {
-        $this->options[$value] = $label;
+        $this->options[] = [$value, $label];
         return $this;
     }
 

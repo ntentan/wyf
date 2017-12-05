@@ -6,12 +6,13 @@ use ntentan\controllers\model_binders\ViewBinder;
 use ntentan\honam\TemplateEngine;
 use ntentan\Application;
 use ntentan\wyf\controllers\crud\ListViewDecorator;
+use ntentan\wyf\interfaces\KeyValueStoreInterface;
 use ntentan\wyf\utilities\forms\Element;
 use ntentan\Context;
 use ntentan\wyf\controllers\AuthController;
 
 /**
- * Description of newPHPClass
+ *
  *
  * @author ekow
  */
@@ -26,6 +27,11 @@ class WyfApplication extends Application
     protected function getMenu()
     {
         return [];
+    }
+
+    public function initializeKeyValueStore(KeyValueStoreInterface $keyValueStore)
+    {
+        KeyValueStore::initialize($keyValueStore);
     }
 
     protected function setup(): void
