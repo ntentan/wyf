@@ -5,8 +5,9 @@
     $hideWrapper = in_array($element->getType(), ['HiddenField']) ? true : false;
     $description = $element->getDescription();
     $errors = $element->getErrors();
+    $elementclasses = implode(' ', $element->getCssClasses(\ntentan\wyf\utilities\forms\Element::CSS_CLASS_TARGET_WRAPPER)->unescape());
     ?>
-    <?php if(!$hideWrapper): ?><div class="form-element <?= $errors ? "form-error" : "" ?>" id="form-element-<?= $id ?>"><?php endif; ?>
+    <?php if(!$hideWrapper): ?><div class="form-element<?= $errors ? " form-error" : "" ?><?= " {$elementclasses}" ?>" id="form-element-<?= $id ?>"><?php endif; ?>
     <?php if($label): ?><label><?= $label ?></label><?php endif; ?>
     <?= unescape($element) ?>
     <?php if(count($errors)): ?>

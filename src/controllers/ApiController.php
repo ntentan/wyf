@@ -48,10 +48,17 @@ class ApiController extends WyfController
      * @param View $view
      * @param $path
      * @return View
+     * @throws \Exception
      */
     public function getRequest(GetRequestHandler $handler, View $view, $path)
     {
-        $view->set('response', $handler->process($this->decodePath($path)));
+        try{
+            $view->set('response', $handler->process($this->decodePath($path)));
+        } catch(\Exception $e) {
+            http_response_code(500);
+            throw $e;
+        }
+
         return $view;
     }
 

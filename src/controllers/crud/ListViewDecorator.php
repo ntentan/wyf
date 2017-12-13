@@ -50,7 +50,7 @@ class ListViewDecorator implements ThemableInterface, RenderableInterface
         ];
     }
 
-    private function decodeArrayFieldInfo($fieldInfo, $field, &$listField, &$columnHeader)
+    private function decodeArrayFieldInfo($fieldInfo, $field, &$listField, &$columnHeader, &$relatedFields)
     {
         if(!isset($fieldInfo[0])) {
             throw new NtentanException("Invalid array field format presented");
@@ -73,7 +73,7 @@ class ListViewDecorator implements ThemableInterface, RenderableInterface
         if(is_string($fieldInfo)) {
             return ['list_field' => $field, 'column_header' => $fieldInfo];
         } else if (is_array($fieldInfo)) {
-            return $this->decodeArrayFieldInfo($fieldInfo, $field, $listField, $columnHeader);
+            return $this->decodeArrayFieldInfo($fieldInfo, $field, $listField, $columnHeader, $relatedFields);
         }
     }
 
@@ -109,7 +109,7 @@ class ListViewDecorator implements ThemableInterface, RenderableInterface
         foreach($fieldDetails['related_fields'] as $model => $relatedField) {
             $apiFields .= "&fields:$model=" . implode(',', $relatedField);
         }
-        if(!empty($relatedFields)) {
+        if(!empty($fieldDetails['related_fields'])) {
             $apiFields .= "&depth=1&expand_only=" . implode(',', array_keys($fieldDetails['related_fields']));
         }
         $this->view->set([

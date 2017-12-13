@@ -61,11 +61,12 @@ class CrudController extends WyfController
      * CrudController constructor.
      *
      * @param View $view The singleton view that will eventually be used to render the page.
+     * @throws \ntentan\exceptions\NtentanException
      */
     public function __construct(View $view)
     {
         parent::__construct($view);
-        $this->context = Context::getInstance();
+        $context = Context::getInstance();
         $this->entities = $this->getWyfName();
         $this->entity = Text::singularize($this->getWyfName());
         TemplateEngine::appendPath(realpath(__DIR__ . '/../../views/crud'));
@@ -73,7 +74,7 @@ class CrudController extends WyfController
         TemplateEngine::appendPath('views/lists');
 
         $wyfPath = $this->getWyfPath();
-        $apiUrl = $this->context->getUrl('api');
+        $apiUrl = $context->getUrl('api');
         $view->set([
             'entities' => $this->entities,
             'entity' => $this->entity,
@@ -82,7 +83,7 @@ class CrudController extends WyfController
             'package' => str_replace('.', '_', $this->getWyfPackage()),
             'api_url' => "$apiUrl/$wyfPath",
             'base_api_url' => $apiUrl,
-            'base_url' => $this->context->getUrl($this->context->getParameter('controller_path'))
+            'base_url' => $context->getUrl($context->getParameter('controller_path'))
         ]);
     }
 
@@ -97,6 +98,7 @@ class CrudController extends WyfController
      * Return an instance of the model that is wrapped by this CRUD controller.
      *
      * @return Model
+     * @throws \ntentan\nibii\NibiiException
      */
     protected function getModel() : Model
     {
@@ -184,7 +186,7 @@ class CrudController extends WyfController
     public function importData(UploadedFile $data, Model $model, Queue $queue, ImportDataJobInterface $job, KeyValueStoreInterface $keyValueStore)
     {
         $this->checkIf($this->hasImportOperation);
-        $destination = ($this->context->getConfig()->get('app.temp_dir') ?? "uploads/") . basename($data->getClientName());
+        $destination = (Context::getInstance()->getConfig()->get('app.temp_dir') ?? "uploads/") . basename($data->getClientName());
         $data->copyTo($destination);
         $job->setParameters($destination, $model, $this->importFields);
         $job->setAttributes(['file' => $destination]);

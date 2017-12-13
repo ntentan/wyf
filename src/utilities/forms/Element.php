@@ -49,13 +49,17 @@ class Element
      */
     protected $description;
     protected $parent;
-    protected $classes = [];
+    protected $classes = ['element' => [], 'wrapper' => []];
+    protected $wrapperClasses = [];
     protected static $sharedFormData = [];
+
+    const CSS_CLASS_TARGET_ELEMENT = 'element';
+    const CSS_CLASS_TARGET_WRAPPER = 'wrapper';
 
     public function __toString()
     {
         $type = $this->renderWithType == ''
-            ? \ntentan\utils\Text::deCamelize($this->getType())
+            ? Text::deCamelize($this->getType())
             : $this->renderWithType;
 
         return TemplateEngine::render(
@@ -116,9 +120,7 @@ class Element
 
     private function renderAttributes()
     {
-        return TemplateEngine::render(
-            'wyf_inputs_forms_attributes', ['attributes' => $this->attributes]
-        );
+        return TemplateEngine::render('wyf_inputs_forms_attributes', ['attributes' => $this->attributes]);
     }
 
     public function getTemplateVariables()
@@ -126,7 +128,8 @@ class Element
         return $this->variables + [
             'label' => $this->label,
             'attributes' => $this->renderAttributes(),
-            'extra_css_classes' => implode(' ', $this->classes) . (count($this->getErrors()) > 0 ? ' form-error' : '')
+            'extra_css_classes' => implode(' ', $this->classes[self::CSS_CLASS_TARGET_ELEMENT])
+                . (count($this->getErrors()) > 0 ? ' form-error' : '')
         ];
     }
 
@@ -156,10 +159,15 @@ class Element
         $this->parent = $parent;
     }
 
-    public function addCssClass($class)
+    public function addCssClass($class, $target = self::CSS_CLASS_TARGET_ELEMENT)
     {
-        $this->classes[] = $class;
+        $this->classes[$target][] = $class;
         return $this;
+    }
+
+    public function getCssClasses($target = self::CSS_CLASS_TARGET_ELEMENT)
+    {
+        return $this->classes[$target];
     }
 
 }
