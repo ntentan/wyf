@@ -3,12 +3,8 @@
   "description": "Framework for building enterprisey apps on top of ntentan",
   "license": "MIT",
   "require": {
-    "fahodzi/ui": "0.*",
-    "ntentan/ntentan": "0.*",
-    "frameworks/handlebars.js": "@stable",
-    "frameworks/jquery": "@stable",
-    "fortawesome/font-awesome": "4.*",
-    "webmodules/pikaday": "@stable"
+    "ekowabaka/ui": "dev-main",
+    "ntentan/mvc": "dev-main"
   },
   "authors": [
     {

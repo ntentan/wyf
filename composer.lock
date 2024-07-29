@@ -1,25 +1,26 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7f2184135f8f7a7c428950c67a33fda",
+    "content-hash": "3b2d7c4436c131e9c8fa6ac60d465a86",
     "packages": [
         {
-            "name": "fahodzi/ui",
-            "version": "v0.2.0",
+            "name": "ekowabaka/ui",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fahodzi/ui.git",
-                "reference": "b759f397895e9f36bbe5de0921ba59f561521997"
+                "url": "https://github.com/ekowabaka/ui.git",
+                "reference": "aeeb3e9052fcd8eb11a97f4348c0edb598725391"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fahodzi/ui/zipball/b759f397895e9f36bbe5de0921ba59f561521997",
-                "reference": "b759f397895e9f36bbe5de0921ba59f561521997",
+                "url": "https://api.github.com/repos/ekowabaka/ui/zipball/aeeb3e9052fcd8eb11a97f4348c0edb598725391",
+                "reference": "aeeb3e9052fcd8eb11a97f4348c0edb598725391",
                 "shasum": ""
             },
+            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -32,325 +33,10 @@
                 }
             ],
             "description": "UI Library",
-            "time": "2017-11-18T21:07:39+00:00"
-        },
-        {
-            "name": "fortawesome/font-awesome",
-            "version": "v4.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
+            "support": {
+                "source": "https://github.com/ekowabaka/ui/tree/main"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
-                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
-                "shasum": ""
-            },
-            "require-dev": {
-                "jekyll": "1.0.2",
-                "lessc": "1.4.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.6.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OFL-1.1",
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dave Gandy",
-                    "email": "dave@fontawesome.io",
-                    "homepage": "http://twitter.com/davegandy",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The iconic font and CSS framework",
-            "homepage": "http://fontawesome.io/",
-            "keywords": [
-                "FontAwesome",
-                "awesome",
-                "bootstrap",
-                "font",
-                "icon"
-            ],
-            "time": "2016-10-24T15:52:54+00:00"
-        },
-        {
-            "name": "frameworks/handlebars.js",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/frameworks/handlebars.js.git",
-                "reference": "9e75211fc383f7d67582254d5e91efb4fb1bb8b4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/frameworks/handlebars.js/zipball/9e75211fc383f7d67582254d5e91efb4fb1bb8b4",
-                "reference": "9e75211fc383f7d67582254d5e91efb4fb1bb8b4",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-09-02T13:00:48+00:00"
-        },
-        {
-            "name": "frameworks/jquery",
-            "version": "2.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/frameworks/jquery.git",
-                "reference": "ef9c4fe9fcb23914bba6ec6d32c556e4a38a0fd9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/frameworks/jquery/zipball/ef9c4fe9fcb23914bba6ec6d32c556e4a38a0fd9",
-                "reference": "ef9c4fe9fcb23914bba6ec6d32c556e4a38a0fd9",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "jQuery JavaScript Library",
-            "homepage": "http://jquery.com",
-            "time": "2015-10-09T00:55:51+00:00"
-        },
-        {
-            "name": "matthiasmullie/minify",
-            "version": "1.3.55",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matthiasmullie/minify.git",
-                "reference": "21084eb9e6c117f5236969532d00ed2750cd1617"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/21084eb9e6c117f5236969532d00ed2750cd1617",
-                "reference": "21084eb9e6c117f5236969532d00ed2750cd1617",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "matthiasmullie/path-converter": "~1.1",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2.0",
-                "matthiasmullie/scrapbook": "~1.0",
-                "phpunit/phpunit": "~4.8"
-            },
-            "suggest": {
-                "psr/cache-implementation": "Cache implementation to use with Minify::cache"
-            },
-            "bin": [
-                "bin/minifycss",
-                "bin/minifyjs"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MatthiasMullie\\Minify\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Mullie",
-                    "email": "minify@mullie.eu",
-                    "homepage": "http://www.mullie.eu",
-                    "role": "Developer"
-                }
-            ],
-            "description": "CSS & JavaScript minifier, in PHP. Removes whitespace, strips comments, combines files (incl. @import statements and small assets in CSS files), and optimizes/shortens a few common programming patterns.",
-            "homepage": "http://www.minifier.org",
-            "keywords": [
-                "JS",
-                "css",
-                "javascript",
-                "minifier",
-                "minify"
-            ],
-            "time": "2017-10-25T11:13:12+00:00"
-        },
-        {
-            "name": "matthiasmullie/path-converter",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matthiasmullie/path-converter.git",
-                "reference": "08551ec1b156e923c242a10ab484bd4d6ead6631"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matthiasmullie/path-converter/zipball/08551ec1b156e923c242a10ab484bd4d6ead6631",
-                "reference": "08551ec1b156e923c242a10ab484bd4d6ead6631",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MatthiasMullie\\PathConverter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Mullie",
-                    "email": "pathconverter@mullie.eu",
-                    "homepage": "http://www.mullie.eu",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Relative path converter",
-            "homepage": "http://github.com/matthiasmullie/path-converter",
-            "keywords": [
-                "converter",
-                "path",
-                "paths",
-                "relative"
-            ],
-            "time": "2017-01-26T08:54:49+00:00"
-        },
-        {
-            "name": "monolog/monolog",
-            "version": "1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "psr/log": "~1.0"
-            },
-            "provide": {
-                "psr/log-implementation": "1.0.0"
-            },
-            "require-dev": {
-                "aws/aws-sdk-php": "^2.4.9 || ^3.0",
-                "doctrine/couchdb": "~1.0@dev",
-                "graylog2/gelf-php": "~1.0",
-                "jakub-onderka/php-parallel-lint": "0.9",
-                "php-amqplib/php-amqplib": "~2.4",
-                "php-console/php-console": "^3.1.3",
-                "phpunit/phpunit": "~4.5",
-                "phpunit/phpunit-mock-objects": "2.3.0",
-                "ruflin/elastica": ">=0.90 <3.0",
-                "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "^5.3|^6.0"
-            },
-            "suggest": {
-                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
-                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
-                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-                "ext-mongo": "Allow sending log messages to a MongoDB server",
-                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
-                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-                "php-console/php-console": "Allow sending log messages to Google Chrome",
-                "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "sentry/sentry": "Allow sending log messages to a Sentry server"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Monolog\\": "src/Monolog"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
-                }
-            ],
-            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
-            "homepage": "http://github.com/Seldaek/monolog",
-            "keywords": [
-                "log",
-                "logging",
-                "psr-3"
-            ],
-            "time": "2017-06-19T01:22:40+00:00"
-        },
-        {
-            "name": "ntentan/atiaa",
-            "version": "v0.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ntentan/atiaa.git",
-                "reference": "6802e3a5ddd0b57b3b879fd6fad795dbbab07234"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/atiaa/zipball/6802e3a5ddd0b57b3b879fd6fad795dbbab07234",
-                "reference": "6802e3a5ddd0b57b3b879fd6fad795dbbab07234",
-                "shasum": ""
-            },
-            "require": {
-                "ntentan/utils": "0.*",
-                "php": ">=7.1.0"
-            },
-            "require-dev": {
-                "phpunit/dbunit": "@stable",
-                "phpunit/phpunit": "@stable"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ntentan\\atiaa\\": "src/",
-                    "ntentan\\atiaa\\tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "James Ekow Abaka Ainooson",
-                    "email": "jainooson@gmail.com"
-                }
-            ],
-            "description": "A slim wrapper around PDO to provide some extra utilities",
-            "time": "2017-11-18T06:50:10+00:00"
+            "time": "2024-07-04T00:12:41+00:00"
         },
         {
             "name": "ntentan/config",
@@ -387,43 +73,35 @@
                 }
             ],
             "description": "Configurations manager for ntentan",
+            "support": {
+                "issues": "https://github.com/ntentan/config/issues",
+                "source": "https://github.com/ntentan/config/tree/master"
+            },
             "time": "2017-09-17T14:10:38+00:00"
         },
         {
-            "name": "ntentan/honam",
-            "version": "v0.5.0",
+            "name": "ntentan/mvc",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ntentan/honam.git",
-                "reference": "5c707d103d3cb95b18f8feb43f8a8b2579011d58"
+                "url": "https://github.com/ntentan/mvc.git",
+                "reference": "4f6d773b4a721d386f0ae561643d7d3241a2bcd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/honam/zipball/5c707d103d3cb95b18f8feb43f8a8b2579011d58",
-                "reference": "5c707d103d3cb95b18f8feb43f8a8b2579011d58",
+                "url": "https://api.github.com/repos/ntentan/mvc/zipball/4f6d773b4a721d386f0ae561643d7d3241a2bcd0",
+                "reference": "4f6d773b4a721d386f0ae561643d7d3241a2bcd0",
                 "shasum": ""
             },
             "require": {
-                "matthiasmullie/minify": "1.*",
-                "ntentan/utils": "0.*"
+                "ntentan/ntentan": "0.*",
+                "php": ">=8.2.0"
             },
-            "require-dev": {
-                "mikey179/vfsstream": "@stable",
-                "mustache/mustache": "@stable",
-                "phpunit/phpunit": "@stable",
-                "smarty/smarty": "@stable"
-            },
-            "suggest": {
-                "mustache/mustache": "For mustache template support (2.*)",
-                "natxet/cssmin": "Use CSSMin for CSS minification (3.*)",
-                "smarty/smarty": "For smarty template support (3.*)",
-                "tedivm/jshrink": "Use Jshrink for Javascript Minification (1.*)"
-            },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "ntentan\\honam\\": "src/",
-                    "ntentan\\honam\\tests\\": "tests/"
+                    "ntentan\\mvc\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -432,110 +110,39 @@
             ],
             "authors": [
                 {
-                    "name": "Ekow Abaka Ainooson",
-                    "email": "jainooson@gmail.com"
+                    "name": "James Ekow Abaka Ainooson",
+                    "email": "jainooson@gmail.com",
+                    "homepage": "http://ekowabaka.me"
                 }
             ],
-            "description": "The views component of the ntentan framework.",
-            "time": "2017-07-28T12:19:34+00:00"
-        },
-        {
-            "name": "ntentan/kaikai",
-            "version": "v0.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ntentan/kaikai.git",
-                "reference": "3bc7428f19467ff00cf2459712a1e3fd94106763"
+            "description": "An MVC component for the Ntentan framework",
+            "support": {
+                "issues": "https://github.com/ntentan/mvc/issues",
+                "source": "https://github.com/ntentan/mvc/tree/main"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/kaikai/zipball/3bc7428f19467ff00cf2459712a1e3fd94106763",
-                "reference": "3bc7428f19467ff00cf2459712a1e3fd94106763",
-                "shasum": ""
-            },
-            "require": {
-                "ntentan/utils": "0.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ntentan\\kaikai\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "ekow",
-                    "email": "your@email.here"
-                }
-            ],
-            "description": "Caching for Ntentan Framework",
-            "time": "2017-09-19T00:36:27+00:00"
-        },
-        {
-            "name": "ntentan/nibii",
-            "version": "v0.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ntentan/nibii.git",
-                "reference": "509951ddb2e49340b18b8042d14c6055942e5666"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/nibii/zipball/509951ddb2e49340b18b8042d14c6055942e5666",
-                "reference": "509951ddb2e49340b18b8042d14c6055942e5666",
-                "shasum": ""
-            },
-            "require": {
-                "ntentan/atiaa": "0.*",
-                "ntentan/kaikai": "0.*",
-                "ntentan/utils": "0.*"
-            },
-            "require-dev": {
-                "phpunit/dbunit": "@stable",
-                "phpunit/phpunit": "@stable"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ntentan\\nibii\\": "src/",
-                    "ntentan\\nibii\\tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ekow Abaka Ainooson",
-                    "email": "jainooson@gmail.com"
-                }
-            ],
-            "description": "ORM for ntentan",
-            "time": "2017-11-18T15:39:59+00:00"
+            "time": "2024-07-29T12:37:11+00:00"
         },
         {
             "name": "ntentan/ntentan",
-            "version": "v0.4.1",
+            "version": "v0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/ntentan.git",
-                "reference": "1f3de61e0c821f0f94c0eb250ef0711e22504558"
+                "reference": "a3d3bb71421d8aa1abdc517ae64bbd3adfe89ccb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/1f3de61e0c821f0f94c0eb250ef0711e22504558",
-                "reference": "1f3de61e0c821f0f94c0eb250ef0711e22504558",
+                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/a3d3bb71421d8aa1abdc517ae64bbd3adfe89ccb",
+                "reference": "a3d3bb71421d8aa1abdc517ae64bbd3adfe89ccb",
                 "shasum": ""
             },
             "require": {
-                "monolog/monolog": "@stable",
-                "ntentan/config": "0.*",
-                "ntentan/honam": "0.*",
-                "ntentan/nibii": "0.*",
-                "ntentan/panie": "0.*",
-                "php": ">=5.4.0"
+                "ntentan/config": "@stable",
+                "ntentan/panie": "@stable",
+                "php": ">=8.2.0",
+                "psr/http-message": "^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "@stable"
@@ -558,20 +165,24 @@
                 }
             ],
             "description": "Another PHP application framework.",
-            "time": "2017-11-18T20:33:16+00:00"
+            "support": {
+                "issues": "https://github.com/ntentan/ntentan/issues",
+                "source": "https://github.com/ntentan/ntentan/tree/v0.8.0"
+            },
+            "time": "2024-07-13T12:27:35+00:00"
         },
         {
             "name": "ntentan/panie",
-            "version": "v0.5.2",
+            "version": "v0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/panie.git",
-                "reference": "bb6cd34cc2630682532213a7eb4283d8b473aeb0"
+                "reference": "5c230d424b857e6fff2b430bfd722403c5052315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/panie/zipball/bb6cd34cc2630682532213a7eb4283d8b473aeb0",
-                "reference": "bb6cd34cc2630682532213a7eb4283d8b473aeb0",
+                "url": "https://api.github.com/repos/ntentan/panie/zipball/5c230d424b857e6fff2b430bfd722403c5052315",
+                "reference": "5c230d424b857e6fff2b430bfd722403c5052315",
                 "shasum": ""
             },
             "require": {
@@ -599,69 +210,30 @@
                 }
             ],
             "description": "A thin DI container for NtentanFX",
-            "time": "2017-11-18T07:03:20+00:00"
-        },
-        {
-            "name": "ntentan/utils",
-            "version": "v0.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ntentan/utils.git",
-                "reference": "7d7f55535dacfbd286d12671c3e68f346d62b454"
+            "support": {
+                "issues": "https://github.com/ntentan/panie/issues",
+                "source": "https://github.com/ntentan/panie/tree/v0.8.0"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/utils/zipball/7d7f55535dacfbd286d12671c3e68f346d62b454",
-                "reference": "7d7f55535dacfbd286d12671c3e68f346d62b454",
-                "shasum": ""
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "@stable",
-                "phpunit/phpunit": "@stable"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ntentan\\utils\\": "src/",
-                    "ntentan\\utils\\tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ekow Abaka Ainooson",
-                    "email": "jainooson@gmail.com"
-                }
-            ],
-            "description": "Common utility functions shared accross the ntentan framework.",
-            "time": "2017-11-18T06:59:14+00:00"
+            "time": "2024-06-23T07:15:08+00:00"
         },
         {
             "name": "psr/container",
-            "version": "1.0.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=7.4.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -674,7 +246,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common Container Interface (PHP FIG PSR-11)",
@@ -686,34 +258,38 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-02-14T16:28:37+00:00"
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/1.1.2"
+            },
+            "time": "2021-11-05T16:50:12+00:00"
         },
         {
-            "name": "psr/log",
-            "version": "1.0.2",
+            "name": "psr/http-message",
+            "version": "2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": "^7.2 || ^8.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
+                    "Psr\\Http\\Message\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -723,42 +299,51 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
             "keywords": [
-                "log",
+                "http",
+                "http-message",
                 "psr",
-                "psr-3"
+                "psr-7",
+                "request",
+                "response"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
+            },
+            "time": "2023-04-04T09:54:51+00:00"
         },
         {
-            "name": "webmodules/moment",
-            "version": "2.11.21",
+            "name": "psr/http-server-handler",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmodule/moment.git",
-                "reference": "69c1b247319215a0b7133c42cb36ff2c3c1d6116"
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmodule/moment/zipball/69c1b247319215a0b7133c42cb36ff2c3c1d6116",
-                "reference": "69c1b247319215a0b7133c42cb36ff2c3c1d6116",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "type": "library",
             "extra": {
-                "component": {
-                    "scripts": [
-                        "moment.js"
-                    ],
-                    "files": [
-                        "min/*.js",
-                        "locale/*.js"
-                    ]
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -767,68 +352,95 @@
             ],
             "authors": [
                 {
-                    "name": "Tim Wood",
-                    "email": "washwithcare@gmail.com"
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
-            "description": "Parse, validate, manipulate, and display dates in JavaScript.",
-            "homepage": "http://github.com/moment/moment/",
+            "description": "Common interface for HTTP server-side request handler",
             "keywords": [
-                "date",
-                "ender",
-                "format",
-                "i18n",
-                "l10n",
-                "moment",
-                "parse",
-                "time",
-                "validate"
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
             ],
-            "time": "2016-01-25T18:33:46+00:00"
+            "support": {
+                "source": "https://github.com/php-fig/http-server-handler/tree/1.0.2"
+            },
+            "time": "2023-04-10T20:06:20+00:00"
         },
         {
-            "name": "webmodules/pikaday",
-            "version": "1.3.3",
+            "name": "psr/http-server-middleware",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jqmodules/pikaday.git",
-                "reference": "800ab704cc12fc204cd8cd6cbb0939264a05655b"
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jqmodules/pikaday/zipball/800ab704cc12fc204cd8cd6cbb0939264a05655b",
-                "reference": "800ab704cc12fc204cd8cd6cbb0939264a05655b",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
                 "shasum": ""
             },
             "require": {
-                "webmodules/moment": ">=2.10.4"
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0",
+                "psr/http-server-handler": "^1.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD",
                 "MIT"
             ],
-            "description": "A refreshing JavaScript Datepicker — lightweight, no dependencies, modular CSS",
-            "homepage": "http://dbushell.github.io/Pikaday/",
-            "keywords": [
-                "calendar",
-                "date",
-                "datepicker"
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
             ],
-            "time": "2015-08-20T19:10:02+00:00"
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/1.0.2"
+            },
+            "time": "2023-04-11T06:14:47+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "frameworks/handlebars.js": 0,
-        "frameworks/jquery": 0,
-        "webmodules/pikaday": 0
+        "ekowabaka/ui": 20,
+        "ntentan/mvc": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
 }
