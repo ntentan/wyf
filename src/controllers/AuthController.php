@@ -2,7 +2,7 @@
 
 namespace ntentan\wyf\controllers;
 
-use ntentan\View;
+use ntentan\mvc\View;
 use ntentan\Session;
 
 /**
@@ -10,9 +10,10 @@ use ntentan\Session;
  *
  * @author ekow
  */
-class AuthController extends WyfController {
+class AuthController {
 
-    public function login(View $view) {
+    public function login(View $view) 
+    {
         $view->setLayout('centered');
         return $view;
     }

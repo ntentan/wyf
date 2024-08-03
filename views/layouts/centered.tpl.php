@@ -5,6 +5,6 @@
         <link href="/public/css/bundle.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <div class="login-box"><?= unescape($contents) ?></div>
+        <div class="login-box"><?= $contents->u() ?></div>
     </body>
 </html>
