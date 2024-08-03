@@ -19,10 +19,6 @@ class WyfModelFactory implements ModelFactoryInterface
 
     /**
      * Creates an instance of a model presented as a dot separated string.
-     *  
-     * @param type $model
-     * @param type $context
-     * @return type
      */
     public function createModel($model, $context)
     {

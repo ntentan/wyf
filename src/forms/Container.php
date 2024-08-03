@@ -1,14 +1,9 @@
 <?php
 
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
 class Container extends Element
 {
-
-    /**
-     *
-     * @var array<\ntentan\honam\helpers\form\Element>
-     */
     protected $elements = array();
     private $data;
 
@@ -29,11 +24,6 @@ class Container extends Element
             ] + parent::getTemplateVariables();
     }
 
-    /**
-     *
-     * @param type $element
-     * @return type
-     */
     public function getValueFor($element)
     {
         // If we have data for element return else call my parent for that or 

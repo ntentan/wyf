@@ -1,9 +1,9 @@
 <?php
 
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
-use ntentan\honam\TemplateEngine;
 use ntentan\utils\Text;
+use ntentan\honam\Templates;
 
 /**
  * Base class for all form elements.
@@ -17,50 +17,52 @@ class Element
      * A label to be rendered along with this element.
      * @var string
      */
-    protected $label;
+    protected string $label;
 
     /**
      * An associative key-value array of attributes for the element.
      * @var array
      */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
      * An associative key-value array of errors.
      * @var array
      */
-    protected $errors;
+    protected array $errors;
 
     /**
      * Specific variables to be rendered in element templates.
      * @var array
      */
-    protected $variables = [];
+    protected array $variables = [];
 
     /**
      * Forces the element to be rendered with the template for a given type.
      * @var string
      */
-    protected $renderWithType;
+    protected string $renderWithType;
 
     /**
      * A description of the form element.
      * @var string
      */
-    protected $description;
-    protected $parent;
-    protected $classes = [];
+    protected string $description;
+    protected Element $parent;
+    protected string $classes = [];
     protected static $sharedFormData = [];
+    
+    private Templates $templates;
+    
+    public function __construct(Templates $templates)
+    {
+        $this->templates = $templates;
+    }
 
     public function __toString()
     {
-        $type = $this->renderWithType == ''
-            ? \ntentan\utils\Text::deCamelize($this->getType())
-            : $this->renderWithType;
-
-        return TemplateEngine::render(
-            "wyf_inputs_forms_{$type}.tpl.php", $this->getTemplateVariables()
-        );
+        $type = $this->renderWithType ?? \ntentan\utils\Text::deCamelize($this->getType());
+        return $this->templates->render("wyf_inputs_forms_{$type}.tpl.php", $this->getTemplateVariables());
     }
 
     public function getType()
@@ -116,9 +118,7 @@ class Element
 
     private function renderAttributes()
     {
-        return TemplateEngine::render(
-            'wyf_inputs_forms_attributes', ['attributes' => $this->attributes]
-        );
+        return $this->render('wyf_inputs_forms_attributes', ['attributes' => $this->attributes]);
     }
 
     public function getTemplateVariables()

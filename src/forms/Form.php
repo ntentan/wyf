@@ -1,13 +1,13 @@
 <?php
 
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
 
 class Form extends Container
 {
 
-    private $submitValue = 'Save';
-    private $submitButton;
+    private string $submitValue = 'Save';
+//     private SubmitButton $submitButton;
 
     public function __construct()
     {
@@ -25,13 +25,13 @@ class Form extends Container
         return $this;
     }
 
-    public function getSubmitButton()
-    {
-        if (!$this->submitButton) {
-            $this->submitButton = self::create('submit_button', $this->submitValue);
-        }
-        return $this->submitButton;
-    }
+//     public function getSubmitButton()
+//     {
+//         if (!$this->submitButton) {
+//             $this->submitButton = self::create('submit_button', $this->submitValue);
+//         }
+//         return $this->submitButton;
+//     }
 
     public function getTemplateVariables()
     {
