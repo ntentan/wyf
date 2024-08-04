@@ -5,6 +5,8 @@
         <link href="<?= $route_prefix ?? "" ?>/css/wyf.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <div class="login-box"><?= $contents->u() ?></div>
+        <div class="login-box">
+            <?= $contents->u() ?>
+        </div>
     </body>
 </html>
