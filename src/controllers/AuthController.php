@@ -4,6 +4,7 @@ namespace ntentan\wyf\controllers;
 
 use ntentan\mvc\View;
 use ntentan\Session;
+use ntentan\http\Redirect;
 
 /**
  * Description of AuthController
@@ -18,9 +19,9 @@ class AuthController {
         return $view;
     }
     
-    public function logout() {
+    public function logout(Redirect $redirect) {
         Session::reset();
-        return $this->getRedirect($this->getContext()->getUrl(''));
+        return $redirect->to('/');//$this->getRedirect($this->getContext()->getUrl(''));
     }
     
 }
