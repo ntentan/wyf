@@ -5,6 +5,8 @@ namespace ntentan\wyf\controllers;
 use ntentan\mvc\View;
 use ntentan\Session;
 use ntentan\http\Redirect;
+use ntentan\mvc\attributes\Method;
+use ntentan\mvc\attributes\Action;
 
 /**
  * Description of AuthController
@@ -16,6 +18,15 @@ class AuthController {
     public function login(View $view) 
     {
         $view->setLayout('centered');
+        return $view;
+    }
+    
+    #[Action('login')]
+    #[Method('post')]
+    public function loginFailed(View $view)
+    {
+        $view->setLayout('centered');
+        $view->set('error', 'Invalid username or password');
         return $view;
     }
     
