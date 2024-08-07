@@ -9,6 +9,7 @@ use ntentan\honam\TemplateFileResolver;
 use ntentan\mvc\View;
 use ntentan\honam\Templates;
 use ntentan\http\StringStream;
+use ntentan\http\Uri;
 
 
 class WyfMiddleware extends MvcMiddleware
@@ -47,6 +48,18 @@ class WyfMiddleware extends MvcMiddleware
         throw new WyfException("Failed to load a controller for the request");
     }
     
+    private function getMenu(string $path): array
+    {
+        $pathFrontier = [$path];
+        $menu = [];
+        
+        while(!empty($pathFrontier)) {
+            
+        }
+        
+        return $menu;
+    }
+    
     #[\Override]
     public function run (ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface
     {
@@ -55,7 +68,9 @@ class WyfMiddleware extends MvcMiddleware
             View::class => [
                 function($container) {
                     $instance = new View($container->get(Templates::class), $container->get(StringStream::class));
-                    $instance->set('wyf_app_name', $this->configuration['app_name'] ?? 'WYF APP');
+                    $instance->set('wyf_app_name', $this->configuration['application_name'] ?? 'WYF Framework Application');
+                    $instance->set('wyf_menu', $this->configuration['navigation']);
+                    $instance->set('ntentan_uri_prefix', $container->get(Uri::class)->getPrefix());
                     return $instance;
                 }
             ]
@@ -64,6 +79,7 @@ class WyfMiddleware extends MvcMiddleware
         $viewsPath = realpath(__DIR__ . "/../views");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/controllers");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/layouts");
+        $templateFileResolver->appendToPathHierarchy("$viewsPath/shared");
         return parent::run($request, $response, $next);
     }
 }
