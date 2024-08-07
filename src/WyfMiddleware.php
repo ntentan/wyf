@@ -19,6 +19,15 @@ class WyfMiddleware extends MvcMiddleware
     public function configure(array $configuration)
     {
         $this->configuration = $configuration;
+        if (!isset($this->configuration['namespace'])) {
+            throw new WyfException("Please provide the base namespace of your WYF controller classes.");
+        }
+    }
+    
+    private function getControllerName(string $controllerClass): string
+    {
+        $className = end(explode('\\', $controllerClass));
+        return strtolower(substr($className, 0, strlen($className) - 10));
     }
 
     #[\Override]
@@ -26,8 +35,14 @@ class WyfMiddleware extends MvcMiddleware
     {
         $uri = $request->getUri();
         $uriParts = explode('/', substr($uri->getPath(), 1));
+        
         if(($this->configuration['enable_auth'] ?? false) && $uriParts[0] == 'auth') {
             return ['class_name' => AuthController::class, 'action' => $uriParts[1], 'controller' => $uriParts[0]];
+        } else if (count($uriParts) == 1 && $uriParts[0] == '') {
+            $className = $this->configuration['default_class'] ?? $this->configuration['namespace'] . "DashboardController";
+            return [
+                'class_name' => $className, 'action' => 'main', 'controller' => $this->getControllerName($className)
+            ];
         }
         throw new WyfException("Failed to load a controller for the request");
     }
@@ -46,8 +61,8 @@ class WyfMiddleware extends MvcMiddleware
             ]
         ]);
         $templateFileResolver = $container->get(TemplateFileResolver::class);
-        $viewsPath = __DIR__ . "/../views";
-        $templateFileResolver->appendToPathHierarchy("$viewsPath/auth");
+        $viewsPath = realpath(__DIR__ . "/../views");
+        $templateFileResolver->appendToPathHierarchy("$viewsPath/controllers");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/layouts");
         return parent::run($request, $response, $next);
     }

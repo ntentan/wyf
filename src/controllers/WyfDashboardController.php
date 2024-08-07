@@ -7,7 +7,8 @@ class WyfDashboardController
 {
     public function main(View $view): View
     {
-        
+        $view->setTemplate('dashboard_main.tpl.php');
+        return $view;
     }
 }
 

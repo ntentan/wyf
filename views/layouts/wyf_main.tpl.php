@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <title><?= isset($wyf_title) ? "$wyf_title | $wyf_app_name" : $wyf_app_name ?></title>
-        <link href="/public/css/bundle.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="/public/js/bundle.js" ></script>
+        <link href="/css/wyf.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="/js/wyf.js" ></script>
     </head>
     <body>
         <div id="wrapper">
@@ -23,10 +23,8 @@
                     </div>
                 </div>
             </div>
-            <div id="notification"><?= unescape($notification ?? '') ?></div>
-            <?= t('menu.tpl.php', ['menu' => $menu, 'route_breakdown' => $route_breakdown]) ?>
             <div id="contents" class="<?= $contents_class ?>">
-                <?php echo $contents->unescape(); ?>
+                <?= $contents->unescape(); ?>
             </div>
         </div>
     </body>
