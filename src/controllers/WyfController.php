@@ -7,10 +7,15 @@ namespace ntentan\wyf\controllers;
  */
 class WyfController
 {
-    protected string $label;
+    private array $controllerSpec;
     
-    public function getLabel(): string
+    public function setControllerSpec(array $controllerSpec): void
     {
-        return $this->label;
+        $this->controllerSpec = $controllerSpec;
+    }
+    
+    protected function getControllerSpec(): array
+    {
+        return $this->controllerSpec;
     }
 }

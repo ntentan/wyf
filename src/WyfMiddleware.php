@@ -10,6 +10,10 @@ use ntentan\mvc\View;
 use ntentan\honam\Templates;
 use ntentan\http\StringStream;
 use ntentan\http\Uri;
+use ntentan\mvc\binders\ModelBinderRegistry;
+use ntentan\panie\Container;
+use ntentan\utils\Text;
+use ntentan\wyf\controllers\WyfController;
 
 
 class WyfMiddleware extends MvcMiddleware
@@ -20,9 +24,6 @@ class WyfMiddleware extends MvcMiddleware
     public function configure(array $configuration)
     {
         $this->configuration = $configuration;
-        if (!isset($this->configuration['namespace'])) {
-            throw new WyfException("Please provide the base namespace of your WYF controller classes.");
-        }
     }
     
     private function getControllerName(string $controllerClass): string
@@ -30,22 +31,70 @@ class WyfMiddleware extends MvcMiddleware
         $className = end(explode('\\', $controllerClass));
         return strtolower(substr($className, 0, strlen($className) - 10));
     }
+    
+    protected function getModelBinders(Container $container): ModelBinderRegistry
+    {
+        $modelBinder = parent::getModelBinders($container);
+        $modelBinder->register(View::class, WyfViewBinder::class);
+        return $modelBinder;
+    }
+    
+    private function findControllerSpec(array $uriParts): ?array
+    {
+        $offset = 0;
+        $namespace = "{$this->getNamespace()}\\{$this->configuration['sub_namespace']}";
+        $className = null;
+        
+        while ($offset < count($uriParts)) {
+            $className = sprintf("\\%s\\%s", $namespace,Text::ucamelize($uriParts[$offset]) . "Controller");
+            if (class_exists($className)) {
+                $spec = [
+                    'class_name' => $className, 
+                    'action' => $uriParts[$offset + 1] ?? 'main', 
+                    'controller' => $uriParts[$offset]
+                ];
+                if (isset($uriParts[$offset + 2])) {
+                    $spec['id'] = implode('/', array_slice($uriParts, $offset + 2));
+                }
+                return $spec;
+            }
+            $namespace .= $uriParts[$offset];
+            $offset++;
+        }
+        
+        return null;
+    }
 
     #[\Override]
-    protected function getController(ServerRequestInterface $request): array
+    protected function getControllerSpec(ServerRequestInterface $request): array
     {
         $uri = $request->getUri();
         $uriParts = explode('/', substr($uri->getPath(), 1));
+        $dashboardClass = $this->configuration['default_class'] 
+            ?? ("\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\DashboardController");
         
-        if(($this->configuration['enable_auth'] ?? false) && $uriParts[0] == 'auth') {
-            return ['class_name' => AuthController::class, 'action' => $uriParts[1], 'controller' => $uriParts[0]];
-        } else if (count($uriParts) == 1 && $uriParts[0] == '') {
-            $className = $this->configuration['default_class'] ?? $this->configuration['namespace'] . "DashboardController";
-            return [
-                'class_name' => $className, 'action' => 'main', 'controller' => $this->getControllerName($className)
-            ];
+        $spec = match ($uriParts[0]) {
+            '' => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $dashboardClass],
+            'auth' => ($this->configuration['enable_auth'] ?? false) 
+                ? ['class_name' => AuthController::class, 'action' => $uriParts[1] ?? null, 'controller' => 'auth']
+                : null,
+            default => $this->findControllerSpec($uriParts)
+        };
+        
+        if ($spec === null) {
+            throw new WyfException("Failed to load a controller for the request");
         }
-        throw new WyfException("Failed to load a controller for the request");
+        
+        return $spec;
+    }
+    
+    protected function getControllerInstance(Container $container, array $controllerSpec)
+    {
+        $instance = $container->get($controllerSpec['class_name']);
+        if ($instance instanceof WyfController) {
+            $instance->setControllerSpec($controllerSpec);
+        }
+        return $instance;
     }
     
     private function getMenu(string $path): array
@@ -80,6 +129,7 @@ class WyfMiddleware extends MvcMiddleware
         $templateFileResolver->appendToPathHierarchy("$viewsPath/controllers");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/layouts");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/shared");
+        $templateFileResolver->appendToPathHierarchy("$viewsPath/crud");
         return parent::run($request, $response, $next);
     }
 }

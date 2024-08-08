@@ -17,7 +17,7 @@ class AuthController {
 
     public function login(View $view) 
     {
-        $view->setLayout('centered');
+        $view->setLayout('wyf_centered');
         return $view;
     }
     
@@ -25,7 +25,7 @@ class AuthController {
     #[Method('post')]
     public function loginFailed(View $view)
     {
-        $view->setLayout('centered');
+        $view->setLayout('wyf_centered');
         $view->set('error', 'Invalid username or password');
         return $view;
     }
