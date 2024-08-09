@@ -1,1 +1,1 @@
-<input type="submit" <?= unescape($attributes) ?> value="<?= $value ?>" />
+<input type="submit" <?= $attributes->u() ?> value="<?= $value ?>" />

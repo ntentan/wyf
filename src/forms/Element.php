@@ -6,33 +6,27 @@ use ntentan\honam\Templates;
 
 /**
  * Base class for all form elements.
- *
- * @package ntentan\wyf\utilities\forms
  */
 class Element
 {
 
     /**
      * A label to be rendered along with this element.
-     * @var string
      */
     protected string $label;
 
     /**
      * An associative key-value array of attributes for the element.
-     * @var array
      */
     protected array $attributes = [];
 
     /**
      * An associative key-value array of errors.
-     * @var array
      */
-    protected array $errors;
+    protected array $errors = [];
 
     /**
      * Specific variables to be rendered in element templates.
-     * @var array
      */
     protected array $variables = [];
 
@@ -41,7 +35,7 @@ class Element
      * @var string
      */
     protected string $renderWithType;
-    private string $description;
+    private string|bool $description = false;
     private Element $parent;
     protected static $sharedFormData = [];
     

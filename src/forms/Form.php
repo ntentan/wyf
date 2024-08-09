@@ -8,12 +8,13 @@ use ntentan\wyf\WyfException;
 class Form extends Container
 {
     private string $submitValue = 'Save';
+    private SubmitButton $submitButton; 
 
-    public function __construct()
+    public function __construct(SubmitButton $submitButton)
     {
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-grid');
-        $this->setTag('form');
+        $this->submitButton = $submitButton;
     }
 
     public function setSubmitValue($submitValue)
@@ -30,15 +31,9 @@ class Form extends Container
         return array_merge(
             parent::getTemplateVariables(), array(
                 'submit_value' => $this->submitValue,
-                'submit_button' => false
+                'submit_button' => $this->submitButton
             )
         );
-    }
-
-    public function setTag($tag)
-    {
-        $this->set('tag', $tag);
-        return $this;
     }
 
     public function setErrors($errors = false)
@@ -51,7 +46,7 @@ class Form extends Container
 
     public function __toString()
     {
-        $this->getTemplateEngine()->render('wyf_forms_form', $this->getTemplateVariables());
+        return $this->getTemplateEngine()->render('wyf_forms_form', $this->getTemplateVariables());
     }
 
     public function forModel($model)

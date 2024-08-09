@@ -1,8 +1,8 @@
-<<?= $tag ?> <?= $attributes->unescape() ?>>
-    <?= t("wyf_forms_layout.tpl.php", array('elements' => $elements)) ?>
+<form <?= $attributes->unescape() ?>>
+    <?= $this->partial("wyf_forms_layout.tpl.php", array('elements' => $elements)) ?>
     <?php if($submit_value !== false): ?>
     <div class="form-submit-area">
-        <?= unescape($submit_button) ?>
+        <?= $submit_button->u() ?>
     </div>
     <?php endif; ?>
-</<?= $tag ?>>
+</form>
