@@ -3,7 +3,7 @@ namespace ntentan\wyf\controllers;
 
 use ntentan\mvc\View;
 
-class WyfDashboardController
+class DashboardController
 {
     public function main(View $view): View
     {

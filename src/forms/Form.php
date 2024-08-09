@@ -1,13 +1,13 @@
 <?php
-
 namespace ntentan\wyf\forms;
 
+use ntentan\wyf\utilities\forms\Checkbox;
+use ntentan\wyf\utilities\forms\DateField;
+use ntentan\wyf\WyfException;
 
 class Form extends Container
 {
-
     private string $submitValue = 'Save';
-//     private SubmitButton $submitButton;
 
     public function __construct()
     {
@@ -25,22 +25,12 @@ class Form extends Container
         return $this;
     }
 
-//     public function getSubmitButton()
-//     {
-//         if (!$this->submitButton) {
-//             $this->submitButton = self::create('submit_button', $this->submitValue);
-//         }
-//         return $this->submitButton;
-//     }
-
     public function getTemplateVariables()
     {
         return array_merge(
             parent::getTemplateVariables(), array(
                 'submit_value' => $this->submitValue,
-                'submit_button' => $this->submitValue
-                    ? $this->getSubmitButton()
-                    : false
+                'submit_button' => false
             )
         );
     }
@@ -61,16 +51,9 @@ class Form extends Container
 
     public function __toString()
     {
-        return TemplateEngine::render(
-            'wyf_forms_form', $this->getTemplateVariables()
-        );
+        $this->getTemplateEngine()->render('wyf_forms_form', $this->getTemplateVariables());
     }
 
-    /**
-     *
-     * @param \ntentan\Model $model
-     * @return \ntentan\wyf\utilities\forms\Form
-     */
     public function forModel($model)
     {
         $description = $model->getDescription();
@@ -89,38 +72,17 @@ class Form extends Container
 
         foreach ($fields as $field) {
             // Do not display primary keys on form
-            if ($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false)
+            if ($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false) {
                 continue;
-
-            if (isset($field['model'])) {
-                $this->add(new ModelField($field['model'], $field['name']));
-            } else {
-                $this->add($this->inputForField($field)->setValue($model[$field['name']]));
             }
+            $this->add(match($field['type']) {
+                'string', 'integer', 'double' => f::create('text', $field['name']),
+                'date' => $this->create(DateField::class, $field['name']),
+                'boolean' => $this->create(Checkbox::class, $field['name']),
+                default => throw new WyfException("Unknown form field type {$field['type']}")
+            });
         }
 
         return $this;
     }
-
-    private function inputForField($field)
-    {
-        $input = null;
-        switch ($field['type']) {
-            case 'string':
-            case 'integer':
-            case 'double':
-                $input = new TextField($field['name']);
-                break;
-            case 'date':
-                $input = new DateField($field['name']);
-                break;
-            case 'boolean':
-                $input = new Checkbox($field['name']);
-                break;
-            default:
-                throw new \Exception("Unknown type {$field['type']}");
-        }
-        return $input;
-    }
-
 }

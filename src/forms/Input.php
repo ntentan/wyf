@@ -1,10 +1,9 @@
 <?php
 
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
 class Input extends Element
 {
-
     protected $name;
     protected $value;
 
@@ -51,5 +50,4 @@ class Input extends Element
     {
         return $this->errors ?? ($this->parent ? $this->parent->getErrorsFor($this) : null);
     }
-
 }

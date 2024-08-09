@@ -19,15 +19,11 @@ class Container extends Element
 
     public function getTemplateVariables()
     {
-        return [
-                'elements' => $this->elements,
-            ] + parent::getTemplateVariables();
+        return ['elements' => $this->elements] + parent::getTemplateVariables();
     }
 
     public function getValueFor($element)
     {
-        // If we have data for element return else call my parent for that or 
-        // return null if I have no parents
         return $this->data[$element->getName()] ??
             ($this->parent ? $this->parent->getValueFor($element) : null);
     }

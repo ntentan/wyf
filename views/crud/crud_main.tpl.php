@@ -1,0 +1,1 @@
+<a href="<?= $wyf_add_link ?>">Add <?= $wyf_entity ?></a>

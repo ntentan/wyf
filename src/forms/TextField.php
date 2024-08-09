@@ -1,10 +1,8 @@
 <?php
-
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
 class TextField extends Input
 {
-
     private $multiline;
     private $masked;
 
@@ -21,5 +19,4 @@ class TextField extends Input
         $this->set('masked', $masked);
         return $this;
     }
-
 }

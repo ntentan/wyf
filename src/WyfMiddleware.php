@@ -14,6 +14,7 @@ use ntentan\mvc\binders\ModelBinderRegistry;
 use ntentan\panie\Container;
 use ntentan\utils\Text;
 use ntentan\wyf\controllers\WyfController;
+use ntentan\wyf\forms\f;
 
 
 class WyfMiddleware extends MvcMiddleware
@@ -88,6 +89,11 @@ class WyfMiddleware extends MvcMiddleware
         return $spec;
     }
     
+    /**
+     * Get an instance of the controller.
+     * {@inheritDoc}
+     * @see \ntentan\mvc\MvcMiddleware::getControllerInstance()
+     */
     protected function getControllerInstance(Container $container, array $controllerSpec)
     {
         $instance = $container->get($controllerSpec['class_name']);
@@ -124,12 +130,15 @@ class WyfMiddleware extends MvcMiddleware
                 }
             ]
         ]);
+        
+        f::init($container->get(Templates::class));
         $templateFileResolver = $container->get(TemplateFileResolver::class);
         $viewsPath = realpath(__DIR__ . "/../views");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/controllers");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/layouts");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/shared");
         $templateFileResolver->appendToPathHierarchy("$viewsPath/crud");
+        $templateFileResolver->appendToPathHierarchy("$viewsPath/forms");
         return parent::run($request, $response, $next);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace ntentan\wyf\forms;
 
-use ntentan\utils\Text;
 use ntentan\honam\Templates;
 
 /**
@@ -42,27 +41,16 @@ class Element
      * @var string
      */
     protected string $renderWithType;
-
-    /**
-     * A description of the form element.
-     * @var string
-     */
-    protected string $description;
-    protected Element $parent;
-    protected string $classes = [];
+    private string $description;
+    private Element $parent;
     protected static $sharedFormData = [];
     
     private Templates $templates;
-    
-    public function __construct(Templates $templates)
-    {
-        $this->templates = $templates;
-    }
 
     public function __toString()
     {
         $type = $this->renderWithType ?? \ntentan\utils\Text::deCamelize($this->getType());
-        return $this->templates->render("wyf_inputs_forms_{$type}.tpl.php", $this->getTemplateVariables());
+        return $this->templates->render("wyf_forms_{$type}.tpl.php", $this->getTemplateVariables());
     }
 
     public function getType()
@@ -118,16 +106,16 @@ class Element
 
     private function renderAttributes()
     {
-        return $this->render('wyf_inputs_forms_attributes', ['attributes' => $this->attributes]);
+        return $this->templates->render('wyf_forms_attributes', ['attributes' => $this->attributes]);
     }
 
     public function getTemplateVariables()
     {
-        return $this->variables + [
-            'label' => $this->label,
-            'attributes' => $this->renderAttributes(),
-            'extra_css_classes' => implode(' ', $this->classes) . (count($this->getErrors()) > 0 ? ' form-error' : '')
-        ];
+        $additions = ['attributes' => $this->renderAttributes()];
+        if (isset($this->label)) {
+            $additions['label'] = $this->label;
+        }
+        return $additions;
     }
 
     protected function set($key, $value)
@@ -135,31 +123,18 @@ class Element
         $this->variables[$key] = $value;
     }
 
-    public static function create()
+    public function setTemplateEngine(Templates $templates): void
     {
-        $args = func_get_args();
-        $type = array_shift($args);
-        $typeClass = new \ReflectionClass(
-            'ntentan\\wyf\\utilities\\forms\\' .
-            Text::ucamelize($type)
-        );
-        return $typeClass->newInstanceArgs($args);
+        $this->templates = $templates;
+    }
+    
+    public function getTemplateEngine(): Templates
+    {
+        return $this->templates;
     }
 
-    public static function setSharedFormData($key, $value)
-    {
-        self::$sharedFormData[$key] = $value;
-    }
-
-    public function setParent($parent)
+    public function setParent(Element $parent)
     {
         $this->parent = $parent;
     }
-
-    public function addCssClass($class)
-    {
-        $this->classes[] = $class;
-        return $this;
-    }
-
 }
