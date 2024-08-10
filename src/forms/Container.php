@@ -2,14 +2,14 @@
 
 namespace ntentan\wyf\forms;
 
+
 class Container extends Element
 {
-    protected $elements = array();
-    private $data;
+    private array $elements = [];
+//     private array $data;
 
-    public function add()
+    public function add(Element ...$elements)
     {
-        $elements = func_get_args();
         foreach ($elements as $element) {
             $element->setParent($this);
             $this->elements [] = $element;
@@ -21,22 +21,52 @@ class Container extends Element
     {
         return ['elements' => $this->elements] + parent::getTemplateVariables();
     }
-
-    public function getValueFor($element)
+    
+    public function getInputFor(string $name): ?Input
     {
-        return $this->data[$element->getName()] ??
-            ($this->parent ? $this->parent->getValueFor($element) : null);
+        foreach($this->elements as $element) {
+            if ($element instanceof Input && $element->getName() == $name) {
+                return $element;
+            } else if ($element instanceof Container && $element = $element->getElementFor($name)) {
+                return $element;
+            }
+        }
+        return null;
     }
 
-    public function getErrorsFor($element)
-    {
-        return $this->errors[$element->getName()] ??
-            ($this->parent ? $this->parent->getErrorsFor($element) : null);
-    }
+//     public function getValueFor($element)
+//     {
+//         return $this->data[$element->getName()] ??
+//             ($this->getParent() ? $this->getParent()->getValueFor($element) : null);
+//     }
 
-    public function setData($data)
+//     public function getErrorsFor($element)
+//     {
+//         return $this->errors[$element->getName()] ??
+//             ($this->getParent() ? $this->getParent()->getErrorsFor($element) : null);
+//     }
+
+    public function setData(array $data): Container
     {
-        $this->data = $data;
+        foreach ($data as $name => $value) {
+            $element = $this->getInputFor($name);
+            if ($element !== null) {
+                $element->setValue($value);
+            }
+        }
+        return $this;
+    }
+    
+    public function setErrors(array $errors): Element 
+    {
+        parent::setErrors($errors);
+        foreach ($errors as $name => $elementErrors) {
+            $element = $this->getInputFor($name);
+            if ($element !== null) {
+                $element->setErrors($elementErrors);
+            }
+        }
+        return $this;
     }
 
 }

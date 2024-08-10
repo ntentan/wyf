@@ -3,30 +3,39 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\mvc\Model;
+use ntentan\mvc\binders\ModelBinderInterface;
+use ntentan\mvc\ControllerSpec;
 
 /**
- * Base controller for all WYF application modules you want to appear in the menu.
+ * Base controller for all WYF application modules.
  */
 class WyfController
 {
-    private array $controllerSpec;
+    private ControllerSpec $controllerSpec;
     private string $modelClass;
     private string $namespace;
     private Model $modelInstance;
+    private ModelBinderInterface $modelBinder;
     
-    public function setControllerSpec(array $controllerSpec): void
+    public function setup(ControllerSpec $controllerSpec, ModelBinderInterface $modelBinder): void
     {
         $this->controllerSpec = $controllerSpec;
+        $this->modelBinder = $modelBinder;
     }
     
-    protected function getControllerSpec(): array
+    protected function getModelBinder(): ModelBinderInterface
+    {
+        return $this->modelBinder;
+    }
+    
+    protected function getControllerSpec(): ControllerSpec
     {
         return $this->controllerSpec;
     }
     
     protected function getEntity(): string
     {
-        return $this->controllerSpec['controller'];
+        return $this->controllerSpec->getControllerName();
     }
     
     protected function getNamespace(): string

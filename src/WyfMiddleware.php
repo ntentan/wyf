@@ -15,6 +15,8 @@ use ntentan\panie\Container;
 use ntentan\utils\Text;
 use ntentan\wyf\controllers\WyfController;
 use ntentan\wyf\forms\f;
+use ntentan\mvc\ControllerSpec;
+use ntentan\mvc\binders\DefaultModelBinder;
 
 
 class WyfMiddleware extends MvcMiddleware
@@ -67,12 +69,12 @@ class WyfMiddleware extends MvcMiddleware
     }
 
     #[\Override]
-    protected function getControllerSpec(ServerRequestInterface $request): array
+    protected function getControllerSpec(ServerRequestInterface $request): ControllerSpec
     {
         $uri = $request->getUri();
         $uriParts = explode('/', substr($uri->getPath(), 1));
         $dashboardClass = $this->configuration['default_class'] 
-            ?? ("\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\DashboardController");
+            ?? ("\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\HomeController");
         
         $spec = match ($uriParts[0]) {
             '' => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $dashboardClass],
@@ -86,7 +88,7 @@ class WyfMiddleware extends MvcMiddleware
             throw new WyfException("Failed to load a controller for the request");
         }
         
-        return $spec;
+        return new ControllerSpec($spec['class_name'], $spec['action'], $spec['controller'], $spec);
     }
     
     /**
@@ -94,11 +96,11 @@ class WyfMiddleware extends MvcMiddleware
      * {@inheritDoc}
      * @see \ntentan\mvc\MvcMiddleware::getControllerInstance()
      */
-    protected function getControllerInstance(Container $container, array $controllerSpec)
+    protected function getControllerInstance(Container $container, ControllerSpec $controllerSpec)
     {
-        $instance = $container->get($controllerSpec['class_name']);
+        $instance = $container->get($controllerSpec->getControllerClass());
         if ($instance instanceof WyfController) {
-            $instance->setControllerSpec($controllerSpec);
+            $instance->setup($controllerSpec, $container->get(DefaultModelBinder::class));
         }
         return $instance;
     }

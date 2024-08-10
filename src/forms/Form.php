@@ -17,7 +17,7 @@ class Form extends Container
         $this->submitButton = $submitButton;
     }
 
-    public function setSubmitValue($submitValue)
+    public function setSubmitValue($submitValue): Form
     {
         $this->submitValue = $submitValue;
         if ($submitValue !== false) {
@@ -26,7 +26,7 @@ class Form extends Container
         return $this;
     }
 
-    public function getTemplateVariables()
+    public function getTemplateVariables(): array
     {
         return array_merge(
             parent::getTemplateVariables(), array(
@@ -36,20 +36,18 @@ class Form extends Container
         );
     }
 
-    public function setErrors($errors = false)
-    {
-        if ($errors === false) {
-            return;
-        }
-        $this->errors = $errors;
-    }
+//     public function setErrors(array $errors): Element
+//     {
+//         $this->errors = $errors;
+//         return $this;
+//     }
 
     public function __toString()
     {
         return $this->getTemplateEngine()->render('wyf_forms_form', $this->getTemplateVariables());
     }
 
-    public function forModel($model)
+    public function forModel($model): Form
     {
         $description = $model->getDescription();
         $relationships = $description->getRelationships();

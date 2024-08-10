@@ -8,7 +8,7 @@
     $description = $element->getDescription();
     $errors = $element->getErrors();
     ?>
-    <?php if(!$hideWrapper): ?><div class="form-element <?= $errors ? "form-error" : "" ?>" id="form-element-<?= $id ?>"><?php endif; ?>
+    <?php if(!$hideWrapper): ?><div class="form-element <?= $errors->unescape() ? "form-error" : "" ?>" id="form-element-<?= $id ?>"><?php endif; ?>
     <?php if($label): ?><label><?= $label ?></label><?php endif; ?>
     <?= $element->u() ?>
     <?php if(count($errors)): ?>

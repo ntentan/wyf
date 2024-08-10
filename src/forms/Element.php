@@ -23,7 +23,7 @@ class Element
     /**
      * An associative key-value array of errors.
      */
-    protected array $errors = [];
+    private array $errors = [];
 
     /**
      * Specific variables to be rendered in element templates.
@@ -36,7 +36,7 @@ class Element
      */
     protected string $renderWithType;
     private string|bool $description = false;
-    private Element $parent;
+    private ?Element $parent = null;
     protected static $sharedFormData = [];
     
     private Templates $templates;
@@ -54,29 +54,29 @@ class Element
         return end($array);
     }
 
-    public function setAttribute($attribute, $value)
+    public function setAttribute(string $attribute, string $value): Element
     {
         $this->attributes[$attribute] = $value;
         return $this;
     }
 
-    public function getAttribute($attribute)
+    public function getAttribute(string $attribute)
     {
         return $this->attributes[$attribute] ?? null;
     }
 
-    public function setErrors($errors)
+    public function setErrors(array $errors): Element
     {
         $this->errors = $errors;
         return $this;
     }
 
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
-    public function setLabel($label = false)
+    public function setLabel($label = false): Element
     {
         $this->label = $label;
         return $this;
@@ -87,7 +87,7 @@ class Element
         return $this->label;
     }
 
-    public function setDescription($description = false)
+    public function setDescription($description = false): Element
     {
         $this->description = $description;
         return $this;
@@ -105,7 +105,7 @@ class Element
 
     public function getTemplateVariables()
     {
-        $additions = ['attributes' => $this->renderAttributes()];
+        $additions = ['attributes' => $this->renderAttributes(), 'errors' => $this->errors];
         if (isset($this->label)) {
             $additions['label'] = $this->label;
         }
@@ -117,9 +117,10 @@ class Element
         $this->variables[$key] = $value;
     }
 
-    public function setTemplateEngine(Templates $templates): void
+    public function setTemplateEngine(Templates $templates): Element
     {
         $this->templates = $templates;
+        return $this;
     }
     
     public function getTemplateEngine(): Templates
@@ -127,8 +128,14 @@ class Element
         return $this->templates;
     }
 
-    public function setParent(Element $parent)
+    public function setParent(Element $parent): Element
     {
         $this->parent = $parent;
+        return $this;
+    }
+    
+    public function getParent(): ?Element
+    {
+        return $this->parent;
     }
 }
