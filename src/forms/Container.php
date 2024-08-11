@@ -1,12 +1,10 @@
 <?php
-
 namespace ntentan\wyf\forms;
 
 
 class Container extends Element
 {
     private array $elements = [];
-//     private array $data;
 
     public function add(Element ...$elements)
     {
@@ -34,18 +32,6 @@ class Container extends Element
         return null;
     }
 
-//     public function getValueFor($element)
-//     {
-//         return $this->data[$element->getName()] ??
-//             ($this->getParent() ? $this->getParent()->getValueFor($element) : null);
-//     }
-
-//     public function getErrorsFor($element)
-//     {
-//         return $this->errors[$element->getName()] ??
-//             ($this->getParent() ? $this->getParent()->getErrorsFor($element) : null);
-//     }
-
     public function setData(array $data): Container
     {
         foreach ($data as $name => $value) {
@@ -68,5 +54,4 @@ class Container extends Element
         }
         return $this;
     }
-
 }

@@ -1,398 +1,106 @@
-function resizer() {
-  $('#menu > div').height($(window).height() - $('#header').height());
-}
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
-var wyf = {
+/***/ "./js/lists.js":
+/*!*********************!*\
+  !*** ./js/lists.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-  forms: {
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   renderList: () => (/* binding */ renderList)\n/* harmony export */ });\n/* harmony import */ var mustache__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.mjs\");\n\n\n/**\n * Renders lists of items for the WYF framework.\n */\nclass List {\n    \n    #template\n    #container\n    #url\n    \n    /**\n     * Creates a new instance of the constructor.\n     */\n    constructor(url, container, template) {\n        this.#container = container\n        this.#template = template\n        this.#url = url\n    }\n    \n    start() {\n        fetch(this.#url)\n    }\n    \n}\n\nfunction renderList() {\n    new List().start()\n}\n\n\n//# sourceURL=webpack://wyf/./js/lists.js?");
 
-    multiFieldIds: {},
+/***/ }),
 
-    multiFieldValues: {},
+/***/ "./js/wyf.js":
+/*!*******************!*\
+  !*** ./js/wyf.js ***!
+  \*******************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-    init: function (selector) {
-      var parent = $(selector === undefined ? 'body' : selector);
-      // Setup the datepicker
-      parent.find('.pikaday').pikaday({format: 'YYYY-MM-DD'});
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lists */ \"./js/lists.js\");\n\n\ndocument.addEventListener('load', () => {\n    const wyfMode = document.querySelector('body').getAttribute('wyf-state')\n    \n    if (wyfMode == 'wyf-listing') {\n        (0,_lists__WEBPACK_IMPORTED_MODULE_0__.renderList)()\n    }\n})\n\n\n//# sourceURL=webpack://wyf/./js/wyf.js?");
 
-      // Initialize and render all multifields
-      // @todo Look into moving this when the centralized form system is implemented
-      // @todo scope multifields to the ids of the forms
-      for (var field in wyf.forms.multiFieldValues) {
-        var fieldDetails = {
-          name: field,
-          model: wyf.forms.multiFieldValues[field].model,
-          primaryKey: wyf.forms.multiFieldValues[field].primaryKey
-        };
-        wyf.forms.multiFieldIds[field] = 0;
-        for (var item in wyf.forms.multiFieldValues[field].values) {
-          wyf.forms.renderMultiFieldItem(
-            fieldDetails, wyf.forms.multiFieldValues[field].values[item]
-          );
-        }
-      }
-    },
+/***/ }),
 
-    showCreateItemForm: function (list, templateId) {
-      $('#' + templateId + '_view').html("");
-      if (list.value == 'new') {
-        var template = Handlebars.compile($('#' + templateId + '_template').html());
-        if ($('body').hasClass('modal-active')) {
-          $('#' + templateId + '_view').html(template());
-        } else {
-          $('#' + templateId + '_modal div.form-wrapper').html(template())
-          fzui.modal('#' + templateId + '_modal');
-        }
-        list.value = '';
-      } else if (list.value == '-') {
-        list.value = '';
-      }
-    },
+/***/ "./node_modules/mustache/mustache.mjs":
+/*!********************************************!*\
+  !*** ./node_modules/mustache/mustache.mjs ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-    /**
-     * Render a single item under the multifield button as a preview.
-     * @param string field
-     * @param object data
-     */
-    renderMultiFieldItem: function (field, data) {
-      var template = Handlebars.compile($('#' + field.name + '-multi-field-preview').html());
-      var wrapper = $('<div/>').addClass('multi-field-preview');
-      var index = '[' + wyf.forms.multiFieldIds[field.name] + ']';
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/*!\n * mustache.js - Logic-less {{mustache}} templates with JavaScript\n * http://github.com/janl/mustache.js\n */\n\nvar objectToString = Object.prototype.toString;\nvar isArray = Array.isArray || function isArrayPolyfill (object) {\n  return objectToString.call(object) === '[object Array]';\n};\n\nfunction isFunction (object) {\n  return typeof object === 'function';\n}\n\n/**\n * More correct typeof string handling array\n * which normally returns typeof 'object'\n */\nfunction typeStr (obj) {\n  return isArray(obj) ? 'array' : typeof obj;\n}\n\nfunction escapeRegExp (string) {\n  return string.replace(/[\\-\\[\\]{}()*+?.,\\\\\\^$|#\\s]/g, '\\\\$&');\n}\n\n/**\n * Null safe way of checking whether or not an object,\n * including its prototype, has a given property\n */\nfunction hasProperty (obj, propName) {\n  return obj != null && typeof obj === 'object' && (propName in obj);\n}\n\n/**\n * Safe way of detecting whether or not the given thing is a primitive and\n * whether it has the given property\n */\nfunction primitiveHasOwnProperty (primitive, propName) {\n  return (\n    primitive != null\n    && typeof primitive !== 'object'\n    && primitive.hasOwnProperty\n    && primitive.hasOwnProperty(propName)\n  );\n}\n\n// Workaround for https://issues.apache.org/jira/browse/COUCHDB-577\n// See https://github.com/janl/mustache.js/issues/189\nvar regExpTest = RegExp.prototype.test;\nfunction testRegExp (re, string) {\n  return regExpTest.call(re, string);\n}\n\nvar nonSpaceRe = /\\S/;\nfunction isWhitespace (string) {\n  return !testRegExp(nonSpaceRe, string);\n}\n\nvar entityMap = {\n  '&': '&amp;',\n  '<': '&lt;',\n  '>': '&gt;',\n  '\"': '&quot;',\n  \"'\": '&#39;',\n  '/': '&#x2F;',\n  '`': '&#x60;',\n  '=': '&#x3D;'\n};\n\nfunction escapeHtml (string) {\n  return String(string).replace(/[&<>\"'`=\\/]/g, function fromEntityMap (s) {\n    return entityMap[s];\n  });\n}\n\nvar whiteRe = /\\s*/;\nvar spaceRe = /\\s+/;\nvar equalsRe = /\\s*=/;\nvar curlyRe = /\\s*\\}/;\nvar tagRe = /#|\\^|\\/|>|\\{|&|=|!/;\n\n/**\n * Breaks up the given `template` string into a tree of tokens. If the `tags`\n * argument is given here it must be an array with two string values: the\n * opening and closing tags used in the template (e.g. [ \"<%\", \"%>\" ]). Of\n * course, the default is to use mustaches (i.e. mustache.tags).\n *\n * A token is an array with at least 4 elements. The first element is the\n * mustache symbol that was used inside the tag, e.g. \"#\" or \"&\". If the tag\n * did not contain a symbol (i.e. {{myValue}}) this element is \"name\". For\n * all text that appears outside a symbol this element is \"text\".\n *\n * The second element of a token is its \"value\". For mustache tags this is\n * whatever else was inside the tag besides the opening symbol. For text tokens\n * this is the text itself.\n *\n * The third and fourth elements of the token are the start and end indices,\n * respectively, of the token in the original template.\n *\n * Tokens that are the root node of a subtree contain two more elements: 1) an\n * array of tokens in the subtree and 2) the index in the original template at\n * which the closing tag for that section begins.\n *\n * Tokens for partials also contain two more elements: 1) a string value of\n * indendation prior to that tag and 2) the index of that tag on that line -\n * eg a value of 2 indicates the partial is the third tag on this line.\n */\nfunction parseTemplate (template, tags) {\n  if (!template)\n    return [];\n  var lineHasNonSpace = false;\n  var sections = [];     // Stack to hold section tokens\n  var tokens = [];       // Buffer to hold the tokens\n  var spaces = [];       // Indices of whitespace tokens on the current line\n  var hasTag = false;    // Is there a {{tag}} on the current line?\n  var nonSpace = false;  // Is there a non-space char on the current line?\n  var indentation = '';  // Tracks indentation for tags that use it\n  var tagIndex = 0;      // Stores a count of number of tags encountered on a line\n\n  // Strips all whitespace tokens array for the current line\n  // if there was a {{#tag}} on it and otherwise only space.\n  function stripSpace () {\n    if (hasTag && !nonSpace) {\n      while (spaces.length)\n        delete tokens[spaces.pop()];\n    } else {\n      spaces = [];\n    }\n\n    hasTag = false;\n    nonSpace = false;\n  }\n\n  var openingTagRe, closingTagRe, closingCurlyRe;\n  function compileTags (tagsToCompile) {\n    if (typeof tagsToCompile === 'string')\n      tagsToCompile = tagsToCompile.split(spaceRe, 2);\n\n    if (!isArray(tagsToCompile) || tagsToCompile.length !== 2)\n      throw new Error('Invalid tags: ' + tagsToCompile);\n\n    openingTagRe = new RegExp(escapeRegExp(tagsToCompile[0]) + '\\\\s*');\n    closingTagRe = new RegExp('\\\\s*' + escapeRegExp(tagsToCompile[1]));\n    closingCurlyRe = new RegExp('\\\\s*' + escapeRegExp('}' + tagsToCompile[1]));\n  }\n\n  compileTags(tags || mustache.tags);\n\n  var scanner = new Scanner(template);\n\n  var start, type, value, chr, token, openSection;\n  while (!scanner.eos()) {\n    start = scanner.pos;\n\n    // Match any text between tags.\n    value = scanner.scanUntil(openingTagRe);\n\n    if (value) {\n      for (var i = 0, valueLength = value.length; i < valueLength; ++i) {\n        chr = value.charAt(i);\n\n        if (isWhitespace(chr)) {\n          spaces.push(tokens.length);\n          indentation += chr;\n        } else {\n          nonSpace = true;\n          lineHasNonSpace = true;\n          indentation += ' ';\n        }\n\n        tokens.push([ 'text', chr, start, start + 1 ]);\n        start += 1;\n\n        // Check for whitespace on the current line.\n        if (chr === '\\n') {\n          stripSpace();\n          indentation = '';\n          tagIndex = 0;\n          lineHasNonSpace = false;\n        }\n      }\n    }\n\n    // Match the opening tag.\n    if (!scanner.scan(openingTagRe))\n      break;\n\n    hasTag = true;\n\n    // Get the tag type.\n    type = scanner.scan(tagRe) || 'name';\n    scanner.scan(whiteRe);\n\n    // Get the tag value.\n    if (type === '=') {\n      value = scanner.scanUntil(equalsRe);\n      scanner.scan(equalsRe);\n      scanner.scanUntil(closingTagRe);\n    } else if (type === '{') {\n      value = scanner.scanUntil(closingCurlyRe);\n      scanner.scan(curlyRe);\n      scanner.scanUntil(closingTagRe);\n      type = '&';\n    } else {\n      value = scanner.scanUntil(closingTagRe);\n    }\n\n    // Match the closing tag.\n    if (!scanner.scan(closingTagRe))\n      throw new Error('Unclosed tag at ' + scanner.pos);\n\n    if (type == '>') {\n      token = [ type, value, start, scanner.pos, indentation, tagIndex, lineHasNonSpace ];\n    } else {\n      token = [ type, value, start, scanner.pos ];\n    }\n    tagIndex++;\n    tokens.push(token);\n\n    if (type === '#' || type === '^') {\n      sections.push(token);\n    } else if (type === '/') {\n      // Check section nesting.\n      openSection = sections.pop();\n\n      if (!openSection)\n        throw new Error('Unopened section \"' + value + '\" at ' + start);\n\n      if (openSection[1] !== value)\n        throw new Error('Unclosed section \"' + openSection[1] + '\" at ' + start);\n    } else if (type === 'name' || type === '{' || type === '&') {\n      nonSpace = true;\n    } else if (type === '=') {\n      // Set the tags for the next time around.\n      compileTags(value);\n    }\n  }\n\n  stripSpace();\n\n  // Make sure there are no open sections when we're done.\n  openSection = sections.pop();\n\n  if (openSection)\n    throw new Error('Unclosed section \"' + openSection[1] + '\" at ' + scanner.pos);\n\n  return nestTokens(squashTokens(tokens));\n}\n\n/**\n * Combines the values of consecutive text tokens in the given `tokens` array\n * to a single token.\n */\nfunction squashTokens (tokens) {\n  var squashedTokens = [];\n\n  var token, lastToken;\n  for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {\n    token = tokens[i];\n\n    if (token) {\n      if (token[0] === 'text' && lastToken && lastToken[0] === 'text') {\n        lastToken[1] += token[1];\n        lastToken[3] = token[3];\n      } else {\n        squashedTokens.push(token);\n        lastToken = token;\n      }\n    }\n  }\n\n  return squashedTokens;\n}\n\n/**\n * Forms the given array of `tokens` into a nested tree structure where\n * tokens that represent a section have two additional items: 1) an array of\n * all tokens that appear in that section and 2) the index in the original\n * template that represents the end of that section.\n */\nfunction nestTokens (tokens) {\n  var nestedTokens = [];\n  var collector = nestedTokens;\n  var sections = [];\n\n  var token, section;\n  for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {\n    token = tokens[i];\n\n    switch (token[0]) {\n      case '#':\n      case '^':\n        collector.push(token);\n        sections.push(token);\n        collector = token[4] = [];\n        break;\n      case '/':\n        section = sections.pop();\n        section[5] = token[2];\n        collector = sections.length > 0 ? sections[sections.length - 1][4] : nestedTokens;\n        break;\n      default:\n        collector.push(token);\n    }\n  }\n\n  return nestedTokens;\n}\n\n/**\n * A simple string scanner that is used by the template parser to find\n * tokens in template strings.\n */\nfunction Scanner (string) {\n  this.string = string;\n  this.tail = string;\n  this.pos = 0;\n}\n\n/**\n * Returns `true` if the tail is empty (end of string).\n */\nScanner.prototype.eos = function eos () {\n  return this.tail === '';\n};\n\n/**\n * Tries to match the given regular expression at the current position.\n * Returns the matched text if it can match, the empty string otherwise.\n */\nScanner.prototype.scan = function scan (re) {\n  var match = this.tail.match(re);\n\n  if (!match || match.index !== 0)\n    return '';\n\n  var string = match[0];\n\n  this.tail = this.tail.substring(string.length);\n  this.pos += string.length;\n\n  return string;\n};\n\n/**\n * Skips all text until the given regular expression can be matched. Returns\n * the skipped string, which is the entire tail if no match can be made.\n */\nScanner.prototype.scanUntil = function scanUntil (re) {\n  var index = this.tail.search(re), match;\n\n  switch (index) {\n    case -1:\n      match = this.tail;\n      this.tail = '';\n      break;\n    case 0:\n      match = '';\n      break;\n    default:\n      match = this.tail.substring(0, index);\n      this.tail = this.tail.substring(index);\n  }\n\n  this.pos += match.length;\n\n  return match;\n};\n\n/**\n * Represents a rendering context by wrapping a view object and\n * maintaining a reference to the parent context.\n */\nfunction Context (view, parentContext) {\n  this.view = view;\n  this.cache = { '.': this.view };\n  this.parent = parentContext;\n}\n\n/**\n * Creates a new context using the given view with this context\n * as the parent.\n */\nContext.prototype.push = function push (view) {\n  return new Context(view, this);\n};\n\n/**\n * Returns the value of the given name in this context, traversing\n * up the context hierarchy if the value is absent in this context's view.\n */\nContext.prototype.lookup = function lookup (name) {\n  var cache = this.cache;\n\n  var value;\n  if (cache.hasOwnProperty(name)) {\n    value = cache[name];\n  } else {\n    var context = this, intermediateValue, names, index, lookupHit = false;\n\n    while (context) {\n      if (name.indexOf('.') > 0) {\n        intermediateValue = context.view;\n        names = name.split('.');\n        index = 0;\n\n        /**\n         * Using the dot notion path in `name`, we descend through the\n         * nested objects.\n         *\n         * To be certain that the lookup has been successful, we have to\n         * check if the last object in the path actually has the property\n         * we are looking for. We store the result in `lookupHit`.\n         *\n         * This is specially necessary for when the value has been set to\n         * `undefined` and we want to avoid looking up parent contexts.\n         *\n         * In the case where dot notation is used, we consider the lookup\n         * to be successful even if the last \"object\" in the path is\n         * not actually an object but a primitive (e.g., a string, or an\n         * integer), because it is sometimes useful to access a property\n         * of an autoboxed primitive, such as the length of a string.\n         **/\n        while (intermediateValue != null && index < names.length) {\n          if (index === names.length - 1)\n            lookupHit = (\n              hasProperty(intermediateValue, names[index])\n              || primitiveHasOwnProperty(intermediateValue, names[index])\n            );\n\n          intermediateValue = intermediateValue[names[index++]];\n        }\n      } else {\n        intermediateValue = context.view[name];\n\n        /**\n         * Only checking against `hasProperty`, which always returns `false` if\n         * `context.view` is not an object. Deliberately omitting the check\n         * against `primitiveHasOwnProperty` if dot notation is not used.\n         *\n         * Consider this example:\n         * ```\n         * Mustache.render(\"The length of a football field is {{#length}}{{length}}{{/length}}.\", {length: \"100 yards\"})\n         * ```\n         *\n         * If we were to check also against `primitiveHasOwnProperty`, as we do\n         * in the dot notation case, then render call would return:\n         *\n         * \"The length of a football field is 9.\"\n         *\n         * rather than the expected:\n         *\n         * \"The length of a football field is 100 yards.\"\n         **/\n        lookupHit = hasProperty(context.view, name);\n      }\n\n      if (lookupHit) {\n        value = intermediateValue;\n        break;\n      }\n\n      context = context.parent;\n    }\n\n    cache[name] = value;\n  }\n\n  if (isFunction(value))\n    value = value.call(this.view);\n\n  return value;\n};\n\n/**\n * A Writer knows how to take a stream of tokens and render them to a\n * string, given a context. It also maintains a cache of templates to\n * avoid the need to parse the same template twice.\n */\nfunction Writer () {\n  this.templateCache = {\n    _cache: {},\n    set: function set (key, value) {\n      this._cache[key] = value;\n    },\n    get: function get (key) {\n      return this._cache[key];\n    },\n    clear: function clear () {\n      this._cache = {};\n    }\n  };\n}\n\n/**\n * Clears all cached templates in this writer.\n */\nWriter.prototype.clearCache = function clearCache () {\n  if (typeof this.templateCache !== 'undefined') {\n    this.templateCache.clear();\n  }\n};\n\n/**\n * Parses and caches the given `template` according to the given `tags` or\n * `mustache.tags` if `tags` is omitted,  and returns the array of tokens\n * that is generated from the parse.\n */\nWriter.prototype.parse = function parse (template, tags) {\n  var cache = this.templateCache;\n  var cacheKey = template + ':' + (tags || mustache.tags).join(':');\n  var isCacheEnabled = typeof cache !== 'undefined';\n  var tokens = isCacheEnabled ? cache.get(cacheKey) : undefined;\n\n  if (tokens == undefined) {\n    tokens = parseTemplate(template, tags);\n    isCacheEnabled && cache.set(cacheKey, tokens);\n  }\n  return tokens;\n};\n\n/**\n * High-level method that is used to render the given `template` with\n * the given `view`.\n *\n * The optional `partials` argument may be an object that contains the\n * names and templates of partials that are used in the template. It may\n * also be a function that is used to load partial templates on the fly\n * that takes a single argument: the name of the partial.\n *\n * If the optional `config` argument is given here, then it should be an\n * object with a `tags` attribute or an `escape` attribute or both.\n * If an array is passed, then it will be interpreted the same way as\n * a `tags` attribute on a `config` object.\n *\n * The `tags` attribute of a `config` object must be an array with two\n * string values: the opening and closing tags used in the template (e.g.\n * [ \"<%\", \"%>\" ]). The default is to mustache.tags.\n *\n * The `escape` attribute of a `config` object must be a function which\n * accepts a string as input and outputs a safely escaped string.\n * If an `escape` function is not provided, then an HTML-safe string\n * escaping function is used as the default.\n */\nWriter.prototype.render = function render (template, view, partials, config) {\n  var tags = this.getConfigTags(config);\n  var tokens = this.parse(template, tags);\n  var context = (view instanceof Context) ? view : new Context(view, undefined);\n  return this.renderTokens(tokens, context, partials, template, config);\n};\n\n/**\n * Low-level method that renders the given array of `tokens` using\n * the given `context` and `partials`.\n *\n * Note: The `originalTemplate` is only ever used to extract the portion\n * of the original template that was contained in a higher-order section.\n * If the template doesn't use higher-order sections, this argument may\n * be omitted.\n */\nWriter.prototype.renderTokens = function renderTokens (tokens, context, partials, originalTemplate, config) {\n  var buffer = '';\n\n  var token, symbol, value;\n  for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {\n    value = undefined;\n    token = tokens[i];\n    symbol = token[0];\n\n    if (symbol === '#') value = this.renderSection(token, context, partials, originalTemplate, config);\n    else if (symbol === '^') value = this.renderInverted(token, context, partials, originalTemplate, config);\n    else if (symbol === '>') value = this.renderPartial(token, context, partials, config);\n    else if (symbol === '&') value = this.unescapedValue(token, context);\n    else if (symbol === 'name') value = this.escapedValue(token, context, config);\n    else if (symbol === 'text') value = this.rawValue(token);\n\n    if (value !== undefined)\n      buffer += value;\n  }\n\n  return buffer;\n};\n\nWriter.prototype.renderSection = function renderSection (token, context, partials, originalTemplate, config) {\n  var self = this;\n  var buffer = '';\n  var value = context.lookup(token[1]);\n\n  // This function is used to render an arbitrary template\n  // in the current context by higher-order sections.\n  function subRender (template) {\n    return self.render(template, context, partials, config);\n  }\n\n  if (!value) return;\n\n  if (isArray(value)) {\n    for (var j = 0, valueLength = value.length; j < valueLength; ++j) {\n      buffer += this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate, config);\n    }\n  } else if (typeof value === 'object' || typeof value === 'string' || typeof value === 'number') {\n    buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate, config);\n  } else if (isFunction(value)) {\n    if (typeof originalTemplate !== 'string')\n      throw new Error('Cannot use higher-order sections without the original template');\n\n    // Extract the portion of the original template that the section contains.\n    value = value.call(context.view, originalTemplate.slice(token[3], token[5]), subRender);\n\n    if (value != null)\n      buffer += value;\n  } else {\n    buffer += this.renderTokens(token[4], context, partials, originalTemplate, config);\n  }\n  return buffer;\n};\n\nWriter.prototype.renderInverted = function renderInverted (token, context, partials, originalTemplate, config) {\n  var value = context.lookup(token[1]);\n\n  // Use JavaScript's definition of falsy. Include empty arrays.\n  // See https://github.com/janl/mustache.js/issues/186\n  if (!value || (isArray(value) && value.length === 0))\n    return this.renderTokens(token[4], context, partials, originalTemplate, config);\n};\n\nWriter.prototype.indentPartial = function indentPartial (partial, indentation, lineHasNonSpace) {\n  var filteredIndentation = indentation.replace(/[^ \\t]/g, '');\n  var partialByNl = partial.split('\\n');\n  for (var i = 0; i < partialByNl.length; i++) {\n    if (partialByNl[i].length && (i > 0 || !lineHasNonSpace)) {\n      partialByNl[i] = filteredIndentation + partialByNl[i];\n    }\n  }\n  return partialByNl.join('\\n');\n};\n\nWriter.prototype.renderPartial = function renderPartial (token, context, partials, config) {\n  if (!partials) return;\n  var tags = this.getConfigTags(config);\n\n  var value = isFunction(partials) ? partials(token[1]) : partials[token[1]];\n  if (value != null) {\n    var lineHasNonSpace = token[6];\n    var tagIndex = token[5];\n    var indentation = token[4];\n    var indentedValue = value;\n    if (tagIndex == 0 && indentation) {\n      indentedValue = this.indentPartial(value, indentation, lineHasNonSpace);\n    }\n    var tokens = this.parse(indentedValue, tags);\n    return this.renderTokens(tokens, context, partials, indentedValue, config);\n  }\n};\n\nWriter.prototype.unescapedValue = function unescapedValue (token, context) {\n  var value = context.lookup(token[1]);\n  if (value != null)\n    return value;\n};\n\nWriter.prototype.escapedValue = function escapedValue (token, context, config) {\n  var escape = this.getConfigEscape(config) || mustache.escape;\n  var value = context.lookup(token[1]);\n  if (value != null)\n    return (typeof value === 'number' && escape === mustache.escape) ? String(value) : escape(value);\n};\n\nWriter.prototype.rawValue = function rawValue (token) {\n  return token[1];\n};\n\nWriter.prototype.getConfigTags = function getConfigTags (config) {\n  if (isArray(config)) {\n    return config;\n  }\n  else if (config && typeof config === 'object') {\n    return config.tags;\n  }\n  else {\n    return undefined;\n  }\n};\n\nWriter.prototype.getConfigEscape = function getConfigEscape (config) {\n  if (config && typeof config === 'object' && !isArray(config)) {\n    return config.escape;\n  }\n  else {\n    return undefined;\n  }\n};\n\nvar mustache = {\n  name: 'mustache.js',\n  version: '4.2.0',\n  tags: [ '{{', '}}' ],\n  clearCache: undefined,\n  escape: undefined,\n  parse: undefined,\n  render: undefined,\n  Scanner: undefined,\n  Context: undefined,\n  Writer: undefined,\n  /**\n   * Allows a user to override the default caching strategy, by providing an\n   * object with set, get and clear methods. This can also be used to disable\n   * the cache by setting it to the literal `undefined`.\n   */\n  set templateCache (cache) {\n    defaultWriter.templateCache = cache;\n  },\n  /**\n   * Gets the default or overridden caching object from the default writer.\n   */\n  get templateCache () {\n    return defaultWriter.templateCache;\n  }\n};\n\n// All high-level mustache.* functions use this writer.\nvar defaultWriter = new Writer();\n\n/**\n * Clears all cached templates in the default writer.\n */\nmustache.clearCache = function clearCache () {\n  return defaultWriter.clearCache();\n};\n\n/**\n * Parses and caches the given template in the default writer and returns the\n * array of tokens it contains. Doing this ahead of time avoids the need to\n * parse templates on the fly as they are rendered.\n */\nmustache.parse = function parse (template, tags) {\n  return defaultWriter.parse(template, tags);\n};\n\n/**\n * Renders the `template` with the given `view`, `partials`, and `config`\n * using the default writer.\n */\nmustache.render = function render (template, view, partials, config) {\n  if (typeof template !== 'string') {\n    throw new TypeError('Invalid template! Template should be a \"string\" ' +\n                        'but \"' + typeStr(template) + '\" was given as the first ' +\n                        'argument for mustache#render(template, view, partials)');\n  }\n\n  return defaultWriter.render(template, view, partials, config);\n};\n\n// Export the escaping function so that the user may override it.\n// See https://github.com/janl/mustache.js/issues/244\nmustache.escape = escapeHtml;\n\n// Export these mainly for testing, but also for advanced usage.\nmustache.Scanner = Scanner;\nmustache.Context = Context;\nmustache.Writer = Writer;\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mustache);\n\n\n//# sourceURL=webpack://wyf/./node_modules/mustache/mustache.mjs?");
 
-      wrapper.append(
-        $('<div/>').addClass('multi-field-buttons').append(
-          $('<button>').addClass('multi-field-delete').click(function () {
-            wrapper.remove()
-          })
-        )
-      );
+/***/ })
 
-      if (data[field.primaryKey] === undefined) {
-        for (var dataField in data) {
-          wrapper.append(
-            $('<input/>').attr({type: 'hidden', name: field.model + '.' + dataField + index, value: data[dataField]})
-          );
-        }
-      } else {
-        wrapper.append(
-          $('<input/>').attr({
-            type: 'hidden',
-            name: field.model + '.' + field.primaryKey + index,
-            value: data[field.primaryKey]
-          })
-        );
-      }
-      wrapper.append(template(data));
-      $('#form-element-' + field.name + ' .input-wrapper').append(wrapper);
-      wyf.forms.multiFieldIds[field.name]++;
-    },
-    addMultiFields: function (field, model, primaryKey, type, apiUrl) {
-      var form = '#' + type + '-multi-field-form';
-      var value = $(form + ' select[name=' + field + ']').val();
-
-      if (value == '') {
-        $(form + ' #form-element-' + field).addClass('form-error');
-      } else if (value == '-1') {
-        var data = {};
-        $(form + ' #form-element-' + field).removeClass('form-error');
-        $(form + ' #form-element-' + field + ' .hidden-fields input[type=hidden]').each(function (i, input) {
-          data[input.name.split('.').pop()] = input.value
-        });
-        wyf.forms.renderMultiFieldItem({name: type, model: model, primaryKey: primaryKey}, data)
-        fzui.closeModal();
-      } else {
-        $(form + ' #form-element-' + field).removeClass('form-error');
-        api.get({
-          url: apiUrl + '/' + value,
-          success: function (response) {
-            $(form + ' #form-element-' + field).removeClass('form-error');
-            wyf.forms.renderMultiFieldItem({name: type, model: model, primaryKey: primaryKey}, response)
-          }
-        })
-        fzui.closeModal();
-      }
-    },
-
-    /**
-     * Call the WYF API to validate inputs found in a given container.
-     *
-     * @param {type} formSelector
-     * @param {type} url
-     * @param {type} callbackData
-     * @param {type} callback
-     * @returns {undefined}
-     */
-    validateInputs: function (formSelector, url, callbackData, callback) {
-      var data = {}
-      $(formSelector + ' :input').serializeArray().map(function (x) {
-        data[x.name] = x.value;
-      });
-      api.post({
-        url: url + "/validator",
-        data: JSON.stringify(data),
-        success: function (response) {
-          if (typeof callback === 'function') {
-            callback(
-              true,
-              {response: response, callbackData: callbackData, data: data}
-            );
-            fzui.closeModal();
-          }
-        },
-        failure: function (response) {
-          for (name in response.invalid_fields) {
-            var errors = response.invalid_fields[name].reduce(
-              function (arr, x) {
-                arr.push({error: x});
-                return arr;
-              }, []
-            );
-            var template = Handlebars.compile("<ul>{{#errors}}<li>{{error}}</li>{{/errors}}</ul>");
-            $(formSelector + " #form-element-" + name).addClass('form-error');
-            $(formSelector + " #form-element-" + name + " :input").after(template({errors: errors}));
-          }
-          if (typeof callback === 'function') {
-            callback(false, {response: response, callbackData: callbackData, data: data});
-          }
-        }
-      })
-    },
-
-    /**
-     * Adds an item to the select list after it has been created on the form.
-     * @param {type} success
-     * @param {type} data
-     * @returns {undefined}
-     */
-    addToListCallback: function (success, data) {
-      if (!success) return;
-      var field = data.callbackData;
-      $('#' + field + " option:last").after($('<option/>', {value: '-1', text: data.response.string}));
-      $('#' + field).val("-1");
-      var fieldContainer = $('#form-element-' + field + " > .hidden-fields");
-      var package = $('#' + field).attr('package');
-
-      fieldContainer.html("");
-      fieldContainer.append($('<input/>').attr({type: 'hidden', name: package}).val(data.response.string));
-      for (var key in data.data) {
-        fieldContainer.append($("<input/>").attr({type: "hidden", name: package + "." + key}).val(data.data[key]));
-      }
-    },
-
-    selectModelSearchItem: function (item, name) {
-      $("input[name='" + name + "']").val($(item).attr('value')).trigger('change');
-      $('#' + name).val($(item).attr('label'));
-      $('#' + name + '_response_list').hide();
-    },
-
-    /**
-     *
-     *
-     * @param string field
-     * @param string apiUrl
-     * @param string fields
-     * @param string name
-     * @returns void
-     */
-    updateModelSearchField: function (field, event, apiUrl, fields, name) {
-      var list = $('#' + name + '_response_list');
-
-      if (event.code === "ArrowUp") {
-        var children = list.find(".model-search-field-list-item-selected").prev();
-        list.find(".model-search-field-list-item-selected").removeClass("model-search-field-list-item-selected");
-        if (children.length === 0) {
-          list.find("div:last-child").addClass('model-search-field-list-item-selected');
-        } else {
-          children.addClass('model-search-field-list-item-selected');
-        }
-        event.preventDefault();
-        return;
-      }
-
-      if (event.code === "ArrowDown") {
-        var children = list.find(".model-search-field-list-item-selected").next();
-        list.find(".model-search-field-list-item-selected").removeClass("model-search-field-list-item-selected");
-        if (children.length === 0) {
-          list.find("div:first-child").addClass('model-search-field-list-item-selected');
-        } else {
-          children.addClass('model-search-field-list-item-selected');
-        }
-        event.preventDefault();
-        return;
-      }
-
-      if (event.code === "Enter") {
-        this.selectModelSearchItem(list.find(".model-search-field-list-item-selected"), name)
-        list.hide();
-        return;
-      }
-
-      if (field.value === '') {
-        list.hide();
-        return;
-      }
-      api.call({
-        url: apiUrl,
-        data: {q: field.value, limit: 10, fields: 'id,' + fields, search_fields: fields},
-        success: function (results) {
-          var template = Handlebars.compile($('#' + name + '_preview_template').html());
-
-          list.html('');
-          if (results.length > 0) {
-            list.show();
-          } else {
-            list.hide();
-          }
-          for (var i in results) {
-            $('#' + name + '_response_list').append(template(results[i]));
-          }
-        }
-      });
-    }
-  },
-
-
-  list: {
-    pages: 0,
-    currentPage: 1,
-    itemsPerPage: 10,
-    apiUrl: null,
-    query: '',
-    importJobUrl: null,
-    importParameters: null,
-    render: function (url) {
-      var getData = {page: wyf.list.currentPage, limit: wyf.list.itemsPerPage, sort: 'id'};
-      if (wyf.list.query != '') {
-        getData.q = wyf.list.query;
-      }
-      api.get({
-        url: wyf.list.apiUrl, data: getData,
-        success: function (data, xhr) {
-          var template = Handlebars.compile($('#wyf_list_view_template').html());
-          var count = xhr.getResponseHeader('X-Item-Count');
-          wyf.list.pages = Math.ceil(count / wyf.list.itemsPerPage);
-          if (wyf.list.pages > 1) {
-            $('#wyf_list_view_nav').show();
-          } else {
-            $('#wyf_list_view_nav').hide();
-          }
-          if (count > 0) {
-            $('#wyf_list_view').html(template({list: data}));
-          } else {
-            $('#wyf_list_view').html($('#wyf_list_view_empty').html());
-          }
-          $('#wyf_list_view_size').html(wyf.list.pages);
-          $('#wyf_list_view_page').html(wyf.list.currentPage);
-        }
-      })
-    },
-    next: function () {
-      wyf.list.currentPage++;
-      if (wyf.list.currentPage > wyf.list.pages) {
-        wyf.list.currentPage = wyf.list.pages;
-      } else {
-        wyf.list.render(wyf.list.apiUrl);
-      }
-      $('#wyf_list_view_page').html(wyf.list.currentPage);
-    },
-    prev: function () {
-      wyf.list.currentPage--;
-      if (wyf.list.currentPage == 0) {
-        wyf.list.currentPage = 1;
-      } else {
-        wyf.list.render(wyf.list.apiUrl);
-      }
-      $('#wyf_list_view_page').html(wyf.list.currentPage);
-    },
-    checkImportStatus: function () {
-      api.call({
-        url: wyf.list.importJobUrl,
-        success: function (response) {
-          var results;
-          var template;
-          var entities = wyf.list.importParameters.entities;
-          if(response.status == 'queued') {
-            template = Handlebars.compile($('#import-message-template').html());
-            $('#import-message').html(template({
-              'title': 'Please wait ...',
-              'message': 'Your ' + entities + ' import is currently queued.'
-            }));
-            setTimeout(wyf.list.checkImportStatus, 5000);
-          } else if(response.status == 'running') {
-            template = Handlebars.compile($('#import-message-template').html());
-            $('#import-message').html(template({
-              'title': 'Importing ...',
-              'message': "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>  Your "+entities+" are currently being imported ..."
-            }));
-            setTimeout(wyf.list.checkImportStatus, 5000);
-          } else if (response.status == 'finished') {
-            results = JSON.parse(response.response);
-            results.entities = entities;
-            results.base_url = wyf.list.importParameters.base_url;
-            if (results.errors.length > 0) {
-              template = Handlebars.compile($('#import-errors-template').html());
-            } else {
-              template = Handlebars.compile($('#import-success-template').html());
-            }
-            $('#import-message').html(template(results));
-          }
-        }
-      });
-    },
-    uploadData: function (url) {
-      $('<input/>').attr({type: 'file'})
-        .change(function (event) {
-          var form = new FormData();
-          form.append('data', event.target.files[0]);
-          $('#import-actions').slideToggle();
-          $('#import-loader').slideToggle();
-          $.ajax({
-            type: 'POST',
-            url: url,
-            processData: false,
-            contentType: false,
-            data: form
-          }).done(function (jobId) {
-            wyf.list.importJobUrl = url + "_status/" + jobId;
-            wyf.list.checkImportStatus();
-          })
-        })
-        .click();
-    }
-  }
-};
-
-$(function () {
-  // Setup and handle window resizing
-  $(window).resize(resizer);
-  resizer();
-
-  // Setup the search
-  $('#wyf-list-search-field').click(function (event) {
-    event.stopPropagation();
-  }).keyup(function (event) {
-    wyf.list.query = event.target.value;
-    wyf.list.render()
-  });
-
-  // Initialize
-  wyf.forms.init('body');
-
-  // Show any notifications
-  var notification = $('#notification');
-  if(notification.html() != "") {
-    notification.offset({left: $(window).width() - notification.outerWidth(true)});
-    setTimeout(function(){
-      notification.animate({opacity:"show", top:70}, function(){
-        setTimeout(function(){notification.animate({opacity:"hide", top: 85})}, 3000)
-      });
-    }, 1500)
-  }
-
-  // Set focus to search field when the search button is pressed.
-  $('#wyf-list-search-button').click(function () {
-    $('#wyf-list-search-wrapper').slideToggle(function () {
-      $('#wyf-list-search-field').focus();
-    });
-  })
-});
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./js/wyf.js");
+/******/ 	
+/******/ })()
+;
