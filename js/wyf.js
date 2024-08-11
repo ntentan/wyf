@@ -1,9 +1,9 @@
 import {renderList} from "./lists"
 
-document.addEventListener('load', () => {
-    const wyfMode = document.querySelector('body').getAttribute('wyf-state')
-    
-    if (wyfMode == 'wyf-listing') {
+window.addEventListener('load', () => {
+    const wyfMode = document.querySelector('body').getAttribute('wyf-mode')
+    console.log(wyfMode);
+    if (wyfMode == 'list') {
         renderList()
     }
 })

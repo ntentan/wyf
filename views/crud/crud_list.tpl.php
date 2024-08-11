@@ -1,6 +1,6 @@
 <script type="text/x-mustache" id="wyf-list-head">
   <table>
-    <thead><tr><?php foreach ($headers as $header): ?><th><?= $header ?></th><?php endforeach; ?></tr></thead>
+    <thead><tr><?php foreach ($labels as $header): ?><th><?= $header ?></th><?php endforeach; ?></tr></thead>
     <tbody>
 </script>
 <script type="text/x-mustache" id="wyf-list-item">

@@ -16,7 +16,7 @@
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   renderList: () => (/* binding */ renderList)\n/* harmony export */ });\n/* harmony import */ var mustache__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.mjs\");\n\n\n/**\n * Renders lists of items for the WYF framework.\n */\nclass List {\n    \n    #template\n    #container\n    #url\n    \n    /**\n     * Creates a new instance of the constructor.\n     */\n    constructor(url, container, template) {\n        this.#container = container\n        this.#template = template\n        this.#url = url\n    }\n    \n    start() {\n        fetch(this.#url)\n    }\n    \n}\n\nfunction renderList() {\n    new List().start()\n}\n\n\n//# sourceURL=webpack://wyf/./js/lists.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   renderList: () => (/* binding */ renderList)\n/* harmony export */ });\n/* harmony import */ var mustache__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.mjs\");\n\n\n/**\n * Renders lists of items for the CRUD listing of the WYF framework.\n */\nclass List {\n    \n    #template\n    #container\n    #url\n    #listHeaders\n    \n    /**\n     * Creates a new instance of the list.\n     */\n    constructor(url, container) {\n        this.#container = container\n        this.#url = url\n        this.#listHeaders = new Headers()\n        this.#listHeaders.append('Accepts', 'application/json')\n    }\n    \n    /**\n     * Request the data from the controller.\n     */\n    run() {\n        fetch(this.#url, {\n            method: \"GET\",\n            headers: this.#listHeaders\n        })\n        .then(response => response.json())\n        .then(response => console.log(response))\n    }\n    \n}\n\nfunction renderList() {\n    const list = new List('./', document.querySelector('wyf-item-list'))\n    list.run()\n}\n\n\n//# sourceURL=webpack://wyf/./js/lists.js?");
 
 /***/ }),
 
@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*******************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lists */ \"./js/lists.js\");\n\n\ndocument.addEventListener('load', () => {\n    const wyfMode = document.querySelector('body').getAttribute('wyf-state')\n    \n    if (wyfMode == 'wyf-listing') {\n        (0,_lists__WEBPACK_IMPORTED_MODULE_0__.renderList)()\n    }\n})\n\n\n//# sourceURL=webpack://wyf/./js/wyf.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lists */ \"./js/lists.js\");\n\n\nwindow.addEventListener('load', () => {\n    const wyfMode = document.querySelector('body').getAttribute('wyf-mode')\n    console.log(wyfMode);\n    if (wyfMode == 'list') {\n        (0,_lists__WEBPACK_IMPORTED_MODULE_0__.renderList)()\n    }\n})\n\n\n//# sourceURL=webpack://wyf/./js/wyf.js?");
 
 /***/ }),
 

@@ -4,9 +4,9 @@ namespace ntentan\wyf\controllers;
 use ntentan\mvc\View;
 use ntentan\http\Uri;
 use ntentan\utils\Text;
-use ntentan\mvc\attributes\Action;
-use ntentan\mvc\attributes\Method;
-use ntentan\mvc\attributes\Header;
+use ntentan\mvc\Action;
+use ntentan\http\filters\Method;
+use ntentan\http\filters\Header;
 use ntentan\http\Redirect;
 use ntentan\nibii\ModelDescription;
 
@@ -17,24 +17,59 @@ use ntentan\nibii\ModelDescription;
  */
 class CrudController extends WyfController
 {
+    /**
+     * An instance of the model description.
+     * @var \ntentan\nibii\ModelDescription
+     */
     private ModelDescription $modelDescription;
     
+    /**
+     * A list of fields for the associated models.
+     * @var array
+     */
+    private array $fields;
+    
+    /**
+     * Get an instance of the description for the model attached to this CRUD controller.
+     * @return ModelDescription
+     */
     private function getModelDescription(): ModelDescription
     {
         if (!isset($this->modelDescription)) {
-            $this->modelDescription = $this->getModelDescription()->getDescription();
+            $this->modelDescription = $this->getModelInstance()->getDescription();
         }
         return $this->modelDescription;
     }
     
-    protected function getPrimaryKey(): string
+    /**
+     * Get an list of fields that act as primary keys for the backing model.
+     * @return array
+     */
+    protected function getPrimaryKey(): array
     {
-        
+        return $this->getModelDescription()->getPrimaryKey();
     }
     
+    /**
+     * Get a list of the fields for this model to be displayed in lists.
+     * @return array
+     */
     protected function getFields(): array
     {
-        return array_filter(array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()), fn($x) => );
+        if (!isset($this->fields)) {
+            $primaryKey = $this->getPrimaryKey();
+            $fieldNames = array_filter(
+                array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()),
+                fn($x) => !in_array($x, $primaryKey)
+                );
+            $this->fields = [];
+            
+            foreach($fieldNames as $fieldName) {
+                $this->fields[$fieldName] = ucfirst(str_replace("_", " ", $fieldName));
+            }
+        }
+        
+        return $this->fields;
     }
     
     /**
@@ -44,16 +79,16 @@ class CrudController extends WyfController
      * @param View $view
      * @return View
      */
+    #[Action]
     public function main(Uri $uri, View $view): View
-    {
-        $description = $this->getModelInstance()->getDescription();
-        $fields = $description->getFields();
-        $primaryKey = $description->getPrimaryKey();
-        
+    {     
+        $fields = $this->getFields();
         $view->setTemplate("wyf_{$this->getEntity()}_crud_main");
         $view->set([
             "wyf_add_link" => "{$uri->getPrefix()}{$uri->getPath()}/add",
-            "wyf_fields" => $fields,
+            "wyf_list_fields" => array_keys($fields),
+            "wyf_list_labels" => array_values($fields),
+            "wyf_key_fields" => $this->getPrimaryKey(),
             "wyf_mode" => 'list'
         ]);
         return $view;
@@ -83,17 +118,22 @@ class CrudController extends WyfController
     }
 
     /**
-     * Present a form for adding new items to the model.
+     * Presents a form for adding new items to the model.
      * 
      * @param View $view
      * @return View
      */
+    #[Action]
     public function add(View $view): View
     {
         $this->setupView($view);
         return $view;
     }
     
+    /**
+     * Saves any data submitted through a form and presents a pre-populated form if data is invalid and needs to be
+     * changed.
+     */
     #[Action("add")]
     #[Method("post")]
     public function save(View $view, Redirect $redirect): View|Redirect

@@ -1,29 +1,40 @@
 import Mustache from "mustache"
 
 /**
- * Renders lists of items for the WYF framework.
+ * Renders lists of items for the CRUD listing of the WYF framework.
  */
 class List {
     
     #template
     #container
     #url
+    #listHeaders
     
     /**
-     * Creates a new instance of the constructor.
+     * Creates a new instance of the list.
      */
-    constructor(url, container, template) {
+    constructor(url, container) {
         this.#container = container
-        this.#template = template
         this.#url = url
+        this.#listHeaders = new Headers()
+        this.#listHeaders.append('Accepts', 'application/json')
     }
     
-    start() {
-        fetch(this.#url)
+    /**
+     * Request the data from the controller.
+     */
+    run() {
+        fetch(this.#url, {
+            method: "GET",
+            headers: this.#listHeaders
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
     }
     
 }
 
 export function renderList() {
-    new List().start()
+    const list = new List('./', document.querySelector('wyf-item-list'))
+    list.run()
 }
