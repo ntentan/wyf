@@ -21,7 +21,7 @@ class Form extends Container
     {
         $this->submitValue = $submitValue;
         if ($submitValue !== false) {
-            $this->getSubmitButton()->setValue($submitValue);
+            $this->submitButton->setValue($submitValue);
         }
         return $this;
     }
@@ -35,12 +35,6 @@ class Form extends Container
             )
         );
     }
-
-//     public function setErrors(array $errors): Element
-//     {
-//         $this->errors = $errors;
-//         return $this;
-//     }
 
     public function __toString()
     {

@@ -8,16 +8,19 @@ class List {
     #template
     #container
     #url
-    #listHeaders
+    #requestHeaders
     
     /**
      * Creates a new instance of the list.
      */
-    constructor(url, container) {
+    constructor(container, template) { 
         this.#container = container
-        this.#url = url
-        this.#listHeaders = new Headers()
-        this.#listHeaders.append('Accepts', 'application/json')
+        this.#requestHeaders = new Headers()
+        this.#requestHeaders.append('Accept', 'application/json')
+        this.#url = this.#container.getAttribute('wyf-data-path')
+        this.#template = template
+        console.log(this.#template)
+        Mustache.parse(this.#template)
     }
     
     /**
@@ -26,15 +29,14 @@ class List {
     run() {
         fetch(this.#url, {
             method: "GET",
-            headers: this.#listHeaders
+            headers: this.#requestHeaders
         })
         .then(response => response.json())
-        .then(response => console.log(response))
+        .then(response => this.#container.innerHTML = Mustache.render(this.#template, {'items': response}))
     }
-    
 }
 
 export function renderList() {
-    const list = new List('./', document.querySelector('wyf-item-list'))
+    const list = new List(document.querySelector('#wyf-item-list'), document.querySelector('#wyf-list-item').innerHTML)
     list.run()
 }

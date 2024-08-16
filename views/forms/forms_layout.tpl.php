@@ -1,10 +1,8 @@
-<?php use ntentan\wyf\utilities\forms\HiddenField;
-
- foreach($elements as $element):?>
+<?php foreach($elements as $element):?>
     <?php 
     $label = $element->getLabel();
     $id = $element->getAttribute('id');
-    $hideWrapper = $element->u() instanceof HiddenField;
+    $hideWrapper = $element->u() instanceof \ntentan\wyf\forms\HiddenField;
     $description = $element->getDescription();
     $errors = $element->getErrors();
     ?>

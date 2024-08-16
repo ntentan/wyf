@@ -5,9 +5,9 @@ use ntentan\mvc\binders\ViewBinder;
 
 class WyfViewBinder extends ViewBinder
 {
-    public function bind(mixed $instance): mixed
+    public function bind(mixed $instance, string $name): mixed
     {
-        $instance = parent::bind($instance);
+        $instance = parent::bind($instance, $name);
         $instance->setLayout('wyf_default.tpl.php');
         $className = strtolower($this->getControllerSpec()->getControllerName());
         $action = strtolower($this->getControllerSpec()->getControllerAction());

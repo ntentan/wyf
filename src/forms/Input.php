@@ -29,7 +29,7 @@ class Input extends Element
 
     public function getValue()
     {
-        return $this->value;// ?? ($this->getParent() ? $this->getParent()->getValueFor($this) : null);
+        return $this->value;
     }
 
     public function setValue($value)
@@ -45,9 +45,4 @@ class Input extends Element
                 'name' => $this->getName()
             ] + parent::getTemplateVariables();
     }
-
-//     public function getErrors(): array
-//     {
-//         return $this->errors ?? ($this->parent ? $this->parent->getErrorsFor($this) : null);
-//     }
 }

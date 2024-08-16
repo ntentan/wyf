@@ -6,11 +6,25 @@ body {
 }
 
 #wrapper {
+    display: grid;
+    grid-template-columns: 250px 1fr;
     header {
         background-color: $color-scheme;
         font-weight: bold;
         font-size: 18px;
         padding: 7px;
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+    nav {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        background-color: lighten($color-scheme, 35%);
+    }
+    #contents {
+        grid-column: 2 / -1;
+        grid-row: 2 / 3;
+        padding: 20px;
     }
 }
 

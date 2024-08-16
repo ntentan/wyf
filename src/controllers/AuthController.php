@@ -5,16 +5,17 @@ namespace ntentan\wyf\controllers;
 use ntentan\mvc\View;
 use ntentan\Session;
 use ntentan\http\Redirect;
-use ntentan\mvc\attributes\Method;
-use ntentan\mvc\attributes\Action;
+use ntentan\http\filters\Method;
+use ntentan\mvc\Action;
 
 /**
- * Description of AuthController
+ * A controller through which authentication credentials can be collected.
  *
  * @author ekow
  */
 class AuthController {
 
+    #[Action]
     public function login(View $view) 
     {
         $view->setLayout('wyf_centered');
@@ -30,9 +31,9 @@ class AuthController {
         return $view;
     }
     
+    #[Action('logout')]
     public function logout(Redirect $redirect) {
         Session::reset();
-        return $redirect->to('/');//$this->getRedirect($this->getContext()->getUrl(''));
+        return $redirect->to('/');
     }
-    
 }

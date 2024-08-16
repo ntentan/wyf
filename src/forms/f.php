@@ -20,6 +20,7 @@ class f
             'form' => Form::class,
             'text' => TextField::class,
             'submit_button' => SubmitButton::class,
+            'hidden' => HiddenField::class,
             default => throw new WyfException("Unknown form item type $element")
         });
 

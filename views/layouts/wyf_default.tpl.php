@@ -5,7 +5,7 @@
         <link href="/css/wyf.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="/js/wyf.js" ></script>
     </head>
-    <body <?= isset($wyf_mode) ? "wyf-mode='{$wyf_mode}'" : ""?>>
+    <body <?= isset($wyf_crud_mode) ? "wyf-mode='{$wyf_crud_mode}'" : ""?>>
         <div id="wrapper">
             <header>
                 <section><?= $wyf_app_name ?></section>

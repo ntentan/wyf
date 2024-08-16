@@ -1,8 +1,9 @@
+<h1><?= $wyf_entity ?></h1>
 <div class='wyf-top-actions'>
-<a href="<?= $wyf_add_link ?>">Add <?= $wyf_entity ?></a>
+<a href="<?= $add_path ?>" class='button button-green button-mega'>Add <?= $wyf_entity ?></a>
 </div>
-<div class='wyf-item-list'></div>
+<div id='wyf-item-list' wyf-data-path="<?= $list_data_path ?>"></div>
 <?= $this->partial(
     'crud_list', 
-    ['fields' => $wyf_list_fields, 'labels' => $wyf_list_labels]
+    ['fields' => $list_fields, 'labels' => $list_labels, 'key_field' => $key_fields]
 ) ?>

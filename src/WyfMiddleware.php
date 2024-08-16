@@ -53,7 +53,7 @@ class WyfMiddleware extends MvcMiddleware
             if (class_exists($className)) {
                 $spec = [
                     'class_name' => $className, 
-                    'action' => $uriParts[$offset + 1] ?? 'main', 
+                    'action' => isset($uriParts[$offset + 1]) && $uriParts[$offset + 1] != '' ? $uriParts[$offset + 1] : 'main', 
                     'controller' => $uriParts[$offset]
                 ];
                 if (isset($uriParts[$offset + 2])) {
@@ -72,13 +72,13 @@ class WyfMiddleware extends MvcMiddleware
     protected function getControllerSpec(ServerRequestInterface $request): ControllerSpec
     {
         $uri = $request->getUri();
-        $uriParts = explode('/', substr($uri->getPath(), 1));
+        $uriParts = array_filter(explode('/', substr($uri->getPath(), 1)), fn($x) => $x !== '');
         $dashboardClass = $this->configuration['default_class'] 
             ?? ("\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\HomeController");
         
-        $spec = match ($uriParts[0]) {
-            '' => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $dashboardClass],
-            'auth' => ($this->configuration['enable_auth'] ?? false) 
+        $spec = match ($uriParts) {
+            [], [''] => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $dashboardClass],
+            ['auth', 'login'], ['auth', 'logout'] => ($this->configuration['enable_auth'] ?? false) 
                 ? ['class_name' => AuthController::class, 'action' => $uriParts[1] ?? null, 'controller' => 'auth']
                 : null,
             default => $this->findControllerSpec($uriParts)
