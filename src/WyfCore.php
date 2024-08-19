@@ -1,6 +1,7 @@
 <?php
 namespace ntentan\wyf;
 
+use ntentan\Context;
 use ntentan\mvc\Router;
 use ntentan\mvc\ServiceContainerBuilder;
 use ntentan\mvc\View;
@@ -19,7 +20,7 @@ class WyfCore
                     $instance = new WyfMiddleware(
                         $container->get(Router::class),
                         $container->get(ServiceContainerBuilder::class),
-                        $container->get(ModelBinderRegistry::class)
+                        $container->get(Context::class)
                         );
                     $instance->setNamespace($namespace);
                     MvcCore::initializeDatabase();

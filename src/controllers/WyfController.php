@@ -2,6 +2,7 @@
 
 namespace ntentan\wyf\controllers;
 
+use ntentan\Context;
 use ntentan\mvc\Model;
 use ntentan\mvc\binders\ModelBinderInterface;
 use ntentan\mvc\ControllerSpec;
@@ -16,11 +17,13 @@ class WyfController
     private string $namespace;
     private Model $modelInstance;
     private ModelBinderInterface $modelBinder;
+    private Context $context;
     
-    public function setup(ControllerSpec $controllerSpec, ModelBinderInterface $modelBinder): void
+    public function setup(ControllerSpec $controllerSpec, ModelBinderInterface $modelBinder, Context $context): void
     {
         $this->controllerSpec = $controllerSpec;
         $this->modelBinder = $modelBinder;
+        $this->context = $context;
     }
     
     protected function getModelBinder(): ModelBinderInterface
@@ -31,6 +34,11 @@ class WyfController
     protected function getControllerSpec(): ControllerSpec
     {
         return $this->controllerSpec;
+    }
+
+    protected function getContext(): Context
+    {
+        return $this->context;
     }
     
     protected function getEntity(): string

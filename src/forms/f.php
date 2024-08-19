@@ -6,7 +6,6 @@ use ntentan\wyf\WyfException;
 
 class f
 {
-
     private static Templates $templates;
 
     public static function init(Templates $templates)
@@ -19,8 +18,11 @@ class f
         $class = new \ReflectionClass(match ($element) {
             'form' => Form::class,
             'text' => TextField::class,
+            'textarea' => Textarea::class,
             'submit_button' => SubmitButton::class,
             'hidden' => HiddenField::class,
+            'date' => DateField::class,
+            'checkbox' => Checkbox::class,
             default => throw new WyfException("Unknown form item type $element")
         });
 

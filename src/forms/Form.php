@@ -1,8 +1,6 @@
 <?php
 namespace ntentan\wyf\forms;
 
-use ntentan\wyf\utilities\forms\Checkbox;
-use ntentan\wyf\utilities\forms\DateField;
 use ntentan\wyf\WyfException;
 
 class Form extends Container
@@ -64,8 +62,8 @@ class Form extends Container
             }
             $this->add(match($field['type']) {
                 'string', 'integer', 'double' => f::create('text', $field['name']),
-                'date' => $this->create(DateField::class, $field['name']),
-                'boolean' => $this->create(Checkbox::class, $field['name']),
+                'date', 'datetime' => f::create('date', $field['name']),
+                'boolean' => f::create('checkbox', $field['name']),
                 default => throw new WyfException("Unknown form field type {$field['type']}")
             });
         }

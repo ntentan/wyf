@@ -1,6 +1,7 @@
 <?php
 namespace ntentan\wyf\controllers;
 
+use ntentan\mvc\Model;
 use ntentan\mvc\View;
 use ntentan\http\Uri;
 use ntentan\mvc\Action;
@@ -37,6 +38,12 @@ class CrudController extends WyfController
      * @var array
      */
     private array $fields;
+
+    /**
+     * CRUD controllers for other models that are related to this model.
+     * @var array
+     */
+    private array $subCrudControllers = [];
     
     /**
      * Get an instance of the description for the model attached to this CRUD controller.
@@ -110,6 +117,12 @@ class CrudController extends WyfController
         $this->operations[] = ['path' => $path, 'label' => $label];
     }
 
+    protected function addSubCrudOperation(string $path, string $label, string $crudControllerClass): void
+    {
+        $this->operations[] = ['path' => $path, 'label' => $label];
+        $this->subCrudControllers[] = $crudControllerClass;
+    }
+
     protected function getOperations(array $item): array
     {
         $primaryKey = $this->getPrimaryKey()[0];
@@ -153,12 +166,15 @@ class CrudController extends WyfController
         ]);
     }
     
-    private function saveData(View $view, Redirect $redirect, string $operation)
+    private function saveData(View $view, ResponseInterface $redirect, string $operation): View | ResponseInterface
     {
         $model = $this->getModelInstance();
         $model = $this->getModelBinder()->bind($model, $this->getEntity());
         if($model->save()) {
-            return $redirect->to("/{$this->getControllerSpec()->getControllerName()}");
+            return $redirect
+                ->withHeader("Location",
+                    $this->getContext()->getPath("/{$this->getControllerSpec()->getControllerName()}"))
+                ->withStatus(302);
         }
         $this->setupView($view, $operation);
         $view->set('errors', $model->getInvalidFields());
@@ -184,9 +200,9 @@ class CrudController extends WyfController
      */
     #[Action("add")]
     #[Method("post")]
-    public function save(View $view, Redirect $redirect): View|Redirect
+    public function save(View $view, ResponseInterface $response): View|ResponseInterface
     {
-        return $this->saveData($view, $redirect, 'add');
+        return $this->saveData($view, $response, 'add');
     }
     
     #[Action]

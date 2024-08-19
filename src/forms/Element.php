@@ -98,18 +98,16 @@ class Element
         return $this->description;
     }
 
-    private function renderAttributes()
-    {
-        return $this->templates->render('wyf_forms_attributes', ['attributes' => $this->attributes]);
-    }
-
     public function getTemplateVariables()
     {
-        $additions = ['attributes' => $this->renderAttributes(), 'errors' => $this->errors];
+        $additions = [
+            'attributes' => $this->templates->render('wyf_forms_attributes', ['attributes' => $this->attributes]),
+            'errors' => $this->errors
+        ];
         if (isset($this->label)) {
             $additions['label'] = $this->label;
         }
-        return $additions;
+        return array_merge($this->variables, $additions);
     }
 
     protected function set($key, $value)

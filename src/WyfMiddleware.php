@@ -100,7 +100,7 @@ class WyfMiddleware extends MvcMiddleware
     {
         $instance = $container->get($controllerSpec->getControllerClass());
         if ($instance instanceof WyfController) {
-            $instance->setup($controllerSpec, $container->get(DefaultModelBinder::class));
+            $instance->setup($controllerSpec, $container->get(DefaultModelBinder::class), $this->getContext());
         }
         return $instance;
     }
