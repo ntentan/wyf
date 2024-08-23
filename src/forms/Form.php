@@ -1,6 +1,7 @@
 <?php
 namespace ntentan\wyf\forms;
 
+use ntentan\mvc\Model;
 use ntentan\wyf\WyfException;
 
 class Form extends Container
@@ -39,7 +40,7 @@ class Form extends Container
         return $this->getTemplateEngine()->render('wyf_forms_form', $this->getTemplateVariables());
     }
 
-    public function forModel($model): Form
+    public function forModel(Model $model, array $filters = []): Form
     {
         $description = $model->getDescription();
         $relationships = $description->getRelationships();
@@ -60,15 +61,20 @@ class Form extends Container
             if ($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false) {
                 continue;
             }
-            $this->add(
-                isset($field['model']) ?
-                    f::create('model', $field['model'], $field)
-                : match($field['type']) {
-                    'string', 'integer', 'double' => f::create('text', $field['name']),
-                    'date', 'datetime' => f::create('date', $field['name']),
-                    'boolean' => f::create('checkbox', $field['name']),
-                    default => throw new WyfException("Unknown form field type {$field['type']}")
-                });
+
+            if (isset($filters[$field['name']])) {
+                $this->add(f::create('hidden', $field['name'])->setValue($filters[$field['name']]));
+            } else {
+                $this->add(
+                    isset($field['model']) ?
+                        f::create('model', $field['model'], $field)
+                        : match($field['type']) {
+                        'string', 'integer', 'double' => f::create('text', $field['name']),
+                        'date', 'datetime' => f::create('date', $field['name']),
+                        'boolean' => f::create('checkbox', $field['name']),
+                        default => throw new WyfException("Unknown form field type {$field['type']}")
+                    });
+            }
         }
 
         return $this;

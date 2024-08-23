@@ -225,7 +225,8 @@ class CrudController extends WyfController
         $view->setTemplate("wyf_{$this->getEntity()}_crud_{$action}");
         $view->set([
             'wyf_entity' => Text::singularize($this->getEntity()),
-            'model' => $this->getModelInstance()
+            'model' => $this->getModelInstance(),
+            'filter' => $this->getListFilter()
         ]);
     }
     
@@ -236,7 +237,8 @@ class CrudController extends WyfController
         if($model->save()) {
             return $redirect
                 ->withHeader("Location",
-                    $this->getContext()->getPath("/{$this->getControllerSpec()->getControllerName()}"))
+                    $this->getContext()->getPath($this->getControllerSpec()->getParameter('controller_path'))
+                )
                 ->withStatus(302);
         }
         $this->setupView($view, $operation);

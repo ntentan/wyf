@@ -63,6 +63,7 @@ class WyfMiddleware extends MvcMiddleware
                 ];
                 if (count($foundSpecs) > 0 && isset($uriParts[$offset + 1]) && is_numeric($uriParts[$offset + 1])) {
                     $hierarchy[end($foundSpecs)['controller']] = $uriParts[$offset + 1];
+                    $spec['controller_path'] = "{$spec['controller_path']}/{$uriParts[$offset + 1]}";
                     $spec['hierarchy'] = $hierarchy;
                     $spec['action'] = isset($uriParts[$offset + 2]) && !is_numeric($uriParts[$offset + 2]) ? $uriParts[$offset + 2] : 'main';
                 } else if (isset($uriParts[$offset + 2])) {
