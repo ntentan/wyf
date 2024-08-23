@@ -13,6 +13,7 @@ use ntentan\http\filters\Method;
 use ntentan\http\Redirect;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 
 /**
@@ -24,7 +25,7 @@ class CrudController extends WyfController
      * An array of operations, which can be executed on individual records.
      * @var array
      */
-    protected array $operations = [];
+    private array $operations = [];
 
     /**
      * An instance of the description of the model wrapped by the CRUD controller.`
@@ -37,13 +38,19 @@ class CrudController extends WyfController
      * If left empty, all fields except for thos in the primary key are returned.
      * @var array
      */
-    private array $fields;
+    private array $listFields;
 
     /**
      * CRUD controllers for other models that are related to this model.
      * @var array
      */
     private array $subCrudControllers = [];
+
+    /**
+     * Cache to store the list filters after they have been built.
+     * @var array
+     */
+    private array $listFilter;
     
     /**
      * Get an instance of the description for the model attached to this CRUD controller.
@@ -70,39 +77,52 @@ class CrudController extends WyfController
      * Get a list of the fields for this model to be displayed in lists.
      * @return array
      */
-    protected function getFields(): array
+    protected function getListFields(): array
     {
-        if (!isset($this->fields)) {
+        if (!isset($this->listFields)) {
             $primaryKey = $this->getPrimaryKey();
             $fieldNames = array_filter(
-                array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()),
-                fn($x) => !in_array($x, $primaryKey)
+                    array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()),
+                    fn($x) => !in_array($x, $primaryKey)
                 );
-            $this->fields = [];
+            $this->listFields = [];
             
             foreach($fieldNames as $fieldName) {
-                $this->fields[$fieldName] = ucfirst(str_replace("_", " ", $fieldName));
+                $this->listFields[$fieldName] = ucfirst(str_replace("_", " ", $fieldName));
             }
         }
         
-        return $this->fields;
+        return $this->listFields;
+    }
+
+    /**
+     * Set the list of fields to be shown in the listing.
+     * Fields must be specified as in a key-value format, where the key represents the field name, and the value
+     * represents the label.
+     * @param array $listFields
+     * @return void
+     */
+    protected function setListFields(array $listFields): void
+    {
+        $this->listFields = $listFields;
     }
     
     /**
      * The main action lists all items in the model.
-     * 
      * @param Uri $uri
      * @param View $view
      * @return View
      */
     #[Action]
-    public function main(Uri $uri, View $view): View
-    {   
-        $fields = $this->getFields();
+    public function main(UriInterface $uri, View $view): View
+    {
+        $context = $this->getContext();
+        $fields = $this->getListFields();
         $view->setTemplate("wyf_{$this->getEntity()}_crud_main");
+
         $view->set([
-            "add_path" => "{$uri->getPrefix()}{$uri->getPath()}/add",
-            "list_data_path" => "{$uri->getPrefix()}{$uri->getPath()}/",
+            "add_path" => "{$context->getPrefix()}{$uri->getPath()}/add",
+            "list_data_path" => "{$context->getPrefix()}{$uri->getPath()}/",
             "list_fields" => array_keys($fields),
             "list_labels" => array_values($fields),
             "key_fields" => $this->getPrimaryKey()[0],
@@ -112,14 +132,28 @@ class CrudController extends WyfController
         return $view;
     }
 
+    /**
+     * Add an operation to the CRUD controller.
+     * The operation calls an action method within the controller.
+     * @param string $path
+     * @param string $label
+     * @return void
+     */
     protected function addOperation(string $path, string $label): void
     {
         $this->operations[] = ['path' => $path, 'label' => $label];
     }
 
-    protected function addSubCrudOperation(string $path, string $label, string $crudControllerClass): void
+    /**
+     * Add an action method for calling a sub CRUD controller.
+     * @param string $label
+     * @param string $path
+     * @param string $crudControllerClass
+     * @return void
+     */
+    protected function addSubCrudOperation(string $label, string $path, string $crudControllerClass): void
     {
-        $this->operations[] = ['path' => $path, 'label' => $label];
+        $this->addOperation($path, $label);
         $this->subCrudControllers[] = $crudControllerClass;
     }
 
@@ -135,16 +169,45 @@ class CrudController extends WyfController
         }
         return $operations;
     }
+
+    /**
+     * Get an array whose values filter the data displayed in the lists.
+     * @return array
+     */
+    protected function getListFilter(): array
+    {
+        $hierarchy = $this->getControllerSpec()->getParameter('hierarchy');
+        $filter = [];
+        if ($hierarchy) {
+            $key = array_key_last($hierarchy);
+            $value = $hierarchy[$key];
+            $filter[Text::singularize($key) . '_id'] = $value;
+        }
+        return $filter;
+    }
     
     #[Action("main")]
     #[Header('accept', 'application/json')]
     public function list(StringStream $output, ResponseInterface $response, Uri $uri): ResponseInterface
     {
-        $this->addOperation("{$uri->getPrefix()}{$uri->getPath()}edit", "Edit");
-        $this->addOperation("{$uri->getPrefix()}{$uri->getPath()}delete", "Delete");  
+        $this->addOperation("edit", "Edit");
+        $this->addOperation("delete", "Delete");
         
         $model = $this->getModelInstance();
-        $items = $model->sortDescById()->fetch()->getData();
+
+        $fields = array_keys($this->getListFields());
+        $fields[]= $this->getPrimaryKey()[0];
+        $items = $model->fields($fields)->sortDescById()->fetch($this->getListFilter())->getData();
+
+        $this->operations = array_map(
+            function($item) {
+                $item['path'] = "{$this->getContext()->getPrefix()}" .
+                    "{$this->getControllerSpec()->getParameter('controller_path')}/{$item['path']}";
+                return $item;
+            },
+            $this->operations
+        );
+
         foreach($items as $i => $item) {
             $items[$i]['operations'] = $this->getOperations($item);
         }

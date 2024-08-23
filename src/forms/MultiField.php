@@ -1,6 +1,6 @@
 <?php
 
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
 use ntentan\Model;
 use ntentan\utils\Text;

@@ -60,12 +60,15 @@ class Form extends Container
             if ($autoPrimaryKey && array_search($field['name'], $primaryKeys) !== false) {
                 continue;
             }
-            $this->add(match($field['type']) {
-                'string', 'integer', 'double' => f::create('text', $field['name']),
-                'date', 'datetime' => f::create('date', $field['name']),
-                'boolean' => f::create('checkbox', $field['name']),
-                default => throw new WyfException("Unknown form field type {$field['type']}")
-            });
+            $this->add(
+                isset($field['model']) ?
+                    f::create('model', $field['model'], $field)
+                : match($field['type']) {
+                    'string', 'integer', 'double' => f::create('text', $field['name']),
+                    'date', 'datetime' => f::create('date', $field['name']),
+                    'boolean' => f::create('checkbox', $field['name']),
+                    default => throw new WyfException("Unknown form field type {$field['type']}")
+                });
         }
 
         return $this;

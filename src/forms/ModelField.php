@@ -1,9 +1,9 @@
 <?php
 
-namespace ntentan\wyf\utilities\forms;
+namespace ntentan\wyf\forms;
 
 use ntentan\utils\Text;
-use ntentan\Model;
+use ntentan\mvc\Model;
 use ntentan\utils\Input;
 
 /**
@@ -21,9 +21,8 @@ class ModelField extends SelectField
      * @param string|\ntentan\Model $model A string as the model name or
      *          an instance of a model
      */
-    public function __construct($model, $formTemplate = null, $apiUrl = null)
+    public function __construct($instance, $formTemplate = null, $apiUrl = null)
     {
-        $instance = Model::load($model);
         $name = Text::deCamelize($instance->getName());
         $label = Text::singularize(ucwords(str_replace('_', ' ', $name)));
         $this->setLabel($label);

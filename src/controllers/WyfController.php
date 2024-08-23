@@ -8,7 +8,7 @@ use ntentan\mvc\binders\ModelBinderInterface;
 use ntentan\mvc\ControllerSpec;
 
 /**
- * Base controller for all WYF application modules.
+ * Base controller for all WYF application classes.
  */
 class WyfController
 {
@@ -18,12 +18,19 @@ class WyfController
     private Model $modelInstance;
     private ModelBinderInterface $modelBinder;
     private Context $context;
+    private array $config;
+    private string $path;
     
     public function setup(ControllerSpec $controllerSpec, ModelBinderInterface $modelBinder, Context $context): void
     {
         $this->controllerSpec = $controllerSpec;
         $this->modelBinder = $modelBinder;
         $this->context = $context;
+    }
+
+    public function setConfig(array $config): void
+    {
+        $this->config = $config;
     }
     
     protected function getModelBinder(): ModelBinderInterface
@@ -59,7 +66,7 @@ class WyfController
     protected function getModelInstance(): Model
     {
         if(!isset($this->modelInstance)) {
-            $class = substr($this->controllerSpec['class_name'], 0, -10);
+            $class = substr($this->controllerSpec->getParameter('class_name'), 0, -10);
             return new $class();
         }
         return $this->modelInstance;
@@ -68,5 +75,10 @@ class WyfController
     protected function setModelInstance(Model $modelInstance): void
     {
         $this->modelInstance = $modelInstance;
+    }
+
+    protected function getNavigation(): array
+    {
+
     }
 }

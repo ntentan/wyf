@@ -46,26 +46,35 @@ class WyfMiddleware extends MvcMiddleware
     {
         $offset = 0;
         $namespace = "{$this->getNamespace()}\\{$this->configuration['sub_namespace']}";
+        $controllerPath = "";
         $className = null;
+        $foundSpecs = [];
+        $hierarchy = [];
         
         while ($offset < count($uriParts)) {
             $className = sprintf("\\%s\\%s", $namespace,Text::ucamelize($uriParts[$offset]) . "Controller");
+            $controllerPath .= "/{$uriParts[$offset]}";
             if (class_exists($className)) {
                 $spec = [
                     'class_name' => $className, 
-                    'action' => isset($uriParts[$offset + 1]) && $uriParts[$offset + 1] != '' ? $uriParts[$offset + 1] : 'main', 
-                    'controller' => $uriParts[$offset]
+                    'action' => isset($uriParts[$offset + 1]) && $uriParts[$offset + 1] != '' && !is_numeric($uriParts[$offset + 1]) ? $uriParts[$offset + 1] : 'main',
+                    'controller' => $uriParts[$offset],
+                    'controller_path' => $controllerPath,
                 ];
-                if (isset($uriParts[$offset + 2])) {
+                if (count($foundSpecs) > 0 && isset($uriParts[$offset + 1]) && is_numeric($uriParts[$offset + 1])) {
+                    $hierarchy[end($foundSpecs)['controller']] = $uriParts[$offset + 1];
+                    $spec['hierarchy'] = $hierarchy;
+                    $spec['action'] = isset($uriParts[$offset + 2]) && !is_numeric($uriParts[$offset + 2]) ? $uriParts[$offset + 2] : 'main';
+                } else if (isset($uriParts[$offset + 2])) {
                     $spec['id'] = implode('/', array_slice($uriParts, $offset + 2));
                 }
-                return $spec;
+                $foundSpecs[]= $spec;
             }
-            $namespace .= $uriParts[$offset];
+            $namespace .= '\\' . $uriParts[$offset];
             $offset++;
         }
         
-        return null;
+        return array_pop($foundSpecs);
     }
 
     #[\Override]
@@ -101,6 +110,7 @@ class WyfMiddleware extends MvcMiddleware
         $instance = $container->get($controllerSpec->getControllerClass());
         if ($instance instanceof WyfController) {
             $instance->setup($controllerSpec, $container->get(DefaultModelBinder::class), $this->getContext());
+            $instance->setConfig($this->configuration);
         }
         return $instance;
     }

@@ -1,4 +1,4 @@
-<?= t("wyf_forms_select_field", ['value'=>$value, 'name' => $name, 'extra_css_classes' => $extra_css_classes, 'attributes' => $attributes, 'options'=>$options, 'label'=>$label]) ?>
+<?= $this->partial("forms_select_field", ['value'=>$value, 'name' => $name, 'extra_css_classes' => $extra_css_classes, 'attributes' => $attributes, 'options'=>$options, 'label'=>$label]) ?>
 <?php if($has_add): ?>
     <div class="hidden-fields">
         <?php foreach($hidden_fields as $key => $value): ?>
