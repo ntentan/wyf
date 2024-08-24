@@ -81,4 +81,9 @@ class WyfController
     {
 
     }
+
+    protected function getControllerPath(): string
+    {
+        return $this->getContext()->getPath($this->controllerSpec->getParameter('controller_path'));
+    }
 }

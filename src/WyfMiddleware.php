@@ -66,6 +66,9 @@ class WyfMiddleware extends MvcMiddleware
                     $spec['controller_path'] = "{$spec['controller_path']}/{$uriParts[$offset + 1]}";
                     $spec['hierarchy'] = $hierarchy;
                     $spec['action'] = isset($uriParts[$offset + 2]) && !is_numeric($uriParts[$offset + 2]) ? $uriParts[$offset + 2] : 'main';
+                    if (isset($uriParts[$offset + 3])) {
+                        $spec['id'] = implode('/', array_slice($uriParts, $offset + 3));
+                    }
                 } else if (isset($uriParts[$offset + 2])) {
                     $spec['id'] = implode('/', array_slice($uriParts, $offset + 2));
                 }
@@ -114,18 +117,6 @@ class WyfMiddleware extends MvcMiddleware
             $instance->setConfig($this->configuration);
         }
         return $instance;
-    }
-    
-    private function getMenu(string $path): array
-    {
-        $pathFrontier = [$path];
-        $menu = [];
-        
-        while(!empty($pathFrontier)) {
-            
-        }
-        
-        return $menu;
     }
     
     #[\Override]

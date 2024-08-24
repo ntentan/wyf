@@ -236,9 +236,7 @@ class CrudController extends WyfController
         $model = $this->getModelBinder()->bind($model, $this->getEntity());
         if($model->save()) {
             return $redirect
-                ->withHeader("Location",
-                    $this->getContext()->getPath($this->getControllerSpec()->getParameter('controller_path'))
-                )
+                ->withHeader("Location", $this->getControllerPath())
                 ->withStatus(302);
         }
         $this->setupView($view, $operation);
@@ -283,7 +281,7 @@ class CrudController extends WyfController
     
     #[Action('edit')]
     #[Method('post')]
-    public function update(View $view, Redirect $redirect): View|Redirect
+    public function update(View $view, ResponseInterface $redirect): View|ResponseInterface
     {
         return $this->saveData($view, $redirect, 'edit');
     }
@@ -302,14 +300,16 @@ class CrudController extends WyfController
 
     #[Action("delete")]
     #[Method("post")]
-    public function remove(View $view, Redirect $redirect, string $id): Redirect|View
+    public function remove(View $view, ResponseInterface $redirect, string $id): ResponseInterface|View
     {
         $instance = $this->getModelInstance()->fetchFirstWithId($id);
         if ($instance) {
             $instance->delete();
-            return $redirect->to("/{$this->getControllerSpec()->getControllerName()}");
+            return $redirect->withHeader("Location", $this->getControllerPath());
         }
+        $this->setupView($view, 'delete');
         $view->set('errors', "Cannot find item to delete.");
         return $view;
     }
 }
+
