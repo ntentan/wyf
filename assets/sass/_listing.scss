@@ -1,0 +1,56 @@
+#wyf-title.wyf-main {
+  display: table;
+  width: 100%;
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+    height: 50px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  > .wyf-top-actions {
+    text-align: right;
+  }
+}
+
+#wyf-item-list {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid lighten($color-scheme, 30%);
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    thead {
+      background-color: lighten($color-scheme, 20%);
+    }
+
+    tbody {
+      tr {
+        cursor: pointer;
+      }
+      tr:hover {
+        background-color: lighten($accent-color, 30%);
+      }
+    }
+
+    td.wyf-operations {
+      text-align: right;
+      a {
+        padding: 2px 5px;
+        font-size: smaller;
+        background-color: lighten($accent-color, 10%);
+        display: inline-block;
+        margin-left: 10px;
+        color: lighten($accent-color, 40%);
+        border-radius: 3px;
+      }
+    }
+  }
+}

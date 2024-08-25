@@ -1,0 +1,31 @@
+#side-menu {
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 25px;
+    padding-top: 30px;
+
+    > li {
+      > a {
+        display: block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: darken($accent-color, 20%);
+        font-size: larger;
+      }
+
+      > a:hover {
+        color: darken($accent-color, 10%);
+      }
+    }
+
+    > li.menu-selected {
+      > a {
+        color: darken($accent-color, 40%);
+      }
+    }
+  }
+}
+
+

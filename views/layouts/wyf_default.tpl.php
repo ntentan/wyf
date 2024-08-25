@@ -10,12 +10,10 @@
             <header>
                 <section><?= $wyf_app_name ?></section>
             </header>  
-            <nav>
+            <nav id="side-menu">
                 <?= $this->partial('wyf_menu.tpl.php', ['menu' => $wyf_menu, 'prefix' => $ntentan_uri_prefix]) ?>
             </nav>
-            <div id="contents">
-                <?= $contents->unescape(); ?>
-            </div>
+            <div id="contents"><article><?= $contents->unescape(); ?></article></div>
         </div>
     </body>
 </html>
