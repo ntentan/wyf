@@ -2,6 +2,7 @@
 
 namespace ntentan\wyf\forms;
 
+use ntentan\honam\engines\php\Variable;
 use ntentan\honam\Templates;
 
 /**
@@ -23,7 +24,7 @@ class Element
     /**
      * An associative key-value array of errors.
      */
-    private array $errors = [];
+    private array|Variable $errors = [];
 
     /**
      * Specific variables to be rendered in element templates.
@@ -65,13 +66,13 @@ class Element
         return $this->attributes[$attribute] ?? null;
     }
 
-    public function setErrors(array $errors): Element
+    public function setErrors(array|Variable $errors): Element
     {
         $this->errors = $errors;
         return $this;
     }
 
-    public function getErrors(): array
+    public function getErrors(): array|Variable
     {
         return $this->errors;
     }

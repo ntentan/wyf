@@ -2,6 +2,8 @@
 namespace ntentan\wyf\forms;
 
 
+use ntentan\honam\engines\php\Variable;
+
 class Container extends Element
 {
     private array $elements = [];
@@ -32,7 +34,7 @@ class Container extends Element
         return null;
     }
 
-    public function setData(array $data): Container
+    public function setData(array|Variable $data): Container
     {
         foreach ($data as $name => $value) {
             $element = $this->getInputFor($name);
@@ -42,8 +44,9 @@ class Container extends Element
         }
         return $this;
     }
-    
-    public function setErrors(array $errors): Element 
+
+    #[\Override]
+    public function setErrors(array|Variable $errors): Element
     {
         parent::setErrors($errors);
         foreach ($errors as $name => $elementErrors) {
