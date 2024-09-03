@@ -1,6 +1,7 @@
 @import "colors";
 @import "menu";
 @import "listing";
+@import "breadcrumbs";
 
 html {
   height: 100%;
@@ -38,6 +39,7 @@ $header-height: $header-font-size + (2 * $header-padding * 0.7);
     grid-row: 1;
     box-sizing: border-box;
     color: lighten($color-scheme, 40%);
+    display: flex;
   }
 
   nav {

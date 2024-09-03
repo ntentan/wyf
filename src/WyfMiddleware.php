@@ -74,7 +74,9 @@ class WyfMiddleware extends MvcMiddleware
                 }
                 $foundSpecs[]= $spec;
             }
-            $namespace .= '\\' . $uriParts[$offset];
+            if (!is_numeric($uriParts[$offset])) {
+                $namespace .= '\\' . $uriParts[$offset];
+            }
             $offset++;
         }
         

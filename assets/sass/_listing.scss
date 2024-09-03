@@ -16,13 +16,14 @@
 }
 
 #wyf-item-list {
+  font-size: 15px;
+
   table {
     width: 100%;
     border-collapse: collapse;
-    //border: 1px solid lighten($color-scheme, 30%);
 
     th, td {
-      padding: 8px;
+      padding: 5px;
       text-align: left;
       vertical-align: middle;
     }

@@ -17,7 +17,7 @@ use Psr\Http\Message\UriInterface;
 
 
 /**
- * The CRUD controller presents views for listing, adding, editing, and deleting records from Models.
+ * The CRUD controller presents views to users for listing, adding, editing, and deleting records from Models.
  */
 class CrudController extends WyfController
 {
@@ -63,7 +63,7 @@ class CrudController extends WyfController
         }
         return $this->modelDescription;
     }
-    
+
     /**
      * Get an list of fields that act as primary keys for the backing model.
      * @return array
@@ -106,6 +106,23 @@ class CrudController extends WyfController
     {
         $this->listFields = $listFields;
     }
+
+    private function getBreadcrumbHierarchy(array $appended): array
+    {
+        $hierarchy = $this->getControllerSpec()->getParameter('hierarchy') ?? [];
+        $breadcrumbs = [];
+        $modelPath = "";
+        $context = $this->getContext();
+        foreach($hierarchy as $model => $id) {
+            $modelInstance = Model::load($model);
+            $item = $modelInstance->fetchFirstWithId($id);
+            $modelPath .= "/{$model}";
+            $breadcrumbs[] = ['path' => $context->getPath($modelPath), 'label' => ucfirst(str_replace("_", " ", $model))];
+//            $modelPath .= "/$id";
+            $breadcrumbs[] = ['path' => $context->getPath("$modelPath/edit/$id"), 'label' => (string)$item ];
+        }
+        return array_merge($breadcrumbs, $appended);
+    }
     
     /**
      * The main action lists all items in the model.
@@ -127,7 +144,10 @@ class CrudController extends WyfController
             "list_labels" => array_values($fields),
             "key_fields" => $this->getPrimaryKey()[0],
             "wyf_crud_mode" => 'list',
-            "wyf_entity" => Text::ucamelize($this->getEntity())
+            "wyf_entity" => Text::ucamelize($this->getEntity()),
+            "wyf_breadcrumbs" => $this->getBreadcrumbHierarchy([
+                ['path' => $context->getPath($this->getEntity()), 'label' => $this->getEntity()]
+            ])
         ]);
         return $view;
     }
@@ -254,6 +274,12 @@ class CrudController extends WyfController
     public function add(View $view): View
     {
         $this->setupView($view, 'add');
+        $view->set([
+            'wyf_breadcrumbs' => [
+                ['path' => $this->getContext()->getPath("/{$this->getEntity()}"), 'label' => $this->getEntity()],
+                ['path' => $this->getContext()->getPath("/{$this->getEntity()}/add"), 'label' => 'Add']
+            ]
+        ]);
         return $view;
     }
     

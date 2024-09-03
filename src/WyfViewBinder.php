@@ -12,6 +12,7 @@ class WyfViewBinder extends ViewBinder
         $className = strtolower($this->getControllerSpec()->getControllerName());
         $action = strtolower($this->getControllerSpec()->getControllerAction());
         $instance->setTemplate("wyf_{$className}_{$action}.tpl.php");
+
         return $instance;
     }
 }

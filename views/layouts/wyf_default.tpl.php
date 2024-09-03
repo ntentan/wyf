@@ -9,6 +9,9 @@
         <div id="wrapper">
             <header>
                 <section><?= $wyf_app_name ?></section>
+                <section id="breadcrumb-trail">
+                    <?= $this->partial('wyf_breadcrumbs', ['wyf_bread_crumbs' => $wyf_breadcrumbs]) ?>
+                </section>
             </header>  
             <nav id="side-menu">
                 <?= $this->partial('wyf_menu.tpl.php', ['menu' => $wyf_menu, 'prefix' => $ntentan_uri_prefix]) ?>

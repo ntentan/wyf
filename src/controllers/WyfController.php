@@ -9,11 +9,21 @@ use ntentan\mvc\ControllerSpec;
 
 /**
  * Base controller for all WYF application classes.
+ * Classes that inherit the WyfController class gain access to information about the context within which WYF is
+ * executing.
  */
 class WyfController
 {
+    /**
+     * An instance of the controller spec.
+     * @var ControllerSpec
+     */
     private ControllerSpec $controllerSpec;
-    private string $modelClass;
+
+    /**
+     * The namespace of the application.
+     * @var string
+     */
     private string $namespace;
     private Model $modelInstance;
     private ModelBinderInterface $modelBinder;
@@ -75,11 +85,6 @@ class WyfController
     protected function setModelInstance(Model $modelInstance): void
     {
         $this->modelInstance = $modelInstance;
-    }
-
-    protected function getNavigation(): array
-    {
-
     }
 
     protected function getControllerPath(): string

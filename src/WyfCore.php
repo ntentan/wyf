@@ -28,7 +28,7 @@ class WyfCore
                 },
                 'singleton' => true
             ],
-                
+            WyfClassNameGenerator::class => [DefaultClassNameGenerator::class, 'singleton' => true],
             ModelBinderRegistry::class => [
                 function(Container $container) {
                     // Register model binders
