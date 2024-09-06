@@ -24,6 +24,7 @@ class f
             'date' => DateField::class,
             'checkbox' => Checkbox::class,
             'model' => ModelField::class,
+            'file' => UploadField::class,
             default => throw new WyfException("Unknown form item type $element")
         });
 

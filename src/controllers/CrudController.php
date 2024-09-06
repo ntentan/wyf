@@ -118,7 +118,6 @@ class CrudController extends WyfController
             $item = $modelInstance->fetchFirstWithId($id);
             $modelPath .= "/{$model}";
             $breadcrumbs[] = ['path' => $context->getPath($modelPath), 'label' => ucfirst(str_replace("_", " ", $model))];
-//            $modelPath .= "/$id";
             $breadcrumbs[] = ['path' => $context->getPath("$modelPath/edit/$id"), 'label' => (string)$item ];
         }
         return array_merge($breadcrumbs, $appended);
@@ -242,7 +241,7 @@ class CrudController extends WyfController
      */
     private function setupView(View $view, string $action): void
     {
-        $view->setTemplate("wyf_{$this->getEntity()}_crud_{$action}");
+        //$view->setTemplate("wyf_{$this->getEntity()}_crud_{$action}");
         $view->set([
             'wyf_entity' => Text::singularize($this->getEntity()),
             'model' => $this->getModelInstance(),
@@ -275,10 +274,10 @@ class CrudController extends WyfController
     {
         $this->setupView($view, 'add');
         $view->set([
-            'wyf_breadcrumbs' => [
+            'wyf_breadcrumbs' => $this->getBreadcrumbHierarchy([
                 ['path' => $this->getContext()->getPath("/{$this->getEntity()}"), 'label' => $this->getEntity()],
                 ['path' => $this->getContext()->getPath("/{$this->getEntity()}/add"), 'label' => 'Add']
-            ]
+            ])
         ]);
         return $view;
     }

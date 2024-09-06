@@ -140,11 +140,11 @@ class WyfMiddleware extends MvcMiddleware
         f::init($container->get(Templates::class));
         $templateFileResolver = $container->get(TemplateFileResolver::class);
         $viewsPath = realpath(__DIR__ . "/../views");
-        $templateFileResolver->appendToPathHierarchy("$viewsPath/controllers");
-        $templateFileResolver->appendToPathHierarchy("$viewsPath/layouts");
-        $templateFileResolver->appendToPathHierarchy("$viewsPath/shared");
-        $templateFileResolver->appendToPathHierarchy("$viewsPath/crud");
-        $templateFileResolver->appendToPathHierarchy("$viewsPath/forms");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/controllers");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/layouts");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/shared");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/crud");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/forms");
         return parent::run($request, $response, $next);
     }
 }

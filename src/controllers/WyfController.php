@@ -76,8 +76,7 @@ class WyfController
     protected function getModelInstance(): Model
     {
         if(!isset($this->modelInstance)) {
-            $class = substr($this->controllerSpec->getParameter('class_name'), 0, -10);
-            return new $class();
+            $this->modelInstance = Model::load($this->getControllerSpec()->getControllerName());
         }
         return $this->modelInstance;
     }
