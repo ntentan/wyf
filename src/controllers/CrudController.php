@@ -375,6 +375,7 @@ class CrudController extends WyfController
     {
         $this->setupView($view, 'delete');
         $item = $this->getItem($id);
+        $controllerPath = $this->getControllerSpec()->getParameter('controller_path');
         $view->set([
             'entity' => $this->getEntity(),
             'item' => $item,
