@@ -6,6 +6,7 @@ use ntentan\Context;
 use ntentan\mvc\Model;
 use ntentan\mvc\binders\ModelBinderInterface;
 use ntentan\mvc\ControllerSpec;
+use ntentan\utils\Text;
 
 /**
  * Base controller for all WYF application classes.
@@ -61,6 +62,11 @@ class WyfController
     protected function getEntity(): string
     {
         return $this->controllerSpec->getControllerName();
+    }
+
+    protected function getEntityDescription(): string
+    {
+        return ucfirst(str_replace('_', ' ', Text::deCamelize($this->getEntity())));
     }
     
     protected function getNamespace(): string

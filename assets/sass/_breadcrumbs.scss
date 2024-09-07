@@ -3,10 +3,23 @@ section#breadcrumb-trail {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
 
     > li {
-      display: inline-block;
-      margin-left: 5px
+      display: block;
+      font-weight: normal;
+      font-size: 0.9em;
+
+      a {
+        color: lighten($color-scheme, 30%);
+      }
+
+      a::before {
+        content: '/';
+        color: lighten($color-scheme, 60%);
+        margin-left: 5px;
+        margin-right: 5px;
+      }
     }
   }
 }
