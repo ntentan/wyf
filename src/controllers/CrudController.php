@@ -85,26 +85,54 @@ class CrudController extends WyfController
                     array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()),
                     fn($x) => !in_array($x, $primaryKey)
                 );
-            $this->listFields = [];
+            $listFields = [];
             
             foreach($fieldNames as $fieldName) {
-                $this->listFields[$fieldName] = ucfirst(str_replace("_", " ", $fieldName));
+                $listFields[ucfirst(str_replace("_", " ", $fieldName))] = $fieldName;
             }
+            $this->listFields = $this->processListFields($listFields);
         }
         
         return $this->listFields;
     }
 
+    private function processListFields(array $listFields): array
+    {
+        $fieldOrder = [];
+        $queryFields = [];
+        $labels = [];
+        foreach($listFields as $fieldName => $fieldDescription) {
+            $fieldParts = explode(".", $fieldName);
+            $labels[] = $fieldDescription;
+            $fieldDetails['name'] = $fieldName;
+
+            if (count($fieldParts) === 2) {
+                $fieldDetails['model'] = $fieldParts[0];
+                $fieldDetails['field'] = $fieldParts[1];
+            } else {
+                $queryFields[] = $fieldName;
+            }
+
+            $fieldOrder[] = $fieldDetails;
+        }
+        return [
+            'order' => $fieldOrder, 'query' => $queryFields,
+            'labels' => $labels, 'names' => array_map(fn($x) => str_replace(".", "__", $x), array_keys($listFields))
+        ];
+    }
+
     /**
      * Set the list of fields to be shown in the listing.
-     * Fields must be specified as in a key-value format, where the key represents the field name, and the value
-     * represents the label.
+     *
+     * Fields must be specified as in a key-value format, where the key represents a descriptive label for the field
+     * and the value represents the database name of the field.
+     *
      * @param array $listFields
      * @return void
      */
     protected function setListFields(array $listFields): void
     {
-        $this->listFields = $listFields;
+        $this->listFields = $this->processListFields($listFields);
     }
 
     private function getBreadcrumbHierarchy(array $appended): array
@@ -139,8 +167,8 @@ class CrudController extends WyfController
         $view->set([
             "add_path" => "{$context->getPrefix()}{$uri->getPath()}/add",
             "list_data_path" => "{$context->getPrefix()}{$uri->getPath()}/",
-            "list_fields" => array_keys($fields),
-            "list_labels" => array_values($fields),
+            "list_fields" => $fields['names'],
+            "list_labels" => $fields['labels'],
             "key_fields" => $this->getPrimaryKey()[0],
             "wyf_crud_mode" => 'list',
             "wyf_entity" => Text::ucamelize($this->getEntity()),
@@ -176,13 +204,13 @@ class CrudController extends WyfController
         $this->subCrudControllers[] = $crudControllerClass;
     }
 
-    protected function getOperations(array $item): array
+    protected function getOperations(Model $item): array
     {
-        $primaryKey = $this->getPrimaryKey()[0];
+        $primaryKey = $this->getPrimaryKey();
         $operations = [];
         foreach($this->operations as $operation) {
             $operations[] = [
-                'path' => "{$operation['path']}/{$item[$primaryKey]}",
+                'path' => "{$operation['path']}/" . implode(',', array_map(fn($x) => $item[$x], $primaryKey)),
                 'label' => $operation['label']
             ];
         }
@@ -190,7 +218,7 @@ class CrudController extends WyfController
     }
 
     /**
-     * Get an array whose values filter the data displayed in the lists.
+     * Filters the listing displayed.
      * @return array
      */
     protected function getListFilter(): array
@@ -213,24 +241,35 @@ class CrudController extends WyfController
         $this->addOperation("delete", "Delete");
         
         $model = $this->getModelInstance();
+        $listFields = $this->getListFields();
+        $primaryKeys = $this->getPrimaryKey();
+        $model = $model->fields(array_merge($listFields['query'], $primaryKeys));
 
-        $fields = array_keys($this->getListFields());
-        $fields[]= $this->getPrimaryKey()[0];
-        $items = $model->fields($fields)->sortDescById()->fetch($this->getListFilter())->getData();
+        foreach($primaryKeys as $primaryKey) {
+            $model->{"sortDescBy" . Text::ucamelize($primaryKey)}();
+        }
 
+        $items = $model->fetch($this->getListFilter());
+        // Initialize the operations with the list's path
         $this->operations = array_map(
-            function($item) {
-                $item['path'] = "{$this->getContext()->getPrefix()}" .
-                    "{$this->getControllerSpec()->getParameter('controller_path')}/{$item['path']}";
-                return $item;
+            function($operation) {
+                $operation['path'] = "{$this->getContext()->getPrefix()}"
+                    . "{$this->getControllerSpec()->getParameter('controller_path')}/{$operation['path']}";
+                return $operation;
             },
             $this->operations
         );
 
+        $finalList = [];
         foreach($items as $i => $item) {
-            $items[$i]['operations'] = $this->getOperations($item);
+            $row = [];
+            foreach($listFields['order'] as $j => $field) {
+                $row[$listFields['names'][$j]] = isset($field['model']) ? $item->{$field['model']}->{$field['field']} : $item->{$field['name']};
+            }
+            $row['operations'] = $this->getOperations($item);
+            $finalList[] = $row;
         }
-        $output->write(json_encode($items));
+        $output->write(json_encode($finalList));
         return $response->withBody($output)->withHeader("content-type", "application/json");
     }
     
@@ -241,7 +280,6 @@ class CrudController extends WyfController
      */
     private function setupView(View $view, string $action): void
     {
-        //$view->setTemplate("wyf_{$this->getEntity()}_crud_{$action}");
         $view->set([
             'wyf_entity' => Text::singularize($this->getEntity()),
             'model' => $this->getModelInstance(),
@@ -266,6 +304,7 @@ class CrudController extends WyfController
 
     /**
      * Presents a form for adding new items to the model.
+     *
      * @param View $view
      * @return View
      */
@@ -297,7 +336,13 @@ class CrudController extends WyfController
     public function edit(View $view, string $id): View
     {
         $this->setupView($view, 'edit');
-        $item = $this->getModelInstance()->fetchFirstWithId($id)->toArray();
+        $ids = explode(",", $id);
+        $primaryKey = $this->getPrimaryKey();
+        $filter = [];
+        foreach($ids as $i => $id) {
+            $filter[$primaryKey[$i]] = $id;
+        }
+        $item = $this->getModelInstance()->fetchFirst($filter)->toArray();
         if ($item) {
             $view->set('data', $item);
         }
@@ -323,6 +368,12 @@ class CrudController extends WyfController
         return $view;
     }
 
+    /**
+     * @param View $view
+     * @param ResponseInterface $redirect
+     * @param string $id
+     * @return ResponseInterface|View
+     */
     #[Action("delete")]
     #[Method("post")]
     public function remove(View $view, ResponseInterface $redirect, string $id): ResponseInterface|View
