@@ -51,6 +51,10 @@ class CrudController extends WyfController
      * @var array
      */
     private array $listFilter;
+
+    private bool $hasEditOperation = true;
+
+    private bool $hasDeleteOperation = true;
     
     /**
      * Get an instance of the description for the model attached to this CRUD controller.
@@ -88,7 +92,7 @@ class CrudController extends WyfController
             $listFields = [];
             
             foreach($fieldNames as $fieldName) {
-                $listFields[ucfirst(str_replace("_", " ", $fieldName))] = $fieldName;
+                $listFields[$fieldName] = ucfirst(str_replace("_", " ", $fieldName));
             }
             $this->listFields = $this->processListFields($listFields);
         }
@@ -165,7 +169,7 @@ class CrudController extends WyfController
     {
         $context = $this->getContext();
         $fields = $this->getListFields();
-        $view->setTemplate("wyf_{$this->getEntity()}_crud_main");
+        $controllerPath = $this->getControllerSpec()->getParameter('controller_path');
 
         $view->set([
             "add_path" => "{$context->getPrefix()}{$uri->getPath()}/add",
@@ -176,7 +180,7 @@ class CrudController extends WyfController
             "wyf_crud_mode" => 'list',
             "wyf_entity" => Text::ucamelize($this->getEntity()),
             "wyf_breadcrumbs" => $this->getBreadcrumbHierarchy([
-                ['path' => $context->getPath($this->getEntity()), 'label' => $this->getEntityDescription()]
+                ['path' => $this->getContext()->getPath($controllerPath), 'label' => $this->getEntityDescription()]
             ])
         ]);
         return $view;
@@ -235,14 +239,22 @@ class CrudController extends WyfController
         }
         return $filter;
     }
+
+    private function setupOperations()
+    {
+        if ($this->hasEditOperation) {
+            $this->addOperation("edit", "Edit");
+        }
+        if ($this->hasDeleteOperation) {
+            $this->addOperation("delete", "Delete");
+        }
+    }
     
     #[Action("main")]
     #[Header('accept', 'application/json')]
     public function list(StringStream $output, ResponseInterface $response, Uri $uri): ResponseInterface
     {
-        $this->addOperation("edit", "Edit");
-        $this->addOperation("delete", "Delete");
-        
+        $this->setupOperations();
         $model = $this->getModelInstance();
         $listFields = $this->getListFields();
         $primaryKeys = $this->getPrimaryKey();
@@ -336,12 +348,18 @@ class CrudController extends WyfController
         return $this->saveData($view, $response, 'add');
     }
 
-    private function getItem(string $id) {
+    private function getItem(string $ids) {
         $primaryKey = $this->getPrimaryKey();
         $filter = [];
-        foreach($ids as $i => $id) {
-            $filter[$primaryKey[$i]] = $id;
+        if (count($primaryKey) > 1) {
+            $ids = explode(',', $ids);
+            foreach($ids as $i => $id) {
+                $filter[$primaryKey[$i]] = $id;
+            }
+        } else {
+            $filter[$primaryKey[0]] = $ids;
         }
+
         return $this->getModelInstance()->fetchFirst($filter);
     }
     
@@ -390,6 +408,7 @@ class CrudController extends WyfController
     }
 
     /**
+     * Perform the actual deletion of an item.
      * @param View $view
      * @param ResponseInterface $redirect
      * @param string $id
@@ -399,9 +418,9 @@ class CrudController extends WyfController
     #[Method("post")]
     public function remove(View $view, ResponseInterface $redirect, string $id): ResponseInterface|View
     {
-        $instance = $this->getModelInstance()->fetchFirstWithId($id);
-        if ($instance) {
-            $instance->delete();
+        $item = $this->getItem($id);
+        if ($item) {
+            $item->delete();
             return $redirect->withHeader("Location", $this->getControllerPath());
         }
         $this->setupView($view, 'delete');
