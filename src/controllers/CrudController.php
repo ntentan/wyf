@@ -306,7 +306,8 @@ class CrudController extends WyfController
     {
         $model = $this->getModelInstance();
         $model = $this->getModelBinder()->bind($model, $this->getEntity());
-        if($model->save()) {
+        $method = $operation == 'edit' ? 'update' : $operation;
+        if($model->{$method}()) {
             return $redirect
                 ->withHeader("Location", $this->getControllerPath())
                 ->withStatus(302);
