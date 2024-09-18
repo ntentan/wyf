@@ -296,7 +296,6 @@ class CrudController extends WyfController
     private function setupView(View $view, string $action): void
     {
         $view->set([
-            'wyf_entity' => Text::singularize($this->getEntity()),
             'model' => $this->getModelInstance(),
             'filter' => $this->getListFilter()
         ]);
