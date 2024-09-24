@@ -276,7 +276,7 @@ class CrudController extends WyfController
         );
 
         $finalList = [];
-        foreach($items as $i => $item) {
+        foreach($items ?? [] as $i => $item) {
             $row = [];
             foreach($listFields['order'] as $j => $field) {
                 $row[$listFields['names'][$j]] = isset($field['model']) ? $item->{$field['model']}->{$field['field']} : $item->{$field['name']};
@@ -428,4 +428,3 @@ class CrudController extends WyfController
         return $view;
     }
 }
-
