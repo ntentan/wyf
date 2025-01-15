@@ -4,6 +4,9 @@ namespace ntentan\wyf\forms;
 use ntentan\honam\Templates;
 use ntentan\wyf\WyfException;
 
+/**
+ * A utility class for creating form elements.
+ */
 class f
 {
     private static Templates $templates;
@@ -18,6 +21,7 @@ class f
         $class = new \ReflectionClass(match ($element) {
             'form' => Form::class,
             'text' => TextField::class,
+            'number' => TextField::class,
             'textarea' => Textarea::class,
             'submit_button' => SubmitButton::class,
             'hidden' => HiddenField::class,
@@ -32,8 +36,13 @@ class f
             array_unshift($args, f::create('submit_button', 'Save'));
         }
 
+        /** @var Element $instance */
         $instance = $class->newInstanceArgs($args);
         $instance->setTemplateEngine(self::$templates);
+
+        if ($element === 'number') {
+            $instance->setAttribute("type", "number");
+        }
 
         return $instance;
     }
