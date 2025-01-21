@@ -3,8 +3,8 @@
   "description": "Framework for building enterprisey apps on top of ntentan",
   "license": "MIT",
   "require": {
-    "ekowabaka/ui": "dev-main",
-    "ntentan/mvc": "dev-main"
+    "ekowabaka/ui": "@stable",
+    "ntentan/mvc": "@stable"
   },
   "authors": [
     {
@@ -17,6 +17,5 @@
       "ntentan\\wyf\\": "src/",
       "ntentan\\wyf\\tests\\": "tests/"
     }
-  },
-  "min-stability": "dev"
+  }
 }
