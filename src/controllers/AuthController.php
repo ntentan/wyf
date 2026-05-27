@@ -30,7 +30,7 @@ class AuthController {
     public function loginFailed(View $view)
     {
         $view->setLayout('wyf_centered');
-        $view->set('error', 'Invalid username or password');
+        $view->set('error', 'Failed to login. Invalid username or password');
         return $view;
     }
     
