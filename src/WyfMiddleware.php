@@ -24,8 +24,10 @@ class WyfMiddleware extends MvcMiddleware
     private array $configuration;
     
     #[\Override]
-    public function configure(array $configuration)
+    public function configure(array $configuration): void
     {
+        parent::configure($configuration);
+        $configuration['sub_namespace'] = $configuration['sub_namespace'] ?? 'controllers';
         $this->configuration = $configuration;
     }
     
@@ -87,13 +89,14 @@ class WyfMiddleware extends MvcMiddleware
     protected function getControllerSpec(ServerRequestInterface $request): ControllerSpec
     {
         $uri = $request->getUri();
+        $namespace = "\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\\";
         $uriParts = array_filter(explode('/', substr($uri->getPath(), 1)), fn($x) => $x !== '');
-        $dashboardClass = $this->configuration['default_class'] 
-            ?? ("\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\HomeController");
+        $dashboardClass = $this->configuration['default_module'] ?? ("{$namespace}DashboardController");
+        $controllerName = substr($dashboardClass, strlen($namespace), strlen($dashboardClass) - strlen($namespace) - 10);
         
         $spec = match ($uriParts) {
-            [], [''] => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $dashboardClass],
-            ['auth', 'login'], ['auth', 'logout'] => ($this->configuration['enable_auth'] ?? false) 
+            [], [''] => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $controllerName],
+            ['auth', 'login'], ['auth', 'logout'] => ($this->configuration['enable_auth'] ?? false)
                 ? ['class_name' => AuthController::class, 'action' => $uriParts[1] ?? null, 'controller' => 'auth']
                 : null,
             default => $this->findControllerSpec($uriParts)
@@ -111,7 +114,7 @@ class WyfMiddleware extends MvcMiddleware
      * {@inheritDoc}
      * @see \ntentan\mvc\MvcMiddleware::getControllerInstance()
      */
-    protected function getControllerInstance(Container $container, ControllerSpec $controllerSpec)
+    protected function getControllerInstance(Container $container, ControllerSpec &$controllerSpec): object
     {
         $instance = $container->get($controllerSpec->getControllerClass());
         if ($instance instanceof WyfController) {
@@ -136,15 +139,16 @@ class WyfMiddleware extends MvcMiddleware
                 }
             ]
         ]);
-        
+
+
         f::init($container->get(Templates::class));
         $templateFileResolver = $container->get(TemplateFileResolver::class);
         $viewsPath = realpath(__DIR__ . "/../views");
-        $templateFileResolver->prependToPathHierarchy("$viewsPath/controllers");
-        $templateFileResolver->prependToPathHierarchy("$viewsPath/layouts");
-        $templateFileResolver->prependToPathHierarchy("$viewsPath/shared");
-        $templateFileResolver->prependToPathHierarchy("$viewsPath/crud");
         $templateFileResolver->prependToPathHierarchy("$viewsPath/forms");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/crud");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/shared");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/layouts");
+        $templateFileResolver->prependToPathHierarchy("$viewsPath/controllers");
         return parent::run($request, $response, $next);
     }
 }

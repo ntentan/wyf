@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "ekowabaka/ui",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ekowabaka/ui.git",
-                "reference": "bd52423cd194d20ae2aa55a59d5e16fe5f5fd0ef"
+                "reference": "73b911ef3d018a58a3f8174947e71785c7ed6e84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ekowabaka/ui/zipball/bd52423cd194d20ae2aa55a59d5e16fe5f5fd0ef",
-                "reference": "bd52423cd194d20ae2aa55a59d5e16fe5f5fd0ef",
+                "url": "https://api.github.com/repos/ekowabaka/ui/zipball/73b911ef3d018a58a3f8174947e71785c7ed6e84",
+                "reference": "73b911ef3d018a58a3f8174947e71785c7ed6e84",
                 "shasum": ""
             },
             "type": "library",
@@ -33,22 +33,22 @@
             ],
             "description": "UI Library",
             "support": {
-                "source": "https://github.com/ekowabaka/ui/tree/v0.1.0"
+                "source": "https://github.com/ekowabaka/ui/tree/v0.2.0"
             },
-            "time": "2025-01-15T22:26:32+00:00"
+            "time": "2025-09-07T19:35:11+00:00"
         },
         {
             "name": "ntentan/atiaa",
-            "version": "v0.8.0",
+            "version": "v0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/atiaa.git",
-                "reference": "1b2d9f77adf3be99a9a82932db08b09c5583670f"
+                "reference": "80d5c765524b68d08dc97d2e5b09977e08e704c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/atiaa/zipball/1b2d9f77adf3be99a9a82932db08b09c5583670f",
-                "reference": "1b2d9f77adf3be99a9a82932db08b09c5583670f",
+                "url": "https://api.github.com/repos/ntentan/atiaa/zipball/80d5c765524b68d08dc97d2e5b09977e08e704c6",
+                "reference": "80d5c765524b68d08dc97d2e5b09977e08e704c6",
                 "shasum": ""
             },
             "require": {
@@ -79,22 +79,22 @@
             "description": "A slim wrapper around PDO to provide some extra utilities",
             "support": {
                 "issues": "https://github.com/ntentan/atiaa/issues",
-                "source": "https://github.com/ntentan/atiaa/tree/v0.8.0"
+                "source": "https://github.com/ntentan/atiaa/tree/v0.10.0"
             },
-            "time": "2025-01-20T19:56:20+00:00"
+            "time": "2026-08-27T03:34:00+00:00"
         },
         {
             "name": "ntentan/honam",
-            "version": "v0.8.1",
+            "version": "v0.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/honam.git",
-                "reference": "8ee7584c6a3a9741cea76c8cdb76612c68976e82"
+                "reference": "05d7062e0760ba2055838e2227762c71be7ce1bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/honam/zipball/8ee7584c6a3a9741cea76c8cdb76612c68976e82",
-                "reference": "8ee7584c6a3a9741cea76c8cdb76612c68976e82",
+                "url": "https://api.github.com/repos/ntentan/honam/zipball/05d7062e0760ba2055838e2227762c71be7ce1bd",
+                "reference": "05d7062e0760ba2055838e2227762c71be7ce1bd",
                 "shasum": ""
             },
             "require": {
@@ -132,28 +132,34 @@
             "description": "The views component of the ntentan framework.",
             "support": {
                 "issues": "https://github.com/ntentan/honam/issues",
-                "source": "https://github.com/ntentan/honam/tree/v0.8.1"
+                "source": "https://github.com/ntentan/honam/tree/v0.10.5"
             },
-            "time": "2025-01-21T02:09:29+00:00"
+            "time": "2026-08-28T10:29:21+00:00"
         },
         {
             "name": "ntentan/kaikai",
-            "version": "v0.6.0",
+            "version": "v0.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/kaikai.git",
-                "reference": "0b373e0d862525b240d3bd3c24ce4d0e68d0f30f"
+                "reference": "a73b5af651fc73e623f71e0355abb4914e21d958"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/kaikai/zipball/0b373e0d862525b240d3bd3c24ce4d0e68d0f30f",
-                "reference": "0b373e0d862525b240d3bd3c24ce4d0e68d0f30f",
+                "url": "https://api.github.com/repos/ntentan/kaikai/zipball/a73b5af651fc73e623f71e0355abb4914e21d958",
+                "reference": "a73b5af651fc73e623f71e0355abb4914e21d958",
                 "shasum": ""
             },
             "require-dev": {
                 "mikey179/vfsstream": "@stable",
                 "php-mock/php-mock-phpunit": "@stable",
+                "phpstan/phpstan": "^2.2",
                 "phpunit/phpunit": "@stable"
+            },
+            "suggest": {
+                "ext-memcached": "Required for Memcached cache backend",
+                "ext-redis": "Required for Redis cache backend with PhpRedis driver",
+                "predis/predis": "Required for Redis cache backend with Predis driver"
             },
             "type": "library",
             "autoload": {
@@ -175,29 +181,37 @@
             "description": "Caching for Ntentan Framework",
             "support": {
                 "issues": "https://github.com/ntentan/kaikai/issues",
-                "source": "https://github.com/ntentan/kaikai/tree/v0.6.0"
+                "source": "https://github.com/ntentan/kaikai/tree/v0.7.6"
             },
-            "time": "2025-01-21T00:03:35+00:00"
+            "time": "2026-09-25T10:02:10+00:00"
         },
         {
             "name": "ntentan/mvc",
-            "version": "v0.1.0",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/mvc.git",
-                "reference": "41fc3f8d4c8395198eec14d13d40e6dd7cc06948"
+                "reference": "ae729ea3ccf173b88e5c320950bcfa513eb05165"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/mvc/zipball/41fc3f8d4c8395198eec14d13d40e6dd7cc06948",
-                "reference": "41fc3f8d4c8395198eec14d13d40e6dd7cc06948",
+                "url": "https://api.github.com/repos/ntentan/mvc/zipball/ae729ea3ccf173b88e5c320950bcfa513eb05165",
+                "reference": "ae729ea3ccf173b88e5c320950bcfa513eb05165",
                 "shasum": ""
             },
             "require": {
+                "ntentan/atiaa": "0.*",
                 "ntentan/honam": "0.*",
+                "ntentan/kaikai": "0.*",
                 "ntentan/nibii": "0.*",
                 "ntentan/ntentan": "0.*",
-                "php": ">=8.2.0"
+                "ntentan/panie": "0.*",
+                "ntentan/utils": "0.*",
+                "php": ">=8.4.0",
+                "psr/http-message": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "@stable"
             },
             "type": "library",
             "autoload": {
@@ -213,28 +227,41 @@
                 {
                     "name": "James Ekow Abaka Ainooson",
                     "email": "jainooson@gmail.com",
-                    "homepage": "http://ekowabaka.me"
+                    "homepage": "http://ekowabaka.me",
+                    "role": "Developer"
                 }
             ],
             "description": "An MVC component for the Ntentan framework",
+            "homepage": "https://github.com/ntentan/mvc",
+            "keywords": [
+                "controller",
+                "framework",
+                "middleware",
+                "model",
+                "mvc",
+                "ntentan",
+                "php",
+                "router",
+                "view"
+            ],
             "support": {
                 "issues": "https://github.com/ntentan/mvc/issues",
-                "source": "https://github.com/ntentan/mvc/tree/v0.1.0"
+                "source": "https://github.com/ntentan/mvc"
             },
-            "time": "2025-01-21T02:22:30+00:00"
+            "time": "2026-10-30T03:50:57+00:00"
         },
         {
             "name": "ntentan/nibii",
-            "version": "v0.10.1",
+            "version": "0.11.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/nibii.git",
-                "reference": "4324ad3a2bcc11246ba7a6d5635238d3fb51ca01"
+                "reference": "535de2caad2d39aff6ba4b8c15147cd897e8a7b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/nibii/zipball/4324ad3a2bcc11246ba7a6d5635238d3fb51ca01",
-                "reference": "4324ad3a2bcc11246ba7a6d5635238d3fb51ca01",
+                "url": "https://api.github.com/repos/ntentan/nibii/zipball/535de2caad2d39aff6ba4b8c15147cd897e8a7b3",
+                "reference": "535de2caad2d39aff6ba4b8c15147cd897e8a7b3",
                 "shasum": ""
             },
             "require": {
@@ -266,38 +293,42 @@
             "description": "ORM for ntentan",
             "support": {
                 "issues": "https://github.com/ntentan/nibii/issues",
-                "source": "https://github.com/ntentan/nibii/tree/v0.10.1"
+                "source": "https://github.com/ntentan/nibii/tree/0.11.11"
             },
-            "time": "2025-01-21T00:55:09+00:00"
+            "time": "2026-10-28T10:57:50+00:00"
         },
         {
             "name": "ntentan/ntentan",
-            "version": "v0.9.0",
+            "version": "v0.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/ntentan.git",
-                "reference": "000210f5125347aa01c2129ef308742061dc39ba"
+                "reference": "41c5ecbaa532412f75e1c525f10fae3ea193e89b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/000210f5125347aa01c2129ef308742061dc39ba",
-                "reference": "000210f5125347aa01c2129ef308742061dc39ba",
+                "url": "https://api.github.com/repos/ntentan/ntentan/zipball/41c5ecbaa532412f75e1c525f10fae3ea193e89b",
+                "reference": "41c5ecbaa532412f75e1c525f10fae3ea193e89b",
                 "shasum": ""
             },
             "require": {
-                "ntentan/panie": "0.*",
-                "php": ">=8.2.0",
+                "ntentan/kaikai": "^0.7.5",
+                "ntentan/panie": "0.*                               ",
+                "php": ">=8.4.0",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
                 "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
+                "mockery/mockery": "^1.6",
+                "phpstan/phpstan": "^2.2",
                 "phpunit/phpunit": "@stable"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "ntentan\\": "src/"
+                    "ntentan\\": "src/",
+                    "ntentan\\tests\\": "tests/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -314,29 +345,30 @@
             "description": "Another PHP application framework.",
             "support": {
                 "issues": "https://github.com/ntentan/ntentan/issues",
-                "source": "https://github.com/ntentan/ntentan/tree/v0.9.0"
+                "source": "https://github.com/ntentan/ntentan/tree/v0.14.1"
             },
-            "time": "2025-01-19T04:09:11+00:00"
+            "time": "2026-10-28T02:27:20+00:00"
         },
         {
             "name": "ntentan/panie",
-            "version": "v0.9.0",
+            "version": "v0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/panie.git",
-                "reference": "c11c49da6730d7895b78eb1585cbf30e7bac455d"
+                "reference": "5384d3c6754b6c8a568cbc11aff53281be4bcc1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/panie/zipball/c11c49da6730d7895b78eb1585cbf30e7bac455d",
-                "reference": "c11c49da6730d7895b78eb1585cbf30e7bac455d",
+                "url": "https://api.github.com/repos/ntentan/panie/zipball/5384d3c6754b6c8a568cbc11aff53281be4bcc1b",
+                "reference": "5384d3c6754b6c8a568cbc11aff53281be4bcc1b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1",
+                "php": ">=8.2",
                 "psr/container": "^1.0"
             },
             "require-dev": {
+                "phpstan/phpstan": "^2.2",
                 "phpunit/phpunit": "@stable"
             },
             "type": "library",
@@ -359,22 +391,22 @@
             "description": "A thin DI container for NtentanFX",
             "support": {
                 "issues": "https://github.com/ntentan/panie/issues",
-                "source": "https://github.com/ntentan/panie/tree/v0.9.0"
+                "source": "https://github.com/ntentan/panie/tree/v0.11.0"
             },
-            "time": "2025-01-19T02:27:23+00:00"
+            "time": "2026-09-25T12:38:17+00:00"
         },
         {
             "name": "ntentan/utils",
-            "version": "v0.13.0",
+            "version": "v0.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/utils.git",
-                "reference": "d863bea03b5086d3e251650b0733bbe381acb8f4"
+                "reference": "c840347e219f7873f09611922b2401947c1bbaec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/utils/zipball/d863bea03b5086d3e251650b0733bbe381acb8f4",
-                "reference": "d863bea03b5086d3e251650b0733bbe381acb8f4",
+                "url": "https://api.github.com/repos/ntentan/utils/zipball/c840347e219f7873f09611922b2401947c1bbaec",
+                "reference": "c840347e219f7873f09611922b2401947c1bbaec",
                 "shasum": ""
             },
             "require-dev": {
@@ -402,9 +434,9 @@
             "description": "Common utility functions shared accross the ntentan framework.",
             "support": {
                 "issues": "https://github.com/ntentan/utils/issues",
-                "source": "https://github.com/ntentan/utils/tree/v0.13.0"
+                "source": "https://github.com/ntentan/utils/tree/v0.13.2"
             },
-            "time": "2024-07-13T15:26:35+00:00"
+            "time": "2026-01-02T05:56:24+00:00"
         },
         {
             "name": "psr/container",
@@ -632,5 +664,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
