@@ -894,6 +894,8 @@ mustache.Writer = Writer;
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!*******************!*\
   !*** ./js/wyf.js ***!
   \*******************/
@@ -908,6 +910,8 @@ window.addEventListener('load', () => {
         (0,_lists__WEBPACK_IMPORTED_MODULE_0__.renderList)()
     }
 })
+
+})();
 
 /******/ })()
 ;

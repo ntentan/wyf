@@ -1,21 +1,67 @@
 {
   "name": "ntentan/wyf",
+  "type": "library",
   "description": "Framework for building enterprisey apps on top of ntentan",
+  "keywords": [
+    "ntentan",
+    "wyf",
+    "framework",
+    "enterprise",
+    "mvc",
+    "forms",
+    "crud",
+    "php"
+  ],
+  "homepage": "https://github.com/ntentan/wyf",
+  "readme": "README.md",
   "license": "MIT",
-  "require": {
-    "ekowabaka/ui": "@stable",
-    "ntentan/mvc": "@stable"
-  },
   "authors": [
     {
-      "name": "Ekow Abaka Ainooson",
-      "email": "jainooson@gmail.com"
+      "name": "James Ekow Abaka Ainooson",
+      "email": "jainooson@gmail.com",
+      "homepage": "http://ekowabaka.me",
+      "role": "Developer"
     }
   ],
+  "support": {
+    "issues": "https://github.com/ntentan/wyf/issues",
+    "source": "https://github.com/ntentan/wyf"
+  },
+  "require": {
+    "php": ">=8.4.0",
+    "ekowabaka/clearice": "^3.2",
+    "ekowabaka/ui": "0.*",
+    "ntentan/honam": "0.*",
+    "ntentan/mvc": "0.*",
+    "ntentan/nibii": "0.*",
+    "ntentan/ntentan": "0.*",
+    "ntentan/panie": "0.*",
+    "ntentan/utils": "0.*",
+    "psr/http-message": "^2.0",
+    "psr/http-server-middleware": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "@stable"
+  },
   "autoload": {
     "psr-4": {
-      "ntentan\\wyf\\": "src/",
+      "ntentan\\wyf\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "ntentan\\wyf\\tests\\": "tests/"
     }
-  }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "bin": [
+    "bin/wyf"
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }
