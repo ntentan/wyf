@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+
+require_once 'vendor/autoload.php';
 
 use clearice\argparser\ArgumentParser;
 
@@ -29,12 +30,8 @@ $command = $options['__command'] ?? null;
 
 function runWebpack(array $args = []): void
 {
-    $projectDir = dirname(__DIR__);
-    chdir($projectDir);
-
-    $webpackBin = $projectDir . '/node_modules/.bin/webpack';
+    $webpackBin = './node_modules/.bin/webpack';
     $bin = file_exists($webpackBin) ? escapeshellarg($webpackBin) : 'npx webpack';
-
     $cmd = sprintf('%s %s', $bin, implode(' ', array_map('escapeshellarg', $args)));
     passthru($cmd, $returnCode);
     exit($returnCode);
