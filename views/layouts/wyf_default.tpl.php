@@ -2,9 +2,8 @@
 <html lang="en">
     <head>
         <title><?= isset($wyf_title) ? "$wyf_title | $wyf_app_name" : $wyf_app_name ?></title>
-        <link href="/css/app.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="/js/app.js" ></script>
-        <script type="module" src="/js/fzui.js" ></script>
+        <link href="/css/fzui.css" type="text/css" rel="stylesheet" />
+        <script src="/js/fzui.js" ></script>
         <script>fzui.initialize()</script>
     </head>
     <body>
