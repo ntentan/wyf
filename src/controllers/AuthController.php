@@ -3,6 +3,8 @@
 namespace ntentan\wyf\controllers;
 
 use ntentan\Context;
+use ntentan\http\filters\Get;
+use ntentan\http\filters\Post;
 use ntentan\mvc\View;
 use ntentan\Session;
 use ntentan\http\Redirect;
@@ -14,27 +16,30 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * A controller through which authentication credentials can be collected.
  *
- * @author ekow
+ * @author Ekow Ainooson.
  */
 class AuthController {
 
-    #[Action]
+    private array $stylesheets = ['/css/forms.css', '/css/cards.css'];
+
+    #[Get]
     public function login(View $view) 
     {
+        $view->set('stylesheets', $this->stylesheets);
         $view->setLayout('wyf_centered');
         return $view;
     }
     
-    #[Action('login')]
-    #[Method('post')]
+    #[Post('login')]
     public function loginFailed(View $view)
     {
+        $view->set('stylesheets', $this->stylesheets);
         $view->setLayout('wyf_centered');
         $view->set('error', 'Failed to login. Invalid username or password');
         return $view;
     }
     
-    #[Action('logout')]
+    #[Get]
     public function logout(ResponseInterface $redirect, SessionStore $session, Context $context)
     {
         $session->destroy();

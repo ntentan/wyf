@@ -29,7 +29,6 @@
   },
   "require": {
     "php": ">=8.4.0",
-    "ekowabaka/clearice": "^3.2",
     "ekowabaka/ui": "0.*",
     "ntentan/honam": "0.*",
     "ntentan/mvc": "0.*",
@@ -56,9 +55,6 @@
   "scripts": {
     "test": "phpunit"
   },
-  "bin": [
-    "bin/wyf"
-  ],
   "config": {
     "sort-packages": true
   },
