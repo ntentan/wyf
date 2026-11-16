@@ -1,11 +1,13 @@
 <?php
 namespace ntentan\wyf\controllers;
 
+use ntentan\http\filters\Get;
 use ntentan\mvc\Model;
 use ntentan\mvc\View;
 use ntentan\http\Uri;
-use ntentan\mvc\Action;
 use ntentan\nibii\ModelDescription;
+use ntentan\nzemba\PrimaryKey;
+use ntentan\nzemba\UniqueKey;
 use ntentan\utils\Text;
 use ntentan\http\StringStream;
 use ntentan\http\filters\Header;
@@ -26,12 +28,6 @@ class CrudController extends WyfController
      * @var array
      */
     private array $operations = [];
-
-    /**
-     * An instance of the description of the model wrapped by the CRUD controller.`
-     * @var \ntentan\nibii\ModelDescription
-     */
-    private ModelDescription $modelDescription;
     
     /**
      * A list of fields to fetch for each record.
@@ -55,26 +51,42 @@ class CrudController extends WyfController
     private bool $hasEditOperation = true;
 
     private bool $hasDeleteOperation = true;
+
+    private array $modelDescription {
+        get => $this->modelDescription ??= $this->getModelDescription();
+    }
     
-    /**
-     * Get an instance of the description for the model attached to this CRUD controller.
-     * @return ModelDescription
-     */
-    private function getModelDescription(): ModelDescription
+//    /**
+//     * Get an instance of the description for the model attached to this CRUD controller.
+//     * @return ModelDescription
+//     */
+    private function getModelDescription(): array
     {
-        if (!isset($this->modelDescription)) {
-            $this->modelDescription = $this->getModelInstance()->getDescription();
+        $reflection = new \ReflectionClass($this->modelClass);
+        $properties = $reflection->getProperties();
+        $description = [
+            'fields' => $properties,
+            'key_field' => null
+        ];
+        foreach($properties as $property) {
+            if ($property->getName() === 'uid' && $property->getType()->getName() == 'string') {
+                foreach($property->getAttributes() as $attribute) {
+                    if ($attribute->getName() === UniqueKey::class || $attribute->getName() === PrimaryKey::class) {
+                        $description['key_field'] = $property;
+                    }
+                }
+            }
         }
-        return $this->modelDescription;
+        return $description;
     }
 
     /**
      * Get an list of fields that act as primary keys for the backing model.
      * @return array
      */
-    protected function getPrimaryKey(): array
+    protected function getKeyField(): array
     {
-        return $this->getModelDescription()->getPrimaryKey();
+        return $this->modelDescription['key_field'];
     }
     
     /**
@@ -84,7 +96,7 @@ class CrudController extends WyfController
     protected function getListFields(): array
     {
         if (!isset($this->listFields)) {
-            $primaryKey = $this->getPrimaryKey();
+            $primaryKey = $this->getKeyField();
             $fieldNames = array_filter(
                     array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()),
                     fn($x) => !in_array($x, $primaryKey)
@@ -164,7 +176,7 @@ class CrudController extends WyfController
      * @param View $view
      * @return View
      */
-    #[Action]
+    #[Get]
     public function main(UriInterface $uri, View $view): View
     {
         $context = $this->getContext();

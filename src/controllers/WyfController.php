@@ -21,16 +21,35 @@ class WyfController
      */
     private ControllerSpec $controllerSpec;
 
+
+    private ModelBinderInterface $modelBinder;
+    private Context $context;
+    private array $config;
+
     /**
      * The namespace of the application.
      * @var string
      */
-    private string $namespace;
-    private Model $modelInstance;
-    private ModelBinderInterface $modelBinder;
-    private Context $context;
-    private array $config;
-    private string $path;
+    protected string $namespace {
+        get {
+            if (!isset($this->namespace)) {
+                $items = explode("\\", $this->controllerSpec->getControllerClass());
+                array_pop($items);
+                array_pop($items);
+                $this->namespace = implode('\\', $items);
+            }
+            return $this->namespace;
+        }
+    }
+
+    protected string $modelClass {
+        get {
+            if (!isset($this->modelClass)) {
+                $this->modelClass = substr($this->controllerSpec->getControllerClass(), strlen($this->namespace) + 1, -11);
+            }
+            return $this->modelClass;
+        }
+    }
     
     public function setup(ControllerSpec $controllerSpec, ModelBinderInterface $modelBinder, Context $context): void
     {
@@ -42,6 +61,7 @@ class WyfController
     public function setConfig(array $config): void
     {
         $this->config = $config;
+        var_dump($config);
     }
     
     protected function getModelBinder(): ModelBinderInterface
@@ -67,24 +87,6 @@ class WyfController
     protected function getEntityDescription(): string
     {
         return ucfirst(str_replace('_', ' ', Text::deCamelize($this->getEntity())));
-    }
-    
-    protected function getNamespace(): string
-    {
-        if (!isset($this->namespace)) {
-            $items = explode("\\", $this->controllerSpec['class_name']);
-            array_pop($items);
-            $this->namespace = implode('\\', $items);
-        }
-        return $this->namespace;
-    }
-    
-    protected function getModelInstance(): Model
-    {
-        if(!isset($this->modelInstance)) {
-            $this->modelInstance = Model::load($this->getControllerSpec()->getControllerName());
-        }
-        return $this->modelInstance;
     }
     
     protected function setModelInstance(Model $modelInstance): void

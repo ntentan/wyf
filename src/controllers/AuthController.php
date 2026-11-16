@@ -20,7 +20,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AuthController {
 
-    private array $stylesheets = ['/css/forms.css', '/css/cards.css'];
+    private array $stylesheets = ['/css/forms.css', '/css/cards.css', '/css/callouts.css'];
 
     #[Get]
     public function login(View $view) 

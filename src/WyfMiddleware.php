@@ -17,6 +17,7 @@ use ntentan\wyf\controllers\WyfController;
 use ntentan\wyf\forms\f;
 use ntentan\mvc\ControllerSpec;
 use ntentan\mvc\binders\DefaultModelBinder;
+use ntentan\sessions\SessionStore;
 
 
 class WyfMiddleware extends MvcMiddleware
@@ -27,7 +28,6 @@ class WyfMiddleware extends MvcMiddleware
     public function configure(array $configuration): void
     {
         parent::configure($configuration);
-        $configuration['sub_namespace'] = $configuration['sub_namespace'] ?? 'controllers';
         $this->configuration = $configuration;
     }
     
@@ -47,7 +47,7 @@ class WyfMiddleware extends MvcMiddleware
     private function findControllerSpec(array $uriParts): ?array
     {
         $offset = 0;
-        $namespace = "{$this->getNamespace()}\\{$this->configuration['sub_namespace']}";
+        $namespace = "{$this->getNamespace()}\\controllers" ;
         $controllerPath = "";
         $className = null;
         $foundSpecs = [];
@@ -89,10 +89,11 @@ class WyfMiddleware extends MvcMiddleware
     protected function getControllerSpec(ServerRequestInterface $request): ControllerSpec
     {
         $uri = $request->getUri();
-        $namespace = "\\{$this->getNamespace()}\\{$this->configuration['sub_namespace']}\\";
+        $namespace = $this->getNamespace();
+//        $namespace = "\\{$this->getNamespace()}" . (isset($this->configuration['sub_namespace']) ? "\\{$this->configuration['sub_namespace']}" : "");
         $uriParts = array_filter(explode('/', substr($uri->getPath(), 1)), fn($x) => $x !== '');
-        $dashboardClass = $this->configuration['default_module'] ?? ("{$namespace}DashboardController");
-        $controllerName = substr($dashboardClass, strlen($namespace), strlen($dashboardClass) - strlen($namespace) - 10);
+        $dashboardClass = $this->configuration['default_module'] ?? ("{$namespace}\\controllers\\DashboardController");
+        $controllerName = substr($dashboardClass, strlen($namespace) + 13, -10);
         
         $spec = match ($uriParts) {
             [], [''] => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $controllerName],
@@ -134,7 +135,10 @@ class WyfMiddleware extends MvcMiddleware
                     $instance = new View($container->get(Templates::class), $container->get(StringStream::class));
                     $instance->set('wyf_app_name', $this->configuration['application_name'] ?? 'WYF Framework Application');
                     $instance->set('wyf_menu', $this->configuration['navigation']);
+                    $instance->set('wyf_logo', $this->configuration['application_logo'] ?? '/images/logo.png');
+                    $instance->set('wyf_navigation', $this->configuration['navigation'] ?? []);
                     $instance->set('ntentan_uri_prefix', $container->get(Uri::class)->getPrefix());
+                    $instance->set('wyf_user', $container->get(SessionStore::class)->get('user'));
                     return $instance;
                 }
             ]

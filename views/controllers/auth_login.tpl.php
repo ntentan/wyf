@@ -1,7 +1,7 @@
-<fz-card corner="curved" layer="3">
+<fz-card corner="curved" layer="3" id="wyf-login-card">
     <h2>Login</h2>
     <?php if(isset($error)):?>
-        <div><?= $error ?></div>
+        <fz-callout error><?= $error ?></fz-callout>
     <?php endif ?>
     <?= $helpers->form->open()
             ->setAttribute('class', 'form--large')
