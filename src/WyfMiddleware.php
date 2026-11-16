@@ -47,14 +47,14 @@ class WyfMiddleware extends MvcMiddleware
     private function findControllerSpec(array $uriParts): ?array
     {
         $offset = 0;
-        $namespace = "{$this->getNamespace()}\\controllers" ;
+        $namespace = "{$this->getNamespace()}\\modules" ;
         $controllerPath = "";
         $className = null;
         $foundSpecs = [];
         $hierarchy = [];
         
         while ($offset < count($uriParts)) {
-            $className = sprintf("\\%s\\%s", $namespace,Text::ucamelize($uriParts[$offset]) . "Controller");
+            $className = sprintf("\\%s\\%s\\%s", $namespace,$uriParts[$offset], Text::ucamelize($uriParts[$offset]) . "Controller");
             $controllerPath .= "/{$uriParts[$offset]}";
             if (class_exists($className)) {
                 $spec = [
@@ -90,11 +90,11 @@ class WyfMiddleware extends MvcMiddleware
     {
         $uri = $request->getUri();
         $namespace = $this->getNamespace();
-//        $namespace = "\\{$this->getNamespace()}" . (isset($this->configuration['sub_namespace']) ? "\\{$this->configuration['sub_namespace']}" : "");
         $uriParts = array_filter(explode('/', substr($uri->getPath(), 1)), fn($x) => $x !== '');
-        $dashboardClass = $this->configuration['default_module'] ?? ("{$namespace}\\controllers\\DashboardController");
-        $controllerName = substr($dashboardClass, strlen($namespace) + 13, -10);
-        
+        $defaultModule = $this->configuration['default_module'] ?? "dashboard";
+        $controllerName = Text::ucamelize($defaultModule);
+        $dashboardClass = "\\{$this->getNamespace()}\\modules\\{$defaultModule}\\{$controllerName}Controller";
+
         $spec = match ($uriParts) {
             [], [''] => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $controllerName],
             ['auth', 'login'], ['auth', 'logout'] => ($this->configuration['enable_auth'] ?? false)

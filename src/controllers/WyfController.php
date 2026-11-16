@@ -45,7 +45,7 @@ class WyfController
     protected string $modelClass {
         get {
             if (!isset($this->modelClass)) {
-                $this->modelClass = substr($this->controllerSpec->getControllerClass(), strlen($this->namespace) + 1, -11);
+                $this->modelClass = substr($this->controllerSpec->getControllerName(), strlen($this->namespace) + 1, -11);
             }
             return $this->modelClass;
         }
