@@ -2,7 +2,9 @@
 namespace ntentan\wyf;
 
 
-class WyfException extends \Exception
+use ntentan\exceptions\NtentanException;
+
+class WyfException extends NtentanException
 {
 }
 

@@ -6,10 +6,6 @@ use ntentan\Context;
 use ntentan\http\filters\Get;
 use ntentan\http\filters\Post;
 use ntentan\mvc\View;
-use ntentan\Session;
-use ntentan\http\Redirect;
-use ntentan\http\filters\Method;
-use ntentan\mvc\Action;
 use ntentan\sessions\SessionStore;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,14 +14,15 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author Ekow Ainooson.
  */
-class AuthController {
-
-    private array $stylesheets = ['/css/forms.css', '/css/cards.css', '/css/callouts.css'];
+class AuthController extends WyfController
+{
+    public array $stylesheets {
+        get => ['/css/forms.css', '/css/cards.css', '/css/callouts.css'];
+    }
 
     #[Get]
     public function login(View $view) 
     {
-        $view->set('stylesheets', $this->stylesheets);
         $view->setLayout('wyf_centered');
         return $view;
     }
@@ -33,7 +30,6 @@ class AuthController {
     #[Post('login')]
     public function loginFailed(View $view)
     {
-        $view->set('stylesheets', $this->stylesheets);
         $view->setLayout('wyf_centered');
         $view->set('error', 'Failed to login. Invalid username or password');
         return $view;
@@ -44,5 +40,10 @@ class AuthController {
     {
         $session->destroy();
         return $redirect->withStatus(301)->withHeader('Location', $context->getPath('/'));
+    }
+
+    public function getLabel(): string
+    {
+        return "auth";
     }
 }

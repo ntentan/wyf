@@ -56,23 +56,24 @@ class CrudController extends WyfController
         get => $this->modelDescription ??= $this->getModelDescription();
     }
     
-//    /**
-//     * Get an instance of the description for the model attached to this CRUD controller.
-//     * @return ModelDescription
-//     */
+    public array $stylesheets {
+        get => ['/css/breadcrumbs.css', '/css/sidebar.css'];
+    }
+
     private function getModelDescription(): array
     {
         $reflection = new \ReflectionClass($this->modelClass);
         $properties = $reflection->getProperties();
         $description = [
-            'fields' => $properties,
-            'key_field' => null
+            'fields' => array_map(fn($x) => ['name' => $x->getName()], $properties),
+            'key_field' => []
         ];
         foreach($properties as $property) {
             if ($property->getName() === 'uid' && $property->getType()->getName() == 'string') {
-                foreach($property->getAttributes() as $attribute) {
+                foreach ($property->getAttributes() as $attribute) {
                     if ($attribute->getName() === UniqueKey::class || $attribute->getName() === PrimaryKey::class) {
-                        $description['key_field'] = $property;
+                        $description['key_field'][] = $property->getName();
+                        break;
                     }
                 }
             }
@@ -98,7 +99,7 @@ class CrudController extends WyfController
         if (!isset($this->listFields)) {
             $primaryKey = $this->getKeyField();
             $fieldNames = array_filter(
-                    array_map(fn($x) => $x['name'], $this->getModelDescription()->getFields()),
+                    array_map(fn($x) => $x['name'], $this->getModelDescription()['fields']),
                     fn($x) => !in_array($x, $primaryKey)
                 );
             $listFields = [];
@@ -153,22 +154,6 @@ class CrudController extends WyfController
     {
         $this->listFields = $this->processListFields($listFields);
     }
-
-    private function getBreadcrumbHierarchy(array $appended): array
-    {
-        $hierarchy = $this->getControllerSpec()->getParameter('hierarchy') ?? [];
-        $breadcrumbs = [];
-        $modelPath = "";
-        $context = $this->getContext();
-        foreach($hierarchy as $model => $id) {
-            $modelInstance = Model::load($model);
-            $item = $modelInstance->fetchFirstWithId($id);
-            $modelPath .= "/{$model}";
-            $breadcrumbs[] = ['path' => $context->getPath($modelPath), 'label' => ucfirst(str_replace("_", " ", $model))];
-            $breadcrumbs[] = ['path' => $context->getPath("$modelPath/view/$id"), 'label' => (string)$item ];
-        }
-        return array_merge($breadcrumbs, $appended);
-    }
     
     /**
      * The main action lists all items in the model.
@@ -188,12 +173,9 @@ class CrudController extends WyfController
             "list_data_path" => "{$context->getPrefix()}{$uri->getPath()}/",
             "list_fields" => $fields['names'],
             "list_labels" => $fields['labels'],
-            "key_fields" => $this->getPrimaryKey()[0],
+            "key_fields" => $this->getKeyField()[0],
             "wyf_crud_mode" => 'list',
-            "wyf_entity" => Text::ucamelize($this->getEntity()),
-            "wyf_breadcrumbs" => $this->getBreadcrumbHierarchy([
-                ['path' => $this->getContext()->getPath($controllerPath), 'label' => $this->getEntityDescription()]
-            ])
+            "wyf_entity" => Text::ucamelize($this->getEntity())
         ]);
         return $view;
     }
@@ -438,5 +420,10 @@ class CrudController extends WyfController
         $this->setupView($view, 'delete');
         $view->set('errors', "Cannot find item to delete.");
         return $view;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->getEntity();
     }
 }

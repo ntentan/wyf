@@ -79,6 +79,7 @@ $avatarSrc = 'data:image/svg+xml;base64,' . base64_encode($avatarSvg);
                     <fz-menu-item>Logout</fz-menu-item>
                 </fz-menu>
             </fz-dropdown>
+            <div class="wyf-wrapper"><?= $contents->u() ?></div>
         </fz-app-frame>
     </body>
 </html>

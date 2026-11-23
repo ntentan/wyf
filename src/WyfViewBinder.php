@@ -15,6 +15,8 @@ class WyfViewBinder extends ViewBinder
         $action = strtolower($controlerSpec->getControllerAction());
         $instance->setTemplate("wyf_{$className}_{$action}.tpl.php");
         $instance->set('wyf_entity', Text::singularize($controlerSpec->getControllerName()));
+        $instance->set('wyf_breadcrumbs', $controlerSpec->breadCrumbTrail);
+        $instance->set('stylesheets', $controlerSpec->stylesheets);
 
         return $instance;
     }

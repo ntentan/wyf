@@ -1,5 +1,5 @@
 <?php foreach($navigation as $item): ?>
-    <fz-sidebar-item>
+    <fz-sidebar-item<?= !empty($item['selected']) ? ' selected' : '' ?><?= !empty($item['expanded']) ? ' expanded' : '' ?>>
         <span class="material-symbols-outlined" slot="icon">
             <?= $item['icon'] ?>
         </span>

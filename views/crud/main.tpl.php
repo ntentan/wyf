@@ -1,5 +1,5 @@
-<div id="wyf-title" class="wyf-main">
-    <h1><?= $wyf_entity ?></h1>
+<div class="wyf-title">
+    <?= $this->partial('bread_crumbs', ['breadcrumbs' => $wyf_breadcrumbs]) ?>
     <div class='wyf-top-actions'>
         <a href="<?= $add_path ?>" class='button button-green button-big'>Add <?= $wyf_entity ?></a>
     </div>
