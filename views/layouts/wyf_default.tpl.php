@@ -79,7 +79,13 @@ $avatarSrc = 'data:image/svg+xml;base64,' . base64_encode($avatarSvg);
                     <fz-menu-item>Logout</fz-menu-item>
                 </fz-menu>
             </fz-dropdown>
-            <div class="wyf-wrapper"><?= $contents->u() ?></div>
+            <div class="wyf-wrapper">
+                <div class="wyf-title">
+                    <?= $this->partial('bread_crumbs', ['breadcrumbs' => $wyf_breadcrumbs]) ?>
+                    <div class="wyf-title-tool"><?= isset($top_tool) ? $this->partial($top_tool, $top_tool_data) : "" ?></div>
+                </div>
+                <?= $contents->u() ?>
+            </div>
         </fz-app-frame>
     </body>
 </html>

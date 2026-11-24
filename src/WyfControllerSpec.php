@@ -17,7 +17,7 @@ class WyfControllerSpec extends ControllerSpec
 
     public array $stylesheets {
         get {
-            return $this->stylesheets;
+            return $this->stylesheets ?? [];
         }
 
         set {

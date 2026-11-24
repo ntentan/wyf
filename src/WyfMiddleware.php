@@ -140,22 +140,25 @@ class WyfMiddleware extends MvcMiddleware
     protected function getControllerInstance(Container $container, ControllerSpec &$controllerSpec): object
     {
         $instance = $container->get($controllerSpec->getControllerClass());
+        $processedBreadCrumb = [];
+
         if ($instance instanceof WyfController) {
             $instance->setup($controllerSpec, $container->get(DefaultModelBinder::class), $this->getContext());
             $instance->setConfig($this->configuration);
-            $processedBreadCrumb = [];
             foreach($controllerSpec->getParameter('breadcrumb_trail') as $crumb) {
                 if (isset($crumb['label'])) {
+                    $crumb['label'] = ucwords($crumb['label']);
                     $processedBreadCrumb[] = $crumb;
                 } else if (isset($crumb['controller']) && get_class($instance) === substr($crumb['controller'], 1)) {
                     $processedBreadCrumb[] = [
                         'url' => $crumb['url'],
-                        'label' => $instance->getLabel()
+                        'label' => ucwords($instance->getLabel())
                     ];
                 }
             }
             $controllerSpec->stylesheets = $instance->stylesheets;
         }
+
         $controllerSpec->breadCrumbTrail = $processedBreadCrumb;
         return $instance;
     }
