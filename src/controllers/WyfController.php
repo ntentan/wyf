@@ -69,7 +69,26 @@ abstract class WyfController
         }
     }
 
-    public array $stylesheets {get => [];}
+    /**
+     * Registry for WYF controller metadata such as stylesheets.
+     * @var array
+     */
+    private array $wyfRegistry = [
+        'stylesheets' => ['/css/breadcrumbs.css', '/css/sidebar.css']
+    ];
+
+    public array $stylesheets {
+        get => $this->wyfRegistry['stylesheets'];
+    }
+
+    protected function addStylesheets(string|array $stylesheets): void
+    {
+        foreach ((array) $stylesheets as $stylesheet) {
+            if (!in_array($stylesheet, $this->wyfRegistry['stylesheets'], true)) {
+                $this->wyfRegistry['stylesheets'][] = $stylesheet;
+            }
+        }
+    }
     
     public function setup(ControllerSpec $controllerSpec, ModelBinderInterface $modelBinder, Context $context): void
     {

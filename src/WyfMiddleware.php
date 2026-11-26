@@ -118,7 +118,14 @@ class WyfMiddleware extends MvcMiddleware
         $dashboardClass = "\\{$this->getNamespace()}\\modules\\{$defaultModule}\\{$controllerName}Controller";
 
         $spec = match ($uriParts) {
-            [], [''] => ['class_name' => $dashboardClass,'action' => 'main', 'controller' => $controllerName],
+            [], [''] => [
+                'class_name' => $dashboardClass,
+                'action' => 'main', 
+                'controller' => $controllerName,
+                'breadcrumb_trail' => [
+                    ['url' => 'dashboard', 'label' => 'Dashboard']
+                ]
+            ],
             ['auth', 'login'], ['auth', 'logout'] => ($this->configuration['enable_auth'] ?? false)
                 ? ['class_name' => AuthController::class, 'action' => $uriParts[1] ?? null, 'controller' => 'auth']
                 : null,

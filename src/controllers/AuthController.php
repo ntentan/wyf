@@ -16,8 +16,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AuthController extends WyfController
 {
-    public array $stylesheets {
-        get => ['/css/forms.css', '/css/cards.css', '/css/callouts.css'];
+    public function __construct()
+    {
+        $this->addStylesheets(['/css/forms.css', '/css/cards.css', '/css/callouts.css']);
     }
 
     #[Get]

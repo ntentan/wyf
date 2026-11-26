@@ -56,8 +56,9 @@ class CrudController extends WyfController
         get => $this->modelDescription ??= $this->getModelDescription();
     }
     
-    public array $stylesheets {
-        get => ['/css/breadcrumbs.css', '/css/sidebar.css', '/css/buttons.css'];
+    public function __construct()
+    {
+        $this->addStylesheets('/css/buttons.css');
     }
 
     private function getModelDescription(): array
@@ -164,19 +165,6 @@ class CrudController extends WyfController
     #[Get]
     public function main(UriInterface $uri, View $view): View
     {
-//        $context = $this->getContext();
-//        $fields = $this->getListFields();
-//        $controllerPath = $this->getControllerSpec()->getParameter('controller_path');
-
-//        $view->set([
-//            "add_path" => "{$context->getPrefix()}{$uri->getPath()}/add",
-//            "list_data_path" => "{$context->getPrefix()}{$uri->getPath()}/",
-//            "list_fields" => $fields['names'],
-//            "list_labels" => $fields['labels'],
-//            "key_fields" => $this->getKeyField()[0],
-//            "wyf_crud_mode" => 'list',
-//            "wyf_entity" => Text::ucamelize($this->getEntity())
-//        ]);
         $view->set('top_tool', 'crud_add_button');
         $view->set('top_tool_data', ['entity' => $this->getEntity()]);
         return $view;
